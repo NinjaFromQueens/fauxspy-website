@@ -1,0 +1,19 @@
+{
+  "name": "fauxspy-website",
+  "version": "1.0.0",
+  "description": "Faux Spy landing page and Stripe backend",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "stripe": "^14.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
