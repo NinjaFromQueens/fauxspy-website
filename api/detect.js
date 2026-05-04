@@ -45,6 +45,31 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Cannot analyze data: or blob: URLs' });
     }
     
+    // v3.1: Reject obviously low-quality images
+    // Detection on tiny images is unreliable — better to refuse than mislead
+    const imgWidth = req.body.width || 0;
+    const imgHeight = req.body.height || 0;
+    
+    if (imgWidth > 0 && imgHeight > 0) {
+      // Reject anything under 100x100 (likely icons, avatars, thumbnails)
+      if (imgWidth < 100 || imgHeight < 100) {
+        return res.status(200).json({
+          success: true,
+          isAI: false,
+          aiProbability: 0,
+          verdict: 'insufficient_data',
+          verdictLabel: 'Image Too Small',
+          indicators: [
+            `Image is ${imgWidth}×${imgHeight} pixels`,
+            'Detection requires images at least 100×100 pixels',
+            'Try a larger version of this image'
+          ],
+          method: 'pre_check_failed',
+          reason: 'image_too_small'
+        });
+      }
+    }
+    
     // ========================================================================
     // STEP 1: Check cache (massive cost savings)
     // ========================================================================
@@ -140,15 +165,25 @@ module.exports = async (req, res) => {
     }
     
     // ========================================================================
-    // STEP 5: Build result
+    // STEP 5: Build result with conservative tier system
     // ========================================================================
+    
+    // v3.1: Conservative thresholds to minimize false positives
+    // Real photos with filters often score 0.40-0.60 — those should be "Inconclusive"
+    // Only commit to "AI" verdict at 65%+ confidence
+    const verdict = getVerdictFromScore(aiProbability, imageUrl);
+    
     const result = {
       success: true,
-      isAI: aiProbability > 0.5,
+      // isAI is now only true if we're confidently calling it AI
+      // "Inconclusive" returns isAI: false (don't accuse without evidence)
+      isAI: verdict.tier === 'likely_ai' || verdict.tier === 'definitely_ai',
       aiProbability,
       confidence: aiProbability,
+      verdict: verdict.tier,
+      verdictLabel: verdict.label,
       method: 'sightengine_api',
-      indicators: buildIndicators(aiProbability),
+      indicators: verdict.indicators,
       timestamp: Date.now()
     };
     
@@ -188,23 +223,152 @@ async function hashUrl(url) {
   return Math.abs(hash).toString(36);
 }
 
-function buildIndicators(aiProbability) {
-  const indicators = [];
-  const percent = (aiProbability * 100).toFixed(1);
+// ============================================================================
+// CONSERVATIVE VERDICT SYSTEM (v3.1)
+// ============================================================================
+// 
+// Threshold strategy designed to minimize false positives:
+// - 0.00-0.20: Verified Real (very confident)
+// - 0.20-0.40: Likely Real
+// - 0.40-0.65: Inconclusive (HONEST UNCERTAINTY ZONE)
+// - 0.65-0.85: Likely AI
+// - 0.85-1.00: Definitely AI (very confident)
+//
+// Why 65% threshold for AI claim?
+// - Real photos with heavy filters score 0.45-0.60 on Sightengine
+// - Genuine AI images typically score 0.85+ 
+// - 65% gives buffer to catch edited photos before calling them AI
+// - Small accuracy cost (some genuine AI scoring 0.55-0.65 → "Inconclusive")
+// - But: never falsely accuse a real photo
+//
+// ============================================================================
+
+function getVerdictFromScore(score, imageUrl = '') {
+  const percent = (score * 100).toFixed(1);
+  const realPercent = (100 - score * 100).toFixed(1);
   
-  if (aiProbability > 0.5) {
-    indicators.push(`Sightengine AI confidence: ${percent}%`);
-    if (aiProbability > 0.9) indicators.push('Extremely likely AI-generated');
-    else if (aiProbability > 0.75) indicators.push('Very likely AI-generated');
-    else indicators.push('Likely AI-generated');
-  } else {
-    indicators.push(`Sightengine real confidence: ${(100 - percent).toFixed(1)}%`);
-    if (aiProbability < 0.1) indicators.push('Extremely likely human-made');
-    else if (aiProbability < 0.25) indicators.push('Very likely human-made');
-    else indicators.push('Likely human-made');
+  // Domain-aware context (light hints, not overrides)
+  const context = analyzeUrlContext(imageUrl);
+  
+  // Tier 1: Definitely AI (85%+)
+  if (score >= 0.85) {
+    return {
+      tier: 'definitely_ai',
+      label: 'Definitely Faux',
+      indicators: [
+        `Sightengine AI confidence: ${percent}%`,
+        'Strong AI generation signals detected',
+        ...(context.suggestsAI ? ['Source context supports AI verdict'] : [])
+      ]
+    };
   }
   
-  return indicators;
+  // Tier 2: Likely AI (65-85%)
+  if (score >= 0.65) {
+    return {
+      tier: 'likely_ai',
+      label: 'Likely Faux',
+      indicators: [
+        `Sightengine AI confidence: ${percent}%`,
+        'AI generation patterns detected',
+        ...(context.suggestsAI ? ['Source context supports AI verdict'] : [])
+      ]
+    };
+  }
+  
+  // Tier 3: Inconclusive (40-65%) — THE KEY CHANGE
+  // This zone is wider than typical to catch filter-heavy photos
+  if (score >= 0.40) {
+    const indicators = [
+      `Sightengine score: ${percent}% AI / ${realPercent}% real`,
+      '⚠️ Image is in the uncertain detection zone',
+      'Could be: heavily filtered photo, AI-edited real image, or low-confidence AI'
+    ];
+    
+    // Helpful context for filtered photos
+    if (context.likelyFilter) {
+      indicators.push('💡 Filter or heavy editing may be affecting detection');
+    }
+    
+    return {
+      tier: 'inconclusive',
+      label: 'Inconclusive',
+      indicators
+    };
+  }
+  
+  // Tier 4: Likely Real (20-40%)
+  if (score >= 0.20) {
+    return {
+      tier: 'likely_real',
+      label: 'Likely Real',
+      indicators: [
+        `Sightengine real confidence: ${realPercent}%`,
+        'Image appears to be human-made',
+        ...(context.likelyFilter ? ['Some filter/editing detected'] : [])
+      ]
+    };
+  }
+  
+  // Tier 5: Verified Real (0-20%)
+  return {
+    tier: 'verified_real',
+    label: 'Verified Real',
+    indicators: [
+      `Sightengine real confidence: ${realPercent}%`,
+      'Strong indicators this is a genuine photograph',
+      ...(context.suggestsReal ? ['Source context supports real verdict'] : [])
+    ]
+  };
+}
+
+// ============================================================================
+// URL CONTEXT ANALYSIS (light hints only)
+// ============================================================================
+
+function analyzeUrlContext(imageUrl) {
+  const context = {
+    likelyFilter: false,
+    suggestsAI: false,
+    suggestsReal: false
+  };
+  
+  if (!imageUrl) return context;
+  
+  const url = imageUrl.toLowerCase();
+  
+  // Sites that primarily host AI-generated content
+  const aiSourceDomains = [
+    'civitai.com', 'midjourney.com', 'lexica.art', 'leonardo.ai',
+    'playgroundai.com', 'dezgo.com', 'mage.space', 'nightcafe.studio',
+    'starryai.com', 'wombo.art', 'artbreeder.com'
+  ];
+  
+  if (aiSourceDomains.some(domain => url.includes(domain))) {
+    context.suggestsAI = true;
+  }
+  
+  // Sites that primarily host real photography
+  const realSourceDomains = [
+    'reuters.com', 'apnews.com', 'gettyimages.com', 'shutterstock.com',
+    'unsplash.com', 'pexels.com', 'flickr.com', 'pinterest.com/pin'
+  ];
+  
+  if (realSourceDomains.some(domain => url.includes(domain))) {
+    context.suggestsReal = true;
+  }
+  
+  // Instagram/Pinterest CDNs — often have filtered content
+  const filterHeavyDomains = [
+    'cdninstagram.com', 'fbcdn.net', 'pinimg.com',
+    'tiktokcdn.com', 'snapchat.com'
+  ];
+  
+  if (filterHeavyDomains.some(domain => url.includes(domain))) {
+    context.likelyFilter = true;
+  }
+  
+  return context;
 }
 
 // ============================================================================

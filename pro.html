@@ -88,6 +88,85 @@
       color: var(--text-tertiary);
     }
     
+    /* Pricing options grid */
+    .pricing-options {
+      max-width: 800px;
+      margin: 40px auto 60px;
+    }
+    
+    .pricing-card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    @media (max-width: 640px) {
+      .pricing-card-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .pricing-option {
+      padding: 32px 24px;
+      background: var(--noir-card);
+      border: 1px solid var(--border-default);
+      border-radius: 16px;
+      position: relative;
+    }
+    
+    .pricing-option-featured {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
+    }
+    
+    .pricing-option-badge {
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: var(--gradient-gold);
+      color: var(--noir-medium);
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    
+    .pricing-option-tier {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    
+    .pricing-option-price {
+      margin-bottom: 16px;
+    }
+    
+    .pricing-option-price .price-amount {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    
+    .pricing-option-price .price-period {
+      color: var(--text-tertiary);
+      font-size: 14px;
+    }
+    
+    .pricing-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px 0;
+    }
+    
+    .pricing-features li {
+      padding: 6px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+    
     .waitlist-perks {
       margin-top: 24px;
       padding-top: 24px;
@@ -275,9 +354,67 @@
     </div>
   </section>
 
-  <!-- Waitlist Form -->
+  <!-- Buy Now or Waitlist Sections -->
   <section>
     <div class="container">
+      
+      <!-- BUY NOW SECTION (only shown if STRIPE_ENABLED) -->
+      <div class="pricing-options" id="buyNowSection" style="display: none;">
+        <div class="pricing-card-row">
+          
+          <!-- Monthly Plan -->
+          <div class="pricing-option">
+            <div class="pricing-option-tier">SECRET AGENT</div>
+            <div class="pricing-option-price">
+              <span class="price-amount">$9.99</span>
+              <span class="price-period">/month</span>
+            </div>
+            <ul class="pricing-features">
+              <li>✓ Unlimited investigations</li>
+              <li>✓ Deep Dive mode</li>
+              <li>✓ Detective Case Files</li>
+              <li>✓ Priority detection</li>
+              <li>✓ Cancel anytime</li>
+            </ul>
+            <button class="btn btn-primary btn-block" data-plan="monthly" id="subscribeMonthlyBtn">
+              Subscribe Monthly
+            </button>
+          </div>
+          
+          <!-- Yearly Plan -->
+          <div class="pricing-option pricing-option-featured">
+            <div class="pricing-option-badge">SAVE 17%</div>
+            <div class="pricing-option-tier">MASTER SPY</div>
+            <div class="pricing-option-price">
+              <span class="price-amount">$99</span>
+              <span class="price-period">/year</span>
+            </div>
+            <p style="font-size: 12px; color: var(--gold); margin: -8px 0 16px 0;">$8.25/month — best value</p>
+            <ul class="pricing-features">
+              <li>✓ Everything in Secret Agent</li>
+              <li>✓ Save 2 months of pricing</li>
+              <li>✓ Master Spy badge</li>
+              <li>✓ Priority support</li>
+              <li>✓ Cancel anytime</li>
+            </ul>
+            <button class="btn btn-primary btn-block" data-plan="yearly" id="subscribeYearlyBtn">
+              Subscribe Yearly
+            </button>
+          </div>
+          
+        </div>
+        
+        <p style="text-align: center; color: var(--text-tertiary); font-size: 13px; margin-top: 16px;">
+          🔒 Secure payment via Stripe • 14-day refund • Cancel anytime
+        </p>
+        
+        <div style="text-align: center; margin-top: 32px;">
+          <p style="color: var(--text-secondary); margin-bottom: 12px;">Not ready yet?</p>
+          <a href="#waitlistCard" style="color: var(--gold); text-decoration: underline;">Join the waitlist instead →</a>
+        </div>
+      </div>
+      
+      <!-- WAITLIST SECTION (default - shown when Stripe not configured) -->
       <div class="waitlist-card" id="waitlistCard">
         <h3>🚀 Get early access</h3>
         <p>Be first to upgrade when Pro launches. Waitlist members get 50% off — for life.</p>
@@ -481,7 +618,56 @@
   </footer>
 
   <script>
+    // ============================================================================
+    // Auto-detect: Stripe enabled or waitlist mode?
+    // Set this to true once Stripe is configured + tested
+    // ============================================================================
+    const STRIPE_ENABLED = false; // Flip to true when Pro tier launches
+    
+    if (STRIPE_ENABLED) {
+      // Show Buy Now section, hide waitlist
+      document.getElementById('buyNowSection').style.display = 'block';
+      document.getElementById('waitlistCard').style.display = 'none';
+    }
+    
+    // ============================================================================
+    // Stripe Checkout buttons
+    // ============================================================================
+    document.querySelectorAll('[data-plan]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const plan = btn.dataset.plan;
+        const originalText = btn.textContent;
+        
+        btn.disabled = true;
+        btn.textContent = 'Loading checkout...';
+        
+        try {
+          const response = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan })
+          });
+          
+          const data = await response.json();
+          
+          if (data.url) {
+            // Redirect to Stripe Checkout
+            window.location.href = data.url;
+          } else {
+            throw new Error(data.message || 'Checkout failed');
+          }
+        } catch (error) {
+          console.error('Checkout error:', error);
+          alert('Checkout failed: ' + error.message + '\n\nPlease try again or join the waitlist.');
+          btn.disabled = false;
+          btn.textContent = originalText;
+        }
+      });
+    });
+    
+    // ============================================================================
     // Waitlist form submission
+    // ============================================================================
     const form = document.getElementById('waitlistForm');
     const card = document.getElementById('waitlistCard');
     const successCard = document.getElementById('waitlistSuccess');
@@ -503,18 +689,26 @@
           body: JSON.stringify({ email, source: 'pro_page' })
         });
         
+        const data = await response.json();
+        
         if (response.ok) {
           card.style.display = 'none';
           successCard.classList.add('show');
+          
+          // Customize message if already subscribed
+          if (data.alreadySubscribed) {
+            successCard.querySelector('h3').textContent = 'Already on the list!';
+            successCard.querySelector('p').textContent = "You're already signed up. We'll be in touch when Pro launches.";
+          }
         } else {
-          throw new Error('Failed to join');
+          throw new Error(data.error || 'Failed to join');
         }
       } catch (error) {
         console.error('Error:', error);
-        // Fallback: show success anyway, log error
-        // You'll see the entry in Vercel logs even if backend isn't fully wired
-        card.style.display = 'none';
-        successCard.classList.add('show');
+        // Show error to user instead of fake success
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Join Waitlist';
+        alert('Something went wrong: ' + error.message + '\n\nPlease try again.');
       }
     });
   </script>
