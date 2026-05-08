@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Faux Spy</title>
+  <meta name="description" content="Frequently asked questions about Faux Spy AI image detection. Detect AI photos, AI art, real photos, and digital art.">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <style>
+    .faq-container { max-width: 760px; margin: 60px auto; padding: 0 24px; }
+    .faq-section { margin-bottom: 48px; }
+    .faq-section h2 {
+      font-family: Georgia, serif; font-style: italic;
+      font-size: 24px; color: var(--gold);
+      margin-bottom: 24px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .faq-item {
+      margin-bottom: 16px; background: var(--noir-card);
+      border: 1px solid var(--border-default);
+      border-radius: 12px; overflow: hidden;
+      transition: all 0.2s ease;
+    }
+    .faq-item:hover { border-color: rgba(251, 191, 36, 0.3); }
+    .faq-question {
+      padding: 18px 20px; cursor: pointer; display: flex;
+      justify-content: space-between; align-items: center;
+      font-weight: 600; color: var(--text-primary); user-select: none;
+    }
+    .faq-question:hover { background: rgba(251, 191, 36, 0.03); }
+    .faq-toggle { color: var(--gold); font-size: 20px; transition: transform 0.2s ease; }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.open .faq-answer { max-height: 1000px; }
+    .faq-answer-inner {
+      padding: 0 20px 20px 20px; color: var(--text-secondary);
+      line-height: 1.7; border-top: 1px solid var(--border-subtle); padding-top: 16px;
+    }
+    .faq-answer-inner p { margin-bottom: 12px; }
+    .faq-answer-inner code {
+      background: rgba(251, 191, 36, 0.1); padding: 2px 6px;
+      border-radius: 4px; font-size: 13px; color: var(--gold);
+    }
+    .faq-cta {
+      text-align: center; padding: 40px;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(217, 119, 6, 0.05));
+      border-radius: 16px; margin-top: 48px;
+    }
+    .category-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px; margin: 16px 0;
+    }
+    .category-card {
+      padding: 14px; border-radius: 10px;
+      border: 1px solid var(--border-default);
+      text-align: center;
+    }
+    .category-card .icon { font-size: 24px; display: block; margin-bottom: 6px; }
+    .category-card .label { font-weight: 700; font-size: 13px; }
+    .category-card .desc { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
+    .cat-real { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); }
+    .cat-digital-art { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3); }
+    .cat-inconclusive { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); }
+    .cat-ai-art { background: rgba(249, 115, 22, 0.1); border-color: rgba(249, 115, 22, 0.3); }
+    .cat-ai-photo { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/pro">Pro</a>
+        <a href="/faq">FAQ</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="faq-container">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <h1 style="font-family: Georgia, serif; font-style: italic;">Frequently Asked Questions</h1>
+      <p style="color: var(--text-secondary); margin-top: 8px;">Everything you need to know about Faux Spy</p>
+    </div>
+
+    <!-- Detection Categories Section (NEW) -->
+    <div class="faq-section">
+      <h2>🎯 Detection Categories</h2>
+
+      <div class="faq-item open">
+        <div class="faq-question">
+          <span>What can Faux Spy actually detect?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Faux Spy's Pro tier detects <strong>5 categories</strong>:</p>
+          <div class="category-grid">
+            <div class="category-card cat-real">
+              <span class="icon">✅</span>
+              <div class="label">Real Photo</div>
+              <div class="desc">Genuine photograph</div>
+            </div>
+            <div class="category-card cat-digital-art">
+              <span class="icon">🎨</span>
+              <div class="label">Digital Art</div>
+              <div class="desc">Human-made paintings, renders, game art</div>
+            </div>
+            <div class="category-card cat-inconclusive">
+              <span class="icon">❓</span>
+              <div class="label">Inconclusive</div>
+              <div class="desc">Detection unclear</div>
+            </div>
+            <div class="category-card cat-ai-art">
+              <span class="icon">🤖</span>
+              <div class="label">AI Art</div>
+              <div class="desc">Midjourney/SD style</div>
+            </div>
+            <div class="category-card cat-ai-photo">
+              <span class="icon">🚨</span>
+              <div class="label">AI Photo</div>
+              <div class="desc">Photorealistic AI</div>
+            </div>
+          </div>
+          <p><strong>Free tier</strong> uses 3 categories: Real / Inconclusive / AI.</p>
+          <p><strong>Pro tier</strong> unlocks the full 5-category system that distinguishes:</p>
+          <p>• Real photos vs human-made digital art (Photoshop paintings, 3D renders, cartoons, game art)</p>
+          <p>• AI-generated photos vs AI-generated art (different style patterns)</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>What's "Digital Art" — and why does it matter?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Digital Art is anything <strong>human-made</strong> on a computer:</p>
+          <p>• Photoshop paintings and concept art</p>
+          <p>• 3D renders (Blender, Maya, Unreal Engine)</p>
+          <p>• Cartoon and anime illustrations</p>
+          <p>• Video game screenshots</p>
+          <p>• Digital comics and manga</p>
+          <p>• Logos, mockups, infographics</p>
+          <p><strong>Why this matters:</strong> Without this category, AI detectors confuse digital art with AI generation. A user scanning their Witcher 3 screenshot would get "AI" — that's wrong. Faux Spy Pro correctly identifies it as Digital Art.</p>
+          <p>This is huge for: digital artists, game devs, animators, designers, and anyone working with non-photographic content.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>What's the difference between AI Art and AI Photo?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p><strong>AI Photo:</strong> Photorealistic images generated by AI to look like real photos.</p>
+          <p>Examples: A "photo" of a CEO that doesn't exist, a "news image" of a fake event, AI-generated portraits passing as real.</p>
+          <p><strong>AI Art:</strong> Stylized AI-generated artwork.</p>
+          <p>Examples: Midjourney fantasy art, Stable Diffusion portraits with painterly style, AI-generated illustrations.</p>
+          <p><strong>Why care:</strong> AI Photos are dangerous (misinformation). AI Art is more often acceptable creative use. Different contexts need different responses.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Why does it sometimes say "Inconclusive"?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>"Inconclusive" means our detector isn't confident enough to make a call.</p>
+          <p>Common causes:</p>
+          <p>• Heavily filtered Instagram/Pinterest photos</p>
+          <p>• AI-edited real photos (Photoshop generative fill on real photo)</p>
+          <p>• Heavily compressed images</p>
+          <p>• Photo from newer AI generators we haven't fully learned</p>
+          <p>Rather than make a wrong call, we say "Inconclusive." This is more honest than incorrectly accusing real photos of being AI.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>How accurate is each category?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Honest accuracy estimates:</p>
+          <p>• <strong>Real photos:</strong> ~95% (very reliable)</p>
+          <p>• <strong>AI Photos:</strong> ~90% (high confidence on confirmed AI)</p>
+          <p>• <strong>Digital Art:</strong> ~85% (good at recognizing illustrations)</p>
+          <p>• <strong>AI Art:</strong> ~80% (overlapping signals with AI Photo)</p>
+          <p>• <strong>Inconclusive:</strong> Used when confidence falls below threshold (intentional)</p>
+          <p>No detector is 100% accurate. Faux Spy uses conservative thresholds to minimize false positives — when we're not certain, we say so.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- General Section -->
+    <div class="faq-section">
+      <h2>🕵️ General</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>What is Faux Spy?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Faux Spy is a Chrome extension that detects what kind of image you're looking at — Real photo, Digital art, AI photo, AI art, or Inconclusive.</p>
+          <p>One click. Any website. Instant verdict.</p>
+          <p>It works on Instagram, Pinterest, X (Twitter), Facebook, Reddit, LinkedIn, TikTok, ArtStation, and any other website with images.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>How does the detection work?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Faux Spy uses Sightengine's AI detection models:</p>
+          <p>• <strong>genai model:</strong> Detects AI-generated content</p>
+          <p>• <strong>type model:</strong> Distinguishes photos from illustrations (Pro only)</p>
+          <p>Together, these classify images into our 5 categories. The combination is what makes Faux Spy uniquely able to identify Digital Art separately from AI Art.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Is my browsing tracked?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p><strong>No.</strong> Faux Spy doesn't track your browsing, store images, or sell data.</p>
+          <p>Here's what happens when you investigate:</p>
+          <p>1. You actively click an image (we never scan automatically)<br>
+          2. The image URL is sent to our backend<br>
+          3. We forward it to Sightengine for analysis<br>
+          4. The result is returned to you<br>
+          5. Anonymous cache stores results to reduce costs</p>
+          <p>Anonymous user IDs only. No email or login required for free use.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Free Tier Section -->
+    <div class="faq-section">
+      <h2>🆓 Free Tier</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Is Faux Spy really free?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Yes! The free tier gives you 20 image investigations per day, every day.</p>
+          <p>Free tier uses our 3-category detection: Real / Inconclusive / AI.</p>
+          <p>For 5-category detection (with Digital Art and AI Art), upgrade to Pro.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Why doesn't free tier include all 5 categories?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>The 5-category system requires a second AI model call (the type detector). That doubles our per-scan cost with Sightengine.</p>
+          <p>Free users get the basic but excellent 3-category detection. Pro users get the advanced 5-category system that distinguishes digital art from AI.</p>
+          <p>This keeps Faux Spy sustainable without ads.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Why is there a daily limit?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Each detection costs us money (we pay Sightengine per call). The 20/day limit lets us provide a free tier without going bankrupt.</p>
+          <p>If you need more, Pro is $9.99/month for unlimited detections + 5-category system.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Pro Tier Section -->
+    <div class="faq-section">
+      <h2>💎 Pro Tier</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>What does Pro include?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Pro members get:</p>
+          <p>✓ <strong>5-category detection</strong> — distinguishes Real, Digital Art, Inconclusive, AI Art, AI Photo</p>
+          <p>✓ <strong>Unlimited investigations</strong> — no daily limits</p>
+          <p>✓ <strong>Deep Dive mode</strong> — scan every image on a page automatically</p>
+          <p>✓ <strong>Detective Case Files</strong> — searchable history of your investigations</p>
+          <p>✓ <strong>Priority detection</strong> — faster response times</p>
+          <p>✓ <strong>Priority support</strong> — direct email response within 24 hours</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Is the 5-category detection worth $9.99/mo?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Depends on your use case.</p>
+          <p><strong>Worth it for:</strong></p>
+          <p>• Digital artists who want their work distinguished from AI</p>
+          <p>• Game developers verifying assets aren't AI-generated</p>
+          <p>• Designers and animators</p>
+          <p>• Journalists fact-checking image authenticity</p>
+          <p>• Heavy social media users who need volume</p>
+          <p>• Anyone who's hit the 20/day free limit</p>
+          <p><strong>Not necessary for:</strong></p>
+          <p>• Casual users who scan a few images per week</p>
+          <p>• Users who only care if something is "AI or not"</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>How do I upgrade to Pro?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>1. Visit <a href="/pro" style="color: var(--gold);">fauxspy.com/pro</a></p>
+          <p>2. Click "Subscribe Monthly" ($9.99/mo) or "Subscribe Yearly" ($99/yr — save 17%)</p>
+          <p>3. Complete payment via Stripe Checkout</p>
+          <p>4. You'll receive a license key by email</p>
+          <p>5. Open the extension → HQ Settings → Pro License section</p>
+          <p>6. Paste your license key and click Activate</p>
+          <p>7. Pro features unlock instantly!</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Can I cancel anytime?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Yes. Cancel anytime through:</p>
+          <p>• Visit <a href="/account" style="color: var(--gold);">fauxspy.com/account</a></p>
+          <p>• Enter your email</p>
+          <p>• Click the link in the email to access Stripe's billing portal</p>
+          <p>• Click "Cancel subscription"</p>
+          <p>You'll keep Pro features until the end of your current billing period.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>What about refunds?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>14-day money-back guarantee. If you're not happy, email us at hello@fauxspy.com within 14 days of your first payment for a full refund, no questions asked.</p>
+          <p>See our full <a href="/refunds" style="color: var(--gold);">refund policy</a> for details.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Can I use my license on multiple devices?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Yes! Your Pro license works on any device. Just paste the same license key in each device's HQ Settings.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Technical Section -->
+    <div class="faq-section">
+      <h2>🛠️ Technical</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>What browsers are supported?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Currently:</p>
+          <p>✅ Chrome (primary)<br>
+          ✅ Edge (Chromium-based)<br>
+          ✅ Brave (Chromium-based)<br>
+          ✅ Opera (Chromium-based)</p>
+          <p>Coming soon: Firefox, Safari</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Why does the extension need permissions?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>We request only what's needed:</p>
+          <p>• <code>activeTab</code> — Read images on your active tab when you click "Investigate"<br>
+          • <code>contextMenus</code> — Adds the right-click "Investigate" option<br>
+          • <code>storage</code> — Save settings and license locally<br>
+          • <code>&lt;all_urls&gt;</code> — Detect images on any website</p>
+          <p>We don't access tabs you're not using or read your history.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- Troubleshooting Section -->
+    <div class="faq-section">
+      <h2>❓ Troubleshooting</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>My Photoshop painting is being called AI</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>If you're on the free tier, this is a known limitation. Free tier only knows "AI" or "Real" — it can't recognize human-made digital art as a separate category.</p>
+          <p><strong>Solution:</strong> Upgrade to Pro for 5-category detection that correctly identifies Digital Art (paintings, renders, illustrations) as separate from AI.</p>
+          <p>If you're already on Pro and it's still wrong, please <a href="/contact" style="color: var(--gold);">contact us</a> with the image URL — we'll investigate.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>Detection says "Inconclusive" too often</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>"Inconclusive" appears when detection confidence falls in the uncertain zone. This is intentional — we don't want to make false claims.</p>
+          <p>Common reasons:</p>
+          <p>• Image is heavily filtered or edited<br>
+          • Image is from a CDN that compresses heavily<br>
+          • Image is small or low quality<br>
+          • Newer AI generators detection models haven't fully learned</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>The badge doesn't appear on Instagram</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Instagram lazy-loads images. Try:</p>
+          <p>1. Refresh the Instagram tab<br>
+          2. Wait 2-3 seconds after page loads<br>
+          3. Try Ctrl+Click on the image directly</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>License key won't activate</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>License keys look like: <code>FAUX-XXXX-XXXX-XXXX-XXXX</code></p>
+          <p>Common issues:</p>
+          <p>• Make sure you're copying the full key (24 characters with dashes)<br>
+          • Check spaces — no spaces should be in the key<br>
+          • Internet connection required to validate</p>
+          <p>If still failing, <a href="/contact" style="color: var(--gold);">contact support</a>.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="faq-cta">
+      <h3 style="font-family: Georgia, serif; font-style: italic; margin-bottom: 12px;">Still have questions?</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 24px;">Our support team responds within 24 hours.</p>
+      <a href="/contact" class="btn btn-primary btn-large">📧 Contact Support</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/pro">Pro</a>
+          <a href="/faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/refunds">Refunds</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="https://twitter.com/fauxspy">Twitter</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>

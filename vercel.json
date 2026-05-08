@@ -4,7 +4,11 @@
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/success", "destination": "/success.html" },
-    { "source": "/pro", "destination": "/pro.html" }
+    { "source": "/pro", "destination": "/pro.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/account", "destination": "/account.html" },
+    { "source": "/faq", "destination": "/faq.html" },
+    { "source": "/refunds", "destination": "/refunds.html" }
   ],
   "headers": [
     {

@@ -1,14 +1,15 @@
 // /api/detect.js
-// Faux Spy Detection Proxy with persistent storage
-// Uses Vercel KV for caching and rate limiting
+// Faux Spy Detection Proxy v6 - Pro tier gets 5 categories, Free tier gets 3
+// Free: Real / Inconclusive / AI (genai model only)
+// Pro: Real / Digital Art / Inconclusive / AI Art / AI Photo (genai + type models)
 
 const { kv } = require('@vercel/kv');
 
 const FREE_TIER_DAILY_LIMIT = 20;
 const CACHE_TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
-const USAGE_TTL_SECONDS = 25 * 60 * 60; // 25 hours (one full day + buffer)
+const USAGE_TTL_SECONDS = 25 * 60 * 60; // 25 hours
 
-// In-memory fallbacks if KV is not configured
+// In-memory fallbacks
 const inMemoryUsage = new Map();
 const inMemoryCache = new Map();
 
@@ -17,23 +18,14 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   
   try {
-    const { imageUrl, userId, isPro } = req.body || {};
+    const { imageUrl, userId, isPro, width, height } = req.body || {};
     
-    if (!imageUrl) {
-      return res.status(400).json({ error: 'imageUrl required' });
-    }
-    if (!userId) {
-      return res.status(400).json({ error: 'userId required' });
-    }
+    if (!imageUrl) return res.status(400).json({ error: 'imageUrl required' });
+    if (!userId) return res.status(400).json({ error: 'userId required' });
     
     try {
       new URL(imageUrl);
@@ -45,49 +37,43 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Cannot analyze data: or blob: URLs' });
     }
     
-    // v3.1: Reject obviously low-quality images
-    // Detection on tiny images is unreliable — better to refuse than mislead
-    const imgWidth = req.body.width || 0;
-    const imgHeight = req.body.height || 0;
-    
-    if (imgWidth > 0 && imgHeight > 0) {
-      // Reject anything under 100x100 (likely icons, avatars, thumbnails)
-      if (imgWidth < 100 || imgHeight < 100) {
-        return res.status(200).json({
-          success: true,
-          isAI: false,
-          aiProbability: 0,
-          verdict: 'insufficient_data',
-          verdictLabel: 'Image Too Small',
-          indicators: [
-            `Image is ${imgWidth}×${imgHeight} pixels`,
-            'Detection requires images at least 100×100 pixels',
-            'Try a larger version of this image'
-          ],
-          method: 'pre_check_failed',
-          reason: 'image_too_small'
-        });
-      }
+    // Image dimension pre-check
+    if (width && height && (width < 100 || height < 100)) {
+      return res.status(200).json({
+        success: true,
+        isAI: false,
+        aiProbability: 0,
+        verdict: 'insufficient_data',
+        verdictLabel: 'Image Too Small',
+        category: 'insufficient_data',
+        indicators: [
+          `Image is ${width}×${height} pixels`,
+          'Detection requires images at least 100×100 pixels',
+          'Try a larger version of this image'
+        ],
+        method: 'pre_check_failed'
+      });
     }
     
     // ========================================================================
-    // STEP 1: Check cache (massive cost savings)
+    // STEP 1: Check cache (stores BOTH free and pro responses)
     // ========================================================================
-    const cacheKey = `detect:${await hashUrl(imageUrl)}`;
+    const cacheKey = `detect:v6:${await hashUrl(imageUrl)}`;
     const cached = await getCached(cacheKey);
     
     if (cached) {
       console.log('💾 [CACHE HIT]', imageUrl.substring(0, 60));
       
-      // Cached results don't count toward daily limit (already paid for)
+      // Return appropriate version based on Pro status
+      const result = isPro ? cached.pro : cached.free;
       return res.status(200).json({
-        ...cached,
+        ...result,
         cached: true
       });
     }
     
     // ========================================================================
-    // STEP 2: Check daily limit (persistent across deploys now)
+    // STEP 2: Daily limit check (free tier only)
     // ========================================================================
     if (!isPro) {
       const usage = await getUserUsage(userId);
@@ -95,7 +81,7 @@ module.exports = async (req, res) => {
       if (usage >= FREE_TIER_DAILY_LIMIT) {
         return res.status(429).json({
           error: 'DAILY_LIMIT_REACHED',
-          message: `Free tier limit reached (${FREE_TIER_DAILY_LIMIT}/day). Upgrade to Pro for unlimited.`,
+          message: `Free tier limit reached (${FREE_TIER_DAILY_LIMIT}/day).`,
           used: usage,
           limit: FREE_TIER_DAILY_LIMIT,
           upgradeUrl: 'https://fauxspy.com/pro'
@@ -119,12 +105,15 @@ module.exports = async (req, res) => {
     
     // ========================================================================
     // STEP 4: Call Sightengine
+    // - Free: just genai model (1 operation)
+    // - Pro: genai + type models (2 operations, but combined call)
     // ========================================================================
-    console.log('🔍 [DETECT]', imageUrl.substring(0, 80));
+    const models = isPro ? 'genai,type' : 'genai';
+    console.log(`🔍 [DETECT ${isPro ? 'PRO' : 'FREE'}]`, imageUrl.substring(0, 80));
     
     const params = new URLSearchParams({
       url: imageUrl,
-      models: 'genai',
+      models,
       api_user: apiUser,
       api_secret: apiSecret
     });
@@ -154,6 +143,7 @@ module.exports = async (req, res) => {
       });
     }
     
+    // Extract scores
     const aiProbability = data.type?.ai_generated;
     
     if (typeof aiProbability !== 'number') {
@@ -164,41 +154,73 @@ module.exports = async (req, res) => {
       });
     }
     
+    // For Pro: extract type scores
+    // type.illustration: 0-1, where 1 = illustration, 0 = photograph
+    const illustrationScore = isPro ? (data.type?.illustration ?? 0) : null;
+    const photoScore = isPro ? (data.type?.photo ?? 0) : null;
+    
     // ========================================================================
-    // STEP 5: Build result with conservative tier system
+    // STEP 5: Build BOTH free and pro verdict objects (for caching)
     // ========================================================================
     
-    // v3.1: Conservative thresholds to minimize false positives
-    // Real photos with filters often score 0.40-0.60 — those should be "Inconclusive"
-    // Only commit to "AI" verdict at 65%+ confidence
-    const verdict = getVerdictFromScore(aiProbability, imageUrl);
-    
-    const result = {
+    // Free tier: 3-category verdict (genai only)
+    const freeVerdict = getFreeTierVerdict(aiProbability);
+    const freeResult = {
       success: true,
-      // isAI is now only true if we're confidently calling it AI
-      // "Inconclusive" returns isAI: false (don't accuse without evidence)
-      isAI: verdict.tier === 'likely_ai' || verdict.tier === 'definitely_ai',
+      isAI: freeVerdict.tier === 'likely_ai' || freeVerdict.tier === 'definitely_ai',
       aiProbability,
       confidence: aiProbability,
-      verdict: verdict.tier,
-      verdictLabel: verdict.label,
+      verdict: freeVerdict.tier,
+      verdictLabel: freeVerdict.label,
+      category: freeVerdict.category,
       method: 'sightengine_api',
-      indicators: verdict.indicators,
+      indicators: freeVerdict.indicators,
+      // Hint about Pro tier capability
+      proHint: freeVerdict.proHint,
       timestamp: Date.now()
     };
     
+    let proResult = null;
+    if (isPro && illustrationScore !== null) {
+      // Pro tier: 5-category verdict (genai + type)
+      const proVerdict = getProTierVerdict(aiProbability, illustrationScore);
+      proResult = {
+        success: true,
+        isAI: proVerdict.tier === 'likely_ai' || proVerdict.tier === 'definitely_ai' || proVerdict.tier === 'likely_ai_art',
+        aiProbability,
+        illustrationScore,
+        photoScore,
+        confidence: aiProbability,
+        verdict: proVerdict.tier,
+        verdictLabel: proVerdict.label,
+        category: proVerdict.category,
+        method: 'sightengine_api_pro',
+        indicators: proVerdict.indicators,
+        timestamp: Date.now()
+      };
+    }
+    
     // ========================================================================
-    // STEP 6: Cache + increment usage (persistent now)
+    // STEP 6: Cache BOTH versions
     // ========================================================================
-    await cacheResult(cacheKey, result);
+    // We may not have a Pro response if user was free
+    // In that case, when a Pro user later scans the same image, we'd have to re-call
+    // To save cost, only cache pro version once we've actually computed it
+    if (proResult) {
+      await cacheResult(cacheKey, { free: freeResult, pro: proResult });
+    } else {
+      // Free response only - Pro user later will trigger another call
+      await cacheResult(cacheKey, { free: freeResult, pro: null });
+    }
     
     if (!isPro) {
       await incrementUserUsage(userId);
     }
     
-    console.log(`✅ [RESULT] ${(aiProbability * 100).toFixed(1)}% AI`);
+    const returnedResult = isPro ? proResult : freeResult;
+    console.log(`✅ [RESULT] ${returnedResult.verdictLabel} (AI: ${(aiProbability * 100).toFixed(1)}%${illustrationScore !== null ? `, Illust: ${(illustrationScore * 100).toFixed(1)}%` : ''})`);
     
-    return res.status(200).json(result);
+    return res.status(200).json(returnedResult);
     
   } catch (error) {
     console.error('❌ [DETECT ERROR]', error);
@@ -208,6 +230,250 @@ module.exports = async (req, res) => {
     });
   }
 };
+
+// ============================================================================
+// FREE TIER VERDICT SYSTEM (3 categories)
+// Just AI score → Real / Inconclusive / AI
+// ============================================================================
+
+function getFreeTierVerdict(score) {
+  const aiPercent = (score * 100).toFixed(1);
+  const realPercent = (100 - score * 100).toFixed(1);
+  
+  // Definitely AI (85%+)
+  if (score >= 0.85) {
+    return {
+      tier: 'definitely_ai',
+      label: 'Definitely Faux',
+      category: 'ai',
+      indicators: [
+        `AI confidence: ${aiPercent}%`,
+        'Strong AI generation signals detected'
+      ],
+      proHint: null
+    };
+  }
+  
+  // Likely AI (65-85%)
+  if (score >= 0.65) {
+    return {
+      tier: 'likely_ai',
+      label: 'Likely Faux',
+      category: 'ai',
+      indicators: [
+        `AI confidence: ${aiPercent}%`,
+        'AI generation patterns detected'
+      ],
+      proHint: 'Pro detects whether this is AI photo or AI art'
+    };
+  }
+  
+  // Inconclusive (40-65%)
+  if (score >= 0.40) {
+    return {
+      tier: 'inconclusive',
+      label: 'Inconclusive',
+      category: 'inconclusive',
+      indicators: [
+        `Score: ${aiPercent}% AI / ${realPercent}% real`,
+        '⚠️ Image is in the uncertain detection zone',
+        'Could be: heavily filtered photo, digital art, or low-confidence AI'
+      ],
+      proHint: 'Pro can identify if this is digital art (paintings, game art, 3D)'
+    };
+  }
+  
+  // Likely Real (20-40%)
+  if (score >= 0.20) {
+    return {
+      tier: 'likely_real',
+      label: 'Likely Real',
+      category: 'real',
+      indicators: [
+        `Real confidence: ${realPercent}%`,
+        'Image appears to be human-made'
+      ],
+      proHint: 'Pro distinguishes real photos from digital art/illustrations'
+    };
+  }
+  
+  // Verified Real (0-20%)
+  return {
+    tier: 'verified_real',
+    label: 'Verified Real',
+    category: 'real',
+    indicators: [
+      `Real confidence: ${realPercent}%`,
+      'Strong indicators this is genuinely human-made'
+    ],
+    proHint: 'Pro confirms whether this is photo or illustration'
+  };
+}
+
+// ============================================================================
+// PRO TIER VERDICT SYSTEM (5 categories)
+// AI score + illustration score → 5 distinct categories
+// ============================================================================
+//
+// Decision matrix:
+// AI < 0.40, illustration < 0.50 → Real photograph
+// AI < 0.40, illustration >= 0.50 → Digital art (human-made illustration)
+// AI 0.40-0.65, illustration < 0.50 → Inconclusive (uncertain photo)
+// AI 0.40-0.65, illustration >= 0.50 → Digital art (slight AI signal but stylized)
+// AI >= 0.65, illustration < 0.50 → AI Photo (photorealistic AI)
+// AI >= 0.65, illustration >= 0.50 → AI Art (Midjourney-style)
+//
+// Edge case threshold: 0.50 for illustration is the natural midpoint
+// (Sightengine returns illustration + photo = 1.0)
+// ============================================================================
+
+function getProTierVerdict(aiScore, illustrationScore) {
+  const aiPercent = (aiScore * 100).toFixed(1);
+  const realPercent = (100 - aiScore * 100).toFixed(1);
+  const illustPercent = (illustrationScore * 100).toFixed(1);
+  const isIllustration = illustrationScore >= 0.50;
+  
+  // ============================================
+  // HIGH AI CONFIDENCE (65%+) → AI Photo or AI Art
+  // ============================================
+  if (aiScore >= 0.85) {
+    if (isIllustration) {
+      return {
+        tier: 'definitely_ai_art',
+        label: 'AI Art (Confirmed)',
+        category: 'ai_art',
+        indicators: [
+          `AI confidence: ${aiPercent}%`,
+          `Illustration confidence: ${illustPercent}%`,
+          'This appears to be AI-generated digital art',
+          'Likely from: Midjourney, Stable Diffusion, DALL-E (artistic style)'
+        ]
+      };
+    } else {
+      return {
+        tier: 'definitely_ai',
+        label: 'AI Photo (Confirmed)',
+        category: 'ai_photo',
+        indicators: [
+          `AI confidence: ${aiPercent}%`,
+          'This appears to be a photorealistic AI-generated image',
+          'Likely from: Midjourney v6, Flux, Imagen (photo mode)'
+        ]
+      };
+    }
+  }
+  
+  if (aiScore >= 0.65) {
+    if (isIllustration) {
+      return {
+        tier: 'likely_ai_art',
+        label: 'Likely AI Art',
+        category: 'ai_art',
+        indicators: [
+          `AI confidence: ${aiPercent}%`,
+          `Illustration confidence: ${illustPercent}%`,
+          'Appears to be AI-generated stylized art'
+        ]
+      };
+    } else {
+      return {
+        tier: 'likely_ai',
+        label: 'Likely AI Photo',
+        category: 'ai_photo',
+        indicators: [
+          `AI confidence: ${aiPercent}%`,
+          'Appears to be photorealistic AI generation'
+        ]
+      };
+    }
+  }
+  
+  // ============================================
+  // INCONCLUSIVE ZONE (40-65% AI)
+  // For illustrations, lean toward "Digital Art" (human-made)
+  // Reasoning: AI score in 40-65% on something stylized is more likely a human digital painting
+  // ============================================
+  if (aiScore >= 0.40) {
+    if (isIllustration) {
+      return {
+        tier: 'digital_art_uncertain',
+        label: 'Digital Art (Possibly AI)',
+        category: 'digital_art',
+        indicators: [
+          `AI confidence: ${aiPercent}%`,
+          `Illustration confidence: ${illustPercent}%`,
+          'This is digital art (painting, drawing, render, or game art)',
+          '⚠️ Has some AI signals but not conclusive'
+        ]
+      };
+    } else {
+      return {
+        tier: 'inconclusive',
+        label: 'Inconclusive',
+        category: 'inconclusive',
+        indicators: [
+          `Score: ${aiPercent}% AI / ${realPercent}% real`,
+          'Photo-like image in uncertain detection zone',
+          'Could be: heavily filtered photo or AI-edited real image'
+        ]
+      };
+    }
+  }
+  
+  // ============================================
+  // LOW AI CONFIDENCE (<40%) → Real or Digital Art
+  // ============================================
+  if (aiScore >= 0.20) {
+    if (isIllustration) {
+      return {
+        tier: 'digital_art',
+        label: 'Digital Art / Illustration',
+        category: 'digital_art',
+        indicators: [
+          `Real confidence: ${realPercent}%`,
+          `Illustration confidence: ${illustPercent}%`,
+          'Human-made digital art (painting, drawing, render)',
+          'Could be: Photoshop painting, 3D render, cartoon, game asset'
+        ]
+      };
+    } else {
+      return {
+        tier: 'likely_real',
+        label: 'Likely Real Photo',
+        category: 'real',
+        indicators: [
+          `Real confidence: ${realPercent}%`,
+          'Appears to be a genuine photograph'
+        ]
+      };
+    }
+  }
+  
+  // Highest confidence real (0-20%)
+  if (isIllustration) {
+    return {
+      tier: 'digital_art_verified',
+      label: 'Digital Art (Verified)',
+      category: 'digital_art',
+      indicators: [
+        `Real confidence: ${realPercent}%`,
+        `Illustration confidence: ${illustPercent}%`,
+        'Confirmed: human-made digital art',
+        'Could be: traditional painting, digital illustration, 3D render, cartoon, game art'
+      ]
+    };
+  } else {
+    return {
+      tier: 'verified_real',
+      label: 'Verified Real Photo',
+      category: 'real',
+      indicators: [
+        `Real confidence: ${realPercent}%`,
+        'Confirmed: genuine photograph'
+      ]
+    };
+  }
+}
 
 // ============================================================================
 // HELPERS
@@ -224,155 +490,7 @@ async function hashUrl(url) {
 }
 
 // ============================================================================
-// CONSERVATIVE VERDICT SYSTEM (v3.1)
-// ============================================================================
-// 
-// Threshold strategy designed to minimize false positives:
-// - 0.00-0.20: Verified Real (very confident)
-// - 0.20-0.40: Likely Real
-// - 0.40-0.65: Inconclusive (HONEST UNCERTAINTY ZONE)
-// - 0.65-0.85: Likely AI
-// - 0.85-1.00: Definitely AI (very confident)
-//
-// Why 65% threshold for AI claim?
-// - Real photos with heavy filters score 0.45-0.60 on Sightengine
-// - Genuine AI images typically score 0.85+ 
-// - 65% gives buffer to catch edited photos before calling them AI
-// - Small accuracy cost (some genuine AI scoring 0.55-0.65 → "Inconclusive")
-// - But: never falsely accuse a real photo
-//
-// ============================================================================
-
-function getVerdictFromScore(score, imageUrl = '') {
-  const percent = (score * 100).toFixed(1);
-  const realPercent = (100 - score * 100).toFixed(1);
-  
-  // Domain-aware context (light hints, not overrides)
-  const context = analyzeUrlContext(imageUrl);
-  
-  // Tier 1: Definitely AI (85%+)
-  if (score >= 0.85) {
-    return {
-      tier: 'definitely_ai',
-      label: 'Definitely Faux',
-      indicators: [
-        `Sightengine AI confidence: ${percent}%`,
-        'Strong AI generation signals detected',
-        ...(context.suggestsAI ? ['Source context supports AI verdict'] : [])
-      ]
-    };
-  }
-  
-  // Tier 2: Likely AI (65-85%)
-  if (score >= 0.65) {
-    return {
-      tier: 'likely_ai',
-      label: 'Likely Faux',
-      indicators: [
-        `Sightengine AI confidence: ${percent}%`,
-        'AI generation patterns detected',
-        ...(context.suggestsAI ? ['Source context supports AI verdict'] : [])
-      ]
-    };
-  }
-  
-  // Tier 3: Inconclusive (40-65%) — THE KEY CHANGE
-  // This zone is wider than typical to catch filter-heavy photos
-  if (score >= 0.40) {
-    const indicators = [
-      `Sightengine score: ${percent}% AI / ${realPercent}% real`,
-      '⚠️ Image is in the uncertain detection zone',
-      'Could be: heavily filtered photo, AI-edited real image, or low-confidence AI'
-    ];
-    
-    // Helpful context for filtered photos
-    if (context.likelyFilter) {
-      indicators.push('💡 Filter or heavy editing may be affecting detection');
-    }
-    
-    return {
-      tier: 'inconclusive',
-      label: 'Inconclusive',
-      indicators
-    };
-  }
-  
-  // Tier 4: Likely Real (20-40%)
-  if (score >= 0.20) {
-    return {
-      tier: 'likely_real',
-      label: 'Likely Real',
-      indicators: [
-        `Sightengine real confidence: ${realPercent}%`,
-        'Image appears to be human-made',
-        ...(context.likelyFilter ? ['Some filter/editing detected'] : [])
-      ]
-    };
-  }
-  
-  // Tier 5: Verified Real (0-20%)
-  return {
-    tier: 'verified_real',
-    label: 'Verified Real',
-    indicators: [
-      `Sightengine real confidence: ${realPercent}%`,
-      'Strong indicators this is a genuine photograph',
-      ...(context.suggestsReal ? ['Source context supports real verdict'] : [])
-    ]
-  };
-}
-
-// ============================================================================
-// URL CONTEXT ANALYSIS (light hints only)
-// ============================================================================
-
-function analyzeUrlContext(imageUrl) {
-  const context = {
-    likelyFilter: false,
-    suggestsAI: false,
-    suggestsReal: false
-  };
-  
-  if (!imageUrl) return context;
-  
-  const url = imageUrl.toLowerCase();
-  
-  // Sites that primarily host AI-generated content
-  const aiSourceDomains = [
-    'civitai.com', 'midjourney.com', 'lexica.art', 'leonardo.ai',
-    'playgroundai.com', 'dezgo.com', 'mage.space', 'nightcafe.studio',
-    'starryai.com', 'wombo.art', 'artbreeder.com'
-  ];
-  
-  if (aiSourceDomains.some(domain => url.includes(domain))) {
-    context.suggestsAI = true;
-  }
-  
-  // Sites that primarily host real photography
-  const realSourceDomains = [
-    'reuters.com', 'apnews.com', 'gettyimages.com', 'shutterstock.com',
-    'unsplash.com', 'pexels.com', 'flickr.com', 'pinterest.com/pin'
-  ];
-  
-  if (realSourceDomains.some(domain => url.includes(domain))) {
-    context.suggestsReal = true;
-  }
-  
-  // Instagram/Pinterest CDNs — often have filtered content
-  const filterHeavyDomains = [
-    'cdninstagram.com', 'fbcdn.net', 'pinimg.com',
-    'tiktokcdn.com', 'snapchat.com'
-  ];
-  
-  if (filterHeavyDomains.some(domain => url.includes(domain))) {
-    context.likelyFilter = true;
-  }
-  
-  return context;
-}
-
-// ============================================================================
-// STORAGE: User usage tracking (persistent via Vercel KV)
+// STORAGE: User usage (KV with in-memory fallback)
 // ============================================================================
 
 async function getUserUsage(userId) {
@@ -383,8 +501,6 @@ async function getUserUsage(userId) {
     const usage = await kv.get(key);
     return usage || 0;
   } catch (kvError) {
-    // Fallback to in-memory if KV not configured
-    console.warn('⚠️ KV unavailable for usage check, using memory');
     const memUsage = inMemoryUsage.get(key);
     return memUsage?.count || 0;
   }
@@ -395,11 +511,9 @@ async function incrementUserUsage(userId) {
   const key = `usage:${userId}:${today}`;
   
   try {
-    // Atomic increment with TTL
     await kv.incr(key);
     await kv.expire(key, USAGE_TTL_SECONDS);
   } catch (kvError) {
-    // Fallback to in-memory
     const current = inMemoryUsage.get(key) || { date: today, count: 0 };
     current.count += 1;
     inMemoryUsage.set(key, current);
@@ -407,7 +521,8 @@ async function incrementUserUsage(userId) {
 }
 
 // ============================================================================
-// STORAGE: Result caching (persistent via Vercel KV)
+// STORAGE: Result caching (KV with in-memory fallback)
+// Cache stores { free, pro } object so both tiers can hit cache
 // ============================================================================
 
 async function getCached(cacheKey) {
@@ -425,18 +540,16 @@ async function getCached(cacheKey) {
       return null;
     }
     
-    return cached.result;
+    return cached.data;
   }
 }
 
-async function cacheResult(cacheKey, result) {
+async function cacheResult(cacheKey, data) {
   try {
-    // Set with TTL (auto-expires after 30 days)
-    await kv.set(cacheKey, result, { ex: CACHE_TTL_SECONDS });
+    await kv.set(cacheKey, data, { ex: CACHE_TTL_SECONDS });
   } catch (kvError) {
-    // Fallback to in-memory with size limit
     inMemoryCache.set(cacheKey, {
-      result,
+      data,
       timestamp: Date.now()
     });
     

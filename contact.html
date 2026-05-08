@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Faux Spy</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .contact-container {
+      max-width: 640px;
+      margin: 60px auto;
+      padding: 0 24px;
+    }
+    
+    .contact-card {
+      padding: 40px;
+      background: var(--noir-card);
+      border: 1px solid var(--border-default);
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .contact-form .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .contact-form label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 14px;
+    }
+    
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .contact-form select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+    }
+    
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+    
+    /* Honeypot field - hidden from users, visible to bots */
+    .honeypot {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+    
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .contact-method {
+      padding: 20px;
+      background: rgba(251, 191, 36, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      text-align: center;
+    }
+    
+    .contact-method-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    
+    .contact-method-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    
+    .contact-method-value {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+  </style>
+  <!-- Vercel Analytics (free, no setup) -->
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/pro">Pro</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="contact-container">
+    <h1 style="font-family: Georgia, serif; font-style: italic; text-align: center; margin-bottom: 16px;">
+      Get in touch
+    </h1>
+    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 40px;">
+      Have a question, found a bug, or want to chat? We'd love to hear from you.
+    </p>
+
+    <div class="contact-info">
+      <div class="contact-method">
+        <div class="contact-method-icon">⏱️</div>
+        <div class="contact-method-label">Response Time</div>
+        <div class="contact-method-value">24 hours</div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-method-icon">💼</div>
+        <div class="contact-method-label">Pro Support</div>
+        <div class="contact-method-value">Priority queue</div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-method-icon">🐦</div>
+        <div class="contact-method-label">Social</div>
+        <div class="contact-method-value"><a href="https://twitter.com/fauxspy" style="color: var(--gold);">@fauxspy</a></div>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <form class="contact-form" id="contactForm">
+        <!-- Honeypot field for spam bots -->
+        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off">
+        
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="topic">Topic</label>
+          <select id="topic" name="topic" required>
+            <option value="">Select a topic</option>
+            <option value="bug">🐛 Bug Report</option>
+            <option value="feature">💡 Feature Request</option>
+            <option value="support">❓ Support / Help</option>
+            <option value="billing">💳 Billing Question</option>
+            <option value="partnership">🤝 Partnership</option>
+            <option value="press">📰 Press Inquiry</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required placeholder="Tell us what's on your mind..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-block btn-large" id="submitBtn">
+          📧 Send Message
+        </button>
+      </form>
+      
+      <div id="successMessage" style="display: none; margin-top: 24px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; color: #34d399; text-align: center;">
+        ✅ Message sent! We'll get back to you within 24 hours.
+      </div>
+      
+      <div id="errorMessage" style="display: none; margin-top: 24px; padding: 16px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; color: #f87171; text-align: center;">
+        <span id="errorText"></span>
+      </div>
+    </div>
+    
+    <p style="text-align: center; color: var(--text-tertiary); font-size: 13px;">
+      Prefer email? Send to <a href="mailto:hello@fauxspy.com" style="color: var(--gold);">hello@fauxspy.com</a>
+    </p>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2025 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const form = e.target;
+      const formData = new FormData(form);
+      const submitBtn = document.getElementById('submitBtn');
+      const successMsg = document.getElementById('successMessage');
+      const errorMsg = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+      
+      // Honeypot check - if filled, it's a bot
+      if (formData.get('website')) {
+        // Pretend success but don't actually send
+        successMsg.style.display = 'block';
+        form.reset();
+        return;
+      }
+      
+      successMsg.style.display = 'none';
+      errorMsg.style.display = 'none';
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = '🔄 Sending...';
+      
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.get('name'),
+            email: formData.get('email'),
+            topic: formData.get('topic'),
+            message: formData.get('message')
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          successMsg.style.display = 'block';
+          form.reset();
+        } else {
+          throw new Error(data.message || 'Failed to send');
+        }
+      } catch (error) {
+        errorText.textContent = '❌ ' + error.message + '. You can email hello@fauxspy.com directly.';
+        errorMsg.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '📧 Send Message';
+      }
+    });
+  </script>
+</body>
+</html>
