@@ -2,7 +2,12 @@
 // Validates license keys submitted by the extension
 // Returns Pro status, plan, expiration
 
-const { kv } = require('@vercel/kv');
+const { Redis } = require('@upstash/redis');
+
+const kv = new Redis({
+  url: process.env.UPSTASH_REST_URL,
+  token: process.env.UPSTASH_REST_TOKEN,
+});
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

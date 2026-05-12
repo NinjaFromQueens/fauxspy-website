@@ -5,8 +5,13 @@
 // Handles subscription lifecycle events
 
 const Stripe = require('stripe');
-const { kv } = require('@vercel/kv');
+const { Redis } = require('@upstash/redis');
 const { Resend } = require('resend');
+
+const kv = new Redis({
+  url: process.env.UPSTASH_REST_URL,
+  token: process.env.UPSTASH_REST_TOKEN,
+});
 
 // IMPORTANT: Vercel needs raw body for Stripe signature verification
 // This config disables JSON parsing so we get the raw buffer
@@ -36,7 +41,7 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: 'Stripe not configured' });
   }
   
-  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-05-28.basil' });
   
   // Verify webhook signature (security critical)
   let event;

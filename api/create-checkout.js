@@ -26,18 +26,25 @@ module.exports = async (req, res) => {
       });
     }
     
-    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-05-28.basil' });
     const { plan, email, promoCode } = req.body || {};
     
     // Determine price ID
-    const priceId = plan === 'yearly' 
-      ? process.env.STRIPE_PRICE_YEARLY 
-      : process.env.STRIPE_PRICE_MONTHLY;
-    
-    if (!priceId) {
-      return res.status(400).json({ 
+    if (plan !== 'monthly' && plan !== 'yearly') {
+      return res.status(400).json({
         error: 'INVALID_PLAN',
-        message: 'Plan must be "monthly" or "yearly".' 
+        message: 'Plan must be "monthly" or "yearly".'
+      });
+    }
+
+    const priceId = plan === 'yearly'
+      ? process.env.STRIPE_PRICE_YEARLY
+      : process.env.STRIPE_PRICE_MONTHLY;
+
+    if (!priceId) {
+      return res.status(500).json({
+        error: 'PRICE_NOT_CONFIGURED',
+        message: 'Payment processing temporarily unavailable.'
       });
     }
     
@@ -46,7 +53,6 @@ module.exports = async (req, res) => {
     // Build session parameters
     const sessionParams = {
       mode: 'subscription',
-      payment_method_types: ['card'],
       line_items: [{
         price: priceId,
         quantity: 1,

@@ -3,7 +3,12 @@
 // Users enter email → look up customer → redirect to Stripe portal
 
 const Stripe = require('stripe');
-const { kv } = require('@vercel/kv');
+const { Redis } = require('@upstash/redis');
+
+const kv = new Redis({
+  url: process.env.UPSTASH_REST_URL,
+  token: process.env.UPSTASH_REST_TOKEN,
+});
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -56,7 +61,7 @@ module.exports = async (req, res) => {
       });
     }
     
-    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-05-28.basil' });
     const siteUrl = process.env.SITE_URL || 'https://fauxspy.com';
     
     // Create portal session
