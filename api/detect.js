@@ -5,7 +5,7 @@
 
 const { kv } = require('@vercel/kv');
 
-const FREE_TIER_DAILY_LIMIT = 20;
+const FREE_TIER_DAILY_LIMIT = 10;
 const CACHE_TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
 const USAGE_TTL_SECONDS = 25 * 60 * 60; // 25 hours
 
