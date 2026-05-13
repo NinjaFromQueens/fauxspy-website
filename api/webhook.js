@@ -7,6 +7,7 @@
 const Stripe = require('stripe');
 const { Redis } = require('@upstash/redis');
 const { Resend } = require('resend');
+const { randomBytes } = require('crypto');
 
 const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
@@ -130,7 +131,10 @@ async function handleCheckoutCompleted(session, stripe) {
   
   // Store in KV (key indexed by license key for lookup)
   await kv.set(`license:${licenseKey}`, licenseData);
-  
+
+  // Reverse index: subscription → license key (O(1) lookup in cancel/update handlers)
+  await kv.set(`subscription:${session.subscription}`, licenseKey);
+
   // Also index by email for management
   await kv.set(`email:${customerEmail.toLowerCase()}`, licenseKey);
   
@@ -146,37 +150,36 @@ async function handleCheckoutCompleted(session, stripe) {
 
 async function handleSubscriptionCancelled(subscription) {
   console.log('❌ Subscription cancelled:', subscription.id);
-  
-  // Find license by subscription ID
-  // Note: This is a slow lookup - consider adding subscription:license index
-  const allLicenseKeys = await kv.keys('license:*');
-  
-  for (const key of allLicenseKeys) {
-    const license = await kv.get(key);
-    if (license?.subscriptionId === subscription.id) {
-      license.status = 'cancelled';
-      license.cancelledAt = Date.now();
-      await kv.set(key, license);
-      console.log('✅ License marked cancelled:', license.key);
-      break;
-    }
+
+  const licenseKey = await kv.get(`subscription:${subscription.id}`);
+  if (!licenseKey) {
+    console.warn('⚠️ No license found for subscription:', subscription.id);
+    return;
+  }
+
+  const license = await kv.get(`license:${licenseKey}`);
+  if (license) {
+    license.status = 'cancelled';
+    license.cancelledAt = Date.now();
+    await kv.set(`license:${licenseKey}`, license);
+    console.log('✅ License marked cancelled:', licenseKey);
   }
 }
 
 async function handleSubscriptionUpdated(subscription) {
   console.log('🔄 Subscription updated:', subscription.id);
-  
-  // Update expiration on license
-  const allLicenseKeys = await kv.keys('license:*');
-  
-  for (const key of allLicenseKeys) {
-    const license = await kv.get(key);
-    if (license?.subscriptionId === subscription.id) {
-      license.expiresAt = subscription.current_period_end * 1000;
-      license.status = subscription.status === 'active' ? 'active' : 'inactive';
-      await kv.set(key, license);
-      break;
-    }
+
+  const licenseKey = await kv.get(`subscription:${subscription.id}`);
+  if (!licenseKey) {
+    console.warn('⚠️ No license found for subscription:', subscription.id);
+    return;
+  }
+
+  const license = await kv.get(`license:${licenseKey}`);
+  if (license) {
+    license.expiresAt = subscription.current_period_end * 1000;
+    license.status = subscription.status === 'active' ? 'active' : 'inactive';
+    await kv.set(`license:${licenseKey}`, license);
   }
 }
 
@@ -191,19 +194,8 @@ async function handlePaymentFailed(invoice) {
 // ============================================================================
 
 function generateLicenseKey() {
-  // Format: FAUX-XXXX-XXXX-XXXX-XXXX
-  // Uses crypto-strong randomness, alphanumeric (no confusing chars)
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // No 0, O, 1, I, L
-  
-  function segment() {
-    let s = '';
-    for (let i = 0; i < 4; i++) {
-      s += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return s;
-  }
-  
-  return `FAUX-${segment()}-${segment()}-${segment()}-${segment()}`;
+  const seg = () => randomBytes(3).toString('hex').toUpperCase();
+  return `FAUX-${seg()}-${seg()}-${seg()}-${seg()}`;
 }
 
 // ============================================================================

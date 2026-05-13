@@ -39,6 +39,15 @@ module.exports = async (req, res) => {
       });
     }
     
+    // Validate topic against whitelist
+    const VALID_TOPICS = ['bug', 'feature', 'support', 'billing', 'partnership', 'press', 'other'];
+    if (!VALID_TOPICS.includes(topic)) {
+      return res.status(400).json({
+        error: 'INVALID_TOPIC',
+        message: 'Invalid topic value'
+      });
+    }
+
     // Validate length (prevent abuse)
     if (message.length > 5000) {
       return res.status(400).json({ 

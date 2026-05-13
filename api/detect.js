@@ -511,8 +511,8 @@ async function incrementUserUsage(userId) {
   const key = `usage:${userId}:${today}`;
   
   try {
-    await kv.incr(key);
-    await kv.expire(key, USAGE_TTL_SECONDS);
+    const newCount = await kv.incr(key);
+    if (newCount === 1) await kv.expire(key, USAGE_TTL_SECONDS);
   } catch (kvError) {
     const current = inMemoryUsage.get(key) || { date: today, count: 0 };
     current.count += 1;
