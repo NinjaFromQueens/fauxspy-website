@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "project": {
+    "initializedAt": "2026-05-12T21:13:40.817Z",
+    "merchantDisplayName": null,
+    "merchantId": "acct_1Rdh7kE3FV5aR9qE",
+    "projectId": "project_61UflZuHnt9RKPYA716Sn556N9SQh4LbHD1BD99Fo76e",
+    "projectName": "fauxspy-website"
+  },
+  "providers": {
+    "upstash": {
+      "accountRequestId": "facctrq_61UflbDBJuCqtwiru16Sn556N9SQh4LbHD1BD99Fo7Ye",
+      "configuration": {},
+      "linkedAt": "2026-05-12T21:15:03.064Z",
+      "providerId": "prvdr_61UVa3kQyvSOEnWgd5Naa",
+      "providerName": "Upstash",
+      "redirectUrl": null,
+      "requestedAt": "2026-05-12T21:15:03.063Z",
+      "status": "complete"
+    }
+  },
+  "resources": {
+    "redis": {
+      "configuration": {
+        "price": "free",
+        "name": "fauxspy-website"
+      },
+      "createdAt": "2026-05-12T21:15:06.314Z",
+      "lastRevealedAt": "2026-05-12T21:15:06.661Z",
+      "lastStatus": "complete",
+      "name": "redis",
+      "providerId": "prvdr_61UVa3kQyvSOEnWgd5Naa",
+      "providerName": "Upstash",
+      "resourceId": "fres_61UflbF9wsp1zCVnB16Sn556N9SQh4LbHD1BD99FoVJQ",
+      "serviceId": "redis"
+    }
+  }
+}
