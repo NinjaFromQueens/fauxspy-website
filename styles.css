@@ -632,6 +632,96 @@ kbd {
   line-height: 1.7;
 }
 
+/* FAQ see-all link */
+.faq-see-all { text-align: center; margin-top: 28px; }
+.faq-see-all-link { color: var(--gold, #fbbf24); font-size: 14px; font-weight: 600; text-decoration: none; }
+.faq-see-all-link:hover { text-decoration: underline; }
+
+/* LANDING PAGES */
+.landing-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+.landing-hero {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.landing-hero h1 {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+.landing-subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.landing-note {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.landing-section {
+  margin-bottom: 48px;
+}
+.landing-section h2 {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: 22px;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+.landing-section p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+.landing-section p strong { color: var(--text-primary); }
+.landing-steps {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 15px;
+  padding-left: 24px;
+  margin-bottom: 14px;
+}
+.landing-steps li { margin-bottom: 4px; }
+.landing-faq { margin-bottom: 48px; }
+.landing-faq h2 {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+.landing-cta {
+  text-align: center;
+  padding: 48px 32px;
+  background: var(--noir-card);
+  border: 1px solid var(--border-default);
+  border-radius: 20px;
+}
+.landing-cta h2 {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: 26px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+.landing-cta p {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
 /* CTA */
 .cta {
   padding: 100px 0;
