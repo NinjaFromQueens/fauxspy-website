@@ -88,6 +88,9 @@ module.exports = async (req, res) => {
       plan: license.plan,
       email: license.email,
       expiresAt: license.expiresAt,
+      tokenBalance: license.tokenBalance || 0,
+      topupBalance: license.topupBalance || 0,
+      tokensIncluded: license.tokensIncluded || 200,
       // Don't send sensitive Stripe IDs back to extension
       features: {
         unlimitedScans: true,

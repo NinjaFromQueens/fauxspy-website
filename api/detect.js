@@ -4,6 +4,12 @@
 // Pro: Real / Digital Art / Inconclusive / AI Art / AI Photo (genai + type models)
 
 const { kv } = require('@vercel/kv');
+const { Redis } = require('@upstash/redis');
+
+const licenseKv = new Redis({
+  url: process.env.UPSTASH_REST_URL,
+  token: process.env.UPSTASH_REST_TOKEN,
+});
 
 const FREE_TIER_DAILY_LIMIT = 10;
 const CACHE_TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
@@ -22,7 +28,7 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   
   try {
-    const { imageUrl, userId, isPro, width, height } = req.body || {};
+    const { imageUrl, userId, isPro, licenseKey, width, height } = req.body || {};
     
     if (!imageUrl) return res.status(400).json({ error: 'imageUrl required' });
     if (!userId) return res.status(400).json({ error: 'userId required' });
@@ -73,11 +79,13 @@ module.exports = async (req, res) => {
     }
     
     // ========================================================================
-    // STEP 2: Daily limit check (free tier only)
+    // STEP 2: Daily limit check (free tier) or token check (pro tier)
     // ========================================================================
+    let proLicenseData = null;
+
     if (!isPro) {
       const usage = await getUserUsage(userId);
-      
+
       if (usage >= FREE_TIER_DAILY_LIMIT) {
         return res.status(429).json({
           error: 'DAILY_LIMIT_REACHED',
@@ -86,6 +94,30 @@ module.exports = async (req, res) => {
           limit: FREE_TIER_DAILY_LIMIT,
           upgradeUrl: 'https://fauxspy.com/pro'
         });
+      }
+    } else if (licenseKey) {
+      // Pro: check token balance
+      try {
+        proLicenseData = await licenseKv.get(`license:${licenseKey}`);
+      } catch (err) {
+        console.warn('⚠️ Could not fetch license for token check:', err.message);
+      }
+
+      if (!proLicenseData) {
+        console.warn('⚠️ Pro scan with unresolved license key:', licenseKey?.substring(0, 12));
+      }
+
+      if (proLicenseData) {
+        const available = (proLicenseData.tokenBalance || 0) + (proLicenseData.topupBalance || 0);
+        if (available <= 0) {
+          return res.status(402).json({
+            error: 'TOKENS_EXHAUSTED',
+            message: 'You have used all your tokens. Purchase more to continue scanning.',
+            tokenBalance: 0,
+            topupBalance: 0,
+            buyUrl: 'https://fauxspy.com/buy-tokens'
+          });
+        }
       }
     }
     
@@ -215,12 +247,31 @@ module.exports = async (req, res) => {
     
     if (!isPro) {
       await incrementUserUsage(userId);
+    } else if (licenseKey && proLicenseData) {
+      // Deduct 1 token — subscription balance first, then top-up
+      try {
+        if (proLicenseData.tokenBalance > 0) {
+          proLicenseData.tokenBalance -= 1;
+        } else if (proLicenseData.topupBalance > 0) {
+          proLicenseData.topupBalance -= 1;
+        }
+        await licenseKv.set(`license:${licenseKey}`, proLicenseData);
+      } catch (err) {
+        console.warn('⚠️ Token deduction failed:', err.message);
+        // Non-fatal — scan already completed
+      }
     }
-    
+
     const returnedResult = isPro ? proResult : freeResult;
     console.log(`✅ [RESULT] ${returnedResult.verdictLabel} (AI: ${(aiProbability * 100).toFixed(1)}%${illustrationScore !== null ? `, Illust: ${(illustrationScore * 100).toFixed(1)}%` : ''})`);
-    
-    return res.status(200).json(returnedResult);
+
+    // Include token balance in Pro response so extension can sync
+    const tokenInfo = (isPro && proLicenseData) ? {
+      tokenBalance: proLicenseData.tokenBalance,
+      topupBalance: proLicenseData.topupBalance,
+    } : {};
+
+    return res.status(200).json({ ...returnedResult, ...tokenInfo });
     
   } catch (error) {
     console.error('❌ [DETECT ERROR]', error);

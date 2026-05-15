@@ -3,12 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQ - Faux Spy</title>
-  <meta name="description" content="Frequently asked questions about Faux Spy AI image detection. Detect AI photos, AI art, real photos, and digital art.">
+  <title>FAQ – Faux Spy AI Image Detector | How It Works, Accuracy & Platform Support</title>
+  <meta name="description" content="Everything you want to know about how Faux Spy detects AI-generated photos, which generators it catches, how accurate it is, and whether it works on Instagram, TikTok, and dating apps.">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/styles.css">
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What can Faux Spy actually detect?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy classifies images into 5 categories: Real Photo (genuine photograph), AI Photo (photorealistic AI-generated image), AI Art (stylized AI art like Midjourney or Stable Diffusion), Digital Art (Photoshop, CGI renders, game art), and Inconclusive. Free users get 3-category detection; Pro users get all 5."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Faux Spy's detection work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy uses the Sightengine API's genai and type models to analyze pixel-level patterns, metadata, and visual signals that indicate AI generation. A custom heuristic layer runs as a fallback when the API is unavailable."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which AI generators can Faux Spy detect?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy detects images from Midjourney, DALL-E (1, 2, 3), Stable Diffusion, Adobe Firefly, Leonardo AI, and most major image generators. Detection models update regularly to keep up with newer generators."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Faux Spy work on Instagram?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — Faux Spy is specifically optimized for Instagram, Pinterest, X (Twitter), Facebook, Reddit, LinkedIn, TikTok, and Threads. It uses specialized event handling to work reliably even when sites try to intercept click events."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use Faux Spy on dating apps to check for fake profiles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Faux Spy works on any website in Chrome, including dating apps like Tinder and Bumble when accessed in the browser. Hover over a profile photo and click Investigate to check if it's AI-generated."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How accurate is Faux Spy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Accuracy by category: Real Photo ~95%, AI Photo ~90%, AI Art ~80%, Digital Art ~85%. No detector is 100% accurate — Faux Spy gives you a confidence score so you can weigh the result yourself rather than getting a misleading flat verdict."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Faux Spy really free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, free forever. The free tier includes 10 investigations per day with 3-category detection (Real, AI, Inconclusive). The Pro plan ($9.99/month) adds unlimited scans, 5-category detection, Deep Dive mode, and priority support."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Faux Spy store my images or browsing history?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Faux Spy only sends the image URL to the detection API when you actively click Investigate. It does not store images, track browsing history, or collect personal information. Investigation results are stored locally on your device only."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What browsers does Faux Spy support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy supports Chrome, Edge, Brave, and Opera — any Chromium-based browser. Firefox and Safari support are planned for a future release."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I cancel my Pro subscription anytime?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Cancel anytime from the account page at fauxspy.com/account. No questions asked. You keep Pro access until the end of your current billing period, and there's a 14-day money-back guarantee."
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     .faq-container { max-width: 760px; margin: 60px auto; padding: 0 24px; }
     .faq-section { margin-bottom: 48px; }

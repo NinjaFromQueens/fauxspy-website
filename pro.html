@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faux Spy Pro - Coming Soon | Get Early Access</title>
-  <meta name="description" content="Faux Spy Pro is launching soon. Get early access + 50% lifetime discount when you join the waitlist.">
-  <meta property="og:title" content="Faux Spy Pro - Coming Soon">
-  <meta property="og:description" content="Unlimited investigations, Deep Dive mode, priority support. Join the waitlist.">
+  <title>Faux Spy Pro – Unlimited AI Image Detection | Chrome Extension Plans</title>
+  <meta name="description" content="Unlimited daily scans, 5-category AI detection, Deep Dive mode for hidden images, and priority support. $9.99/month or save with the yearly plan.">
+  <meta property="og:title" content="Faux Spy Pro – Unlimited AI Image Detection">
+  <meta property="og:description" content="Unlimited daily scans, 5-category AI detection, Deep Dive mode for hidden images, and priority support. $9.99/month or save with the yearly plan.">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/styles.css">
   <style>
@@ -321,6 +321,43 @@
     
     .check { color: #34d399; }
     .cross { color: #f87171; }
+
+    /* Token coming soon banner */
+    .token-coming-soon-banner {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      padding: 28px 32px;
+      background: rgba(251, 191, 36, 0.04);
+      border: 1px dashed var(--border-strong);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .coming-soon-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--gold);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .token-coming-soon-banner h3 {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .token-coming-soon-banner p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
   </style>
   <!-- Vercel Analytics (free, no setup) -->
   <script defer src="/_vercel/insights/script.js"></script>
@@ -354,7 +391,7 @@
         Distinguish real photos from digital art, AI art, and AI photos.<br>
         5-category detection. Unlimited investigations. Priority support.
       </p>
-      <p class="countdown-text">⏰ Launching in the next few weeks</p>
+      <p class="countdown-text">⏰ Launching soon — extension v1.8.0 pending Chrome Web Store review</p>
     </div>
   </section>
 
@@ -375,6 +412,7 @@
             </div>
             <ul class="pricing-features">
               <li>✓ <strong>5-category detection</strong> (Real / Digital Art / AI Art / AI Photo / Inconclusive)</li>
+              <li>✓ <strong>200 scan tokens/month</strong> included</li>
               <li>✓ Unlimited investigations</li>
               <li>✓ Deep Dive mode</li>
               <li>✓ Detective Case Files</li>
@@ -397,6 +435,7 @@
             <p style="font-size: 12px; color: var(--gold); margin: -8px 0 16px 0;">$8.25/month — best value</p>
             <ul class="pricing-features">
               <li>✓ <strong>Everything in Secret Agent</strong></li>
+              <li>✓ <strong>2,500 scan tokens/year</strong> included</li>
               <li>✓ 5-category Pro detection</li>
               <li>✓ Save 2 months ($20)</li>
               <li>✓ Master Spy badge</li>
@@ -420,6 +459,16 @@
         </div>
       </div>
       
+      <!-- Token Top-Ups Coming Soon Banner -->
+      <div class="token-coming-soon-banner">
+        <div class="coming-soon-tag">COMING SOON</div>
+        <h3>Token Top-Up Packs</h3>
+        <p>
+          Run out of monthly tokens? Buy affordable one-time packs that never expire.<br>
+          Small (50 tokens / $1.99) &nbsp;·&nbsp; Medium (200 / $5.99) &nbsp;·&nbsp; Large (500 / $11.99)
+        </p>
+      </div>
+
       <!-- WAITLIST SECTION (default - shown when Stripe not configured) -->
       <div class="waitlist-card" id="waitlistCard">
         <h3>🚀 Get early access</h3>

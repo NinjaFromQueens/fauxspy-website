@@ -65,21 +65,30 @@ module.exports = async (req, res) => {
   try {
     switch (event.type) {
       case 'checkout.session.completed':
-        await handleCheckoutCompleted(event.data.object, stripe);
+        // Route to top-up handler for one-time payments, subscription handler otherwise
+        if (event.data.object.mode === 'payment') {
+          await handleTopUpCompleted(event.data.object);
+        } else {
+          await handleCheckoutCompleted(event.data.object, stripe);
+        }
         break;
-        
+
+      case 'invoice.payment_succeeded':
+        await handleInvoicePaid(event.data.object);
+        break;
+
       case 'customer.subscription.deleted':
         await handleSubscriptionCancelled(event.data.object);
         break;
-        
+
       case 'customer.subscription.updated':
         await handleSubscriptionUpdated(event.data.object);
         break;
-        
+
       case 'invoice.payment_failed':
         await handlePaymentFailed(event.data.object);
         break;
-        
+
       default:
         console.log(`ℹ️ Unhandled event type: ${event.type}`);
     }
@@ -98,25 +107,34 @@ module.exports = async (req, res) => {
 // EVENT HANDLERS
 // ============================================================================
 
+// Token allowances per plan
+const TOKENS_PER_PLAN = {
+  monthly: parseInt(process.env.TOKENS_PER_MONTH_MONTHLY) || 200,
+  yearly:  parseInt(process.env.TOKENS_PER_YEAR_YEARLY)   || 2500,
+};
+
 async function handleCheckoutCompleted(session, stripe) {
   console.log('💰 Checkout completed:', session.id);
-  
+
   const customerEmail = session.customer_email || session.customer_details?.email;
   if (!customerEmail) {
     console.error('❌ No email in session');
     return;
   }
-  
+
   // Get subscription details
   const subscription = await stripe.subscriptions.retrieve(session.subscription);
-  
+
   // Determine plan from price ID
   const priceId = subscription.items.data[0].price.id;
   const plan = priceId === process.env.STRIPE_PRICE_YEARLY ? 'yearly' : 'monthly';
-  
+
+  // Token allowance for this plan
+  const tokensIncluded = TOKENS_PER_PLAN[plan] || 200;
+
   // Generate license key
   const licenseKey = generateLicenseKey();
-  
+
   // License data
   const licenseData = {
     key: licenseKey,
@@ -127,6 +145,10 @@ async function handleCheckoutCompleted(session, stripe) {
     subscriptionId: session.subscription,
     createdAt: Date.now(),
     expiresAt: subscription.current_period_end * 1000,
+    tokenBalance: tokensIncluded,
+    tokensIncluded: tokensIncluded,
+    topupBalance: 0,
+    lastTokenRefresh: Date.now(),
   };
   
   // Store in KV (key indexed by license key for lookup)
@@ -181,6 +203,56 @@ async function handleSubscriptionUpdated(subscription) {
     license.status = subscription.status === 'active' ? 'active' : 'inactive';
     await kv.set(`license:${licenseKey}`, license);
   }
+}
+
+async function handleInvoicePaid(invoice) {
+  console.log('🔄 Invoice paid:', invoice.id);
+
+  const subscriptionId = invoice.subscription;
+  if (!subscriptionId) return; // Not a subscription invoice (shouldn't happen here)
+
+  const licenseKey = await kv.get(`subscription:${subscriptionId}`);
+  if (!licenseKey) {
+    console.warn('⚠️ No license found for subscription:', subscriptionId);
+    return;
+  }
+
+  const license = await kv.get(`license:${licenseKey}`);
+  if (!license) {
+    console.warn('⚠️ License data not found:', licenseKey);
+    return;
+  }
+
+  // Reset subscription tokens but preserve top-up balance
+  const tokensIncluded = license.tokensIncluded || TOKENS_PER_PLAN[license.plan] || 200;
+  license.tokenBalance = tokensIncluded;
+  license.lastTokenRefresh = Date.now();
+  await kv.set(`license:${licenseKey}`, license);
+
+  console.log(`✅ Tokens refreshed for ${licenseKey}: ${tokensIncluded} tokens`);
+}
+
+async function handleTopUpCompleted(session) {
+  console.log('💎 Top-up checkout completed:', session.id);
+
+  const licenseKey = session.metadata?.licenseKey;
+  const packSize = parseInt(session.metadata?.packSize);
+
+  if (!licenseKey || !packSize || packSize <= 0) {
+    console.error('❌ Missing or invalid licenseKey/packSize in top-up metadata');
+    return;
+  }
+
+  const license = await kv.get(`license:${licenseKey}`);
+  if (!license) {
+    console.error('❌ License not found for top-up:', licenseKey);
+    return;
+  }
+
+  license.topupBalance = (license.topupBalance || 0) + packSize;
+  await kv.set(`license:${licenseKey}`, license);
+
+  console.log(`✅ Added ${packSize} top-up tokens to ${licenseKey}. New top-up balance: ${license.topupBalance}`);
 }
 
 async function handlePaymentFailed(invoice) {

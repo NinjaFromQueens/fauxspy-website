@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Tokens - Faux Spy</title>
+  <meta name="description" content="Top up your Faux Spy token balance to keep scanning AI images.">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .buy-tokens-page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .buy-tokens-hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .buy-tokens-hero h1 {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 36px;
+      margin-bottom: 12px;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .buy-tokens-hero p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    /* License key input */
+    .license-section {
+      background: var(--noir-card);
+      border: 1px solid var(--border-default);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 28px;
+    }
+
+    .license-section label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .license-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .license-input-row input {
+      flex: 1;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .license-input-row input::placeholder {
+      font-family: inherit;
+      letter-spacing: normal;
+      color: var(--text-secondary);
+      opacity: 0.5;
+    }
+
+    .btn-check-license {
+      padding: 12px 20px;
+      background: var(--gradient-gold);
+      color: var(--noir-medium);
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .btn-check-license:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(251,191,36,0.4);
+    }
+
+    .balance-display {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: rgba(251,191,36,0.08);
+      border: 1px solid rgba(251,191,36,0.2);
+      border-radius: 8px;
+      display: none;
+    }
+
+    .balance-display.visible { display: block; }
+
+    .balance-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .balance-row:last-child { margin-bottom: 0; }
+
+    .balance-label { color: var(--text-secondary); }
+    .balance-value { font-weight: 700; color: var(--gold, #fbbf24); }
+
+    .license-error {
+      margin-top: 12px;
+      color: #ef4444;
+      font-size: 13px;
+      display: none;
+    }
+
+    .license-error.visible { display: block; }
+
+    /* Pack cards */
+    .packs-section h2 {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    .packs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 500px) {
+      .packs-grid { grid-template-columns: 1fr; }
+    }
+
+    .pack-card {
+      background: var(--noir-card);
+      border: 2px solid var(--border-default);
+      border-radius: 14px;
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .pack-card:hover {
+      border-color: var(--gold, #fbbf24);
+      transform: translateY(-2px);
+    }
+
+    .pack-card.selected {
+      border-color: var(--gold, #fbbf24);
+      background: linear-gradient(135deg, rgba(251,191,36,0.12) 0%, rgba(217,119,6,0.06) 100%);
+    }
+
+    .pack-card.popular::after {
+      content: 'BEST VALUE';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-gold);
+      color: var(--noir-medium);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .pack-tokens {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .pack-tokens-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .pack-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold, #fbbf24);
+      margin-bottom: 4px;
+    }
+
+    .pack-per-token {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    /* Buy button */
+    .btn-buy {
+      width: 100%;
+      padding: 16px;
+      background: var(--gradient-gold);
+      color: var(--noir-medium);
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-buy:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(251,191,36,0.4);
+    }
+
+    .btn-buy:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .no-expire-note {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Status messages */
+    .status-msg {
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-top: 16px;
+      display: none;
+    }
+    .status-msg.visible { display: block; }
+    .status-msg.error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; }
+    .status-msg.success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #10b981; }
+  </style>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">🕵️ Faux Spy</a>
+    <a href="/pro" class="nav-link">Plans</a>
+    <a href="/account" class="nav-link">Account</a>
+  </nav>
+
+  <div class="buy-tokens-page">
+    <div class="buy-tokens-hero">
+      <h1>Top Up Tokens</h1>
+      <p>Purchase extra tokens when your monthly allowance runs out.<br>Top-up tokens never expire.</p>
+    </div>
+
+    <!-- Step 1: License Key -->
+    <div class="license-section">
+      <label for="licenseKeyInput">Your License Key</label>
+      <div class="license-input-row">
+        <input
+          type="text"
+          id="licenseKeyInput"
+          placeholder="FAUX-XXXX-XXXX-XXXX-XXXX"
+          autocomplete="off"
+          autocapitalize="characters"
+          spellcheck="false"
+        >
+        <button class="btn-check-license" id="checkLicenseBtn">Check Balance</button>
+      </div>
+      <div class="balance-display" id="balanceDisplay">
+        <div class="balance-row">
+          <span class="balance-label">Subscription tokens</span>
+          <span class="balance-value" id="balanceSubscription">—</span>
+        </div>
+        <div class="balance-row">
+          <span class="balance-label">Top-up tokens</span>
+          <span class="balance-value" id="balanceTopup">—</span>
+        </div>
+        <div class="balance-row" style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08);">
+          <span class="balance-label" style="font-weight: 700;">Total available</span>
+          <span class="balance-value" id="balanceTotal">—</span>
+        </div>
+      </div>
+      <div class="license-error" id="licenseError"></div>
+    </div>
+
+    <!-- Step 2: Select Pack -->
+    <div class="packs-section">
+      <h2>Choose a Top-Up Pack</h2>
+      <div class="packs-grid">
+        <div class="pack-card" data-pack="small">
+          <div class="pack-tokens">50</div>
+          <div class="pack-tokens-label">tokens</div>
+          <div class="pack-price">$1.99</div>
+          <div class="pack-per-token">$0.04 / token</div>
+        </div>
+        <div class="pack-card popular" data-pack="medium">
+          <div class="pack-tokens">200</div>
+          <div class="pack-tokens-label">tokens</div>
+          <div class="pack-price">$5.99</div>
+          <div class="pack-per-token">$0.03 / token</div>
+        </div>
+        <div class="pack-card" data-pack="large">
+          <div class="pack-tokens">500</div>
+          <div class="pack-tokens-label">tokens</div>
+          <div class="pack-price">$11.99</div>
+          <div class="pack-per-token">$0.024 / token</div>
+        </div>
+      </div>
+
+      <button class="btn-buy" id="buyBtn" disabled>
+        <span>Select a Pack to Continue</span>
+      </button>
+
+      <p class="no-expire-note">Top-up tokens never expire • Charged once, no subscription</p>
+
+      <div class="status-msg" id="statusMsg"></div>
+    </div>
+  </div>
+
+  <script src="/buy-tokens.js"></script>
+</body>
+</html>
