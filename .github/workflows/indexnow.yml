@@ -1,0 +1,23 @@
+name: Submit to IndexNow
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Vercel deploy
+        run: sleep 90
+
+      - name: Submit URLs to IndexNow
+        run: |
+          STATUS=$(curl -s -o /tmp/indexnow_response.json -w "%{http_code}" \
+            "https://fauxspy.com/api/indexnow?secret=${{ secrets.INDEXNOW_KEY }}")
+          echo "HTTP status: $STATUS"
+          cat /tmp/indexnow_response.json
+          if [ "$STATUS" != "200" ]; then
+            echo "IndexNow submission failed with status $STATUS"
+            exit 1
+          fi
