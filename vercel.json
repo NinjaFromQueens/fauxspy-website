@@ -8,7 +8,16 @@
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/account", "destination": "/account.html" },
     { "source": "/faq", "destination": "/faq.html" },
-    { "source": "/refunds", "destination": "/refunds.html" }
+    { "source": "/refunds", "destination": "/refunds.html" },
+    { "source": "/deepfake-detector", "destination": "/deepfake-detector.html" },
+    { "source": "/catfish-detector", "destination": "/catfish-detector.html" },
+    { "source": "/linkedin", "destination": "/linkedin.html" },
+    { "source": "/pinterest", "destination": "/pinterest.html" },
+    { "source": "/tiktok", "destination": "/tiktok.html" },
+    { "source": "/ai-art-detector", "destination": "/ai-art-detector.html" },
+    { "source": "/dating-apps", "destination": "/dating-apps.html" },
+    { "source": "/instagram", "destination": "/instagram.html" },
+    { "source": "/buy-tokens", "destination": "/buy-tokens.html" }
   ],
   "headers": [
     {
