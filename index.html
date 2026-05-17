@@ -107,7 +107,7 @@
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
         <a href="/contact">Contact</a>
-        <a href="https://chromewebstore.google.com" class="btn btn-primary btn-small">Add to Chrome</a>
+        <a href="/pro" class="btn btn-primary btn-small">Join Waitlist</a>
       </div>
     </div>
   </nav>
@@ -121,9 +121,14 @@
         Works on Instagram, Pinterest, X, Reddit, TikTok, dating apps. Anywhere images live.
       </p>
       <div class="hero-cta">
-        <a href="https://chromewebstore.google.com" class="btn btn-primary btn-large">
-          🕵️ Add to Chrome — It's Free
-        </a>
+        <form class="hero-waitlist-form" id="heroWaitlistForm">
+          <input type="email" id="heroEmailInput" placeholder="your@email.com" required>
+          <button type="submit" class="btn btn-primary btn-large" id="heroSubmitBtn">🕵️ Join Waitlist — Free</button>
+        </form>
+        <p class="hero-waitlist-note">Extension under review · Join for 50% off at launch</p>
+        <div class="hero-waitlist-success" id="heroWaitlistSuccess" style="display:none;">
+          ✅ You're on the list! Check your email for your discount code.
+        </div>
         <a href="#how-it-works" class="btn btn-secondary btn-large">See It in Action</a>
       </div>
       <div class="hero-trust">
@@ -260,7 +265,7 @@
             <li>✅ Social media support</li>
             <li>✅ Draggable result panels</li>
           </ul>
-          <a href="https://chromewebstore.google.com" class="btn btn-secondary btn-block">Get Started Free</a>
+          <a href="/pro" class="btn btn-secondary btn-block">Join the Waitlist</a>
         </div>
         <div class="pricing-card pricing-card-featured">
           <div class="pricing-badge">COMING SOON</div>
@@ -350,7 +355,7 @@
       <div class="cta-card">
         <h2>Ready to spy on the fakes?</h2>
         <p>Install Faux Spy free. 10 investigations per day, no credit card required.</p>
-        <a href="https://chromewebstore.google.com" class="btn btn-primary btn-large">🕵️ Add Faux Spy to Chrome</a>
+        <a href="/pro" class="btn btn-primary btn-large">🕵️ Join the Waitlist — Free</a>
       </div>
     </div>
   </section>
@@ -396,5 +401,35 @@
   </footer>
 
   <script src="/checkout.js"></script>
+  <script>
+    const heroForm = document.getElementById('heroWaitlistForm');
+    if (heroForm) {
+      heroForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('heroEmailInput').value.trim();
+        const btn = document.getElementById('heroSubmitBtn');
+        btn.disabled = true;
+        btn.textContent = 'Joining...';
+        try {
+          const res = await fetch('/api/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'homepage_hero' }),
+          });
+          if (res.ok) {
+            heroForm.style.display = 'none';
+            document.querySelector('.hero-waitlist-note').style.display = 'none';
+            document.getElementById('heroWaitlistSuccess').style.display = 'block';
+          } else {
+            btn.disabled = false;
+            btn.textContent = '🕵️ Join Waitlist — Free';
+          }
+        } catch {
+          btn.disabled = false;
+          btn.textContent = '🕵️ Join Waitlist — Free';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
