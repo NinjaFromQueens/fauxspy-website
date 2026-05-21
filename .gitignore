@@ -10,3 +10,4 @@ node_modules/
 .projects/vault
 .env
 .env.local
+.env*.local

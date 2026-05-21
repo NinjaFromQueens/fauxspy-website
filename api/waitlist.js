@@ -159,10 +159,10 @@ module.exports = async (req, res) => {
   <p>You'll get one more email — when Pro launches. We'll send your discount code and early access link. That's it. No spam, no nonsense.</p>
   
   <p>While you wait, you can install the free version:</p>
-  <p><a href="https://chromewebstore.google.com" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #fbbf24, #d97706); color: #1a1f2e; text-decoration: none; border-radius: 8px; font-weight: 700;">🕵️ Install Faux Spy Free</a></p>
+  <p><a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #fbbf24, #d97706); color: #1a1f2e; text-decoration: none; border-radius: 8px; font-weight: 700;">🕵️ Install Faux Spy Free</a></p>
   
   <p>Free tier includes:<br>
-  • 20 investigations per day<br>
+  • 10 free scans per day<br>
   • Hover, Ctrl+Click, and Right-click detection<br>
   • Works on Instagram, Pinterest, X, and more<br>
   • All detective badges</p>
