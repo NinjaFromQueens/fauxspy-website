@@ -39,7 +39,18 @@ jobs:
                 "https://fauxspy.com/bumble",
                 "https://fauxspy.com/hinge",
                 "https://fauxspy.com/how-to-spot-ai-generated-images",
-                "https://fauxspy.com/romance-scam-warning-signs"
+                "https://fauxspy.com/romance-scam-warning-signs",
+                "https://fauxspy.com/blog",
+                "https://fauxspy.com/blog/signs-someone-is-catfishing-you",
+                "https://fauxspy.com/blog/ai-generated-profile-pictures",
+                "https://fauxspy.com/blog/how-catfish-scams-work",
+                "https://fauxspy.com/blog/reverse-image-search-vs-ai-detector",
+                "https://fauxspy.com/blog/deepfake-fraud-statistics",
+                "https://fauxspy.com/blog/protect-yourself-romance-scams",
+                "https://fauxspy.com/facebook",
+                "https://fauxspy.com/what-do-ai-faces-look-like",
+                "https://fauxspy.com/best-deepfake-detector",
+                "https://fauxspy.com/online-dating-safety"
               ]
             }')
           HTTP_CODE=$(echo "$RESPONSE" | tail -1)

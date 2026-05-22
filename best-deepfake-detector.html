@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Best Deepfake Detectors in 2026: What Works and What to Look For | Faux Spy</title>
+  <meta name="description" content="Not all deepfake detectors are built the same. Some work on photos, some on video, some require file uploads. Here's how to think about what you actually need.">
+  <meta property="og:title" content="Best Deepfake Detectors in 2026: What Works and What to Look For">
+  <meta property="og:description" content="A practical guide to how deepfake detection tools work, what categories exist, and which approach fits which situation.">
+  <meta property="og:image" content="https://fauxspy.com/og-image.png">
+  <meta property="og:url" content="https://fauxspy.com/best-deepfake-detector">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://fauxspy.com/best-deepfake-detector">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a deepfake detector?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A deepfake detector is a tool that analyzes images or video to determine whether they were created by AI rather than a camera. Most tools look at statistical properties of the image data — patterns in the pixel distribution, artifacts from the generation process, or inconsistencies in lighting and texture that human eyes miss. They output a confidence score indicating how likely the image is to be AI-generated."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How accurate are deepfake detectors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Accuracy varies by tool, image type, and how recent the generating model is. Well-maintained detectors tend to perform better on images from models they've been trained against. Because AI image generators keep improving, detection models need to be regularly retrained — so a tool that was highly accurate a year ago may perform worse on images from newer generators. The best tools combine multiple detection signals and show a confidence score rather than a simple yes/no."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do deepfake detectors work on video?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Some do, some don't. Photo-based detectors analyze still images frame by frame, which catches a lot but can miss artifacts that only appear in motion. Purpose-built video deepfake detectors also look at temporal consistency — whether facial movements, blinking, and lighting changes across frames are consistent with real video. For profile photos and social media images, a photo-based detector is usually sufficient."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Faux Spy work on any website?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Faux Spy works on any website in Chrome — dating apps, social media, LinkedIn, Facebook, anywhere images appear. You don't need to download the photo or navigate to a separate tool. Hover over the image, click Investigate, and you get a result in seconds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the difference between a browser extension and a web-based deepfake detector?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A browser extension works on images wherever you find them online, without uploading anything to a third-party tool. A web-based detector requires you to download the image, navigate to the tool, and upload it — which adds friction and means you're sharing the image with another service. For checking profile photos in real time, a browser extension is significantly faster."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Check Any Image With a Deepfake Detector",
+    "description": "How to use a browser-based deepfake detector on any image without uploading or downloading files.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Install the extension",
+        "text": "Install Faux Spy from the Chrome Web Store. It works on any image on any website."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Find the image you want to check",
+        "text": "Navigate to the profile, post, or page with the image. Open it in Chrome."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Hover and click Investigate",
+        "text": "Hover over the image. The Faux Spy button appears. Click Investigate."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Read the verdict",
+        "text": "You get a verdict (AI Photo or Real Photo) and a confidence percentage. Above 80% AI confidence is a strong signal the image was generated, not photographed."
+      }
+    ]
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/pro">Pro</a>
+        <a href="/pro" class="btn btn-primary btn-small">Join Waitlist</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero">
+        <h1>Best Deepfake Detectors in 2026: What Works and What to Look For</h1>
+        <p class="landing-subtitle">There are more deepfake detection tools available today than ever before. They're not all built the same — and which one makes sense depends on what you're trying to check.</p>
+      </div>
+
+      <div class="landing-section">
+        <p>Deepfake technology moved fast. Detection technology has been playing catch-up. The result is a market with dozens of tools making overlapping claims, built on different approaches, with very different use cases in mind.</p>
+        <p>This guide breaks down how deepfake detectors actually work, what categories of tools exist, and what's worth paying attention to when you're choosing one. It's not a marketing comparison — it's a practical frame for thinking about the problem.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How deepfake detectors work</h2>
+        <p>Most detection tools fall into one of two camps: those that look at what the image looks like, and those that look at the underlying data.</p>
+        <p>Visual analysis tries to catch the artifacts that generators leave behind — slightly off skin textures, lighting that doesn't quite match, background elements that don't make physical sense. This approach works reasonably well on older generators. It struggles on recent ones, because the visual artifacts have gotten subtle enough that even trained human reviewers can't reliably spot them.</p>
+        <p>Pixel-level analysis takes a different approach. Modern AI generators leave statistical signatures in the image data itself — patterns in the pixel distribution, frequency-domain artifacts from the generation process — that don't exist in photographs. These signatures survive even when the visual output looks completely convincing. This is what Faux Spy uses. It's more robust to improving visual quality because it's not looking at what the face looks like; it's looking at the math behind the image.</p>
+        <p>The best tools combine both. Some also incorporate metadata analysis — checking whether the file has camera data attached (AI-generated images typically don't), though this is easy to strip and shouldn't be used as the primary signal.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>The three main types of deepfake detection tools</h2>
+        <h3 style="font-size:1.1rem;margin-top:1.75rem;">Browser extensions</h3>
+        <p>These run inside Chrome (or other browsers) and let you check images without leaving the page. The main advantage is speed and zero friction — no downloading the photo, no navigating to a different tool, no uploading anything. You see a photo on a dating app or social network, you click a button, you get a result.</p>
+        <p>The limitation is that they typically work on still images, not video. And they depend on being able to access the image, which can be complicated on some platforms that load images through protected URLs.</p>
+        <p>Faux Spy is a browser extension. It works on any image on any website in Chrome.</p>
+
+        <h3 style="font-size:1.1rem;margin-top:1.75rem;">Web-based upload tools</h3>
+        <p>These are websites where you upload an image (or paste a URL) and get a detection result back. Several have been built for researchers and journalists — tools like Hive Moderation's public demo, Intel's FakeCatcher, and others.</p>
+        <p>The friction is real. You have to download the photo, navigate to the tool, and upload it. For a quick check on a dating profile, that's three steps too many. These tools are more useful for systematic review — when you have a batch of images to check, when you're doing research, or when you need detailed output beyond a simple verdict.</p>
+        <p>Be careful about which service you're uploading to. Some tools store uploaded images. If the image contains a real person's face, you may be sharing that person's biometric data with a third party without their knowledge.</p>
+
+        <h3 style="font-size:1.1rem;margin-top:1.75rem;">API services for developers and businesses</h3>
+        <p>Several companies offer deepfake detection as an API — you send an image programmatically and get back a score. These are built for integration into platforms, not for individual users. Hive Moderation, Microsoft Azure Content Moderator, Amazon Rekognition, and several deepfake-specific startups offer variations of this. They're used by social platforms and verification services, not by people trying to check a Tinder profile.</p>
+        <p>If you're building a product that needs to check uploaded images at scale, this is the category to look at. For personal use, a browser extension is almost always the right choice.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>What to look for in any detection tool</h2>
+        <p><strong>Confidence scores over binary verdicts.</strong> A tool that says "FAKE" or "REAL" without a score is less useful than one that says "92% AI Photo." The reason: detection isn't perfect. A score tells you how strong the signal is. A binary verdict hides the uncertainty.</p>
+        <p><strong>Model freshness.</strong> Detectors need to be retrained when new generators appear. A tool that hasn't updated its underlying model in a year may be good at catching older-generation images and worse at catching new ones. Ask (or check) how recently the detection model was updated.</p>
+        <p><strong>What it's optimized for.</strong> Some tools are built specifically for face detection. Others are more general-purpose AI image detectors — good at catching AI-generated art and illustration, but not necessarily optimized for photorealistic portrait detection. Know what you're trying to catch before you pick a tool.</p>
+        <p><strong>Privacy.</strong> For tools that require uploads, read the privacy policy. Some store images. Some use uploaded images to retrain their models. If you're checking photos of real people, this matters.</p>
+        <p><strong>Where you can use it.</strong> A tool that requires a separate upload step is one you won't actually use consistently. The best tool is the one with the least friction for your actual use case.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>The limits of any detector</h2>
+        <p>No deepfake detector is infallible. That's worth stating clearly, because some tools sell themselves as though they are.</p>
+        <p>The fundamental challenge is a moving target. AI image generators keep improving. New architectures produce images with cleaner statistical signatures — harder to distinguish from real photos. Detection models get retrained to account for new generators, but there's a lag. In the weeks after a major new generator is released, detection accuracy can drop before the tools catch up.</p>
+        <p>False negatives are the main concern in practice. A fake image that comes back as "Real Photo" isn't automatically safe — it could be that the tool missed it, that the image was post-processed to remove generator artifacts, or that the person used a method the detector hasn't seen before.</p>
+        <p>False positives are also real. Heavily compressed images, certain photo editing filters, and some types of AI-enhanced photography (not full generation) can sometimes read as AI-generated when they aren't.</p>
+        <p>This is why detection should be one signal, not the whole answer. On a dating app, a high-confidence AI result is a red flag. A clean result doesn't guarantee the profile is real — pair it with a reverse image search and pay attention to how the conversation goes.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>What Faux Spy specifically checks</h2>
+        <p>Faux Spy is built for photorealistic AI-generated faces — the type used in fake profiles on dating apps, social media, and professional networks. It uses pixel-level statistical analysis rather than visual pattern matching, which means it's looking at the mathematical signature of the image rather than trying to spot something visually wrong.</p>
+        <p>You get a verdict and a confidence percentage. AI Photo above 80% is a strong signal. Real Photo means the image is probably a photograph — though as noted above, that doesn't mean the profile is real.</p>
+        <p>It works in Chrome on any website. No uploads, no separate tool, no friction. Hover, click, done. For checking profile photos in real time — on Tinder, Bumble, Hinge, Facebook, Instagram, LinkedIn — it's the fastest option available.</p>
+        <p>10 free checks per day. The <a href="/pro">Pro plan</a> is for unlimited checks.</p>
+        <p>For a deeper look at the visual tells that AI-generated faces leave behind, see the guide on <a href="/what-do-ai-faces-look-like">what AI faces look like</a>. For the full picture on using this in a dating context, see the <a href="/catfish-detector">catfish detector page</a>.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>Frequently asked questions</h2>
+      </div>
+
+      <div class="landing-section">
+        <h3 style="font-size:1.1rem;">What is a deepfake detector?</h3>
+        <p>A deepfake detector analyzes images or video to determine whether they were created by AI rather than a camera. Most tools look at statistical properties of the image data — patterns in the pixel distribution, artifacts from the generation process, or inconsistencies that human eyes miss. They output a confidence score indicating how likely the image is to be AI-generated.</p>
+
+        <h3 style="font-size:1.1rem;margin-top:1.75rem;">How accurate are deepfake detectors?</h3>
+        <p>Accuracy varies by tool, image type, and how recently the generating model was released. Well-maintained detectors perform best on images from models they've been trained against. Because generators keep improving, detection models need regular retraining — a tool that was highly accurate a year ago may perform worse on images from newer generators.</p>
+
+        <h3 style="font-size:1.1rem;margin-top:1.75rem;">Do deepfake detectors work on video?</h3>
+        <p>Some do, some don't. Photo-based detectors analyze still images — which covers profile photos and most social media content. Video-specific detectors also look at temporal consistency across frames. For checking profile photos on dating apps and social platforms, a photo-based tool handles most real-world cases.</p>
+
+        <h3 style="font-size:1.1rem;margin-top:1.75rem;">What's the difference between a browser extension and a web-based detector?</h3>
+        <p>A browser extension works on images wherever you find them without downloading or uploading anything. A web-based detector requires you to save the image, navigate to the tool, and upload it. For real-time profile checks, a browser extension has dramatically less friction — which matters because you'll actually use it.</p>
+      </div>
+
+      <div class="landing-cta">
+        <h2>Check any photo in seconds &mdash; free</h2>
+        <p>Browser-based. Works on any website in Chrome. No uploads required.</p>
+        <a href="/pro" class="btn btn-primary btn-large">&#x1F575;&#xFE0F; Join the Waitlist</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <a href="/deepfake-detector">Deepfake Detector</a>
+          <a href="/catfish-detector">Catfish Detector</a>
+          <a href="/dating-apps">Dating Apps</a>
+          <a href="/tinder">Tinder</a>
+          <a href="/bumble">Bumble</a>
+          <a href="/hinge">Hinge</a>
+          <a href="/facebook">Facebook</a>
+          <a href="/instagram">Instagram</a>
+          <a href="/linkedin">LinkedIn</a>
+          <a href="/pinterest">Pinterest</a>
+          <a href="/tiktok">TikTok</a>
+          <a href="/ai-art-detector">AI Art</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

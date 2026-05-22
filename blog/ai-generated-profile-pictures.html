@@ -87,6 +87,25 @@
         </div>
 
         <div class="landing-section">
+          <h2>Why platforms haven't solved this</h2>
+          <p>A fair question: if this is such a widespread problem, why haven't Tinder, LinkedIn, and Instagram fixed it?</p>
+          <p>The short answer is that the tools platforms use — mostly behavioral analysis and hash-based duplicate detection — don't catch AI-generated images the way they catch stolen ones. Behavioral tools flag accounts that act like bots: sending identical messages to many people, following and unfollowing at automated rates, triggering too many reports. An AI-generated profile photo attached to an account run by a careful human operator doesn't trigger any of this.</p>
+          <p>Hash-based duplicate detection looks for the same image appearing across multiple accounts. A freshly generated AI face has never appeared anywhere before — no hash match, nothing to find. Reverse image search fails for the same reason. The photo is unique by definition.</p>
+          <p>Platform photo verification (Tinder's photo verification, Bumble's equivalent) checks whether a real person can match a specific selfie pose. It doesn't verify that the rest of the profile photos are of that person. A verified account can still use AI-generated images as their primary photos and nothing in the verification process would catch it.</p>
+          <p>Some platforms have started experimenting with AI image detection built into their moderation pipelines. This is promising, but the race between generation quality and detection accuracy is ongoing. As generators improve, detection models need to be retrained. The lag between a new generator release and a detection update can leave a window of months where new-generation images are harder to catch.</p>
+          <p>This is why having a detection tool at the browser level matters — you're not waiting for a platform to catch up. You can check any profile, on any platform, whenever you need to.</p>
+        </div>
+
+        <div class="landing-section">
+          <h2>The disclosure gap</h2>
+          <p>There's a separate issue worth naming: AI-generated photos used without disclosure where disclosure would be relevant.</p>
+          <p>AI influencers who are openly acknowledged as AI are one thing. An account with 80,000 followers, posting sponsored content, presenting itself as a real person — that's different. The advertiser may know. The followers almost certainly don't. Whether or not there's legal exposure for the account, followers making decisions based on "this person I trust uses this product" are being misled if the person doesn't exist.</p>
+          <p>The same issue shows up in product reviews. A cluster of AI-generated reviewer headshots all posting five-star reviews in the same week is fraud — but if each face was generated fresh and each review was written individually, platform detection may not catch it. You'd need someone to manually check each headshot to spot the pattern.</p>
+          <p>For artists and creators, AI-generated images showing up in commission portfolios or presented as handmade work is a different kind of disclosure issue. People are paying for human craft and receiving machine output without knowing it. The <a href="/ai-art-detector">AI art detector guide</a> covers this specifically.</p>
+          <p>The common thread across all of these is that AI-generated images are being used in contexts where the other person has a reasonable expectation that the image represents something real. A photo of a product shows what the product looks like. A profile photo represents a person. A portfolio piece represents an artist's skill. When an AI-generated image stands in for any of these without disclosure, something is being misrepresented — regardless of whether there's explicit fraud involved.</p>
+        </div>
+
+        <div class="landing-section">
           <h2>Why they're so hard to spot</h2>
           <p>The visual tells that used to give AI faces away — distorted hands in the background, teeth that merged together, asymmetrical eyes — have largely been resolved by current models. When you look at a 2026-era AI-generated portrait, there often isn't anything obviously wrong with it.</p>
           <p>The remaining tells are subtle: a specific uniformity to the skin texture, slightly too-symmetrical features, backgrounds that look slightly too clean. None of these are reliable enough to use as a yes/no test. Researchers have found that most people perform close to chance when asked to distinguish AI faces from real ones — meaning the visual gap between them has essentially closed for most observers.</p>
@@ -141,6 +160,7 @@
           <a href="/tinder">Tinder</a>
           <a href="/bumble">Bumble</a>
           <a href="/hinge">Hinge</a>
+          <a href="/facebook">Facebook</a>
           <a href="/instagram">Instagram</a>
           <a href="/linkedin">LinkedIn</a>
           <a href="/pinterest">Pinterest</a>

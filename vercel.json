@@ -23,6 +23,10 @@
     { "source": "/hinge", "destination": "/hinge.html" },
     { "source": "/how-to-spot-ai-generated-images", "destination": "/how-to-spot-ai-generated-images.html" },
     { "source": "/romance-scam-warning-signs", "destination": "/romance-scam-warning-signs.html" },
+    { "source": "/facebook", "destination": "/facebook.html" },
+    { "source": "/what-do-ai-faces-look-like", "destination": "/what-do-ai-faces-look-like.html" },
+    { "source": "/best-deepfake-detector", "destination": "/best-deepfake-detector.html" },
+    { "source": "/online-dating-safety", "destination": "/online-dating-safety.html" },
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/blog/:slug", "destination": "/blog/:slug.html" }
   ],
