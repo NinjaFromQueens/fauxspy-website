@@ -17,7 +17,14 @@
     { "source": "/ai-art-detector", "destination": "/ai-art-detector.html" },
     { "source": "/dating-apps", "destination": "/dating-apps.html" },
     { "source": "/instagram", "destination": "/instagram.html" },
-    { "source": "/buy-tokens", "destination": "/buy-tokens.html" }
+    { "source": "/buy-tokens", "destination": "/buy-tokens.html" },
+    { "source": "/tinder", "destination": "/tinder.html" },
+    { "source": "/bumble", "destination": "/bumble.html" },
+    { "source": "/hinge", "destination": "/hinge.html" },
+    { "source": "/how-to-spot-ai-generated-images", "destination": "/how-to-spot-ai-generated-images.html" },
+    { "source": "/romance-scam-warning-signs", "destination": "/romance-scam-warning-signs.html" },
+    { "source": "/blog", "destination": "/blog/index.html" },
+    { "source": "/blog/:slug", "destination": "/blog/:slug.html" }
   ],
   "headers": [
     {

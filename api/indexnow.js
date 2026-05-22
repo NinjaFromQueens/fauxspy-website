@@ -30,6 +30,11 @@ module.exports = async (req, res) => {
     'https://fauxspy.com/terms',
     'https://fauxspy.com/refunds',
     'https://fauxspy.com/account',
+    'https://fauxspy.com/tinder',
+    'https://fauxspy.com/bumble',
+    'https://fauxspy.com/hinge',
+    'https://fauxspy.com/how-to-spot-ai-generated-images',
+    'https://fauxspy.com/romance-scam-warning-signs',
   ];
 
   try {
