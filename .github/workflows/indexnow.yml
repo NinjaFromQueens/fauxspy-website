@@ -1,23 +1,45 @@
-name: Submit to IndexNow
+name: IndexNow
 
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
-  indexnow:
+  submit:
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for Vercel deploy
-        run: sleep 90
-
-      - name: Submit URLs to IndexNow
+      - name: Submit pages to IndexNow
         run: |
-          STATUS=$(curl -s -o /tmp/indexnow_response.json -w "%{http_code}" \
-            "https://fauxspy.com/api/indexnow?secret=${{ secrets.INDEXNOW_KEY }}")
-          echo "HTTP status: $STATUS"
-          cat /tmp/indexnow_response.json
-          if [ "$STATUS" != "200" ]; then
-            echo "IndexNow submission failed with status $STATUS"
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+              "host": "fauxspy.com",
+              "key": "a3f8b2e1d94c6071a5b8d23e1f406789",
+              "keyLocation": "https://fauxspy.com/a3f8b2e1d94c6071a5b8d23e1f406789.txt",
+              "urlList": [
+                "https://fauxspy.com/",
+                "https://fauxspy.com/pro",
+                "https://fauxspy.com/faq",
+                "https://fauxspy.com/deepfake-detector",
+                "https://fauxspy.com/catfish-detector",
+                "https://fauxspy.com/dating-apps",
+                "https://fauxspy.com/instagram",
+                "https://fauxspy.com/linkedin",
+                "https://fauxspy.com/pinterest",
+                "https://fauxspy.com/tiktok",
+                "https://fauxspy.com/ai-art-detector",
+                "https://fauxspy.com/buy-tokens",
+                "https://fauxspy.com/contact",
+                "https://fauxspy.com/privacy",
+                "https://fauxspy.com/terms",
+                "https://fauxspy.com/refunds",
+                "https://fauxspy.com/account"
+              ]
+            }')
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          echo "IndexNow response: HTTP $HTTP_CODE"
+          if [ "$HTTP_CODE" != "200" ] && [ "$HTTP_CODE" != "202" ]; then
+            echo "Unexpected status: $HTTP_CODE"
             exit 1
           fi
