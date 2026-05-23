@@ -96,7 +96,8 @@ module.exports = async (req, res) => {
         unlimitedScans: true,
         deepDive: true,
         caseFiles: true,
-        priorityDetection: true
+        priorityDetection: true,
+        videoDetection: license.plan?.startsWith('video') ?? false
       }
     });
     

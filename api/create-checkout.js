@@ -70,16 +70,21 @@ module.exports = async (req, res) => {
 
     // ── Subscription purchase ────────────────────────────────────────────────
     // Determine price ID
-    if (plan !== 'monthly' && plan !== 'yearly') {
+    const VALID_PLANS = ['monthly', 'yearly', 'video-monthly', 'video-yearly'];
+    if (!VALID_PLANS.includes(plan)) {
       return res.status(400).json({
         error: 'INVALID_PLAN',
-        message: 'Plan must be "monthly" or "yearly".'
+        message: 'Plan must be one of: monthly, yearly, video-monthly, video-yearly.'
       });
     }
 
-    const priceId = plan === 'yearly'
-      ? process.env.STRIPE_PRICE_YEARLY
-      : process.env.STRIPE_PRICE_MONTHLY;
+    const PLAN_PRICE_IDS = {
+      monthly:         process.env.STRIPE_PRICE_MONTHLY,
+      yearly:          process.env.STRIPE_PRICE_YEARLY,
+      'video-monthly': process.env.STRIPE_VIDEO_MONTHLY_PRICE_ID,
+      'video-yearly':  process.env.STRIPE_VIDEO_YEARLY_PRICE_ID,
+    };
+    const priceId = PLAN_PRICE_IDS[plan];
 
     if (!priceId) {
       return res.status(500).json({

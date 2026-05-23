@@ -109,8 +109,10 @@ module.exports = async (req, res) => {
 
 // Token allowances per plan
 const TOKENS_PER_PLAN = {
-  monthly: parseInt(process.env.TOKENS_PER_MONTH_MONTHLY) || 200,
-  yearly:  parseInt(process.env.TOKENS_PER_YEAR_YEARLY)   || 2500,
+  monthly:       parseInt(process.env.TOKENS_PER_MONTH_MONTHLY)  || 200,
+  yearly:        parseInt(process.env.TOKENS_PER_YEAR_YEARLY)    || 2500,
+  'video-monthly': parseInt(process.env.TOKENS_VIDEO_MONTHLY)    || 500,
+  'video-yearly':  parseInt(process.env.TOKENS_VIDEO_YEARLY)     || 6000,
 };
 
 async function handleCheckoutCompleted(session, stripe) {
@@ -127,7 +129,16 @@ async function handleCheckoutCompleted(session, stripe) {
 
   // Determine plan from price ID
   const priceId = subscription.items.data[0].price.id;
-  const plan = priceId === process.env.STRIPE_PRICE_YEARLY ? 'yearly' : 'monthly';
+  let plan;
+  if (priceId === process.env.STRIPE_PRICE_YEARLY) {
+    plan = 'yearly';
+  } else if (priceId === process.env.STRIPE_VIDEO_YEARLY_PRICE_ID) {
+    plan = 'video-yearly';
+  } else if (priceId === process.env.STRIPE_VIDEO_MONTHLY_PRICE_ID) {
+    plan = 'video-monthly';
+  } else {
+    plan = 'monthly';
+  }
 
   // Token allowance for this plan
   const tokensIncluded = TOKENS_PER_PLAN[plan] || 200;
@@ -284,7 +295,13 @@ async function sendLicenseEmail(email, licenseKey, plan) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'Faux Spy <hello@fauxspy.com>';
     
-    const planName = plan === 'yearly' ? 'Master Spy (Yearly)' : 'Secret Agent (Monthly)';
+    const PLAN_NAMES = {
+      yearly:          'Master Spy (Yearly)',
+      monthly:         'Secret Agent (Monthly)',
+      'video-monthly': 'Pro + Video (Monthly)',
+      'video-yearly':  'Pro + Video (Yearly)',
+    };
+    const planName = PLAN_NAMES[plan] || 'Pro';
     
     await resend.emails.send({
       from: fromEmail,
