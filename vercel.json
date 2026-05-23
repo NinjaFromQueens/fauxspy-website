@@ -2,7 +2,8 @@
   "version": 2,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/blog", "destination": "/blog/index.html" }
+    { "source": "/blog", "destination": "/blog/index.html" },
+    { "source": "/admin", "destination": "/admin.html" }
   ],
   "headers": [
     {
