@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Video Detector — Detect AI Generated Video in Your Browser | Faux Spy</title>
+  <meta name="description" content="Faux Spy Pro + Video detects AI-generated video clips in your browser. Identifies Sora, Runway, Pika, Veo, Kling output from any URL. Frame-by-frame analysis, no uploads required.">
+  <meta property="og:title" content="AI Video Detector — Powered by Faux Spy Pro + Video">
+  <meta property="og:description" content="Detect AI-generated video from Sora, Runway, Pika, Veo, and Kling directly in Chrome. Click any video, get a verdict — no uploading, no extra tabs.">
+  <meta property="og:image" content="https://fauxspy.com/og-image.png">
+  <meta property="og:url" content="https://fauxspy.com/ai-video-detector">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://fauxspy.com/ai-video-detector">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does Faux Spy Pro + Video work on any website?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It works on any site with a standard HTML5 video player — news sites, X (Twitter), Reddit, YouTube, Vimeo, and most social platforms. Videos that stream through proprietary players or use blob URLs (like some Facebook videos) can't be analyzed because the actual file URL isn't accessible. In those cases the extension will tell you why."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is AI video detection different from AI image detection?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Images are a single frame. You analyze the pixels and look for generation artifacts — the patterns that Midjourney or DALL-E leaves behind. Video has to be approached differently. A single frame might look convincingly real. It's the motion between frames that gives AI video away — lighting that shifts subtly wrong between cuts, backgrounds that drift when nothing in the scene is moving, hands and fingers that don't quite behave like they're attached to a skeleton. Faux Spy Pro + Video samples frames throughout the clip and analyzes each one. The per-frame scores are averaged, and the generator-specific pixel signatures are checked against known Sora, Runway, Pika, Veo, Kling, and Higgsfield output."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which AI video generators can Faux Spy detect?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy Pro + Video identifies output from Sora (OpenAI), Runway Gen-3, Pika, Veo (Google), Kling, and Higgsfield. Detection works even when videos have been re-encoded or downloaded and re-uploaded — pixel-level analysis survives compression better than metadata does."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tokens does a video scan use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Each video scan costs 10 tokens from your monthly balance. Pro + Video subscribers start with 500 tokens per month. If you run out before your renewal date, you can buy top-up packs from inside the extension — they never expire and roll over month to month."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can it detect AI video that's been re-encoded or posted to social media?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, for most cases. Platform compression changes the bitrate and file format, but the underlying pixel patterns that AI generators produce tend to survive. Extreme re-encoding (very low bitrate, multiple generations of compression) does reduce accuracy — the same way a heavily compressed image is harder to detect. For videos that are clearly low-quality re-encodes, treat the result as informative rather than definitive."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to detect AI-generated video with Faux Spy",
+    "step": [
+      {"@type": "HowToStep", "text": "Upgrade to Pro + Video at fauxspy.com/pro — $29.99/month or $299/year."},
+      {"@type": "HowToStep", "text": "Install Faux Spy in Chrome if you haven't already — or update to the latest version."},
+      {"@type": "HowToStep", "text": "Navigate to any page with an HTML5 video. A blue '🎬 Analyze Video' button appears above it on hover."},
+      {"@type": "HowToStep", "text": "Click the button. The analysis runs frame-by-frame — you'll get a verdict with confidence score, generator identification, and frames analyzed."}
+    ]
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero">
+        <h1>AI Video Detector — Powered by Faux Spy Pro + Video</h1>
+        <p class="landing-subtitle">Click any video in Chrome to find out if it was generated by Sora, Runway, Pika, Veo, or Kling. Frame-by-frame analysis, no uploading, no extra tools. A verdict in seconds.</p>
+        <a href="/pro" class="btn btn-primary btn-large">🎬 Upgrade to Pro + Video</a>
+        <p class="landing-note">$29.99/month · 500 tokens/month · 10 tokens per video scan</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>Why AI video is harder to catch than a fake image</h2>
+        <p>A single frame from a Sora video can look completely real. Take it out of context and run it through an image detector and it might pass. That's the core challenge with video: individual frames don't always give it away. What betrays AI video is what happens between frames.</p>
+        <p>Watch a Runway clip closely. The background isn't static even when it should be — walls and floors have a subtle drift, a wobble that no real camera would produce. Lighting changes slightly from cut to cut in ways that suggest the model is generating each second more or less independently. Hands move in ways that technically function, but there's no skeleton driving them. Hair doesn't quite respond to movement the way physics expects.</p>
+        <p>These patterns exist at the pixel level. They don't survive the eye well because the brain fills in gaps — but they show up clearly in statistical analysis of frame sequences. That's what Faux Spy Pro + Video does. It doesn't try to spot these things visually. It samples the video at 0.5 frames per second, sends each frame through a purpose-built detection model, and averages the results across the full clip.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>The generators it catches</h2>
+        <p>Each AI video generator has a different fingerprint. The model architecture, the training data, the upsampling method — these differences leave distinct patterns in the output that persist even after platform re-encoding.</p>
+        <p><strong>Sora</strong> (OpenAI) produces some of the most cinematically convincing footage currently available. Scene coherence is better than most generators, but lighting and physics still break down at the frame level. Faux Spy identifies Sora's characteristic pixel patterns — the ones that survive YouTube and Twitter compression.</p>
+        <p><strong>Runway Gen-3</strong> is the professional filmmaker's choice: smooth camera movement, good subject tracking. The tells are subtle but consistent. Background textures degrade in specific ways that Runway's architecture produces reliably.</p>
+        <p><strong>Pika</strong> generates shorter clips, often used for social media content. Heavily used for viral video on TikTok and Instagram Reels. The motion artifacts are distinct from Runway and tend to be more visible at edges of moving objects.</p>
+        <p><strong>Veo</strong> (Google DeepMind) is in limited release but already showing up in high-production-value fakes. Long-form coherence is strong, but frame-level analysis still reveals the generation signatures.</p>
+        <p><strong>Kling</strong> is a Chinese-developed generator that's produced some of the most viral AI video clips of the past year. It tends to appear in content going around on X and Reddit. The output looks polished on first view but has identifiable artifacts in how textures are rendered.</p>
+        <p><strong>Higgsfield</strong> is newer and more niche, but worth covering — it's grown a following for its ability to generate realistic human movement. Faux Spy covers it alongside the larger generators.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How the detection actually works</h2>
+        <p>Faux Spy Pro + Video does not rely on metadata. Metadata is trivially removed — any download, re-upload, or platform processing strips it. A video can have its creation date, camera model, and GPS coordinates scrubbed in seconds. Checking metadata for AI indicators is essentially useless at this point.</p>
+        <p>Instead, the analysis is pixel-level. The video URL is sent to our API, which fetches and samples the clip at 0.5 frames per second using Sightengine's generative AI detection model — the same infrastructure used by enterprise media companies for content moderation. Each frame gets a probability score. The scores are averaged. Generator-specific confidence scores are calculated separately, so you don't just get "probably AI" — you get "probably Runway, 82% confidence."</p>
+        <p>The analysis survives re-encoding because pixel artifacts are baked into the generated frames, not added as a watermark or header. Compression changes the format. It doesn't eliminate the underlying pattern.</p>
+        <p>One important limitation: the extension can't analyze videos that play through blob URLs — a streaming format some platforms use that doesn't expose the file path. Twitter videos, Facebook native video, and a few others fall into this category. When that happens, the extension tells you the video can't be analyzed and explains why. It doesn't pretend it ran a check when it couldn't.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>Who actually needs this</h2>
+        <p><strong>Journalists and researchers</strong> — verifying video before publication or citing it as evidence. A viral clip of a political figure saying something provocative deserves a quick check before it becomes part of a story. It takes less time to run the analysis than it does to write the verification note saying you did it.</p>
+        <p><strong>Anyone in a contentious political moment</strong> — elections, protests, breaking news events. These are the moments when AI video gets weaponized fastest, because the audience is already primed to believe what confirms what they expect. A quick check before sharing doesn't make you paranoid. It makes you responsible.</p>
+        <p><strong>Dating app and video chat users</strong> — Sora-quality AI video makes it possible to fake a short video introduction. Someone sending a 10-second "hi, here's what I look like" clip as proof they're real might not be. This wasn't plausible a year ago. It is now.</p>
+        <p><strong>Social media power users</strong> — if you share news clips, reaction content, or viral video to a large audience, you have some responsibility for what you're spreading. AI-generated video designed to look like documentary footage is already showing up on X and TikTok, often with news-style framing. A quick scan before the quote-tweet is a reasonable habit to build.</p>
+      </div>
+
+      <div class="landing-faq">
+        <h2>Common questions</h2>
+        <details class="faq-item">
+          <summary>Does Faux Spy Pro + Video work on any website?</summary>
+          <p>It works on any site with a standard HTML5 video player — news sites, X (Twitter), Reddit, YouTube, Vimeo, and most social platforms. Videos that stream through proprietary players or use blob URLs (like some Facebook videos) can't be analyzed because the actual file URL isn't accessible. In those cases the extension will tell you exactly why the scan can't run.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is AI video detection different from AI image detection?</summary>
+          <p>One frame isn't enough. A single frame of Sora footage can pass an image detector. The artifacts that give AI video away are in the motion between frames — background drift, lighting inconsistencies, the way physics slightly fails between cuts. Faux Spy samples the video throughout the clip and runs frame-level analysis, then aggregates the scores to give you a result that reflects the whole clip, not just a random frame.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which AI video generators can Faux Spy detect?</summary>
+          <p>Sora (OpenAI), Runway Gen-3, Pika, Veo (Google), Kling, and Higgsfield. The detection model identifies generator-specific signatures, not just "this is AI" — so you get a result like "Runway, 78% confidence" rather than a binary answer.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How many tokens does a video scan use?</summary>
+          <p>10 tokens per scan. Pro + Video starts you with 500 tokens per month. If you need more, top-up packs are available from inside the extension and never expire.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can it detect AI video that's been re-encoded or uploaded to social media?</summary>
+          <p>For most cases, yes. Platform compression changes the format but not the underlying pixel signatures that AI generators produce. Very heavy re-encoding — multiple rounds of low-bitrate compression — does reduce accuracy. When that happens, treat the result as a useful signal rather than a definitive answer.</p>
+        </details>
+      </div>
+
+      <div class="landing-section">
+        <h2>How to check a video in 4 steps</h2>
+        <ol class="landing-steps">
+          <li>Upgrade to Pro + Video at <a href="/pro">fauxspy.com/pro</a> — $29.99/month or $299/year</li>
+          <li>Install Faux Spy in Chrome if you haven't already, or update to the latest version</li>
+          <li>Navigate to any page with an HTML5 video — a blue "🎬 Analyze Video" button appears above it when you hover</li>
+          <li>Click it. The analysis runs frame-by-frame and returns a verdict with confidence score, generator name, and the number of frames analyzed</li>
+        </ol>
+        <p>The check runs entirely through the extension — no need to download the video, copy a URL into a separate tool, or open another tab. You're already on the page. Click, wait, done.</p>
+      </div>
+
+      <div class="landing-cta">
+        <h2>Get video detection in Chrome</h2>
+        <p>Pro + Video is the only tier that includes AI video analysis. 500 tokens per month, 10 per video scan, generator identification included.</p>
+        <a href="/pro" class="btn btn-primary btn-large">🎬 Upgrade to Pro + Video</a>
+        <p class="landing-note" style="margin-top:0.75rem;">Already a Pro subscriber? <a href="/pro" style="color:#3b82f6;">Compare plans →</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <a href="/deepfake-detector">Deepfake Detector</a>
+          <a href="/catfish-detector">Catfish Detector</a>
+          <a href="/dating-apps">Dating Apps</a>
+          <a href="/ai-art-detector">AI Art</a>
+          <a href="/ai-video-detector">AI Video Detector</a>
+          <a href="/blog/how-to-tell-if-video-is-ai-generated">Spot AI Video</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

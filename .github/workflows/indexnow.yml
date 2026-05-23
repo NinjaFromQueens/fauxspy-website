@@ -50,7 +50,10 @@ jobs:
                 "https://fauxspy.com/facebook",
                 "https://fauxspy.com/what-do-ai-faces-look-like",
                 "https://fauxspy.com/best-deepfake-detector",
-                "https://fauxspy.com/online-dating-safety"
+                "https://fauxspy.com/online-dating-safety",
+                "https://fauxspy.com/ai-video-detector",
+                "https://fauxspy.com/blog/how-to-tell-if-video-is-ai-generated",
+                "https://fauxspy.com/blog/ai-video-generators-deepfakes"
               ]
             }')
           HTTP_CODE=$(echo "$RESPONSE" | tail -1)

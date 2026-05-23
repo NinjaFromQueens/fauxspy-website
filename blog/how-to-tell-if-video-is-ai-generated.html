@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Tell If a Video Is AI Generated | Faux Spy Blog</title>
+  <meta name="description" content="How to spot AI-generated video: the visual tells that still work, why metadata checks fail, and how dedicated detection tools actually analyze clips from Sora, Runway, and Pika.">
+  <meta property="og:title" content="How to Tell If a Video Is AI Generated">
+  <meta property="og:description" content="Visual tells, metadata limits, and the detection tools that actually work — a practical guide to spotting AI video in 2026.">
+  <meta property="og:image" content="https://fauxspy.com/og-image.png">
+  <meta property="og:url" content="https://fauxspy.com/blog/how-to-tell-if-video-is-ai-generated">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://fauxspy.com/blog/how-to-tell-if-video-is-ai-generated">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Tell If a Video Is AI Generated",
+    "description": "Visual tells, metadata limits, and how dedicated detection tools analyze AI-generated video from Sora, Runway, Pika, and other generators.",
+    "author": {"@type": "Organization", "name": "Faux Spy"},
+    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://fauxspy.com"},
+    "datePublished": "2026-05-23",
+    "dateModified": "2026-05-23"
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+      <div style="max-width:720px;margin:0 auto;">
+
+        <div style="margin-bottom:0.5rem;">
+          <a href="/blog" style="font-size:0.875rem;color:var(--text-muted,#888);text-decoration:none;">&larr; All articles</a>
+        </div>
+
+        <div class="landing-hero" style="text-align:left;padding-left:0;">
+          <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted,#888);margin-bottom:1rem;">AI Detection &mdash; May 23, 2026</div>
+          <h1>How to Tell If a Video Is AI Generated</h1>
+          <p class="landing-subtitle">A single frame won't tell you much anymore. Modern AI video from Sora and Runway can fool the eye on any individual frame. The tells are in the motion — and in the pixel patterns that no compression algorithm can fully erase.</p>
+        </div>
+
+        <div class="landing-section">
+          <p>Two years ago, spotting AI video was relatively easy. The old GAN-based tools produced faces that warped at the edges, backgrounds that flickered, and lip-sync that was always slightly off. You could usually tell within a few seconds of watching.</p>
+          <p>That's not where we are in 2026. Sora generates footage that looks like it came from a professional camera. Runway Gen-3 produces smooth tracking shots and stable subjects. Pika turns still images into convincingly moving scenes. If you're relying on the "it just looks weird" test, you're going to miss a lot.</p>
+          <p>That said, the tools haven't gotten so good that they're undetectable. Visual tells still exist. They're just subtler, and they require you to know what to look for rather than waiting for something to jump out at you.</p>
+        </div>
+
+        <div class="landing-section">
+          <h2>Visual tells that still hold up</h2>
+          <p><strong>Background drift.</strong> In real footage, static elements stay static. A wall stays a wall. The sky doesn't shift between frames unless something is moving in the scene. In AI-generated video, backgrounds often have a subtle drift — a gentle wobble or texture variation between frames that no real camera would introduce. It's easiest to spot if you find a frame where nothing in the foreground is moving and focus entirely on the background. Watch a section of wall or floor for a few seconds. If it has a slight pulse or shimmer, you're probably looking at AI.</p>
+          <p><strong>Lighting that doesn't commit.</strong> Real lighting has a source. It hits surfaces at a consistent angle, casts consistent shadows, and doesn't change unless the subject or light source moves. In AI video, lighting tends to be plausible rather than physically correct. You'll see a person whose face is lit from slightly different directions across a conversation, or a room where the light quality shifts between shots without any apparent reason. The model is generating something that looks like natural lighting rather than actually simulating it.</p>
+          <p><strong>Hand and finger behavior.</strong> This is one of the more reliable tells even in 2026. Hands are hard for generative models to get right across time. Individual frames can look correct. But watch a hand move — pick something up, gesture while talking, type on a keyboard. The geometry between frames tends to be slightly inconsistent. Fingers appear and disappear. Proportions shift slightly. It doesn't look wrong on any individual frame. The wrongness is in the motion.</p>
+          <p><strong>Object permanence failures.</strong> Real objects stay real. A coffee cup placed on a table stays there, in that position, with that shadow. In AI video, objects occasionally drift, disappear briefly, or change shape slightly between clips. It's especially noticeable with small objects in the background or anything that temporarily goes out of frame and returns. The model doesn't always maintain consistency between segments.</p>
+          <p><strong>Hair and fabric physics.</strong> Physics simulation is expensive and AI generators don't always get it right. Watch how hair moves — or doesn't move — when a person turns their head. Watch how fabric responds when someone sits down or shifts weight. The physics is often technically present but slightly wrong, like watching motion captured from a world with slightly different gravity. Real hair has random flyaways and doesn't move in uniform waves.</p>
+        </div>
+
+        <div class="landing-section">
+          <h2>What doesn't work as a detection method</h2>
+          <p>There are a few approaches that seem like they should work but don't, and it's worth being clear about them so you don't develop false confidence.</p>
+          <p><strong>The "fuzzy look" test.</strong> Earlier AI video had a characteristic softness — a watercolor quality where edges weren't quite sharp. Sora doesn't have that. Runway doesn't have that. Modern generators produce footage that is genuinely crisp. Looking for blurriness or over-smoothed skin as a primary indicator will cause you to miss most of what's being generated right now.</p>
+          <p><strong>Looking for obvious artifacts.</strong> Glitchy frames, clearly wrong faces, warping at the edges of the image — these were common in 2022 and 2023. They're not common in 2026 output from the major generators. Checking for visible glitches is roughly equivalent to checking a modern AI-generated portrait for the "six fingers" tell. The model has already been trained to avoid that. The artifacts that remain are much subtler.</p>
+          <p><strong>Gut feeling.</strong> This is the hardest one to let go of, because it feels reliable. "I can tell when something looks off." Maybe you could in 2023. Sora and Veo have been specifically optimized for perceptual realism — for the way humans judge whether footage looks authentic. Trusting intuition is useful as a first filter, not as a conclusion. If something feels slightly off, investigate. Don't treat a good feeling as definitive evidence either way.</p>
+        </div>
+
+        <div class="landing-section">
+          <h2>Why checking metadata is mostly a waste of time</h2>
+          <p>The metadata approach — check the video file's embedded data for signs of AI generation — sounds logical. AI tools should leave fingerprints. Camera-originated footage should have EXIF data: camera model, GPS location, creation timestamp, codec information.</p>
+          <p>The problem is that metadata is stripped at essentially every step of a video's journey through the internet. Download a video from X and the metadata is gone. Re-upload it to TikTok and it's doubly gone. Even if someone starts with a file that has metadata indicating AI generation, one round-trip through any major platform removes it completely.</p>
+          <p>Metadata also proves nothing in the other direction. The absence of camera metadata doesn't mean the video is AI-generated — most platform-processed video loses its original metadata. The presence of camera metadata doesn't mean it's real — metadata is trivially editable. Any video you care enough to verify has probably already been through enough platform processing to make metadata irrelevant.</p>
+          <p>C2PA (Coalition for Content Provenance and Authenticity) is working on cryptographic content credentials that would follow a file through its chain of custody and survive compression. Some cameras and platforms are starting to implement it. But adoption is still limited, and content posted without credentials provides no information either way. It's a good standard worth following, but it doesn't help you verify most video in circulation today.</p>
+        </div>
+
+        <div class="landing-section">
+          <h2>What dedicated detection tools actually do</h2>
+          <p>Visual inspection and metadata checks are useful as first-pass filters. For anything where accuracy matters, you need pixel-level analysis — the kind that looks at the statistical properties of the image data rather than what the content looks like to a human viewer.</p>
+          <p>Sightengine's generative AI detection model — which powers tools including Faux Spy Pro + Video — operates by sampling a video at regular intervals (0.5 frames per second) and running each frame through a model trained on known AI-generated content from the major generators. The model doesn't look for visible artifacts. It looks for statistical signatures in the pixel distribution that are characteristic of AI generation and distinct from camera-originated footage.</p>
+          <p>Each generator leaves different signatures. Sora's output has different pixel-level characteristics than Runway's, which are different again from Pika's. A well-trained detection model doesn't just say "AI" — it says "this looks like Runway at 81% confidence." That specificity matters because it tells you something about who created it and what workflow they used.</p>
+          <p>The key advantage of this approach over visual inspection is that it survives re-encoding. Platform compression changes the bitrate and format. It doesn't remove the underlying pixel-level artifacts that AI generation introduces. Those artifacts are baked into the frames themselves, not watermarked or stored in a header. The detection model finds them in the compressed version as reliably as in the original.</p>
+          <p>Accuracy is high for video from the major generators — Sora, Runway, Pika, Veo, Kling — but drops somewhat for very heavily re-encoded content. If a video has gone through five rounds of download-and-reupload at low quality, the pixel information is degraded enough that confidence scores will be lower. In those cases, the result should be treated as a probability rather than a verdict.</p>
+        </div>
+
+        <div class="landing-section">
+          <h2>Where you're most likely to encounter AI video</h2>
+          <p><strong>TikTok and Instagram Reels</strong> are the primary distribution channels for AI video content, because the format (short, vertical, designed to be shared) is exactly what Pika and Kling are optimized to produce. Most of it is entertainment — effects, creative content, satire. Some of it isn't. The short-form format makes it easy to go viral before anyone has a chance to check whether it's real.</p>
+          <p><strong>X (formerly Twitter)</strong> is where AI video tends to appear with political framing. A clip of a public figure saying something provocative. Footage that appears to document an event. The platform's sharing mechanics mean a clip can reach millions of people within hours of posting, long before any fact-check or verification catches up with it.</p>
+          <p><strong>News aggregation sites and forums</strong> — Reddit, Facebook Groups, WhatsApp forwards — tend to be where AI video arrives after it's already been viral somewhere else. It often arrives stripped of its original context, reposted without the thread that originally debunked it.</p>
+          <p>Video on dating platforms is a growing concern. Some apps allow short video introductions. The appeal for fraud is obvious: a brief clip of an attractive person saying hello is much more convincing than a static photo. Sora-quality generation makes this plausible in ways it wasn't eighteen months ago. If someone you've been talking to online sends you a video introduction and it feels slightly rehearsed — slightly too perfect — that's worth a second look.</p>
+        </div>
+
+        <div class="landing-section">
+          <h2>A practical workflow for checking video</h2>
+          <p>For most purposes, a quick visual check is a reasonable first step. If something looks slightly off in the ways described above — background drift, suspicious lighting, hand physics — that's a signal worth acting on. But don't conclude anything from a clean visual pass. The absence of visible artifacts doesn't mean the video is real.</p>
+          <p>For video that's being shared as news, evidence, or documentary footage — anything where authenticity actually matters — use <a href="/ai-video-detector">Faux Spy Pro + Video</a>. Navigate to the page in Chrome, hover over the video, click the blue "Analyze Video" button. You'll get a confidence score and generator identification in a few seconds. The analysis runs directly from your browser without downloading the file or opening a separate tool.</p>
+          <p>Combine the results with context. A 90% "Sora" result on a clip that's being presented as citizen journalism is a strong indicator. A 60% "AI Generated" result on something clearly labeled as creative content matters a lot less. The tool gives you probability information. What you do with it is a judgment call based on what the video is claiming to be.</p>
+          <p>One final note: "Inconclusive" from a detection tool doesn't mean the video is real. It means the analysis couldn't commit. That happens with very short clips, heavily compressed video, and content from newer generators with smaller training sets. If the result is inconclusive on something important, that's a reason to apply more scrutiny, not less.</p>
+        </div>
+
+        <div style="margin-top:3rem;padding:1.5rem;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:8px;">
+          <h3 style="margin-top:0;font-size:1.1rem;">Check AI video in Chrome</h3>
+          <p style="margin-bottom:1rem;">Faux Spy Pro + Video detects AI-generated video from Sora, Runway, Pika, Veo, and Kling — directly in your browser, no uploading required.</p>
+          <a href="/ai-video-detector" style="color:#3b82f6;font-weight:600;">Learn about AI video detection →</a>
+          &nbsp;&nbsp;
+          <a href="/pro" style="color:#3b82f6;font-weight:600;">Upgrade to Pro + Video →</a>
+        </div>
+
+        <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:0.875rem;color:var(--text-muted,#888);">Related:</p>
+          <ul style="font-size:0.9rem;line-height:2;">
+            <li><a href="/ai-video-detector">AI Video Detector — Powered by Faux Spy Pro + Video</a></li>
+            <li><a href="/deepfake-detector">Deepfake Detector for Chrome</a></li>
+            <li><a href="/blog/ai-video-generators-deepfakes">Sora, Runway, Pika: The AI Video Generators Behind Most Deepfakes</a></li>
+            <li><a href="/blog/deepfake-fraud-statistics">Deepfake Fraud Statistics in 2026</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <a href="/deepfake-detector">Deepfake Detector</a>
+          <a href="/catfish-detector">Catfish Detector</a>
+          <a href="/ai-video-detector">AI Video Detector</a>
+          <a href="/dating-apps">Dating Apps</a>
+          <a href="/ai-art-detector">AI Art</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

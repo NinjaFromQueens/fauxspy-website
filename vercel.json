@@ -27,6 +27,7 @@
     { "source": "/what-do-ai-faces-look-like", "destination": "/what-do-ai-faces-look-like.html" },
     { "source": "/best-deepfake-detector", "destination": "/best-deepfake-detector.html" },
     { "source": "/online-dating-safety", "destination": "/online-dating-safety.html" },
+    { "source": "/ai-video-detector", "destination": "/ai-video-detector.html" },
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/blog/:slug", "destination": "/blog/:slug.html" }
   ],
