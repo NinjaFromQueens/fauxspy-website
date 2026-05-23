@@ -40,7 +40,14 @@ jobs:
 
       - name: Generate report and apply fixes
         id: report
-        run: node scripts/seo-report.js
+        run: |
+          node scripts/seo-report.js
+          # Always write has_fixes output so the condition below never errors
+          if [ -f seo-fixes-summary.md ]; then
+            echo "has_fixes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_fixes=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
@@ -49,32 +56,30 @@ jobs:
           path: seo-report.md
           retention-days: 90
 
-      - name: Truncate report for issue body
+      - name: Prepare issue body
         run: |
-          # GitHub issue body has a 65536 char limit — trim if needed
-          python3 -c "
+          # GitHub issue body limit is 65536 chars — trim if needed
+          python3 - <<'EOF'
           with open('seo-report.md') as f:
             content = f.read()
           if len(content) > 60000:
-            content = content[:60000] + '\n\n...[truncated — see artifact for full report]'
+            content = content[:60000] + '\n\n...[truncated — see Actions artifact for full report]'
           with open('seo-report-truncated.md', 'w') as f:
             f.write(content)
-          "
+          EOF
 
       - name: Create GitHub Issue with audit report
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TODAY=$(date '+%Y-%m-%d')
-          CRITICAL=$(grep -o 'critical=[0-9]*' $GITHUB_OUTPUT 2>/dev/null | cut -d= -f2 || echo 0)
           gh issue create \
             --title "SEO Audit — $TODAY" \
             --body-file seo-report-truncated.md \
-            --label seo \
-            || true  # Don't fail if label doesn't exist yet
+            || true
 
       - name: Commit and PR auto-fixes
-        if: ${{ steps.report.outputs.has_fixes == 'true' }}
+        if: steps.report.outputs.has_fixes == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -85,6 +90,8 @@ jobs:
           git checkout -b $BRANCH
 
           git add -A -- '*.html'
+          git diff --cached --quiet && echo "No HTML changes to commit" && exit 0
+
           git commit -m "fix(seo): auto-fix technical SEO issues [run #${{ github.run_number }}]"
           git push origin $BRANCH
 
@@ -93,5 +100,4 @@ jobs:
             --body-file seo-fixes-summary.md \
             --base main \
             --head $BRANCH \
-            --label seo,automated \
             || true

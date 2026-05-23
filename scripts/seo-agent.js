@@ -9,12 +9,12 @@
 
 'use strict';
 
-const Anthropic = require('@anthropic-ai/sdk');
+const { default: Anthropic } = require('@anthropic-ai/sdk');
 const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
 
-const client = new Anthropic.default({ apiKey: process.env.ANTHROPIC_API_KEY });
+const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const SITE_ROOT = path.resolve(__dirname, '..');
 const BASE_URL = 'https://fauxspy.com';
