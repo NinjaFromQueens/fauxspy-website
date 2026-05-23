@@ -1,35 +1,8 @@
 {
   "version": 2,
+  "cleanUrls": true,
   "rewrites": [
-    { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/terms", "destination": "/terms.html" },
-    { "source": "/success", "destination": "/success.html" },
-    { "source": "/pro", "destination": "/pro.html" },
-    { "source": "/contact", "destination": "/contact.html" },
-    { "source": "/account", "destination": "/account.html" },
-    { "source": "/faq", "destination": "/faq.html" },
-    { "source": "/refunds", "destination": "/refunds.html" },
-    { "source": "/deepfake-detector", "destination": "/deepfake-detector.html" },
-    { "source": "/catfish-detector", "destination": "/catfish-detector.html" },
-    { "source": "/linkedin", "destination": "/linkedin.html" },
-    { "source": "/pinterest", "destination": "/pinterest.html" },
-    { "source": "/tiktok", "destination": "/tiktok.html" },
-    { "source": "/ai-art-detector", "destination": "/ai-art-detector.html" },
-    { "source": "/dating-apps", "destination": "/dating-apps.html" },
-    { "source": "/instagram", "destination": "/instagram.html" },
-    { "source": "/buy-tokens", "destination": "/buy-tokens.html" },
-    { "source": "/tinder", "destination": "/tinder.html" },
-    { "source": "/bumble", "destination": "/bumble.html" },
-    { "source": "/hinge", "destination": "/hinge.html" },
-    { "source": "/how-to-spot-ai-generated-images", "destination": "/how-to-spot-ai-generated-images.html" },
-    { "source": "/romance-scam-warning-signs", "destination": "/romance-scam-warning-signs.html" },
-    { "source": "/facebook", "destination": "/facebook.html" },
-    { "source": "/what-do-ai-faces-look-like", "destination": "/what-do-ai-faces-look-like.html" },
-    { "source": "/best-deepfake-detector", "destination": "/best-deepfake-detector.html" },
-    { "source": "/online-dating-safety", "destination": "/online-dating-safety.html" },
-    { "source": "/ai-video-detector", "destination": "/ai-video-detector.html" },
-    { "source": "/blog", "destination": "/blog/index.html" },
-    { "source": "/blog/:slug", "destination": "/blog/:slug.html" }
+    { "source": "/blog", "destination": "/blog/index.html" }
   ],
   "headers": [
     {
