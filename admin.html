@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Admin — Faux Spy</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .admin-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .admin-title {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    /* Login form */
+    #loginPanel {
+      max-width: 420px;
+      margin: 100px auto 0;
+      padding: 2.5rem;
+      background: #1e2536;
+      border: 1px solid rgba(251,191,36,0.15);
+      border-radius: 16px;
+    }
+    #loginPanel h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: #fbbf24;
+    }
+    #loginPanel .login-error {
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    /* Token input */
+    .token-input {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(251,191,36,0.25);
+      border-radius: 8px;
+      color: #f8fafc;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+      outline: none;
+    }
+    .token-input:focus {
+      border-color: rgba(251,191,36,0.5);
+    }
+    /* Buttons */
+    .btn-admin {
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s;
+    }
+    .btn-admin:hover { opacity: 0.85; }
+    .btn-gold {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      color: #0a0e1a;
+      width: 100%;
+      padding: 11px;
+      font-size: 1rem;
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.07);
+      color: #cbd5e1;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-blue {
+      background: rgba(59,130,246,0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59,130,246,0.3);
+    }
+    .btn-danger {
+      background: rgba(239,68,68,0.1);
+      color: #f87171;
+      border: 1px solid rgba(239,68,68,0.25);
+    }
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(251,191,36,0.12);
+      padding-bottom: 0;
+    }
+    .tab-btn {
+      padding: 10px 22px;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn.active {
+      color: #fbbf24;
+      border-bottom-color: #fbbf24;
+    }
+    .tab-btn:hover:not(.active) { color: #cbd5e1; }
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .stat-pill {
+      padding: 6px 16px;
+      background: #1e2536;
+      border: 1px solid rgba(251,191,36,0.15);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+    }
+    .stat-pill strong { color: #fbbf24; }
+    .stat-pill.blue { border-color: rgba(59,130,246,0.25); }
+    .stat-pill.blue strong { color: #60a5fa; }
+    .stat-pill.red { border-color: rgba(239,68,68,0.25); }
+    .stat-pill.red strong { color: #f87171; }
+    /* Table */
+    .data-table-wrap {
+      overflow-x: auto;
+      border: 1px solid rgba(251,191,36,0.1);
+      border-radius: 12px;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 12px 16px;
+      background: rgba(251,191,36,0.06);
+      color: #94a3b8;
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(251,191,36,0.1);
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #cbd5e1;
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .badge-unread {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(239,68,68,0.15);
+      color: #f87171;
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .badge-read {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(255,255,255,0.05);
+      color: #64748b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .msg-preview {
+      max-width: 320px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      color: #94a3b8;
+    }
+    .msg-expand {
+      max-width: 320px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+    .msg-expand::after {
+      content: ' ▲ collapse';
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+    .msg-preview::after {
+      content: ' ▼ expand';
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+    .email-link {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    .email-link:hover { text-decoration: underline; }
+    /* Empty / loading states */
+    .state-msg {
+      padding: 48px;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(251,191,36,0.2);
+      border-top-color: #fbbf24;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    /* Signout */
+    .sign-out-link {
+      font-size: 0.8rem;
+      color: #64748b;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .sign-out-link:hover { color: #f87171; }
+    #mainPanel { display: none; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div style="font-size:0.8rem;color:#64748b;font-style:italic;">Admin Panel</div>
+    </div>
+  </nav>
+
+  <!-- LOGIN -->
+  <div id="loginPanel">
+    <h2>🔐 Admin Access</h2>
+    <div class="login-error" id="loginError">Invalid token. Try again.</div>
+    <input type="password" class="token-input" id="tokenInput" placeholder="Admin token" autocomplete="off">
+    <button class="btn-admin btn-gold" onclick="login()">Access Panel</button>
+  </div>
+
+  <!-- MAIN PANEL -->
+  <div id="mainPanel">
+    <div class="admin-wrap">
+      <div class="admin-header">
+        <div class="admin-title">Faux Spy Admin</div>
+        <div class="admin-actions">
+          <button class="btn-admin btn-ghost" onclick="refresh()">↻ Refresh</button>
+          <span class="sign-out-link" onclick="signOut()">Sign out</span>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" id="tabMessages" onclick="switchTab('messages')">📬 Messages</button>
+        <button class="tab-btn" id="tabWaitlist" onclick="switchTab('waitlist')">📋 Waitlist</button>
+      </div>
+
+      <!-- MESSAGES TAB -->
+      <div id="panelMessages">
+        <div class="stats-bar" id="statsMessages">
+          <div class="stat-pill"><span class="spinner"></span> Loading…</div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px;">
+          <button class="btn-admin btn-blue" onclick="exportCSV('contact')">⬇ Export CSV</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Topic</th>
+                <th>Message</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="messagesBody">
+              <tr><td colspan="6" class="state-msg"><span class="spinner"></span> Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- WAITLIST TAB -->
+      <div id="panelWaitlist" style="display:none;">
+        <div class="stats-bar" id="statsWaitlist">
+          <div class="stat-pill"><span class="spinner"></span> Loading…</div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px;">
+          <button class="btn-admin btn-blue" onclick="exportCSV('waitlist')">⬇ Export CSV</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Email</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody id="waitlistBody">
+              <tr><td colspan="3" class="state-msg"><span class="spinner"></span> Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const SESSION_KEY = 'fs_admin_token';
+    let currentTab = 'messages';
+    let cachedToken = '';
+
+    function getToken() {
+      return sessionStorage.getItem(SESSION_KEY) || '';
+    }
+
+    function signOut() {
+      sessionStorage.removeItem(SESSION_KEY);
+      cachedToken = '';
+      document.getElementById('mainPanel').style.display = 'none';
+      document.getElementById('loginPanel').style.display = 'block';
+      document.getElementById('tokenInput').value = '';
+      document.getElementById('loginError').style.display = 'none';
+    }
+
+    function showUnauthorized() {
+      signOut();
+      document.getElementById('loginError').textContent = 'Token rejected or expired. Re-enter your admin token.';
+      document.getElementById('loginError').style.display = 'block';
+    }
+
+    async function login() {
+      const input = document.getElementById('tokenInput');
+      const token = input.value.trim();
+      if (!token) return;
+      document.getElementById('loginError').style.display = 'none';
+
+      // Quick validation — try fetching contact with this token
+      try {
+        const res = await fetch('/api/admin/contact?token=' + encodeURIComponent(token));
+        if (res.status === 401 || res.status === 403) {
+          document.getElementById('loginError').textContent = 'Invalid token. Try again.';
+          document.getElementById('loginError').style.display = 'block';
+          return;
+        }
+        sessionStorage.setItem(SESSION_KEY, token);
+        cachedToken = token;
+        showPanel();
+        const data = await res.json();
+        renderMessages(data);
+        fetchWaitlist();
+      } catch (e) {
+        document.getElementById('loginError').textContent = 'Could not reach API. Check your connection.';
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function showPanel() {
+      document.getElementById('loginPanel').style.display = 'none';
+      document.getElementById('mainPanel').style.display = 'block';
+    }
+
+    async function fetchMessages() {
+      const token = getToken();
+      const res = await fetch('/api/admin/contact?token=' + encodeURIComponent(token));
+      if (res.status === 401 || res.status === 403) { showUnauthorized(); return; }
+      const data = await res.json();
+      renderMessages(data);
+    }
+
+    async function fetchWaitlist() {
+      const token = getToken();
+      const res = await fetch('/api/admin/waitlist?token=' + encodeURIComponent(token));
+      if (res.status === 401 || res.status === 403) { showUnauthorized(); return; }
+      const data = await res.json();
+      renderWaitlist(data);
+    }
+
+    function formatDate(ts) {
+      if (!ts) return '—';
+      const d = new Date(ts);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        + ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function esc(str) {
+      return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderMessages(data) {
+      const submissions = data.submissions || [];
+      const unread = data.unread || 0;
+      const total = data.count || submissions.length;
+
+      document.getElementById('statsMessages').innerHTML =
+        '<div class="stat-pill"><strong>' + total + '</strong> total</div>' +
+        '<div class="stat-pill red"><strong>' + unread + '</strong> unread</div>';
+
+      const tbody = document.getElementById('messagesBody');
+      if (!submissions.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="state-msg">No messages yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = submissions.map((s, i) => {
+        const badge = s.status === 'unread'
+          ? '<span class="badge-unread">UNREAD</span>'
+          : '<span class="badge-read">read</span>';
+        const msgId = 'msg_' + i;
+        return '<tr>' +
+          '<td style="white-space:nowrap;color:#94a3b8;">' + esc(formatDate(s.timestamp)) + '</td>' +
+          '<td style="white-space:nowrap;">' + esc(s.name || '—') + '</td>' +
+          '<td><a class="email-link" href="mailto:' + esc(s.email) + '">' + esc(s.email) + '</a></td>' +
+          '<td style="white-space:nowrap;color:#94a3b8;">' + esc(s.topic || '—') + '</td>' +
+          '<td><div id="' + msgId + '" class="msg-preview" onclick="toggleMsg(\'' + msgId + '\')">' + esc(s.message || '') + '</div></td>' +
+          '<td>' + badge + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    function toggleMsg(id) {
+      const el = document.getElementById(id);
+      if (el.classList.contains('msg-preview')) {
+        el.classList.remove('msg-preview');
+        el.classList.add('msg-expand');
+      } else {
+        el.classList.remove('msg-expand');
+        el.classList.add('msg-preview');
+      }
+    }
+
+    function renderWaitlist(data) {
+      const signups = data.signups || [];
+      const total = data.count || signups.length;
+
+      document.getElementById('statsWaitlist').innerHTML =
+        '<div class="stat-pill blue"><strong>' + total + '</strong> signups</div>';
+
+      const tbody = document.getElementById('waitlistBody');
+      if (!signups.length) {
+        tbody.innerHTML = '<tr><td colspan="3" class="state-msg">No signups yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = signups.map(s => {
+        return '<tr>' +
+          '<td style="white-space:nowrap;color:#94a3b8;">' + esc(formatDate(s.timestamp)) + '</td>' +
+          '<td><a class="email-link" href="mailto:' + esc(s.email) + '">' + esc(s.email) + '</a></td>' +
+          '<td style="color:#94a3b8;">' + esc(s.source || '—') + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('panelMessages').style.display = tab === 'messages' ? '' : 'none';
+      document.getElementById('panelWaitlist').style.display = tab === 'waitlist' ? '' : 'none';
+      document.getElementById('tabMessages').classList.toggle('active', tab === 'messages');
+      document.getElementById('tabWaitlist').classList.toggle('active', tab === 'waitlist');
+    }
+
+    function refresh() {
+      fetchMessages();
+      fetchWaitlist();
+    }
+
+    function exportCSV(type) {
+      const token = getToken();
+      const endpoint = type === 'contact' ? '/api/admin/contact' : '/api/admin/waitlist';
+      window.open(endpoint + '?token=' + encodeURIComponent(token) + '&format=csv', '_blank');
+    }
+
+    // Allow Enter key on token input
+    document.getElementById('tokenInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') login();
+    });
+
+    // Auto-login if token already in session
+    (async function init() {
+      const saved = getToken();
+      if (!saved) return;
+      cachedToken = saved;
+      showPanel();
+      await Promise.all([fetchMessages(), fetchWaitlist()]);
+    })();
+  </script>
+</body>
+</html>
