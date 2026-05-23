@@ -1,0 +1,71 @@
+name: Blog Draft Generator
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Blog topic or keyword (e.g. "how to spot AI voice clones")'
+        required: true
+        type: string
+      category:
+        description: 'Category label (e.g. AI Detection, Scams, Safety, Dating)'
+        required: false
+        default: 'AI Detection'
+        type: string
+
+jobs:
+  draft:
+    name: Generate Draft
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate blog draft
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BLOG_TOPIC: ${{ inputs.topic }}
+          BLOG_CATEGORY: ${{ inputs.category }}
+        run: node scripts/seo-blog-draft.js
+
+      - name: Create PR for review
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "blog-draft[bot]"
+          git config user.email "blog-draft@fauxspy.com"
+
+          # Derive slug from topic (matches logic in seo-blog-draft.js)
+          SLUG=$(echo "${{ inputs.topic }}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 -]//g' | tr -s ' ' '-' | cut -c1-60)
+          BRANCH="blog-draft-${SLUG}-${{ github.run_number }}"
+
+          git checkout -b "$BRANCH"
+          git add blog/ sitemap.xml .github/workflows/indexnow.yml
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+
+          git commit -m "draft(blog): add article — ${{ inputs.topic }} [run #${{ github.run_number }}]"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "Blog draft: ${{ inputs.topic }}" \
+            --body-file blog-draft-summary.md \
+            --base main \
+            --head "$BRANCH" \
+            || true
+
+          echo "✅ PR created. Review the draft before merging."

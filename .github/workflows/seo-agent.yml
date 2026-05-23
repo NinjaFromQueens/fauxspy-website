@@ -16,6 +16,8 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
+    env:
+      GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
 
     steps:
       - name: Checkout
@@ -31,6 +33,13 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Fetch Google Search Console data
+        if: ${{ env.GSC_CLIENT_EMAIL != '' }}
+        env:
+          GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
+          GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY }}
+        run: node scripts/seo-gsc.js || echo "GSC fetch failed — continuing without traffic data"
 
       - name: Run SEO audit
         id: audit
