@@ -11,3 +11,9 @@ node_modules/
 .env
 .env.local
 .env*.local
+
+# SEO agent generated files
+seo-results.json
+seo-report.md
+seo-report-truncated.md
+seo-fixes-summary.md

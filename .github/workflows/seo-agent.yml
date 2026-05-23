@@ -1,0 +1,97 @@
+name: SEO Agent
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'   # Every Monday at 9am UTC
+  workflow_dispatch:        # Manual trigger from GitHub Actions UI
+  push:
+    branches: [main]
+    paths: ['**.html']      # Only when HTML files change
+
+jobs:
+  audit:
+    name: Audit & Fix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run SEO audit
+        id: audit
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/seo-agent.js
+
+      - name: Generate report and apply fixes
+        id: report
+        run: node scripts/seo-report.js
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-report-${{ github.run_number }}
+          path: seo-report.md
+          retention-days: 90
+
+      - name: Truncate report for issue body
+        run: |
+          # GitHub issue body has a 65536 char limit — trim if needed
+          python3 -c "
+          with open('seo-report.md') as f:
+            content = f.read()
+          if len(content) > 60000:
+            content = content[:60000] + '\n\n...[truncated — see artifact for full report]'
+          with open('seo-report-truncated.md', 'w') as f:
+            f.write(content)
+          "
+
+      - name: Create GitHub Issue with audit report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TODAY=$(date '+%Y-%m-%d')
+          CRITICAL=$(grep -o 'critical=[0-9]*' $GITHUB_OUTPUT 2>/dev/null | cut -d= -f2 || echo 0)
+          gh issue create \
+            --title "SEO Audit — $TODAY" \
+            --body-file seo-report-truncated.md \
+            --label seo \
+            || true  # Don't fail if label doesn't exist yet
+
+      - name: Commit and PR auto-fixes
+        if: ${{ steps.report.outputs.has_fixes == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "seo-agent[bot]"
+          git config user.email "seo-agent@fauxspy.com"
+
+          BRANCH="seo-fix-${{ github.run_number }}"
+          git checkout -b $BRANCH
+
+          git add -A -- '*.html'
+          git commit -m "fix(seo): auto-fix technical SEO issues [run #${{ github.run_number }}]"
+          git push origin $BRANCH
+
+          gh pr create \
+            --title "fix(seo): auto-fix technical SEO issues — $(date '+%Y-%m-%d')" \
+            --body-file seo-fixes-summary.md \
+            --base main \
+            --head $BRANCH \
+            --label seo,automated \
+            || true
