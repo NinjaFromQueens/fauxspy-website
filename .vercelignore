@@ -1,0 +1,9 @@
+scripts/
+.github/
+review-state.json
+*.md
+seo-results.json
+seo-report.md
+seo-fixes-summary.md
+gsc-data.json
+blog-draft-summary.md
