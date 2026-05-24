@@ -156,22 +156,38 @@ async function main() {
 
   const rows = entries.map(([domain, { url, title, snippet, query }]) => {
     const snippetLine = snippet ? `\n  > ${snippet}` : '';
-    return `### [${domain}](${url})\n**${title}**  \nFound via: *${query}*${snippetLine}`;
+    const emailTemplate = `<details>
+<summary>📧 Email template</summary>
+
+**Subject:** Quick mention for your readers — FauxSpy
+
+Hi there,
+
+I came across your article "${title}" and wanted to reach out. I built FauxSpy — a free Chrome extension that detects AI-generated images and deepfakes, helping people spot fake dating profiles and catfishing attempts in real time. It's exactly the kind of tool your readers would find useful.
+
+Would love it if you'd consider mentioning it: [fauxspy.com](https://fauxspy.com) or directly on the [Chrome Web Store](https://chromewebstore.google.com/detail/faux-spy/npdkneknfigfcledlnmedkobcjdcigcg).
+
+Happy to answer any questions.
+
+Thanks,
+Duron Epps
+Owner, FauxSpy
+
+</details>`;
+    return `### [${domain}](${url})\n**${title}**  \nFound via: *${query}*${snippetLine}\n\n${emailTemplate}`;
   }).join('\n\n---\n\n');
 
   const body = `## Backlink Outreach — ${today}
 
 Found **${opportunities.size}** sites writing about catfishing, fake profile detection, or online dating safety. These are candidates to reach out to about linking to fauxspy.com.
 
-**Before reaching out:** Visit each page and confirm they don't already link to fauxspy. Look for a contact page, author bio, or email.
+**Before reaching out:** Visit each page and confirm they don't already link to fauxspy. Each entry has a ready-to-send email template — click "📧 Email template" to expand it.
 
 ---
 
 ${rows}
 
 ---
-
-**How to pitch:** Keep it short. Tell them you built a tool that fits what their readers are looking for, link to fauxspy.com, and offer to answer any questions. One sentence why it's relevant to their specific article works better than a template.
 
 Close this issue when you've worked through the list.`;
 

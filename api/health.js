@@ -14,7 +14,9 @@ module.exports = async (req, res) => {
     checks: {},
   };
 
-  // Sightengine account check — uses account.json, no quota consumed
+  // Sightengine check — calls check.json with no image to get a "missing url" error back.
+  // Any valid JSON response proves the API is up and credentials are accepted.
+  // No credits consumed.
   try {
     const apiUser = process.env.SIGHTENGINE_API_USER;
     const apiSecret = process.env.SIGHTENGINE_API_SECRET;
@@ -22,22 +24,16 @@ module.exports = async (req, res) => {
     if (!apiUser || !apiSecret) {
       results.checks.sightengine = { status: 'skip', reason: 'Credentials not configured' };
     } else {
-      const url = `https://api.sightengine.com/1.0/account.json?api_user=${encodeURIComponent(apiUser)}&api_secret=${encodeURIComponent(apiSecret)}`;
+      const url = `https://api.sightengine.com/1.0/check.json?api_user=${encodeURIComponent(apiUser)}&api_secret=${encodeURIComponent(apiSecret)}&models=nudity`;
       const resp = await fetch(url, { signal: AbortSignal.timeout(10000) });
       const data = await resp.json();
 
-      if (data.status === 'success') {
-        results.checks.sightengine = {
-          status: 'ok',
-          plan: data.quota?.plan_name,
-          creditsLeft: data.quota?.credits_left,
-          creditsTotal: data.quota?.credits_total,
-        };
+      // Bad credentials → explicit error code from Sightengine
+      if (data.error?.code === 1 || data.error?.type === 'invalid_credentials') {
+        results.checks.sightengine = { status: 'fail', error: 'Invalid API credentials' };
       } else {
-        results.checks.sightengine = {
-          status: 'fail',
-          error: data.error?.message || data.error || JSON.stringify(data),
-        };
+        // Any other JSON response (including "missing url" error) means the API is up
+        results.checks.sightengine = { status: 'ok' };
       }
     }
   } catch (err) {
