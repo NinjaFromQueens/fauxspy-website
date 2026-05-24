@@ -43,6 +43,7 @@ async function paginate(fn) {
   let page = await fn({ limit: 100 });
   items.push(...page.data);
   while (page.has_more) {
+    if (page.data.length === 0) break;
     page = await fn({ limit: 100, starting_after: items[items.length - 1].id });
     items.push(...page.data);
   }

@@ -52,15 +52,25 @@ async function main() {
 
   console.log('📬 Fetching user messages and waitlist...\n');
 
-  // Fetch contact submissions
-  const contactData = await fetchAdmin('contact');
-  const allMessages = contactData.submissions || [];
+  // Fetch contact submissions — isolated so a failure here doesn't kill the waitlist fetch
+  let allMessages = [];
+  try {
+    const contactData = await fetchAdmin('contact');
+    allMessages = contactData.submissions || [];
+  } catch (err) {
+    console.warn(`  ⚠️ Contact fetch failed: ${err.message} — continuing with waitlist only`);
+  }
   const recentMessages = allMessages.filter(m => m.timestamp >= weekAgo);
   console.log(`  Contact messages (7d): ${recentMessages.length} of ${allMessages.length} total`);
 
-  // Fetch waitlist
-  const waitlistData = await fetchAdmin('waitlist');
-  const allWaitlist = waitlistData.signups || waitlistData.waitlist || [];
+  // Fetch waitlist — isolated so a failure here doesn't kill the contact data
+  let allWaitlist = [];
+  try {
+    const waitlistData = await fetchAdmin('waitlist');
+    allWaitlist = waitlistData.signups || waitlistData.waitlist || [];
+  } catch (err) {
+    console.warn(`  ⚠️ Waitlist fetch failed: ${err.message} — continuing with contact only`);
+  }
   const recentWaitlist = allWaitlist.filter(w => w.timestamp >= weekAgo);
   console.log(`  Waitlist signups (7d): ${recentWaitlist.length} of ${allWaitlist.length} total`);
 
@@ -101,7 +111,7 @@ Write plainly. No intro fluff. Just the themes and key issues.`,
       }],
     });
 
-    themeSection = response.content[0].text;
+    themeSection = response.content?.[0]?.type === 'text' ? response.content[0].text : '';
   }
 
   // Build topic breakdown (from form field, no Claude needed)
