@@ -1,0 +1,43 @@
+name: Reddit Monitor
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:        # Manual trigger for testing
+
+jobs:
+  monitor:
+    name: Scan Reddit for Catfish Mentions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # Needed to commit reddit-state.json updates
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Scan Reddit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/reddit-monitor.js
+
+      - name: Commit updated state
+        run: |
+          git config user.name "reddit-monitor[bot]"
+          git config user.email "reddit-monitor@fauxspy.com"
+          git add reddit-state.json
+          git diff --cached --quiet && echo "No state change" && exit 0
+          git commit -m "chore: update Reddit monitor state [skip ci]"
+          git push origin main

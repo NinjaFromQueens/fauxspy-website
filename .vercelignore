@@ -1,6 +1,7 @@
 scripts/
 .github/
 review-state.json
+reddit-state.json
 *.md
 seo-results.json
 seo-report.md

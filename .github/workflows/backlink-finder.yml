@@ -1,0 +1,33 @@
+name: Backlink Outreach Finder
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'  # Every Monday at 10am UTC (after revenue + message digests)
+  workflow_dispatch:        # Manual trigger for testing
+
+jobs:
+  find:
+    name: Find Backlink Opportunities
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Find outreach opportunities
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/backlink-finder.js
