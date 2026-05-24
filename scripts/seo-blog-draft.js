@@ -59,23 +59,29 @@ function formatDisplayDate(iso) {
 
 // ─── Read style examples from existing articles ───────────────────────────────
 
+function stripTags(html) {
+  return html.replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 function readStyleExamples() {
-  const sampleFiles = [
-    'how-to-tell-if-video-is-ai-generated.html',
-    'signs-someone-is-catfishing-you.html',
-    'deepfake-fraud-statistics.html',
-  ];
+  let files;
+  try {
+    files = fs.readdirSync(BLOG_DIR)
+      .filter(f => f.endsWith('.html') && f !== 'index.html')
+      .slice(0, 4);
+  } catch {
+    return [];
+  }
 
   const examples = [];
-  for (const file of sampleFiles) {
-    const filePath = path.join(BLOG_DIR, file);
-    if (fs.existsSync(filePath)) {
-      const html = fs.readFileSync(filePath, 'utf8');
-      // Extract just the article body (between landing-section divs)
-      const bodyMatch = html.match(/<div class="landing-section">([\s\S]*?)<\/div>\s*\n\s*<div class="landing-section">/);
-      const excerpt = bodyMatch ? bodyMatch[0].slice(0, 800) : html.slice(0, 800);
-      examples.push({ file, excerpt });
-    }
+  for (const file of files) {
+    const html = fs.readFileSync(path.join(BLOG_DIR, file), 'utf8');
+    // Extract clean prose from each landing-section (strip all HTML tags first)
+    const sections = [...html.matchAll(/<div class="landing-section">([\s\S]*?)<\/div>/g)]
+      .slice(0, 3)
+      .map(m => stripTags(m[1]).slice(0, 600))
+      .filter(s => s.length > 100);
+    if (sections.length) examples.push({ file, sections });
   }
   return examples;
 }
@@ -85,8 +91,10 @@ function readStyleExamples() {
 async function generateArticle(slug, displayDate) {
   const examples = readStyleExamples();
   const styleContext = examples.length > 0
-    ? `Here are excerpts from existing Faux Spy articles to show you the tone and style:\n\n` +
-      examples.map(e => `--- ${e.file} ---\n${e.excerpt}`).join('\n\n')
+    ? `Here are prose excerpts from existing Faux Spy articles — study the tone, rhythm, and directness:\n\n` +
+      examples.map(e =>
+        `--- ${e.file} ---\n${e.sections.join('\n\n')}`
+      ).join('\n\n')
     : '';
 
   const prompt = `You are writing a blog article for Faux Spy, a Chrome extension that detects AI-generated images and videos.
@@ -96,15 +104,23 @@ ${styleContext}
 Write a complete, in-depth blog article about: "${topic}"
 Category: ${category}
 
-CRITICAL WRITING RULES — you must follow every one of these:
-- Write like a person, not like an AI. No bullet-pointed summaries of what the article will cover. No "In this article, we will explore..." openers. No formulaic transitions like "Furthermore" or "In conclusion."
+AUTHOR VOICE: You are writing in the voice of someone who built FauxSpy after watching people get burned by fake profiles. This person is direct, a little blunt, and genuinely cares about the problem. They've seen the screenshots. They know how the scams work technically. They don't moralize or over-explain. They respect the reader's intelligence.
+
+CRITICAL WRITING RULES — every single one applies:
+- Write like a person, not like an AI. No bullet-pointed summaries of what the article will cover. No "In this article, we will explore..." openers.
 - Start with a specific scene, statistic, or concrete observation — not with a definition or a statement about how important the topic is.
-- Short paragraphs. 3-4 sentences max per paragraph. Vary the rhythm — mix long and short sentences within paragraphs.
+- Short paragraphs. 3–4 sentences max. Vary the rhythm — mix long and short sentences. Use a single short sentence (under 10 words) as its own paragraph at least twice for punch.
 - Use second person ("you") throughout. Talk directly to the reader.
-- Each H2 section should have a real point, not just a category label. "How to spot it" is weak. "The tell is in the hand movement, not the face" is strong.
-- Include at least one specific, verifiable data point per major section (statistics, study findings, or named real-world examples).
+- Each H2 heading must make a real point, not just label a category. "How to spot it" is weak. "The tell is in the hand movement, not the face" is strong.
+- Include at least one specific, verifiable data point per major section — a real statistic, a named source, a specific dollar amount or percentage.
+- Name specific real platforms, apps, or websites when giving examples (Tinder, r/OnlineDating, Hinge, etc.) — not vague "dating apps."
+- Contradict a common assumption at least once. "Most people think X. They're wrong."
+- Write at least one sentence that starts with "And" or "But" — real writers do this.
 - No fluff. If a sentence doesn't add information, cut it.
 - Aim for 1,200–1,800 words of article body content.
+
+BANNED PHRASES — never use any of these:
+"it's worth noting", "it's important to note", "delve into", "navigate", "in the realm of", "furthermore", "in conclusion", "in summary", "as we've seen", "when it comes to", "let's explore", "let's dive in", "it goes without saying", "at the end of the day", "cutting-edge", "game-changing", "groundbreaking", "needless to say", "a comprehensive guide", "in today's digital age", "the importance of", "This article will", "we will cover", "in this post"
 
 Output a complete HTML article file using EXACTLY this structure — replace the placeholder values:
 
@@ -203,6 +219,40 @@ Return ONLY the complete HTML. No explanation before or after. No markdown code 
   return html;
 }
 
+// ─── Revision pass: hunt and fix AI-sounding phrases ─────────────────────────
+
+async function reviseForHumanVoice(html) {
+  console.log('Running human voice revision pass...');
+  const message = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 8192,
+    messages: [{
+      role: 'user',
+      content: `You are a sharp human editor. Your only job is to find and fix AI-sounding text in this blog article.
+
+Find sentences or phrases that sound generic, formulaic, hedging, or AI-written. Rewrite ONLY those — keep everything else exactly as-is, including all HTML tags, structure, and attributes.
+
+Common AI tells to hunt for:
+- Topic sentences that just label a category instead of making a real point
+- Transitions like "furthermore", "additionally", "it's important to note", "it's worth noting"
+- Sentences that hedge when they should just say the thing directly
+- Closing sentences that summarise what was just said
+- Introductory clauses that delay getting to the point ("When it comes to X...", "In the world of...")
+- Any phrase from this banned list: "delve into", "navigate", "in the realm of", "cutting-edge", "game-changing", "groundbreaking", "in today's digital age", "comprehensive"
+
+Return the complete HTML with your edits applied. No explanation before or after — just the corrected HTML starting with <!DOCTYPE html>.
+
+ARTICLE:
+${html}`
+    }],
+  });
+
+  let revised = message.content[0].text.trim();
+  revised = revised.replace(/^```html\s*/i, '').replace(/```\s*$/, '').trim();
+  // Safety fallback: if revision produced something that doesn't look like HTML, keep original
+  return revised.startsWith('<!DOCTYPE') ? revised : html;
+}
+
 // ─── Extract title from generated HTML ────────────────────────────────────────
 
 function extractTitle(html) {
@@ -296,7 +346,9 @@ async function main() {
   console.log(`  Output: blog/${slug}.html\n`);
 
   console.log('Calling Claude to generate article...');
-  const html = await generateArticle(slug, today);
+  const draft = await generateArticle(slug, today);
+
+  const html = await reviseForHumanVoice(draft);
 
   const title = extractTitle(html);
   const metaDesc = extractMetaDesc(html);
