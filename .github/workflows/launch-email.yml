@@ -1,0 +1,29 @@
+name: Product Hunt Launch Email
+
+on:
+  workflow_dispatch:   # Fire manually on launch morning (8 AM EST)
+
+jobs:
+  send:
+    name: Send Launch Broadcast
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Send launch email to waitlist
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          RESEND_FROM_EMAIL: "Duron at Faux Spy <duron@fauxspy.com>"
+        run: node scripts/send-launch-email.js

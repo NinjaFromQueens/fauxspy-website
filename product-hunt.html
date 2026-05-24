@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FauxSpy × Product Hunt — Special Launch Offer</title>
+  <meta name="description" content="Welcome, hunters! FauxSpy detects AI-generated profile photos in one right-click. Claim your exclusive Product Hunt offer: 3 months Pro free.">
+  <meta property="og:title" content="FauxSpy × Product Hunt — 3 Months Pro Free">
+  <meta property="og:description" content="Detect AI fakes anywhere online — one right-click. Claim your Product Hunt exclusive: 3 months Pro free, then 50% off forever.">
+  <meta property="og:image" content="https://fauxspy.com/og-image.png">
+  <meta property="og:url" content="https://fauxspy.com/product-hunt">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://fauxspy.com/product-hunt">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/_vercel/insights/script.js"></script>
+  <style>
+    .ph-hero {
+      padding: 4rem 0 3rem;
+      text-align: center;
+    }
+    .ph-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #ff6154;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+    .ph-offer-box {
+      background: linear-gradient(135deg, rgba(251,191,36,0.12) 0%, rgba(217,119,6,0.08) 100%);
+      border: 1.5px solid rgba(251,191,36,0.4);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 520px;
+      margin: 2.5rem auto;
+      text-align: center;
+    }
+    .ph-offer-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #d97706;
+      margin-bottom: 0.5rem;
+    }
+    .ph-offer-headline {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 0.5rem;
+      line-height: 1.3;
+    }
+    .ph-offer-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted, #888);
+      margin: 0 0 1.5rem;
+    }
+    .ph-email-form {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .ph-email-form input[type="email"] {
+      flex: 1;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--border, #e5e5e5);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: var(--bg-primary, #fff);
+      color: var(--text-primary, #1a1a1a);
+      outline: none;
+    }
+    .ph-email-form input[type="email"]:focus {
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 3px rgba(251,191,36,0.15);
+    }
+    .ph-success {
+      display: none;
+      padding: 1rem;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 8px;
+      color: #16a34a;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    .ph-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      color: var(--text-muted, #888);
+      font-size: 0.85rem;
+    }
+    .ph-divider::before, .ph-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border, #e5e5e5);
+    }
+    .ph-screenshots {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin: 2rem 0;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .ph-screenshot {
+      border: 1px solid var(--border, #e5e5e5);
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      max-width: 280px;
+      width: 100%;
+    }
+    .ph-screenshot img {
+      width: 100%;
+      display: block;
+    }
+    .ph-screenshot-caption {
+      padding: 0.6rem 0.75rem;
+      font-size: 0.75rem;
+      color: var(--text-muted, #888);
+      background: var(--bg-secondary, #f9f9f9);
+      text-align: center;
+    }
+    .ph-features-grid {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .ph-feature {
+      flex: 1;
+      min-width: 180px;
+      max-width: 220px;
+      background: var(--bg-secondary, #f9f9f9);
+      border: 1px solid var(--border, #e5e5e5);
+      border-radius: 10px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .ph-feature-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .ph-feature-title { font-size: 0.875rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .ph-feature-desc { font-size: 0.8rem; color: var(--text-muted, #888); line-height: 1.4; }
+    @media (max-width: 600px) {
+      .ph-email-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container" style="max-width:720px;">
+
+      <div class="ph-hero">
+        <div class="ph-badge">
+          <svg width="14" height="14" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#ff6154"/><path d="M13 27V13h8.5c3.6 0 6.5 2.9 6.5 6.5S25.1 26 21.5 26H17v1c0 .6-.4 1-1 1h-2c-.6 0-1-.4-1-1zm4-5h4.5c1.4 0 2.5-1.1 2.5-2.5S22.9 17 21.5 17H17v5z" fill="#fff"/></svg>
+          Product Hunt Exclusive
+        </div>
+
+        <h1 style="font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.2;margin:0 0 1rem;">
+          Welcome, hunters 👋
+        </h1>
+        <p style="font-size:1.1rem;color:var(--text-muted,#888);max-width:480px;margin:0 auto 0.5rem;line-height:1.6;">
+          Right-click any profile photo on Instagram, Tinder, or anywhere else online.<br>
+          Find out if it's AI-generated in 2 seconds. Free.
+        </p>
+      </div>
+
+      <!-- Exclusive PH offer -->
+      <div class="ph-offer-box">
+        <div class="ph-offer-label">🎁 Product Hunt Exclusive — Today Only</div>
+        <div class="ph-offer-headline">3 months Pro free.<br>Then 50% off forever.</div>
+        <p class="ph-offer-sub">$9.99/month becomes $4.99/month for life. Lock it in now — this offer disappears when launch day ends.</p>
+
+        <form id="ph-form" class="ph-email-form">
+          <input type="email" id="ph-email" placeholder="your@email.com" required autocomplete="email">
+          <button type="submit" class="btn btn-primary" style="white-space:nowrap;">Claim Offer</button>
+        </form>
+        <div class="ph-success" id="ph-success">
+          ✅ You're in. Check your inbox — we'll send your 3 free months when Pro launches.
+        </div>
+        <p style="font-size:0.75rem;color:var(--text-muted,#aaa);margin:0.75rem 0 0;">No credit card. Cancel anytime. You'll get one email when Pro launches.</p>
+      </div>
+
+      <div class="ph-divider">or start with the free tier right now</div>
+
+      <div style="text-align:center;margin-bottom:2.5rem;">
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">
+          🕵️ Add to Chrome — Free
+        </a>
+        <p style="font-size:0.8rem;color:var(--text-muted,#888);margin:0.75rem 0 0;">10 free scans per day · No account needed · Works instantly</p>
+      </div>
+
+      <!-- Feature highlights -->
+      <div class="ph-features-grid">
+        <div class="ph-feature">
+          <div class="ph-feature-icon">🖱️</div>
+          <div class="ph-feature-title">One right-click</div>
+          <div class="ph-feature-desc">Right-click any photo anywhere online. Verdict in under 2 seconds.</div>
+        </div>
+        <div class="ph-feature">
+          <div class="ph-feature-icon">📊</div>
+          <div class="ph-feature-title">Confidence score</div>
+          <div class="ph-feature-desc">Not just "maybe AI" — you get a percentage. 94% means something.</div>
+        </div>
+        <div class="ph-feature">
+          <div class="ph-feature-icon">🌐</div>
+          <div class="ph-feature-title">Works everywhere</div>
+          <div class="ph-feature-desc">Instagram, Tinder, Bumble, LinkedIn, X, Facebook. Any website.</div>
+        </div>
+        <div class="ph-feature">
+          <div class="ph-feature-icon">🔒</div>
+          <div class="ph-feature-title">Private by design</div>
+          <div class="ph-feature-desc">Only the image URL is sent. No browsing history. No account required.</div>
+        </div>
+      </div>
+
+      <!-- How it works — brief -->
+      <div class="landing-section" style="margin-top:2.5rem;">
+        <h2 style="font-size:1.25rem;font-weight:700;margin:0 0 1rem;">How it works</h2>
+        <ol style="padding-left:1.25rem;line-height:2;color:var(--text-primary,#1a1a1a);font-size:0.95rem;">
+          <li>Install FauxSpy from the Chrome Web Store (free, takes 10 seconds)</li>
+          <li>Go to Instagram, Tinder, Bumble — any site with photos</li>
+          <li>Right-click a profile photo → "Investigate this image"</li>
+          <li>Get a confidence score: <strong>Real Photo, AI Photo, AI Art, or Inconclusive</strong></li>
+        </ol>
+        <p style="margin:1rem 0 0;font-size:0.9rem;color:var(--text-muted,#888);">
+          Detects images from Midjourney, DALL-E, Stable Diffusion, Adobe Firefly, Leonardo AI, and newer generators.
+        </p>
+      </div>
+
+      <!-- CTA repeat -->
+      <div style="text-align:center;margin:3rem 0 2rem;padding:2rem;background:var(--bg-secondary,#f9f9f9);border-radius:16px;border:1px solid var(--border,#e5e5e5);">
+        <h3 style="margin:0 0 0.5rem;">Free forever. Upgrade when you're ready.</h3>
+        <p style="color:var(--text-muted,#888);margin:0 0 1.25rem;font-size:0.9rem;">Start with 10 scans/day. No card. No sign-up. Install in seconds.</p>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">
+          Add Faux Spy to Chrome — it's free
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer style="text-align:center;padding:2rem;color:var(--text-muted,#888);font-size:0.875rem;border-top:1px solid var(--border,#e5e5e5);">
+    <p>&copy; 2026 Faux Spy &middot; <a href="/privacy" style="color:inherit;">Privacy</a> &middot; <a href="/terms" style="color:inherit;">Terms</a> &middot; <a href="/" style="color:inherit;">fauxspy.com</a></p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('ph-form');
+    const success = document.getElementById('ph-success');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('ph-email').value.trim();
+      const btn = form.querySelector('button[type="submit"]');
+
+      btn.disabled = true;
+      btn.textContent = 'Claiming...';
+
+      try {
+        const resp = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: 'product_hunt' }),
+        });
+        const data = await resp.json();
+
+        if (data.success || data.alreadySubscribed) {
+          form.style.display = 'none';
+          success.style.display = 'block';
+          success.textContent = data.alreadySubscribed
+            ? "✅ You're already on the list! Your 50% discount is locked in."
+            : '✅ You\'re in. Check your inbox — we\'ll send your 3 free months when Pro launches.';
+        } else {
+          throw new Error(data.error || 'Something went wrong');
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Claim Offer';
+        alert('Something went wrong — try again or email duron@fauxspy.com');
+      }
+    });
+  </script>
+</body>
+</html>
