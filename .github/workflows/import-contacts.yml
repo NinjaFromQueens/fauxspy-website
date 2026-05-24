@@ -1,0 +1,35 @@
+name: Import Sheet Contacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      sheet_id:
+        description: 'Google Sheet ID (leave blank to use the default sheet)'
+        required: false
+        default: '1k1KqEMVNztsruhUM5WxxHul4XqKwLHnV9T62-owPLMI'
+        type: string
+
+jobs:
+  import:
+    name: Import Contacts to Resend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Import contacts
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          SHEET_ID: ${{ inputs.sheet_id }}
+        run: node scripts/import-sheet-contacts.js
