@@ -7,10 +7,10 @@ on:
 
 jobs:
   find:
-    name: Find Backlink Opportunities
+    name: Find & Send Backlink Outreach
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       issues: write
 
     steps:
@@ -26,8 +26,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Find outreach opportunities
+      - name: Find and send outreach
         env:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/backlink-finder.js
+
+      - name: Commit outreach state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add outreach-state.json
+          git diff --cached --quiet || git commit -m "chore: update outreach state [skip ci]"
+          git push

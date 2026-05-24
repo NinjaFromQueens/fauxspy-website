@@ -1,23 +1,27 @@
 'use strict';
 
 /**
- * Backlink Outreach Finder
- * Searches for sites writing about catfishing, fake profiles, and online dating safety
- * that could be a good fit for linking to fauxspy.com.
- * Posts a weekly GitHub Issue with the top opportunities.
+ * Backlink Outreach Finder + Auto-Sender
+ * Searches for sites writing about catfishing, fake profiles, and online dating safety.
+ * Scrapes contact emails from each site and sends outreach via Resend automatically.
+ * Posts a weekly GitHub Issue with a full summary of what was sent and what was skipped.
  *
  * Usage: node scripts/backlink-finder.js
  * Required env: SERPAPI_KEY, GH_TOKEN (auto-set in GitHub Actions)
- * Free tier: 100 searches/month — this script uses ~8 per run (weekly = ~32/month)
+ * Optional env: RESEND_API_KEY (if not set, emails are skipped but issue still posts)
  */
 
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { execSync } = require('child_process');
+const { Resend } = require('resend');
 
 const REPO = 'NinjaFromQueens/fauxspy-website';
 const OUR_DOMAIN = 'fauxspy.com';
+const STATE_FILE = path.join(__dirname, '..', 'outreach-state.json');
+const MAX_EMAILS_PER_RUN = 8;
+const FROM_EMAIL = 'Duron Epps <duron@fauxspy.com>';
 
 // Queries that surface articles and guides our tool would genuinely help with
 const SEARCH_QUERIES = [
@@ -52,6 +56,14 @@ const EXCLUDE_DOMAINS = new Set([
   'forbes.com',
 ]);
 
+// Email prefixes that are generic/unmonitored — skip them
+const SKIP_EMAIL_PREFIXES = [
+  'noreply', 'no-reply', 'donotreply', 'do-not-reply',
+  'info', 'admin', 'support', 'help', 'webmaster',
+  'privacy', 'legal', 'security', 'abuse', 'postmaster',
+  'contact', 'hello', // too generic to be a real person
+];
+
 function getDomain(url) {
   try {
     return new URL(url).hostname.replace(/^www\./, '');
@@ -63,11 +75,103 @@ function getDomain(url) {
 function isExcluded(domain) {
   if (!domain) return true;
   if (EXCLUDE_DOMAINS.has(domain)) return true;
-  // Also exclude subdomains of excluded roots
   for (const ex of EXCLUDE_DOMAINS) {
     if (domain.endsWith('.' + ex)) return true;
   }
   return false;
+}
+
+function loadOutreachState() {
+  try {
+    return JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
+  } catch {
+    return { contacted: {} };
+  }
+}
+
+function saveOutreachState(s) {
+  fs.writeFileSync(STATE_FILE, JSON.stringify(s, null, 2), 'utf8');
+}
+
+async function fetchPage(url) {
+  const resp = await fetch(url, {
+    signal: AbortSignal.timeout(10000),
+    headers: {
+      'User-Agent': 'fauxspy-outreach:v1.0 (contact: duroneppsjr7@gmail.com)',
+      'Accept': 'text/html,application/xhtml+xml',
+    },
+    redirect: 'follow',
+  });
+  if (!resp.ok) return null;
+  return resp.text();
+}
+
+async function findContactEmail(articleUrl) {
+  const origin = new URL(articleUrl).origin;
+  const candidateUrls = [
+    articleUrl,
+    origin + '/contact',
+    origin + '/contact-us',
+    origin + '/about',
+  ];
+
+  // Matches email addresses in HTML (href="mailto:..." or plain text)
+  const emailRegex = /(?:mailto:)?([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/gi;
+
+  for (const url of candidateUrls) {
+    let html;
+    try {
+      html = await fetchPage(url);
+    } catch {
+      continue;
+    }
+    if (!html) continue;
+
+    const matches = [...html.matchAll(emailRegex)];
+    for (const match of matches) {
+      const email = match[1].toLowerCase();
+      const prefix = email.split('@')[0];
+      const domain = email.split('@')[1];
+
+      // Skip our own domain and obviously generic addresses
+      if (domain === OUR_DOMAIN) continue;
+      if (SKIP_EMAIL_PREFIXES.some(p => prefix === p || prefix.startsWith(p + '.'))) continue;
+
+      // Basic sanity check — must have a real TLD
+      if (!/\.[a-z]{2,}$/.test(domain)) continue;
+
+      return email;
+    }
+
+    // Small delay between page fetches
+    await new Promise(r => setTimeout(r, 800));
+  }
+
+  return null;
+}
+
+async function sendOutreachEmail(resend, { to, title, domain }) {
+  const text = `Hi there,
+
+I came across your article "${title}" and wanted to reach out. I built FauxSpy — a free Chrome extension that detects AI-generated images and deepfakes, helping people spot fake dating profiles and catfishing attempts in real time. It's exactly the kind of tool your readers would find useful.
+
+Would love it if you'd consider mentioning it: https://fauxspy.com or directly on the Chrome Web Store: https://chromewebstore.google.com/detail/faux-spy/npdkneknfigfcledlnmedkobcjdcigcg
+
+Happy to answer any questions.
+
+Thanks,
+Duron Epps
+Owner, FauxSpy`;
+
+  const result = await resend.emails.send({
+    from: FROM_EMAIL,
+    to,
+    reply_to: ['duroneppsjr7@gmail.com', 'duron@fauxspy.com'],
+    subject: 'Quick mention for your readers — FauxSpy',
+    text,
+  });
+
+  return result;
 }
 
 async function searchSerpAPI(query) {
@@ -113,10 +217,14 @@ async function main() {
     process.exit(0);
   }
 
+  const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+  if (!resend) {
+    console.log('⚠️  RESEND_API_KEY not set — will find opportunities but skip email sending');
+  }
+
   console.log(`Running ${SEARCH_QUERIES.length} searches via SerpAPI...\n`);
 
-  // domain -> { url, title, snippet, query }
-  const opportunities = new Map();
+  const opportunities = new Map(); // domain -> { url, title, snippet, query }
 
   for (const query of SEARCH_QUERIES) {
     try {
@@ -127,7 +235,7 @@ async function main() {
       for (const result of results) {
         const domain = getDomain(result.link);
         if (isExcluded(domain)) continue;
-        if (opportunities.has(domain)) continue; // one entry per domain
+        if (opportunities.has(domain)) continue;
 
         opportunities.set(domain, {
           url: result.link,
@@ -137,7 +245,6 @@ async function main() {
         });
       }
 
-      // SerpAPI free tier — stay well under rate limits
       await new Promise(r => setTimeout(r, 1500));
     } catch (err) {
       console.error(`Search failed for "${query}": ${err.message}`);
@@ -149,61 +256,136 @@ async function main() {
     return;
   }
 
-  const entries = [...opportunities.entries()].slice(0, 25);
-  const today = new Date().toLocaleDateString('en-US', {
-    month: 'long', day: 'numeric', year: 'numeric',
-  });
+  console.log(`\nFound ${opportunities.size} opportunities. Starting outreach...\n`);
 
-  const rows = entries.map(([domain, { url, title, snippet, query }]) => {
-    const snippetLine = snippet ? `\n  > ${snippet}` : '';
-    const emailTemplate = `<details>
-<summary>📧 Email template</summary>
+  const state = loadOutreachState();
+  const today = new Date().toISOString().slice(0, 10);
 
-**Subject:** Quick mention for your readers — FauxSpy
+  const sent = [];
+  const noEmail = [];
+  const alreadyContacted = [];
+  let emailsSentThisRun = 0;
 
-Hi there,
+  for (const [domain, info] of opportunities) {
+    if (state.contacted[domain]) {
+      alreadyContacted.push({ domain, ...info, ...state.contacted[domain] });
+      continue;
+    }
 
-I came across your article "${title}" and wanted to reach out. I built FauxSpy — a free Chrome extension that detects AI-generated images and deepfakes, helping people spot fake dating profiles and catfishing attempts in real time. It's exactly the kind of tool your readers would find useful.
+    if (emailsSentThisRun >= MAX_EMAILS_PER_RUN) {
+      noEmail.push({ domain, ...info, reason: 'Run limit reached' });
+      continue;
+    }
 
-Would love it if you'd consider mentioning it: [fauxspy.com](https://fauxspy.com) or directly on the [Chrome Web Store](https://chromewebstore.google.com/detail/faux-spy/npdkneknfigfcledlnmedkobcjdcigcg).
+    console.log(`  Searching for contact email on ${domain}...`);
+    let email = null;
+    try {
+      email = await findContactEmail(info.url);
+    } catch (err) {
+      console.warn(`    ⚠️ Error scraping ${domain}: ${err.message}`);
+    }
 
-Happy to answer any questions.
+    if (!email) {
+      console.log(`    ✗ No contact email found`);
+      noEmail.push({ domain, ...info, reason: 'No email found' });
+      state.contacted[domain] = { date: today, email: null, sent: false };
+      saveOutreachState(state);
+      continue;
+    }
 
-Thanks,
-Duron Epps
-Owner, FauxSpy
+    console.log(`    ✓ Found email: ${email}`);
 
-</details>`;
-    return `### [${domain}](${url})\n**${title}**  \nFound via: *${query}*${snippetLine}\n\n${emailTemplate}`;
-  }).join('\n\n---\n\n');
+    if (resend) {
+      try {
+        await sendOutreachEmail(resend, { to: email, title: info.title, domain });
+        console.log(`    ✉️  Email sent to ${email}`);
+        sent.push({ domain, email, ...info });
+        state.contacted[domain] = { date: today, email, sent: true };
+        emailsSentThisRun++;
+      } catch (err) {
+        console.error(`    ✗ Failed to send to ${email}: ${err.message}`);
+        noEmail.push({ domain, ...info, reason: `Send failed: ${err.message}` });
+        state.contacted[domain] = { date: today, email, sent: false };
+      }
+    } else {
+      // Resend not configured — record the email we found but don't send
+      noEmail.push({ domain, ...info, email, reason: 'RESEND_API_KEY not set' });
+    }
 
-  const body = `## Backlink Outreach — ${today}
+    saveOutreachState(state);
 
-Found **${opportunities.size}** sites writing about catfishing, fake profile detection, or online dating safety. These are candidates to reach out to about linking to fauxspy.com.
+    // Brief pause between sends
+    if (emailsSentThisRun > 0) await new Promise(r => setTimeout(r, 1200));
+  }
 
-**Before reaching out:** Visit each page and confirm they don't already link to fauxspy. Each entry has a ready-to-send email template — click "📧 Email template" to expand it.
-
----
-
-${rows}
-
----
-
-Close this issue when you've worked through the list.`;
-
-  // Check for an open backlink issue from this week to avoid duplicates
+  // Build GitHub Issue body
+  const displayDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const dateSlug = new Date().toISOString().slice(0, 10);
+
+  const sentSection = sent.length === 0
+    ? '*No emails sent this run.*'
+    : sent.map(({ domain, email, url, title, query }) =>
+        `### ✉️ [${domain}](${url})\n**${title}**  \nSent to: \`${email}\`  \nFound via: *${query}*`
+      ).join('\n\n---\n\n');
+
+  const noEmailSection = noEmail.length === 0
+    ? '*None.*'
+    : noEmail.map(({ domain, url, title, reason }) =>
+        `- [${domain}](${url}) — ${title}  \n  *${reason}*`
+      ).join('\n');
+
+  const alreadySection = alreadyContacted.length === 0
+    ? '*None.*'
+    : alreadyContacted.map(({ domain, url, date, email }) =>
+        `- [${domain}](${url}) — contacted ${date}${email ? ` (${email})` : ''}`
+      ).join('\n');
+
+  const sendingNote = resend
+    ? `Sent **${sent.length}** email${sent.length !== 1 ? 's' : ''} automatically via Resend.`
+    : `⚠️ Email sending disabled — RESEND_API_KEY not configured. Add it to GitHub Secrets to enable.`;
+
+  const body = `## Backlink Outreach — ${displayDate}
+
+${sendingNote}
+
+---
+
+## ✉️ Emails Sent (${sent.length})
+
+${sentSection}
+
+---
+
+## 🔍 No Contact Found (${noEmail.length})
+
+These sites looked relevant but no contact email could be scraped. You can reach out manually if they're worth it.
+
+${noEmailSection}
+
+---
+
+## ⏭️ Already Contacted (${alreadyContacted.length})
+
+${alreadySection}
+
+---
+
+Close this issue when reviewed.`;
+
+  // Post or update the GitHub Issue
   const existing = JSON.parse(
     gh(`issue list --search "Backlink Outreach in:title" --state open --json number --limit 1`)
   );
 
   if (existing.length > 0) {
     ghWithFile(`issue comment ${existing[0].number}`, body);
-    console.log(`\nUpdated existing backlink issue #${existing[0].number} with ${opportunities.size} opportunities.`);
+    console.log(`\nUpdated existing backlink issue #${existing[0].number}.`);
   } else {
     ghWithFile(`issue create --title "Backlink Outreach — ${dateSlug}"`, body);
-    console.log(`\nCreated backlink outreach issue with ${opportunities.size} opportunities.`);
+    console.log(`\nCreated backlink outreach issue.`);
   }
+
+  console.log(`\nDone. Sent: ${sent.length}, No email: ${noEmail.length}, Already contacted: ${alreadyContacted.length}`);
 }
 
 main().catch(err => {
