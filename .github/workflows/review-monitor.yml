@@ -1,0 +1,43 @@
+name: CWS Review Monitor
+
+on:
+  schedule:
+    - cron: '0 9 * * *'   # Every day at 9am UTC
+  workflow_dispatch:        # Manual trigger for testing
+
+jobs:
+  monitor:
+    name: Check CWS Rating
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # Needed to commit review-state.json updates
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check CWS rating
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/review-monitor.js
+
+      - name: Commit updated state
+        run: |
+          git config user.name "review-monitor[bot]"
+          git config user.email "review-monitor@fauxspy.com"
+          git add review-state.json
+          git diff --cached --quiet && echo "No state change" && exit 0
+          git commit -m "chore: update CWS review state [skip ci]"
+          git push origin main
