@@ -163,7 +163,7 @@ Thanks,
 Duron Epps
 Owner, FauxSpy`;
 
-  const result = await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to,
     reply_to: ['duroneppsjr7@gmail.com', 'duron@fauxspy.com'],
@@ -171,7 +171,8 @@ Owner, FauxSpy`;
     text,
   });
 
-  return result;
+  if (error) throw new Error(error.message || JSON.stringify(error));
+  return data;
 }
 
 async function searchSerpAPI(query) {
@@ -288,8 +289,7 @@ async function main() {
     if (!email) {
       console.log(`    ✗ No contact email found`);
       noEmail.push({ domain, ...info, reason: 'No email found' });
-      state.contacted[domain] = { date: today, email: null, sent: false };
-      saveOutreachState(state);
+      // Don't persist to state — retry next week in case they add a contact page
       continue;
     }
 
