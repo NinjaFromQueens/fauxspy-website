@@ -140,7 +140,7 @@ module.exports = async (req, res) => {
     // - Free: just genai model (1 operation)
     // - Pro: genai + type models (2 operations, but combined call)
     // ========================================================================
-    const models = isPro ? 'genai,type' : 'genai';
+    const models = 'genai,type';
     console.log(`🔍 [DETECT ${isPro ? 'PRO' : 'FREE'}]`, imageUrl.substring(0, 80));
     
     const params = new URLSearchParams({
@@ -186,17 +186,17 @@ module.exports = async (req, res) => {
       });
     }
     
-    // For Pro: extract type scores
+    // Extract type scores for all tiers (type model now always requested)
     // type.illustration: 0-1, where 1 = illustration, 0 = photograph
-    const illustrationScore = isPro ? (data.type?.illustration ?? 0) : null;
-    const photoScore = isPro ? (data.type?.photo ?? 0) : null;
+    const illustrationScore = data.type?.illustration ?? 0;
+    const photoScore = data.type?.photo ?? 0;
     
     // ========================================================================
     // STEP 5: Build BOTH free and pro verdict objects (for caching)
     // ========================================================================
     
-    // Free tier: 3-category verdict (genai only)
-    const freeVerdict = getFreeTierVerdict(aiProbability);
+    // Free tier: 4-category verdict (genai + type)
+    const freeVerdict = getFreeTierVerdict(aiProbability, illustrationScore);
     const freeResult = {
       success: true,
       isAI: freeVerdict.tier === 'likely_ai' || freeVerdict.tier === 'definitely_ai',
@@ -213,7 +213,7 @@ module.exports = async (req, res) => {
     };
     
     let proResult = null;
-    if (isPro && illustrationScore !== null) {
+    if (isPro) {
       // Pro tier: 5-category verdict (genai + type)
       const proVerdict = getProTierVerdict(aiProbability, illustrationScore);
       proResult = {
@@ -283,15 +283,16 @@ module.exports = async (req, res) => {
 };
 
 // ============================================================================
-// FREE TIER VERDICT SYSTEM (3 categories)
-// Just AI score → Real / Inconclusive / AI
+// FREE TIER VERDICT SYSTEM (4 categories)
+// AI score + illustration score → Real / Digital Art / Inconclusive / AI
 // ============================================================================
 
-function getFreeTierVerdict(score) {
+function getFreeTierVerdict(score, illustrationScore) {
   const aiPercent = (score * 100).toFixed(1);
   const realPercent = (100 - score * 100).toFixed(1);
-  
-  // Definitely AI (85%+)
+  const isIllustration = (illustrationScore ?? 0) >= 0.50;
+
+  // Definitely AI (85%+) — even stylized art at this score is AI-generated
   if (score >= 0.85) {
     return {
       tier: 'definitely_ai',
@@ -301,10 +302,10 @@ function getFreeTierVerdict(score) {
         `AI confidence: ${aiPercent}%`,
         'Strong AI generation signals detected'
       ],
-      proHint: null
+      proHint: 'Pro identifies the exact AI generator used'
     };
   }
-  
+
   // Likely AI (65-85%)
   if (score >= 0.65) {
     return {
@@ -318,8 +319,24 @@ function getFreeTierVerdict(score) {
       proHint: 'Pro detects whether this is AI photo or AI art'
     };
   }
-  
-  // Inconclusive (40-65%)
+
+  // Digital Art — illustration score ≥ 0.50 with low-to-medium AI confidence
+  // This catches human-made paintings, game art, illustrations, 3D renders
+  if (isIllustration) {
+    return {
+      tier: 'digital_art',
+      label: 'Digital Art',
+      category: 'digital_art',
+      indicators: [
+        'This appears to be digital art or an illustration',
+        'Could be: painting, game art, comic, 3D render, or animation frame',
+        score >= 0.40 ? '⚠️ Has some AI signals — could be AI-assisted art' : 'Low AI signals — likely human-made'
+      ],
+      proHint: 'Pro confirms whether this is human-made or AI-generated art'
+    };
+  }
+
+  // Inconclusive (40-65%) — not illustration, uncertain photo zone
   if (score >= 0.40) {
     return {
       tier: 'inconclusive',
@@ -328,12 +345,12 @@ function getFreeTierVerdict(score) {
       indicators: [
         `Score: ${aiPercent}% AI / ${realPercent}% real`,
         '⚠️ Image is in the uncertain detection zone',
-        'Could be: heavily filtered photo, digital art, or low-confidence AI'
+        'Could be: heavily filtered photo or low-confidence AI'
       ],
-      proHint: 'Pro can identify if this is digital art (paintings, game art, 3D)'
+      proHint: 'Pro gives a definitive verdict with detailed breakdown'
     };
   }
-  
+
   // Likely Real (20-40%)
   if (score >= 0.20) {
     return {
@@ -342,12 +359,12 @@ function getFreeTierVerdict(score) {
       category: 'real',
       indicators: [
         `Real confidence: ${realPercent}%`,
-        'Image appears to be human-made'
+        'Image appears to be a genuine photograph'
       ],
-      proHint: 'Pro distinguishes real photos from digital art/illustrations'
+      proHint: null
     };
   }
-  
+
   // Verified Real (0-20%)
   return {
     tier: 'verified_real',
@@ -355,9 +372,9 @@ function getFreeTierVerdict(score) {
     category: 'real',
     indicators: [
       `Real confidence: ${realPercent}%`,
-      'Strong indicators this is genuinely human-made'
+      'Strong indicators this is a genuine photograph'
     ],
-    proHint: 'Pro confirms whether this is photo or illustration'
+    proHint: null
   };
 }
 
