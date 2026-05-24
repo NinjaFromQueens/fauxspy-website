@@ -98,7 +98,7 @@ jobs:
           BRANCH="seo-fix-${{ github.run_number }}"
           git checkout -b $BRANCH
 
-          git add -- '*.html' sitemap.xml .github/workflows/indexnow.yml
+          git add -- '*.html' sitemap.xml
           git diff --cached --quiet && echo "No changes to commit" && exit 0
 
           git commit -m "fix(seo): auto-fix technical SEO issues [run #${{ github.run_number }}]"
