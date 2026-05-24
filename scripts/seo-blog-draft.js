@@ -57,6 +57,130 @@ function formatDisplayDate(iso) {
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
 
+// ─── Banned phrase list (used by both prompt and scanner) ────────────────────
+
+const BANNED_PHRASES = [
+  "it's worth noting", "it's important to note", "delve into", "navigate",
+  "in the realm of", "furthermore", "in conclusion", "in summary", "as we've seen",
+  "when it comes to", "let's explore", "let's dive in", "it goes without saying",
+  "at the end of the day", "cutting-edge", "game-changing", "groundbreaking",
+  "needless to say", "a comprehensive guide", "in today's digital age",
+  "the importance of", "this article will", "we will cover", "in this post",
+  "additionally,", "moreover,", "it is worth", "it should be noted",
+  "in order to", "as mentioned", "as noted",
+];
+
+// ─── SerpAPI research pass ────────────────────────────────────────────────────
+
+async function researchTopic(t) {
+  if (!process.env.SERPAPI_KEY) {
+    console.log('  SERPAPI_KEY not set — skipping pre-research (article will still generate)');
+    return null;
+  }
+
+  console.log('Researching topic via SerpAPI...');
+  const params = new URLSearchParams({
+    q: t,
+    api_key: process.env.SERPAPI_KEY,
+    num: '5',
+    hl: 'en',
+    gl: 'us',
+  });
+
+  let data;
+  try {
+    const resp = await fetch(`https://serpapi.com/search.json?${params}`, {
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!resp.ok) throw new Error(`SerpAPI ${resp.status}`);
+    data = await resp.json();
+  } catch (err) {
+    console.warn(`  Research failed: ${err.message} — continuing without`);
+    return null;
+  }
+
+  const snippets = (data.organic_results || [])
+    .slice(0, 5)
+    .map(r => r.snippet)
+    .filter(Boolean);
+
+  const relatedQuestions = (data.related_questions || [])
+    .slice(0, 6)
+    .map(q => q.question)
+    .filter(Boolean);
+
+  const answerBox = data.answer_box?.answer || data.answer_box?.snippet || null;
+
+  // Fetch and extract text from top 3 pages for real data points
+  const organicResults = (data.organic_results || []).slice(0, 3);
+  const pageExcerpts = [];
+
+  for (const result of organicResults) {
+    try {
+      const pageResp = await fetch(result.link, {
+        signal: AbortSignal.timeout(8000),
+        headers: {
+          'User-Agent': 'fauxspy-research:v1.0 (contact: duroneppsjr7@gmail.com)',
+          'Accept': 'text/html',
+        },
+        redirect: 'follow',
+      });
+      if (pageResp.ok) {
+        const raw = await pageResp.text();
+        // Strip scripts/styles first, then tags
+        const clean = raw
+          .replace(/<script[\s\S]*?<\/script>/gi, '')
+          .replace(/<style[\s\S]*?<\/style>/gi, '');
+        const text = stripTags(clean).replace(/\s+/g, ' ').trim().slice(0, 1200);
+        if (text.length > 200) {
+          pageExcerpts.push({ title: result.title, url: result.link, text });
+        }
+      }
+    } catch { /* skip unreachable pages */ }
+    await new Promise(r => setTimeout(r, 600));
+  }
+
+  console.log(`  Found: ${snippets.length} snippets, ${relatedQuestions.length} related Qs, ${pageExcerpts.length} pages`);
+
+  return { snippets, relatedQuestions, answerBox, pageExcerpts };
+}
+
+function buildResearchContext(research) {
+  if (!research) return '';
+
+  const parts = ['RESEARCH MATERIAL — ground your article in these real facts and reader questions:\n'];
+
+  if (research.answerBox) {
+    parts.push(`Featured answer box:\n"${research.answerBox}"\n`);
+  }
+
+  if (research.snippets.length) {
+    parts.push(`Top search result snippets (may contain useful statistics or context):\n` +
+      research.snippets.map((s, i) => `${i + 1}. ${s}`).join('\n') + '\n');
+  }
+
+  if (research.relatedQuestions.length) {
+    parts.push(`What people are actually searching for on this topic:\n` +
+      research.relatedQuestions.map(q => `- ${q}`).join('\n') + '\n');
+  }
+
+  if (research.pageExcerpts.length) {
+    parts.push(`Content from top-ranking pages (for context — do NOT copy, use to understand what's already covered and write something better):\n` +
+      research.pageExcerpts.map(p => `[${p.title}]\n${p.text}`).join('\n\n'));
+  }
+
+  parts.push('\nYou MUST use at least 2 specific, verifiable data points from this research. If the research contains statistics with sources, cite them. If not, acknowledge what is and isn\'t known.\n');
+
+  return parts.join('\n');
+}
+
+// ─── Programmatic AI-phrase scanner ──────────────────────────────────────────
+
+function scanForAIPhrases(html) {
+  const text = stripTags(html).toLowerCase();
+  return BANNED_PHRASES.filter(p => text.includes(p.toLowerCase()));
+}
+
 // ─── Read style examples from existing articles ───────────────────────────────
 
 function stripTags(html) {
@@ -88,7 +212,7 @@ function readStyleExamples() {
 
 // ─── Generate article via Claude ──────────────────────────────────────────────
 
-async function generateArticle(slug, displayDate) {
+async function generateArticle(slug, displayDate, research) {
   const examples = readStyleExamples();
   const styleContext = examples.length > 0
     ? `Here are prose excerpts from existing Faux Spy articles — study the tone, rhythm, and directness:\n\n` +
@@ -97,10 +221,13 @@ async function generateArticle(slug, displayDate) {
       ).join('\n\n')
     : '';
 
+  const researchContext = buildResearchContext(research);
+
   const prompt = `You are writing a blog article for Faux Spy, a Chrome extension that detects AI-generated images and videos.
 
 ${styleContext}
 
+${researchContext}
 Write a complete, in-depth blog article about: "${topic}"
 Category: ${category}
 
@@ -345,10 +472,19 @@ async function main() {
   console.log(`  Slug: ${slug}`);
   console.log(`  Output: blog/${slug}.html\n`);
 
+  const research = await researchTopic(topic);
+
   console.log('Calling Claude to generate article...');
-  const draft = await generateArticle(slug, today);
+  const draft = await generateArticle(slug, today, research);
 
   const html = await reviseForHumanVoice(draft);
+
+  const foundPhrases = scanForAIPhrases(html);
+  if (foundPhrases.length) {
+    console.warn(`\n  ⚠️  AI phrases still detected after revision: ${foundPhrases.join(', ')}`);
+  } else {
+    console.log('  ✅ No banned AI phrases detected.');
+  }
 
   const title = extractTitle(html);
   const metaDesc = extractMetaDesc(html);
@@ -384,6 +520,9 @@ async function main() {
 - [ ] Confirm the CTA at the bottom links correctly
 - [ ] Review the blog card on \`/blog\` — does the excerpt make sense?
 - [ ] No accidental AI writing patterns (lists of what the article will cover, "Furthermore", "In conclusion", etc.)
+${foundPhrases.length
+    ? `\n⚠️ **AI phrase scanner flagged these — review manually:**\n${foundPhrases.map(p => `- \`${p}\``).join('\n')}`
+    : '\n✅ AI phrase scanner: no banned phrases detected.'}
 
 ---
 *Generated by Faux Spy Blog Draft Agent*`;

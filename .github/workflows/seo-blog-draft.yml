@@ -39,6 +39,7 @@ jobs:
       - name: Generate blog draft
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
           BLOG_TOPIC: ${{ inputs.topic }}
           BLOG_CATEGORY: ${{ inputs.category }}
         run: node scripts/seo-blog-draft.js
