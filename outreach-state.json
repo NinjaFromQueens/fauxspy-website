@@ -39,6 +39,46 @@
       "date": "2026-05-25",
       "email": "promo%20image_mobile@2x.jpg",
       "sent": true
+    },
+    "catfishfinder.org": {
+      "date": "2026-05-25",
+      "email": "someone@example.com",
+      "sent": true
+    },
+    "buzzfeed.com": {
+      "date": "2026-05-25",
+      "email": "caseyrackham@gmail.com",
+      "sent": true
+    },
+    "deepfakedetector.ai": {
+      "date": "2026-05-25",
+      "email": "sales@deepfakedetector.ai",
+      "sent": true
+    },
+    "deepai.org": {
+      "date": "2026-05-25",
+      "email": "97bfbb7bc651472085dab062d23194f6@sentry.io",
+      "sent": true
+    },
+    "accesstechnology.co.uk": {
+      "date": "2026-05-25",
+      "email": "domore@accesstechnology.co.uk",
+      "sent": true
+    },
+    "justanswer.com": {
+      "date": "2026-05-25",
+      "email": "he-page-hc-contact@3.5.137.js",
+      "sent": true
+    },
+    "consumer.ftc.gov": {
+      "date": "2026-05-25",
+      "email": "reportphishing@apwg.org",
+      "sent": true
+    },
+    "fortinet.com": {
+      "date": "2026-05-25",
+      "email": "cs@fortinet.com",
+      "sent": true
     }
   }
 }
