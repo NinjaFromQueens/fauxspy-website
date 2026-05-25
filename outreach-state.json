@@ -1,1 +1,44 @@
-{ "contacted": {} }
+{
+  "contacted": {
+    "socialcatfish.com": {
+      "date": "2026-05-25",
+      "email": "example@domain.com",
+      "sent": true
+    },
+    "bestreviews.net": {
+      "date": "2026-05-25",
+      "email": "spinner@2x.gif",
+      "sent": true
+    },
+    "futurepedia.io": {
+      "date": "2026-05-25",
+      "email": "duroneppsjr7@gmail.com",
+      "sent": true
+    },
+    "specialbridge.com": {
+      "date": "2026-05-25",
+      "email": "guest@domain.com",
+      "sent": true
+    },
+    "bellingcat.com": {
+      "date": "2026-05-25",
+      "email": "workshops@bellingcat.com",
+      "sent": true
+    },
+    "extension.usu.edu": {
+      "date": "2026-05-25",
+      "email": "healthyrelationships@usu.edu",
+      "sent": true
+    },
+    "edmontonpolice.ca": {
+      "date": "2026-05-25",
+      "email": "edmonton-police-service-logo@2x.png",
+      "sent": true
+    },
+    "adt.com": {
+      "date": "2026-05-25",
+      "email": "promo%20image_mobile@2x.jpg",
+      "sent": true
+    }
+  }
+}
