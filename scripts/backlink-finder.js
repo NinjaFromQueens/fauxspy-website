@@ -139,8 +139,13 @@ async function findContactEmail(articleUrl) {
       if (domain === OUR_DOMAIN) continue;
       if (SKIP_EMAIL_PREFIXES.some(p => prefix === p || prefix.startsWith(p + '.'))) continue;
 
-      // Basic sanity check — must have a real TLD
+      // Must look like a real email domain, not a file extension or versioned path
       if (!/\.[a-z]{2,}$/.test(domain)) continue;
+      if (/\.(png|jpg|jpeg|gif|svg|webp|js|css|json|xml|zip|pdf|php|html|htm|ts|jsx|tsx|vue)$/i.test(domain)) continue;
+      // Skip obvious placeholder/template addresses
+      if (/^(you|user|name|email|example|test|placeholder|someone|nobody)@/i.test(email)) continue;
+      // Domain must have at least one dot (e.g. not just "localhost")
+      if (!domain.includes('.')) continue;
 
       return email;
     }
@@ -192,9 +197,12 @@ function detectContactForm(html, baseUrl) {
       action = baseUrl;
     }
 
+    const method = (form.attr('method') || 'POST').toUpperCase();
+    if (method !== 'POST') return; // skip GET forms — can't send body
+
     found = {
       action,
-      method: (form.attr('method') || 'POST').toUpperCase(),
+      method,
       fields,
     };
   });
