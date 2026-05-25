@@ -4,6 +4,7 @@
  * Backlink Outreach Finder + Auto-Sender
  * Searches for sites writing about catfishing, fake profiles, and online dating safety.
  * Scrapes contact emails from each site and sends outreach via Resend automatically.
+ * Falls back to contact form submission when no email is found.
  * Posts a weekly GitHub Issue with a full summary of what was sent and what was skipped.
  *
  * Usage: node scripts/backlink-finder.js
@@ -16,6 +17,7 @@ const path = require('path');
 const os = require('os');
 const { execSync } = require('child_process');
 const { Resend } = require('resend');
+const cheerio = require('cheerio');
 
 const REPO = 'NinjaFromQueens/fauxspy-website';
 const OUR_DOMAIN = 'fauxspy.com';
@@ -150,6 +152,92 @@ async function findContactEmail(articleUrl) {
   return null;
 }
 
+function detectContactForm(html, baseUrl) {
+  // Bail immediately if any CAPTCHA service is present — can't submit programmatically
+  if (/g-recaptcha|h-captcha|cf-turnstile|grecaptcha|hcaptcha/i.test(html)) return null;
+
+  const $ = cheerio.load(html);
+  let found = null;
+
+  $('form').each((_, formEl) => {
+    if (found) return;
+    const form = $(formEl);
+
+    // Must have at least one textarea or text/email input (not a search box)
+    const hasMessageField = form.find('textarea').length > 0 ||
+      form.find('input[type="text"], input[type="email"], input:not([type])').length > 0;
+    if (!hasMessageField) return;
+
+    const fields = [];
+    form.find('input, textarea, select').each((_, el) => {
+      const $el = $(el);
+      const tagName = (el.name || '').toLowerCase();
+      const type = tagName === 'textarea' ? 'textarea' : ($el.attr('type') || 'text').toLowerCase();
+      const name = $el.attr('name') || '';
+      const value = $el.val() || $el.attr('value') || '';
+      const style = ($el.attr('style') || '').toLowerCase();
+
+      // Skip honeypot / invisible fields
+      if (/display\s*:\s*none|visibility\s*:\s*hidden/.test(style)) return;
+      if (type === 'submit' || type === 'button' || type === 'image' || type === 'reset') return;
+
+      fields.push({ name, type, value: String(value) });
+    });
+
+    const rawAction = form.attr('action') || '';
+    let action;
+    try {
+      action = rawAction ? new URL(rawAction, baseUrl).href : baseUrl;
+    } catch {
+      action = baseUrl;
+    }
+
+    found = {
+      action,
+      method: (form.attr('method') || 'POST').toUpperCase(),
+      fields,
+    };
+  });
+
+  return found;
+}
+
+async function submitContactForm(form, { name, email, subject, message }) {
+  const NAME_RE = /^(your[_-]?)?((full[_-]?)?name|fname|first[_-]?name)$/i;
+  const EMAIL_RE = /^(your[_-]?)?e?-?mail$/i;
+  const SUBJECT_RE = /^(your[_-]?)?(subject|topic|title)$/i;
+  const MESSAGE_RE = /^(your[_-]?)?(message|comments?|body|content|msg|text)$/i;
+
+  const params = new URLSearchParams();
+  for (const field of form.fields) {
+    if (!field.name) continue;
+    if (field.type === 'hidden') {
+      params.set(field.name, field.value);
+    } else if (NAME_RE.test(field.name)) {
+      params.set(field.name, name);
+    } else if (EMAIL_RE.test(field.name)) {
+      params.set(field.name, email);
+    } else if (SUBJECT_RE.test(field.name)) {
+      params.set(field.name, subject);
+    } else if (MESSAGE_RE.test(field.name) || field.type === 'textarea') {
+      params.set(field.name, message);
+    }
+  }
+
+  const resp = await fetch(form.action, {
+    method: form.method,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'User-Agent': 'fauxspy-outreach:v1.0 (contact: duroneppsjr7@gmail.com)',
+    },
+    body: params.toString(),
+    signal: AbortSignal.timeout(15000),
+    redirect: 'follow',
+  });
+
+  return { ok: resp.ok, status: resp.status };
+}
+
 async function sendOutreachEmail(resend, { to, title, domain }) {
   const text = `Hi there,
 
@@ -263,6 +351,7 @@ async function main() {
   const today = new Date().toISOString().slice(0, 10);
 
   const sent = [];
+  const formSubmissions = [];
   const noEmail = [];
   const alreadyContacted = [];
   let emailsSentThisRun = 0;
@@ -287,9 +376,58 @@ async function main() {
     }
 
     if (!email) {
-      console.log(`    ✗ No contact email found`);
-      noEmail.push({ domain, ...info, reason: 'No email found' });
-      // Don't persist to state — retry next week in case they add a contact page
+      console.log(`    ✗ No contact email found — checking for contact form...`);
+
+      // Try contact form fallback
+      const origin = new URL(info.url).origin;
+      let form = null;
+      for (const contactUrl of [origin + '/contact', origin + '/contact-us']) {
+        let html;
+        try { html = await fetchPage(contactUrl); } catch { continue; }
+        if (!html) continue;
+        form = detectContactForm(html, contactUrl);
+        if (form) { console.log(`    📋 Contact form found at ${contactUrl}`); break; }
+      }
+
+      if (form) {
+        const formMessage = `Hi,
+
+I came across your article and wanted to reach out. I built FauxSpy — a free Chrome extension that detects AI-generated images, helping people spot fake dating profiles and catfishing attempts in real time.
+
+It might be worth a mention for your readers: https://fauxspy.com
+
+Happy to answer any questions.
+
+Duron Epps
+FauxSpy — fauxspy.com`;
+
+        try {
+          const result = await submitContactForm(form, {
+            name: 'Duron Epps',
+            email: 'duron@fauxspy.com',
+            subject: 'Quick mention for your readers — FauxSpy',
+            message: formMessage,
+          });
+          if (result.ok || result.status < 400) {
+            console.log(`    📝 Contact form submitted (HTTP ${result.status})`);
+            formSubmissions.push({ domain, ...info });
+            state.contacted[domain] = { date: today, method: 'form', sent: true };
+            emailsSentThisRun++;
+          } else {
+            console.warn(`    ⚠️ Form submission failed: HTTP ${result.status}`);
+            noEmail.push({ domain, ...info, reason: `Form submit failed (HTTP ${result.status})` });
+          }
+        } catch (err) {
+          console.warn(`    ⚠️ Form submit error: ${err.message}`);
+          noEmail.push({ domain, ...info, reason: `Form submit error: ${err.message}` });
+        }
+      } else {
+        noEmail.push({ domain, ...info, reason: 'No email or contact form found' });
+        // Don't persist — retry next week
+      }
+
+      saveOutreachState(state);
+      await new Promise(r => setTimeout(r, 1200));
       continue;
     }
 
@@ -300,12 +438,12 @@ async function main() {
         await sendOutreachEmail(resend, { to: email, title: info.title, domain });
         console.log(`    ✉️  Email sent to ${email}`);
         sent.push({ domain, email, ...info });
-        state.contacted[domain] = { date: today, email, sent: true };
+        state.contacted[domain] = { date: today, email, method: 'email', sent: true };
         emailsSentThisRun++;
       } catch (err) {
         console.error(`    ✗ Failed to send to ${email}: ${err.message}`);
         noEmail.push({ domain, ...info, reason: `Send failed: ${err.message}` });
-        state.contacted[domain] = { date: today, email, sent: false };
+        state.contacted[domain] = { date: today, email, method: 'email', sent: false };
       }
     } else {
       // Resend not configured — record the email we found but don't send
@@ -328,6 +466,12 @@ async function main() {
         `### ✉️ [${domain}](${url})\n**${title}**  \nSent to: \`${email}\`  \nFound via: *${query}*`
       ).join('\n\n---\n\n');
 
+  const formSection = formSubmissions.length === 0
+    ? '*None.*'
+    : formSubmissions.map(({ domain, url, title, query }) =>
+        `### 📝 [${domain}](${url})\n**${title}**  \nFound via: *${query}*`
+      ).join('\n\n---\n\n');
+
   const noEmailSection = noEmail.length === 0
     ? '*None.*'
     : noEmail.map(({ domain, url, title, reason }) =>
@@ -336,12 +480,13 @@ async function main() {
 
   const alreadySection = alreadyContacted.length === 0
     ? '*None.*'
-    : alreadyContacted.map(({ domain, url, date, email }) =>
-        `- [${domain}](${url}) — contacted ${date}${email ? ` (${email})` : ''}`
+    : alreadyContacted.map(({ domain, url, date, email, method }) =>
+        `- [${domain}](${url}) — contacted ${date}${method ? ` via ${method}` : ''}${email ? ` (${email})` : ''}`
       ).join('\n');
 
+  const totalSent = sent.length + formSubmissions.length;
   const sendingNote = resend
-    ? `Sent **${sent.length}** email${sent.length !== 1 ? 's' : ''} automatically via Resend.`
+    ? `Sent **${totalSent}** outreach${totalSent !== 1 ? 'es' : ''} (${sent.length} email, ${formSubmissions.length} contact form) automatically.`
     : `⚠️ Email sending disabled — RESEND_API_KEY not configured. Add it to GitHub Secrets to enable.`;
 
   const body = `## Backlink Outreach — ${displayDate}
@@ -356,9 +501,17 @@ ${sentSection}
 
 ---
 
+## 📝 Contact Forms Submitted (${formSubmissions.length})
+
+These sites had no email but accepted a contact form submission.
+
+${formSection}
+
+---
+
 ## 🔍 No Contact Found (${noEmail.length})
 
-These sites looked relevant but no contact email could be scraped. You can reach out manually if they're worth it.
+These sites looked relevant but no contact method could be found. You can reach out manually if they're worth it.
 
 ${noEmailSection}
 
@@ -385,7 +538,7 @@ Close this issue when reviewed.`;
     console.log(`\nCreated backlink outreach issue.`);
   }
 
-  console.log(`\nDone. Sent: ${sent.length}, No email: ${noEmail.length}, Already contacted: ${alreadyContacted.length}`);
+  console.log(`\nDone. Emails: ${sent.length}, Forms: ${formSubmissions.length}, No contact: ${noEmail.length}, Already contacted: ${alreadyContacted.length}`);
 }
 
 main().catch(err => {
