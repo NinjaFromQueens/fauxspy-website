@@ -34,34 +34,64 @@ const SEARCH_QUERIES = [
   'online dating safety tips tools',
   'catfishing prevention resources',
   'how to tell if someone is real online dating',
+  'fake profile picture detection guide',
 
   // Deepfakes
-  'deepfake photo detection app',
-  'how to detect deepfake images 2024',
+  'deepfake photo detection app review',
+  'how to detect deepfake images guide',
   'deepfake detector tool review',
-  'best deepfake detection software',
+  'best deepfake detection software free',
+  'deepfake romance scam how to protect yourself',
+  'Chrome extension deepfake detector review',
 
   // AI-generated image detection (broader)
   'how to tell if a photo is AI generated',
-  'AI image detector free tool',
-  'detect AI generated images browser extension',
+  'best AI image detector tools comparison',
+  'AI image detector free Chrome extension',
   'is this photo real or AI generated',
   'AI photo verification guide',
+  'detect AI generated profile picture',
+  'AI fake face detection tool review',
 
-  // Romance scams
+  // Dating safety + AI photos
+  'fake AI profile picture dating app how to detect',
+  'online dating safety AI generated photos',
+  'dating app red flags AI fake photos',
+
+  // Romance scam nonprofits + resources
+  'romance scam victim support nonprofit resources',
   'romance scam warning signs tools',
-  'how to avoid romance scams online',
+  'military romance scam impersonation guide',
+  'sweetheart scam prevention resources guide',
   'online romance fraud prevention',
 
+  // Senior safety (highest-risk demographic)
+  'senior online dating safety protect from scams',
+  'protect seniors from romance scams online tools',
+
+  // Cybersecurity awareness blogs
+  'deepfake awareness cybersecurity training resources',
+  'employee cybersecurity AI deepfake threats guide',
+
+  // Journalism + fact-checking
+  'journalist photo verification authenticity tools',
+  'fact checking tools image verification guide',
+
+  // Family / teen digital safety
+  'protect kids teens AI fake photos social media',
+  'family online safety AI scam awareness tools',
+  'children digital literacy AI image safety',
+
   // Media literacy / misinformation
-  'how to spot fake photos online',
-  'reverse image search guide detect fakes',
+  'how to spot fake photos online guide',
   'media literacy tools verify images',
+  'reverse image search guide detect fakes',
 ];
 
 // Domains that are never useful outreach targets
 const EXCLUDE_DOMAINS = new Set([
   'fauxspy.com',
+  // Search engines & social platforms
   'google.com', 'google.co.uk',
   'youtube.com',
   'reddit.com',
@@ -69,15 +99,36 @@ const EXCLUDE_DOMAINS = new Set([
   'facebook.com',
   'instagram.com',
   'tiktok.com',
-  'amazon.com',
-  'wikipedia.org',
-  'quora.com',
+  'linkedin.com',
   'pinterest.com',
+  // E-commerce / user-generated
+  'amazon.com',
+  'etsy.com',
   'yelp.com',
+  'quora.com',
+  // Encyclopedias / wikis
+  'wikipedia.org',
+  'wikihow.com',
+  // App stores
+  'apps.apple.com',
+  'play.google.com',
+  'chromewebstore.google.com',
+  // Major news orgs (unreachable for cold outreach)
   'bbc.com', 'bbc.co.uk',
   'cnn.com',
   'nytimes.com',
+  'washingtonpost.com',
+  'theguardian.com',
   'forbes.com',
+  'businessinsider.com',
+  'techcrunch.com',
+  'wired.com',
+  'buzzfeed.com',
+  'huffpost.com',
+  // Scripting / doc sites
+  'medium.com',
+  'scribd.com',
+  'slideshare.net',
 ]);
 
 // Email prefixes that are generic/unmonitored — skip them
