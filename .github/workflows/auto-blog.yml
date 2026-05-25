@@ -60,7 +60,7 @@ jobs:
           BRANCH="blog-draft-${SLUG}-${{ github.run_number }}"
 
           git checkout -b "$BRANCH"
-          git add blog/ sitemap.xml .github/workflows/indexnow.yml
+          git add blog/ sitemap.xml
           git diff --cached --quiet && echo "No changes to commit" && exit 0
 
           git commit -m "draft(blog): add article — $TOPIC [auto #${{ github.run_number }}]"
