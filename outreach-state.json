@@ -79,6 +79,51 @@
       "date": "2026-05-25",
       "email": "cs@fortinet.com",
       "sent": true
+    },
+    "checkstep.com": {
+      "date": "2026-05-25",
+      "method": "form",
+      "sent": true
+    },
+    "besedo.com": {
+      "date": "2026-05-25",
+      "method": "form",
+      "sent": true
+    },
+    "ksltv.com": {
+      "date": "2026-05-25",
+      "method": "form",
+      "sent": true
+    },
+    "policies.tinder.com": {
+      "date": "2026-05-25",
+      "email": "partners@gotinder.com",
+      "method": "email",
+      "sent": true
+    },
+    "bitmind.ai": {
+      "date": "2026-05-25",
+      "email": "you@company.com",
+      "method": "email",
+      "sent": true
+    },
+    "boredpanda.com": {
+      "date": "2026-05-25",
+      "email": "iphone-x@x3.png",
+      "method": "email",
+      "sent": true
+    },
+    "youscan.io": {
+      "date": "2026-05-25",
+      "email": "marketing@youscan.io",
+      "method": "email",
+      "sent": true
+    },
+    "malwarebytes.com": {
+      "date": "2026-05-25",
+      "email": "press@malwarebytes.com",
+      "method": "email",
+      "sent": true
     }
   }
 }
