@@ -27,14 +27,36 @@ const FROM_EMAIL = 'Duron Epps <duron@fauxspy.com>';
 
 // Queries that surface articles and guides our tool would genuinely help with
 const SEARCH_QUERIES = [
+  // Catfishing & fake profiles
   'catfish detector tool review',
   'how to spot fake dating profile photos',
   'reverse image search catfish guide',
   'online dating safety tips tools',
-  'deepfake photo detection app',
-  'how to tell if instagram photos are fake',
-  'best tools to check if someone is real online',
   'catfishing prevention resources',
+  'how to tell if someone is real online dating',
+
+  // Deepfakes
+  'deepfake photo detection app',
+  'how to detect deepfake images 2024',
+  'deepfake detector tool review',
+  'best deepfake detection software',
+
+  // AI-generated image detection (broader)
+  'how to tell if a photo is AI generated',
+  'AI image detector free tool',
+  'detect AI generated images browser extension',
+  'is this photo real or AI generated',
+  'AI photo verification guide',
+
+  // Romance scams
+  'romance scam warning signs tools',
+  'how to avoid romance scams online',
+  'online romance fraud prevention',
+
+  // Media literacy / misinformation
+  'how to spot fake photos online',
+  'reverse image search guide detect fakes',
+  'media literacy tools verify images',
 ];
 
 // Domains that are never useful outreach targets
