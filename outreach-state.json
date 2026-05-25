@@ -124,6 +124,53 @@
       "email": "press@malwarebytes.com",
       "method": "email",
       "sent": true
+    },
+    "onlinesafetyhub.safeguardingni.org": {
+      "date": "2026-05-25",
+      "email": "sbnihub@ineqe.com",
+      "method": "email",
+      "sent": true
+    },
+    "aura.com": {
+      "date": "2026-05-25",
+      "email": "media@aura.com",
+      "method": "email",
+      "sent": true
+    },
+    "snbonline.com": {
+      "date": "2026-05-25",
+      "method": "form",
+      "sent": true
+    },
+    "hyperallergic.com": {
+      "date": "2026-05-25",
+      "email": "jamie@example.com",
+      "method": "email",
+      "sent": true
+    },
+    "searchenginejournal.com": {
+      "date": "2026-05-25",
+      "email": "ce1a6e4081594e5e6d533e8e4fc66a0c@o4510320006397952.ingest.us.sentry.io",
+      "method": "email",
+      "sent": true
+    },
+    "shotkit.com": {
+      "date": "2026-05-25",
+      "email": "india@shotkit.com",
+      "method": "email",
+      "sent": true
+    },
+    "media.mit.edu": {
+      "date": "2026-05-25",
+      "email": "matthew.groh@kellogg.northwestern.edu",
+      "method": "email",
+      "sent": true
+    },
+    "guides.library.illinoisstate.edu": {
+      "date": "2026-05-25",
+      "email": "liblearn@ilstu.edu",
+      "method": "email",
+      "sent": true
     }
   }
 }
