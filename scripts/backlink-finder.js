@@ -22,7 +22,7 @@ const cheerio = require('cheerio');
 const REPO = 'NinjaFromQueens/fauxspy-website';
 const OUR_DOMAIN = 'fauxspy.com';
 const STATE_FILE = path.join(__dirname, '..', 'outreach-state.json');
-const MAX_EMAILS_PER_RUN = 8;
+const MAX_EMAILS_PER_RUN = 20;
 const FROM_EMAIL = 'Duron Epps <duron@fauxspy.com>';
 
 // Queries that surface articles and guides our tool would genuinely help with
@@ -215,10 +215,15 @@ async function findContactEmail(articleUrl) {
       // Must look like a real email domain, not a file extension or versioned path
       if (!/\.[a-z]{2,}$/.test(domain)) continue;
       if (/\.(png|jpg|jpeg|gif|svg|webp|js|css|json|xml|zip|pdf|php|html|htm|ts|jsx|tsx|vue)$/i.test(domain)) continue;
-      // Skip obvious placeholder/template addresses
-      if (/^(you|user|name|email|example|test|placeholder|someone|nobody)@/i.test(email)) continue;
       // Domain must have at least one dot (e.g. not just "localhost")
       if (!domain.includes('.')) continue;
+      // Skip known placeholder / error-tracking domains
+      const SKIP_DOMAINS = new Set(['example.com', 'example.org', 'example.net', 'test.com', 'sentry.io', 'ingest.sentry.io']);
+      if (SKIP_DOMAINS.has(domain) || domain.endsWith('.sentry.io')) continue;
+      // Skip obvious placeholder/template prefixes
+      if (/^(you|user|name|email|example|test|placeholder|someone|nobody|jamie|john|jane)@/i.test(email)) continue;
+      // Skip Sentry DSN hashes and other long hash-like prefixes (>32 hex chars)
+      if (prefix.length > 32 && /^[a-f0-9]+$/i.test(prefix)) continue;
 
       return email;
     }
