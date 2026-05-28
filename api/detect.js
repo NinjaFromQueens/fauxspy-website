@@ -28,19 +28,21 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   
   try {
-    const { imageUrl, userId, isPro, licenseKey, width, height } = req.body || {};
-    
-    if (!imageUrl) return res.status(400).json({ error: 'imageUrl required' });
+    const { imageUrl, imageData, userId, isPro, licenseKey, width, height, isVideoFrame } = req.body || {};
+
+    if (!imageUrl && !imageData) return res.status(400).json({ error: 'imageUrl or imageData required' });
     if (!userId) return res.status(400).json({ error: 'userId required' });
-    
-    try {
-      new URL(imageUrl);
-    } catch {
-      return res.status(400).json({ error: 'Invalid imageUrl' });
-    }
-    
-    if (imageUrl.startsWith('data:') || imageUrl.startsWith('blob:')) {
-      return res.status(400).json({ error: 'Cannot analyze data: or blob: URLs' });
+
+    // URL validation only applies when a URL is provided (not for base64 frame captures)
+    if (imageUrl) {
+      try {
+        new URL(imageUrl);
+      } catch {
+        return res.status(400).json({ error: 'Invalid imageUrl' });
+      }
+      if (imageUrl.startsWith('data:') || imageUrl.startsWith('blob:')) {
+        return res.status(400).json({ error: 'Cannot analyze data: or blob: URLs' });
+      }
     }
     
     // Image dimension pre-check
@@ -64,18 +66,19 @@ module.exports = async (req, res) => {
     // ========================================================================
     // STEP 1: Check cache (stores BOTH free and pro responses)
     // ========================================================================
-    const cacheKey = `detect:v6:${await hashUrl(imageUrl)}`;
-    const cached = await getCached(cacheKey);
-    
-    if (cached) {
-      console.log('💾 [CACHE HIT]', imageUrl.substring(0, 60));
-      
-      // Return appropriate version based on Pro status
-      const result = isPro ? cached.pro : cached.free;
-      return res.status(200).json({
-        ...result,
-        cached: true
-      });
+    // Video frame captures are ephemeral — skip cache entirely
+    const skipCache = isVideoFrame === true;
+    let cacheKey;
+
+    if (!skipCache) {
+      cacheKey = `detect:v6:${await hashUrl(imageUrl)}`;
+      const cached = await getCached(cacheKey);
+
+      if (cached) {
+        console.log('💾 [CACHE HIT]', imageUrl.substring(0, 60));
+        const result = isPro ? cached.pro : cached.free;
+        return res.status(200).json({ ...result, cached: true });
+      }
     }
     
     // ========================================================================
@@ -140,22 +143,29 @@ module.exports = async (req, res) => {
     // - Free: just genai model (1 operation)
     // - Pro: genai + type models (2 operations, but combined call)
     // ========================================================================
-    const models = 'genai,type';
-    console.log(`🔍 [DETECT ${isPro ? 'PRO' : 'FREE'}]`, imageUrl.substring(0, 80));
-    
-    const params = new URLSearchParams({
-      url: imageUrl,
-      models,
-      api_user: apiUser,
-      api_secret: apiSecret
-    });
-    
-    const sightengineUrl = `https://api.sightengine.com/1.0/check.json?${params.toString()}`;
-    
-    const response = await fetch(sightengineUrl, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' }
-    });
+    // Pro tier adds deepfake model to detect face swaps and head composites
+    const models = isPro ? 'genai,type,deepfake' : 'genai,type';
+
+    let response;
+    if (imageData) {
+      // Video frame capture — use Sightengine multipart media upload
+      const base64 = imageData.replace(/^data:image\/\w+;base64,/, '');
+      const buffer = Buffer.from(base64, 'base64');
+      const blob = new Blob([buffer], { type: 'image/jpeg' });
+      const form = new FormData();
+      form.append('media', blob, 'frame.jpg');
+      form.append('models', models);
+      form.append('api_user', apiUser);
+      form.append('api_secret', apiSecret);
+      console.log(`🎬 [FRAME DETECT ${isPro ? 'PRO' : 'FREE'}] ${buffer.length} bytes`);
+      response = await fetch('https://api.sightengine.com/1.0/check.json', { method: 'POST', body: form });
+    } else {
+      // Normal URL-based scan
+      const params = new URLSearchParams({ url: imageUrl, models, api_user: apiUser, api_secret: apiSecret });
+      const sightengineUrl = `https://api.sightengine.com/1.0/check.json?${params.toString()}`;
+      console.log(`🔍 [DETECT ${isPro ? 'PRO' : 'FREE'}]`, imageUrl.substring(0, 80));
+      response = await fetch(sightengineUrl, { method: 'GET', headers: { 'Accept': 'application/json' } });
+    }
     
     const data = await response.json();
     
@@ -190,6 +200,9 @@ module.exports = async (req, res) => {
     // type.illustration: 0-1, where 1 = illustration, 0 = photograph
     const illustrationScore = data.type?.illustration ?? 0;
     const photoScore = data.type?.photo ?? 0;
+
+    // deepfake score — only present for Pro tier scans (top-level field from Sightengine)
+    const deepfakeScore = isPro ? (typeof data.deepfake === 'number' ? data.deepfake : 0) : 0;
     
     // ========================================================================
     // STEP 5: Build BOTH free and pro verdict objects (for caching)
@@ -215,13 +228,14 @@ module.exports = async (req, res) => {
     let proResult = null;
     if (isPro) {
       // Pro tier: 5-category verdict (genai + type)
-      const proVerdict = getProTierVerdict(aiProbability, illustrationScore);
+      const proVerdict = getProTierVerdict(aiProbability, illustrationScore, deepfakeScore);
       proResult = {
         success: true,
         isAI: proVerdict.tier === 'likely_ai' || proVerdict.tier === 'definitely_ai' || proVerdict.tier === 'likely_ai_art',
         aiProbability,
         illustrationScore,
         photoScore,
+        deepfakeScore,
         confidence: aiProbability,
         verdict: proVerdict.tier,
         verdictLabel: proVerdict.label,
@@ -233,16 +247,14 @@ module.exports = async (req, res) => {
     }
     
     // ========================================================================
-    // STEP 6: Cache BOTH versions
+    // STEP 6: Cache BOTH versions (skip for video frame captures — frames are ephemeral)
     // ========================================================================
-    // We may not have a Pro response if user was free
-    // In that case, when a Pro user later scans the same image, we'd have to re-call
-    // To save cost, only cache pro version once we've actually computed it
-    if (proResult) {
-      await cacheResult(cacheKey, { free: freeResult, pro: proResult });
-    } else {
-      // Free response only - Pro user later will trigger another call
-      await cacheResult(cacheKey, { free: freeResult, pro: null });
+    if (!skipCache && cacheKey) {
+      if (proResult) {
+        await cacheResult(cacheKey, { free: freeResult, pro: proResult });
+      } else {
+        await cacheResult(cacheKey, { free: freeResult, pro: null });
+      }
     }
     
     if (!isPro) {
@@ -355,11 +367,12 @@ function getFreeTierVerdict(score, illustrationScore) {
   if (score >= 0.20) {
     return {
       tier: 'likely_real',
-      label: 'Likely Real',
+      label: 'No AI Detected',
       category: 'real',
       indicators: [
         `Real confidence: ${realPercent}%`,
-        'Image appears to be a genuine photograph'
+        'No AI generation detected in this image',
+        'ℹ️ Note: Photo manipulation (face swaps, body composites, Photoshop edits) can evade AI detectors — trust your instincts'
       ],
       proHint: null
     };
@@ -368,11 +381,12 @@ function getFreeTierVerdict(score, illustrationScore) {
   // Verified Real (0-20%)
   return {
     tier: 'verified_real',
-    label: 'Verified Real',
+    label: 'No AI Detected',
     category: 'real',
     indicators: [
       `Real confidence: ${realPercent}%`,
-      'Strong indicators this is a genuine photograph'
+      'No AI generation signals found',
+      'ℹ️ Note: Photo manipulation (face swaps, body composites, Photoshop edits) can evade AI detectors — trust your instincts'
     ],
     proHint: null
   };
@@ -395,7 +409,7 @@ function getFreeTierVerdict(score, illustrationScore) {
 // (Sightengine returns illustration + photo = 1.0)
 // ============================================================================
 
-function getProTierVerdict(aiScore, illustrationScore) {
+function getProTierVerdict(aiScore, illustrationScore, deepfakeScore = 0) {
   const aiPercent = (aiScore * 100).toFixed(1);
   const realPercent = (100 - aiScore * 100).toFixed(1);
   const illustPercent = (illustrationScore * 100).toFixed(1);
@@ -505,18 +519,23 @@ function getProTierVerdict(aiScore, illustrationScore) {
         ]
       };
     } else {
+      const isManipulated = deepfakeScore > 0.50;
+      const manipNote = isManipulated
+        ? `⚠️ Possible face/body manipulation detected (${(deepfakeScore * 100).toFixed(0)}% confidence) — this may be a head swap or composite`
+        : 'ℹ️ Note: Photo manipulation (face swaps, body composites, Photoshop edits) can evade AI detectors — trust your instincts';
       return {
-        tier: 'likely_real',
-        label: 'Likely Real Photo',
-        category: 'real',
+        tier: isManipulated ? 'likely_real_manipulated' : 'likely_real',
+        label: isManipulated ? 'Possible Manipulation' : 'No AI Detected',
+        category: isManipulated ? 'manipulated' : 'real',
         indicators: [
           `Real confidence: ${realPercent}%`,
-          'Appears to be a genuine photograph'
+          'No AI generation detected in this image',
+          manipNote
         ]
       };
     }
   }
-  
+
   // Highest confidence real (0-20%)
   if (isIllustration) {
     return {
@@ -531,13 +550,18 @@ function getProTierVerdict(aiScore, illustrationScore) {
       ]
     };
   } else {
+    const isManipulated = deepfakeScore > 0.50;
+    const manipNote = isManipulated
+      ? `⚠️ Possible face/body manipulation detected (${(deepfakeScore * 100).toFixed(0)}% confidence) — this may be a head swap or composite`
+      : 'ℹ️ Note: Photo manipulation (face swaps, body composites, Photoshop edits) can evade AI detectors — trust your instincts';
     return {
-      tier: 'verified_real',
-      label: 'Verified Real Photo',
-      category: 'real',
+      tier: isManipulated ? 'verified_real_manipulated' : 'verified_real',
+      label: isManipulated ? 'Possible Manipulation' : 'No AI Detected',
+      category: isManipulated ? 'manipulated' : 'real',
       indicators: [
         `Real confidence: ${realPercent}%`,
-        'Confirmed: genuine photograph'
+        'No AI generation signals found',
+        manipNote
       ]
     };
   }

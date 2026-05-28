@@ -33,7 +33,28 @@ module.exports = async (req, res) => {
     }
     
     const cleanKey = licenseKey.trim().toUpperCase();
-    
+
+    // Dev/owner bypass key — only active when DEV_LICENSE_ENABLED=true env var is set
+    if (process.env.DEV_LICENSE_ENABLED === 'true' && cleanKey === 'FAUX-DEV0-TEST-ACCS-0001') {
+      return res.status(200).json({
+        valid: true,
+        isPro: true,
+        plan: 'yearly',
+        email: 'duroneppsjr7@gmail.com',
+        expiresAt: Date.now() + 365 * 24 * 60 * 60 * 1000,
+        tokenBalance: 9999,
+        topupBalance: 0,
+        tokensIncluded: 9999,
+        features: {
+          unlimitedScans: true,
+          deepDive: true,
+          caseFiles: true,
+          priorityDetection: true,
+          videoDetection: true
+        }
+      });
+    }
+
     // Validate format
     if (!cleanKey.match(/^FAUX-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/)) {
       return res.status(400).json({
@@ -42,7 +63,7 @@ module.exports = async (req, res) => {
         message: 'License keys look like: FAUX-XXXX-XXXX-XXXX-XXXX'
       });
     }
-    
+
     // Look up license
     const license = await kv.get(`license:${cleanKey}`);
     

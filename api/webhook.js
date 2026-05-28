@@ -60,8 +60,17 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Invalid signature' });
   }
   
-  console.log('📨 Webhook event:', event.type);
-  
+  console.log('📨 Webhook event:', event.type, event.id);
+
+  // Idempotency guard — skip if we've already processed this event (Stripe retries)
+  const dedupKey = `processed_event:${event.id}`;
+  const alreadyProcessed = await kv.get(dedupKey);
+  if (alreadyProcessed) {
+    console.log('⏭️ Duplicate event, skipping:', event.id);
+    return res.status(200).json({ received: true, duplicate: true });
+  }
+  await kv.set(dedupKey, 1, { ex: 86400 }); // TTL 24h
+
   try {
     switch (event.type) {
       case 'checkout.session.completed':

@@ -18,6 +18,7 @@
     "cheerio": "^1.0.0",
     "dotenv": "^17.4.2",
     "googleapis": "^172.0.0",
+    "sharp": "^0.34.5",
     "vercel": "^33.0.0"
   },
   "engines": {
