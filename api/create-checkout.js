@@ -119,7 +119,8 @@ module.exports = async (req, res) => {
       }
     };
     
-    // Apply promo code if provided (e.g., WAITLIST50 for 50% off)
+    // Apply promo code if provided
+    let promoApplied = false;
     if (promoCode) {
       try {
         const promotionCodes = await stripe.promotionCodes.list({
@@ -127,27 +128,31 @@ module.exports = async (req, res) => {
           active: true,
           limit: 1
         });
-        
+
         if (promotionCodes.data.length > 0) {
-          sessionParams.discounts = [{ 
-            promotion_code: promotionCodes.data[0].id 
+          sessionParams.discounts = [{
+            promotion_code: promotionCodes.data[0].id
           }];
-          // Remove allow_promotion_codes when applying one directly
+          // Mutually exclusive with allow_promotion_codes
           delete sessionParams.allow_promotion_codes;
+          promoApplied = true;
+          console.log('✅ Promo code applied:', promoCode);
+        } else {
+          console.warn('⚠️ Promo code not found or inactive:', promoCode);
         }
       } catch (promoError) {
         console.warn('⚠️ Promo code lookup failed:', promoError.message);
-        // Continue without promo
       }
     }
-    
+
     const session = await stripe.checkout.sessions.create(sessionParams);
-    
+
     console.log('✅ Checkout session created:', session.id);
-    
-    return res.status(200).json({ 
+
+    return res.status(200).json({
       url: session.url,
-      sessionId: session.id 
+      sessionId: session.id,
+      promoApplied,
     });
     
   } catch (error) {

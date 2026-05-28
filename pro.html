@@ -772,6 +772,17 @@
                 !data.url.startsWith('https://fauxspy.com/')) {
               throw new Error('Invalid checkout URL received');
             }
+            // Warn user if a promo code was expected but didn't apply
+            if (urlPromo && data.promoApplied === false) {
+              const cont = confirm(
+                `Promo code "${urlPromo.toUpperCase()}" wasn't recognized — you'll be charged the full price.\n\nContinue anyway?`
+              );
+              if (!cont) {
+                btn.disabled = false;
+                btn.textContent = originalText;
+                return;
+              }
+            }
             window.location.href = data.url;
           } else {
             throw new Error(data.message || 'Checkout failed');
