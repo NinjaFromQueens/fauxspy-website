@@ -12,6 +12,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Improved pro page with better plan detection and URL validation
 - Enhanced blog agent functionality
 - Prepared for launch with og-image support, webhook reliability, and dev key protection
+- Added Pro plan + Video waitlist signup forms for users to join
+- Fixed promo code handling to show errors instead of charging full price
+- Launched new dev-tracker and function-audit AI agents
+- Updated Pro page and improved blog agent functionality
+- Added launch prep features including og-images, webhook idempotency, and dev key gating
 
 ## 2026-05-29 — v1.8.8
 - Full end-to-end purchase flow audit: verified all API checks, fixed 3 bugs found
