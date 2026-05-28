@@ -145,7 +145,10 @@ async function handleCheckoutCompleted(session, stripe) {
     plan = 'video-yearly';
   } else if (priceId === process.env.STRIPE_VIDEO_MONTHLY_PRICE_ID) {
     plan = 'video-monthly';
+  } else if (priceId === process.env.STRIPE_PRICE_MONTHLY) {
+    plan = 'monthly';
   } else {
+    console.error('❌ Unknown price ID in checkout:', priceId, '— defaulting to monthly. Check STRIPE_PRICE_* env vars.');
     plan = 'monthly';
   }
 

@@ -768,7 +768,10 @@
           const data = await response.json();
           
           if (data.url) {
-            // Redirect to Stripe Checkout
+            if (!data.url.startsWith('https://checkout.stripe.com/') &&
+                !data.url.startsWith('https://fauxspy.com/')) {
+              throw new Error('Invalid checkout URL received');
+            }
             window.location.href = data.url;
           } else {
             throw new Error(data.message || 'Checkout failed');
