@@ -36,6 +36,45 @@ if (!process.env.ANTHROPIC_API_KEY) {
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+// ─── Cached system prompts ─────────────────────────────────────────────────────
+// Static across all runs — Anthropic prompt caching saves ~90% on token costs
+
+const ARTICLE_SYSTEM_PROMPT = `You are writing blog articles for Faux Spy, a Chrome extension that detects AI-generated images and videos.
+
+AUTHOR VOICE: You are writing in the voice of someone who built FauxSpy after watching people get burned by fake profiles. This person is direct, a little blunt, and genuinely cares about the problem. They've seen the screenshots. They know how the scams work technically. They don't moralize or over-explain. They respect the reader's intelligence.
+
+CRITICAL WRITING RULES — every single one applies:
+- Write like a person, not like an AI. No bullet-pointed summaries of what the article will cover. No "In this article, we will explore..." openers.
+- Start with a specific scene, statistic, or concrete observation — not with a definition or a statement about how important the topic is.
+- Short paragraphs. 3–4 sentences max. Vary the rhythm — mix long and short sentences. Use a single short sentence (under 10 words) as its own paragraph at least twice for punch.
+- Use second person ("you") throughout. Talk directly to the reader.
+- Each H2 heading must make a real point, not just label a category. "How to spot it" is weak. "The tell is in the hand movement, not the face" is strong.
+- Include at least one specific, verifiable data point per major section — a real statistic, a named source, a specific dollar amount or percentage.
+- Name specific real platforms, apps, or websites when giving examples (Tinder, r/OnlineDating, Hinge, etc.) — not vague "dating apps."
+- Contradict a common assumption at least once. "Most people think X. They're wrong."
+- Write at least one sentence that starts with "And" or "But" — real writers do this.
+- No fluff. If a sentence doesn't add information, cut it.
+- Aim for 1,200–1,800 words of article body content.
+
+BANNED PHRASES — never use any of these:
+"it's worth noting", "it's important to note", "delve into", "navigate", "in the realm of", "furthermore", "in conclusion", "in summary", "as we've seen", "when it comes to", "let's explore", "let's dive in", "it goes without saying", "at the end of the day", "cutting-edge", "game-changing", "groundbreaking", "needless to say", "a comprehensive guide", "in today's digital age", "the importance of", "This article will", "we will cover", "in this post"
+
+Return ONLY the complete HTML. No explanation before or after. No markdown code fences — just the raw HTML starting with <!DOCTYPE html>.`;
+
+const REVISION_SYSTEM_PROMPT = `You are a sharp human editor. Your only job is to find and fix AI-sounding text in blog articles.
+
+Find sentences or phrases that sound generic, formulaic, hedging, or AI-written. Rewrite ONLY those — keep everything else exactly as-is, including all HTML tags, structure, and attributes.
+
+Common AI tells to hunt for:
+- Topic sentences that just label a category instead of making a real point
+- Transitions like "furthermore", "additionally", "it's important to note", "it's worth noting"
+- Sentences that hedge when they should just say the thing directly
+- Closing sentences that summarise what was just said
+- Introductory clauses that delay getting to the point ("When it comes to X...", "In the world of...")
+- Any phrase from this banned list: "delve into", "navigate", "in the realm of", "cutting-edge", "game-changing", "groundbreaking", "in today's digital age", "comprehensive"
+
+Return the complete HTML with your edits applied. No explanation before or after — just the corrected HTML starting with <!DOCTYPE html>.`;
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function topicToSlug(t) {
@@ -223,31 +262,8 @@ async function generateArticle(slug, displayDate, research) {
 
   const researchContext = buildResearchContext(research);
 
-  const prompt = `You are writing a blog article for Faux Spy, a Chrome extension that detects AI-generated images and videos.
-
-${styleContext}
-
-${researchContext}
-Write a complete, in-depth blog article about: "${topic}"
+  const userPrompt = `${styleContext ? styleContext + '\n\n' : ''}${researchContext}Write a complete, in-depth blog article about: "${topic}"
 Category: ${category}
-
-AUTHOR VOICE: You are writing in the voice of someone who built FauxSpy after watching people get burned by fake profiles. This person is direct, a little blunt, and genuinely cares about the problem. They've seen the screenshots. They know how the scams work technically. They don't moralize or over-explain. They respect the reader's intelligence.
-
-CRITICAL WRITING RULES — every single one applies:
-- Write like a person, not like an AI. No bullet-pointed summaries of what the article will cover. No "In this article, we will explore..." openers.
-- Start with a specific scene, statistic, or concrete observation — not with a definition or a statement about how important the topic is.
-- Short paragraphs. 3–4 sentences max. Vary the rhythm — mix long and short sentences. Use a single short sentence (under 10 words) as its own paragraph at least twice for punch.
-- Use second person ("you") throughout. Talk directly to the reader.
-- Each H2 heading must make a real point, not just label a category. "How to spot it" is weak. "The tell is in the hand movement, not the face" is strong.
-- Include at least one specific, verifiable data point per major section — a real statistic, a named source, a specific dollar amount or percentage.
-- Name specific real platforms, apps, or websites when giving examples (Tinder, r/OnlineDating, Hinge, etc.) — not vague "dating apps."
-- Contradict a common assumption at least once. "Most people think X. They're wrong."
-- Write at least one sentence that starts with "And" or "But" — real writers do this.
-- No fluff. If a sentence doesn't add information, cut it.
-- Aim for 1,200–1,800 words of article body content.
-
-BANNED PHRASES — never use any of these:
-"it's worth noting", "it's important to note", "delve into", "navigate", "in the realm of", "furthermore", "in conclusion", "in summary", "as we've seen", "when it comes to", "let's explore", "let's dive in", "it goes without saying", "at the end of the day", "cutting-edge", "game-changing", "groundbreaking", "needless to say", "a comprehensive guide", "in today's digital age", "the importance of", "This article will", "we will cover", "in this post"
 
 Output a complete HTML article file using EXACTLY this structure — replace the placeholder values:
 
@@ -332,12 +348,13 @@ Output a complete HTML article file using EXACTLY this structure — replace the
 </html>
 \`\`\`
 
-Return ONLY the complete HTML. No explanation before or after. No markdown code fences in your output — just the raw HTML starting with <!DOCTYPE html>.`;
+\`\`\``;
 
   const message = await client.messages.create({
     model: 'claude-opus-4-7',
     max_tokens: 8192,
-    messages: [{ role: 'user', content: prompt }],
+    system: [{ type: 'text', text: ARTICLE_SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
+    messages: [{ role: 'user', content: userPrompt }],
   });
 
   let html = message.content[0].text.trim();
@@ -353,31 +370,114 @@ async function reviseForHumanVoice(html) {
   const message = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 8192,
-    messages: [{
-      role: 'user',
-      content: `You are a sharp human editor. Your only job is to find and fix AI-sounding text in this blog article.
-
-Find sentences or phrases that sound generic, formulaic, hedging, or AI-written. Rewrite ONLY those — keep everything else exactly as-is, including all HTML tags, structure, and attributes.
-
-Common AI tells to hunt for:
-- Topic sentences that just label a category instead of making a real point
-- Transitions like "furthermore", "additionally", "it's important to note", "it's worth noting"
-- Sentences that hedge when they should just say the thing directly
-- Closing sentences that summarise what was just said
-- Introductory clauses that delay getting to the point ("When it comes to X...", "In the world of...")
-- Any phrase from this banned list: "delve into", "navigate", "in the realm of", "cutting-edge", "game-changing", "groundbreaking", "in today's digital age", "comprehensive"
-
-Return the complete HTML with your edits applied. No explanation before or after — just the corrected HTML starting with <!DOCTYPE html>.
-
-ARTICLE:
-${html}`
-    }],
+    system: [{ type: 'text', text: REVISION_SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
+    messages: [{ role: 'user', content: `ARTICLE:\n${html}` }],
   });
 
   let revised = message.content[0].text.trim();
   revised = revised.replace(/^```html\s*/i, '').replace(/```\s*$/, '').trim();
   // Safety fallback: if revision produced something that doesn't look like HTML, keep original
   return revised.startsWith('<!DOCTYPE') ? revised : html;
+}
+
+// ─── Internal link injection ─────────────────────────────────────────────────
+
+async function injectInternalLinks(html, slug) {
+  let existingPosts;
+  try {
+    existingPosts = fs.readdirSync(BLOG_DIR)
+      .filter(f => f.endsWith('.html') && f !== 'index.html' && f !== `${slug}.html`)
+      .map(f => {
+        const content = fs.readFileSync(path.join(BLOG_DIR, f), 'utf8');
+        const titleMatch = content.match(/<h1[^>]*>([^<]+)<\/h1>/);
+        return { slug: f.replace('.html', ''), title: titleMatch?.[1] || f };
+      });
+  } catch {
+    return html;
+  }
+
+  if (existingPosts.length === 0) return html;
+
+  const response = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 800,
+    messages: [{
+      role: 'user',
+      content: `Given this article HTML and the list of existing blog posts, identify 2-3 natural places to add an internal link.
+
+Existing posts: ${JSON.stringify(existingPosts)}
+
+For each link opportunity, return JSON: [{"anchor":"exact text in article to wrap with link","href":"/blog/slug","reason":"why relevant"}]
+Only suggest anchors that exist verbatim in the article. Return [] if no good matches.
+
+ARTICLE: ${html.slice(0, 6000)}`
+    }]
+  });
+
+  const raw = response.content[0]?.text || '[]';
+  const match = raw.match(/\[[\s\S]*\]/);
+  let links = [];
+  try { links = match ? JSON.parse(match[0]) : []; } catch { links = []; }
+
+  let updated = html;
+  for (const { anchor, href } of links) {
+    if (!anchor || !href) continue;
+    const idx = updated.indexOf(anchor);
+    if (idx === -1) continue;
+    // Skip if already inside an anchor tag
+    const before = updated.slice(Math.max(0, idx - 300), idx);
+    if (/<a\s/.test(before.split('</a>').pop())) continue;
+    updated = updated.slice(0, idx) + `<a href="${href}">${anchor}</a>` + updated.slice(idx + anchor.length);
+  }
+
+  if (links.length) console.log(`  🔗 Injected ${links.length} internal link(s)`);
+  return updated;
+}
+
+// ─── FAQ section generator ────────────────────────────────────────────────────
+
+async function generateFaqSection(relatedQuestions, topicStr) {
+  if (!relatedQuestions || relatedQuestions.length === 0) return null;
+
+  const response = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 1200,
+    messages: [{
+      role: 'user',
+      content: `Write concise, direct answers to these FAQ questions about "${topicStr}".
+Each answer: 2-3 sentences max, no fluff, no AI-sounding openers.
+Questions: ${JSON.stringify(relatedQuestions.slice(0, 5))}
+Return JSON array only: [{"question":"...","answer":"..."}]`
+    }]
+  });
+
+  const raw = response.content[0]?.text || '[]';
+  const match = raw.match(/\[[\s\S]*\]/);
+  let faqs = [];
+  try { faqs = match ? JSON.parse(match[0]) : []; } catch { faqs = []; }
+  if (!faqs.length) return null;
+
+  const faqHtml = `
+        <div class="landing-section">
+          <h2>Frequently Asked Questions</h2>
+          ${faqs.map(f => `
+          <details style="margin-bottom:1rem;border:1px solid var(--border,#e5e5e5);border-radius:8px;padding:1rem;">
+            <summary style="font-weight:600;cursor:pointer;">${f.question}</summary>
+            <p style="margin-top:0.75rem;">${f.answer}</p>
+          </details>`).join('')}
+        </div>`;
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer }
+    }))
+  };
+
+  return { faqHtml, faqSchema };
 }
 
 // ─── Extract title from generated HTML ────────────────────────────────────────
@@ -477,23 +577,47 @@ async function main() {
   console.log('Calling Claude to generate article...');
   const draft = await generateArticle(slug, today, research);
 
-  const html = await reviseForHumanVoice(draft);
+  const revised = await reviseForHumanVoice(draft);
 
-  const foundPhrases = scanForAIPhrases(html);
+  console.log('Injecting internal links...');
+  let finalHtml = await injectInternalLinks(revised, slug);
+
+  if (research?.relatedQuestions?.length) {
+    console.log('Generating FAQ section...');
+    const faqResult = await generateFaqSection(research.relatedQuestions, topic);
+    if (faqResult) {
+      // Inject FAQ HTML before the last landing-section (CTA block), found by searching backwards from <footer
+      const footerIdx = finalHtml.lastIndexOf('<footer');
+      const ctaStart = footerIdx !== -1
+        ? finalHtml.lastIndexOf('<div class="landing-section"', footerIdx)
+        : finalHtml.lastIndexOf('<div class="landing-section"');
+      if (ctaStart !== -1) {
+        finalHtml = finalHtml.slice(0, ctaStart) + faqResult.faqHtml + '\n\n        ' + finalHtml.slice(ctaStart);
+      } else {
+        finalHtml = finalHtml.replace('</body>', faqResult.faqHtml + '\n</body>');
+      }
+      // Inject FAQPage schema as second ld+json in <head>
+      const faqSchemaTag = `\n  <script type="application/ld+json">\n  ${JSON.stringify(faqResult.faqSchema, null, 2)}\n  </script>`;
+      finalHtml = finalHtml.replace('</head>', faqSchemaTag + '\n</head>');
+      console.log(`  ✅ FAQ section added (${faqResult.faqSchema.mainEntity.length} questions)`);
+    }
+  }
+
+  const foundPhrases = scanForAIPhrases(finalHtml);
   if (foundPhrases.length) {
     console.warn(`\n  ⚠️  AI phrases still detected after revision: ${foundPhrases.join(', ')}`);
   } else {
     console.log('  ✅ No banned AI phrases detected.');
   }
 
-  const title = extractTitle(html);
-  const metaDesc = extractMetaDesc(html);
+  const title = extractTitle(finalHtml);
+  const metaDesc = extractMetaDesc(finalHtml);
 
   console.log(`  Title: ${title}`);
   console.log(`  Meta desc: ${metaDesc.slice(0, 80)}...\n`);
 
   // Save article file
-  fs.writeFileSync(outputPath, html, 'utf8');
+  fs.writeFileSync(outputPath, finalHtml, 'utf8');
   console.log(`  ✅ Saved: blog/${slug}.html`);
 
   // Add card to blog index

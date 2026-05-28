@@ -69,14 +69,60 @@ function writeOutput(key, value) {
   }
 }
 
-function main() {
+async function generateFreshTopics() {
+  const { default: Anthropic } = require('@anthropic-ai/sdk');
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const response = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 600,
+    messages: [{
+      role: 'user',
+      content: `Generate 10 blog topic ideas for Faux Spy, a Chrome extension that detects AI-generated images.
+Target keywords: catfishing, AI detection, deepfakes, online dating safety, fake profiles, romance scams.
+Focus on topics people actually search for with buying or learning intent.
+Return JSON only: [{"topic":"...","category":"Online Safety|AI Detection|Scams|Dating Safety"}]`
+    }]
+  });
+  const raw = response.content[0]?.text || '[]';
+  const match = raw.match(/\[[\s\S]*\]/);
+  try { return match ? JSON.parse(match[0]) : []; } catch { return []; }
+}
+
+function appendTopicsToFile(newTopics) {
+  const src = fs.readFileSync(__filename, 'utf8');
+  const arrStart = src.indexOf('const TOPICS = [');
+  if (arrStart === -1) { console.warn('  Could not find TOPICS array'); return; }
+  const closeIdx = src.indexOf('\n];', arrStart);
+  if (closeIdx === -1) { console.warn('  Could not find TOPICS closing bracket'); return; }
+  const newEntries = newTopics.map(t =>
+    `  { topic: '${t.topic.replace(/'/g, "\\'")}', category: '${t.category}' },`
+  ).join('\n');
+  const updated = src.slice(0, closeIdx) + '\n' + newEntries + src.slice(closeIdx);
+  fs.writeFileSync(__filename, updated, 'utf8');
+  console.log(`  ✅ Appended ${newTopics.length} new topics to TOPICS list`);
+}
+
+async function main() {
   const existingSlugs = new Set(getExistingSlugs());
   console.log(`Existing blog posts: ${existingSlugs.size}`);
 
-  const next = TOPICS.find(({ topic }) => !existingSlugs.has(topicToSlug(topic)));
+  let next = TOPICS.find(({ topic }) => !existingSlugs.has(topicToSlug(topic)));
 
   if (!next) {
-    console.log('All topics have been published. Add more topics to TOPICS list.');
+    console.log('All static topics published — generating fresh topics via Claude...');
+    try {
+      const newTopics = await generateFreshTopics();
+      if (newTopics.length) {
+        appendTopicsToFile(newTopics);
+        next = newTopics[0];
+      }
+    } catch (err) {
+      console.warn(`  Topic generation failed: ${err.message}`);
+    }
+  }
+
+  if (!next) {
+    console.log('No topics available. Add topics to TOPICS list manually.');
     writeOutput('BLOG_TOPIC', '');
     process.exit(0);
   }
@@ -86,4 +132,7 @@ function main() {
   writeOutput('BLOG_CATEGORY', next.category);
 }
 
-main();
+main().catch(err => {
+  console.error('Topic picker failed:', err.message);
+  process.exit(1);
+});

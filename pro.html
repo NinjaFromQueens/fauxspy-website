@@ -400,6 +400,10 @@
       
       <!-- BUY NOW SECTION (only shown if STRIPE_ENABLED) -->
       <div class="pricing-options" id="buyNowSection" style="display: none;">
+        <!-- Promo banner — shown when ?promo= is in the URL -->
+        <div id="promo-banner" style="display:none;text-align:center;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:10px 16px;margin-bottom:18px;font-size:0.97rem;">
+          🎉 Promo code <strong id="promo-label"></strong> will be applied at checkout — <strong>30% off your first year!</strong>
+        </div>
         <div class="pricing-card-row">
           
           <!-- Monthly Plan -->
@@ -728,14 +732,21 @@
     // Auto-detect: Stripe enabled or waitlist mode?
     // Set this to true once Stripe is configured + tested
     // ============================================================================
-    const STRIPE_ENABLED = false; // Flip to true when Pro tier launches
-    
+    const STRIPE_ENABLED = true; // Flip to true when Pro tier launches
+
+    // Read promo code from URL (?promo=PRODUCTHUNT) — auto-applies at checkout
+    const urlPromo = new URLSearchParams(window.location.search).get('promo') || '';
+    if (urlPromo) {
+      document.getElementById('promo-label').textContent = urlPromo.toUpperCase();
+      document.getElementById('promo-banner').style.display = 'block';
+    }
+
     if (STRIPE_ENABLED) {
       // Show Buy Now section, hide waitlist
       document.getElementById('buyNowSection').style.display = 'block';
       document.getElementById('waitlistCard').style.display = 'none';
     }
-    
+
     // ============================================================================
     // Stripe Checkout buttons
     // ============================================================================
@@ -743,15 +754,15 @@
       btn.addEventListener('click', async () => {
         const plan = btn.dataset.plan;
         const originalText = btn.textContent;
-        
+
         btn.disabled = true;
         btn.textContent = 'Loading checkout...';
-        
+
         try {
           const response = await fetch('/api/create-checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ plan })
+            body: JSON.stringify({ plan, ...(urlPromo ? { promoCode: urlPromo } : {}) })
           });
           
           const data = await response.json();
