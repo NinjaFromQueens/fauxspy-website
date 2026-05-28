@@ -22,6 +22,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added two new AI agents: dev-tracker and function-audit for extended capabilities
 - Fixed Pro page URL validation and webhook plan detection for reliability
 - Prepared for launch with OG images, webhook idempotency, and dev key gating
+- Added Pro plan and video waitlist signup forms
+- Fixed billing issues where promo code failures weren't shown to users
+- Launched new AI agents for dev-tracker and function-audit capabilities
+- Improved Pro page with webhook idempotency and better plan detection
+- Fixed issue with GitHub comment posting in automation workflows
 
 ## 2026-05-29 — v1.8.8
 - Full end-to-end purchase flow audit: verified all API checks, fixed 3 bugs found
