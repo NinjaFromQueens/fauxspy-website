@@ -510,7 +510,28 @@
           <li>✅ Token top-ups available, never expire</li>
           <li>✅ Yearly option: $299/year (save ~17%)</li>
         </ul>
-        <a href="/contact" class="btn btn-secondary btn-block" style="border-color:rgba(59,130,246,0.4);color:#60a5fa;text-align:center;display:block;">Get Notified When It Launches →</a>
+
+        <!-- Video waitlist form -->
+        <div id="videoWaitlistForm">
+          <p style="font-size:0.875rem;color:#93c5fd;margin:0 0 0.75rem;">Get notified at launch + early access pricing:</p>
+          <div style="display:flex;gap:8px;">
+            <input type="email" id="videoEmailInput" placeholder="your@email.com"
+              style="flex:1;padding:11px 14px;border-radius:8px;border:1px solid rgba(59,130,246,0.35);background:rgba(59,130,246,0.08);color:#e2e8f0;font-size:0.9rem;outline:none;"
+              required>
+            <button onclick="submitVideoWaitlist()" id="videoSubmitBtn"
+              style="padding:11px 18px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.9rem;white-space:nowrap;">
+              Notify Me
+            </button>
+          </div>
+          <div id="videoWaitlistError" style="display:none;margin-top:8px;font-size:0.8rem;color:#f87171;"></div>
+        </div>
+
+        <!-- Success state -->
+        <div id="videoWaitlistSuccess" style="display:none;text-align:center;padding:12px 0;">
+          <div style="font-size:1.5rem;margin-bottom:6px;">🎉</div>
+          <div style="font-weight:700;color:#60a5fa;margin-bottom:4px;">You're on the list!</div>
+          <div style="font-size:0.85rem;color:#93c5fd;">We'll email you when Pro + Video launches.</div>
+        </div>
       </div>
 
       <!-- WAITLIST SECTION (default - shown when Stripe not configured) -->
@@ -728,6 +749,52 @@
   </footer>
 
   <script>
+    // ============================================================================
+    // Pro + Video waitlist signup
+    // ============================================================================
+    async function submitVideoWaitlist() {
+      const emailInput = document.getElementById('videoEmailInput');
+      const submitBtn = document.getElementById('videoSubmitBtn');
+      const errorDiv = document.getElementById('videoWaitlistError');
+      const email = emailInput.value.trim();
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errorDiv.textContent = 'Please enter a valid email address.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '...';
+      errorDiv.style.display = 'none';
+
+      try {
+        const resp = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: 'pro-video' })
+        });
+        const data = await resp.json();
+        if (resp.ok && data.success) {
+          document.getElementById('videoWaitlistForm').style.display = 'none';
+          document.getElementById('videoWaitlistSuccess').style.display = 'block';
+        } else {
+          throw new Error(data.error || 'Signup failed');
+        }
+      } catch (err) {
+        errorDiv.textContent = 'Something went wrong. Please try again.';
+        errorDiv.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Notify Me';
+      }
+    }
+
+    // Allow Enter key to submit
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('videoEmailInput');
+      if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') submitVideoWaitlist(); });
+    });
+
     // ============================================================================
     // Auto-detect: Stripe enabled or waitlist mode?
     // Set this to true once Stripe is configured + tested
