@@ -235,7 +235,10 @@ ${failList}
     process.exit(1);
   } else {
     for (const issue of openIssues) {
-      ghWithFile(`issue close ${issue.number} --comment`, `✅ All function checks recovered at ${new Date().toISOString()}. ${passed.length}/${results.length} checks passing.`);
+      // Comment then close separately — gh issue close --comment --body-file is not valid syntax
+      const recoveryMsg = `✅ All function checks recovered at ${new Date().toISOString()}. ${passed.length}/${results.length} checks passing.`;
+      gh(`issue comment ${issue.number} --body "${recoveryMsg}"`);
+      gh(`issue close ${issue.number}`);
       console.log(`✅ Closed alert issue #${issue.number}.`);
     }
     console.log('\n✅ All checks passed.');
