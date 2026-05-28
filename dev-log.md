@@ -2,6 +2,12 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-05-28
+- Added dev-tracker and function-audit agents for enhanced monitoring capabilities
+- Improved pro page with updated features and enhanced blog agent functionality
+- Fixed webhook plan detection and added URL validation to pro.html
+- Prepared for launch with og-image support, webhook idempotency, and developer key gating
+
 ## 2026-05-29 — v1.8.8
 - Full end-to-end purchase flow audit: verified all API checks, fixed 3 bugs found
 - Fixed: license activation in settings.js didn't store token balance (popup showed blank count)
