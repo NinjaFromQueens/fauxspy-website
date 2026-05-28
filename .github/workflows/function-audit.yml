@@ -1,0 +1,35 @@
+name: Function Audit
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 */6 * * *'   # Every 6 hours
+  workflow_dispatch:          # Manual trigger
+
+jobs:
+  audit:
+    name: Audit App Functions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run function audit
+        env:
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/function-audit.js
