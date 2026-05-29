@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-05-29
+- Updated launch email and Product Hunt page with a 30% discount code
+- Fixed GitHub issue commenting workflow to use separate comment and close commands
+- Improved CI pipeline to skip manifest validation when extension code isn't available
+
 ## 2026-05-28
 - Added dev-tracker and function-audit agents for enhanced monitoring capabilities
 - Improved pro page with updated features and enhanced blog agent functionality
