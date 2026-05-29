@@ -14,6 +14,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Updated launch email and Product Hunt page with 30% off promotional code
 - Fixed GitHub issue commenting workflow to properly add comments and close issues
 - Improved CI reliability by skipping manifest validation when extension repo isn't available
+- Fixed Product Hunt URL and set up automated launch emails to send every other day for 2 weeks
+- Improved launch email with owner copy option and audience size validation to prevent sending to empty lists
+- Switched to Resend REST API for broadcast emails to work around SDK limitations
+- Added Product Hunt 30% discount code to launch email and product page
+- Fixed GitHub issue automation to properly comment and close issues separately
 
 ## 2026-05-28
 - Added dev-tracker and function-audit agents for enhanced monitoring capabilities
