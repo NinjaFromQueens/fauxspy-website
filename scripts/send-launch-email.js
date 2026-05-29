@@ -87,6 +87,21 @@ async function main() {
 
   <hr class="divider">
 
+  <p><strong>Quick reminder — what Faux Spy actually does:</strong></p>
+
+  <p>You right-click any photo in Chrome and find out in seconds whether it's AI-generated or real. Works on Instagram, Tinder, Bumble, Pinterest, X — anywhere images show up.</p>
+
+  <p>Most people think they can spot AI photos by eye. They can't — the new generation of AI images (Midjourney, DALL-E, Sora) fool even the people who built the detectors. Faux Spy runs the image through a model trained specifically to catch them, and gives you a confidence percentage instead of a flat yes/no.</p>
+
+  <p><strong>Why it matters:</strong> Romance scammers, catfishers, and fake influencer accounts now use AI-generated profile photos as a default. One right-click is the difference between getting played and knowing before you invest time or money.</p>
+
+  <div style="background:#f1f5f9;border-radius:10px;padding:16px 20px;margin:1rem 0;">
+    <p style="margin:0 0 8px;font-weight:700;">What you get with the free tier:</p>
+    <p style="margin:0;font-size:0.9rem;color:#374151;">✓ 10 scans/day &nbsp;·&nbsp; Right-click or hover any image &nbsp;·&nbsp; 5-category verdict &nbsp;·&nbsp; Works on 10+ platforms &nbsp;·&nbsp; No account needed</p>
+  </div>
+
+  <hr class="divider">
+
   <div class="offer-box">
     <p><strong>🎁 Launch day deal — 30% off your first payment.</strong></p>
     <p style="margin-top:0.5rem;">Use code <strong>PRODUCTHUNT</strong> at checkout, or click the link below and it applies automatically. Valid through June 12. No gotchas.</p>
