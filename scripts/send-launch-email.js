@@ -15,7 +15,7 @@
 const { Resend } = require('resend');
 
 const PRODUCT_HUNT_URL = 'https://www.producthunt.com/posts/faux-spy';
-const EXCLUSIVE_OFFER_URL = 'https://fauxspy.com/product-hunt';
+const EXCLUSIVE_OFFER_URL = 'https://fauxspy.com/pro?promo=PRODUCTHUNT';
 const INSTALL_URL = 'https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg';
 
 async function main() {
@@ -63,15 +63,19 @@ async function main() {
 
   <p>Today we launched on Product Hunt. If you have a minute, I'd genuinely appreciate you checking out the listing and sharing your honest thoughts — a comment from someone who's actually used the extension (or tried it today) means everything on launch day.</p>
 
-  <p><a href="${PRODUCT_HUNT_URL}" class="cta-btn">🚀 See FauxSpy on Product Hunt</a></p>
+  <p><a href="${PRODUCT_HUNT_URL}" class="cta-btn">🚀 See Faux Spy on Product Hunt</a></p>
 
   <p style="font-size:0.85rem;color:#6b7280;margin-top:0.5rem;">Share your experience — good, bad, or anything in between. Real feedback beats cheerleading.</p>
 
   <hr class="divider">
 
   <div class="offer-box">
-    <p><strong>🎁 Your waitlist discount is still locked in.</strong></p>
-    <p style="margin-top:0.5rem;">Plus, for today only: hunters get <strong>3 months Pro free</strong>, then 50% off forever after that. If you haven't claimed it yet: <a href="${EXCLUSIVE_OFFER_URL}">fauxspy.com/product-hunt</a></p>
+    <p><strong>🎁 Launch day deal — 30% off your first payment.</strong></p>
+    <p style="margin-top:0.5rem;">Use code <strong>PRODUCTHUNT</strong> at checkout, or click the link below and it applies automatically. Valid through June 12. No gotchas.</p>
+    <div style="margin:1rem 0;text-align:center;">
+      <div style="display:inline-block;background:#1a1f2e;color:#fbbf24;font-family:monospace;font-size:1.1rem;font-weight:800;letter-spacing:0.15em;padding:10px 24px;border-radius:8px;border:2px solid #fbbf24;">PRODUCTHUNT</div>
+    </div>
+    <p style="margin-top:0.5rem;"><a href="${EXCLUSIVE_OFFER_URL}">👉 Click here to subscribe with 30% off →</a></p>
   </div>
 
   <p>If you haven't installed the free version yet, here's the link: <a href="${INSTALL_URL}">Add FauxSpy to Chrome</a> — 10 free scans/day, no account needed.</p>
