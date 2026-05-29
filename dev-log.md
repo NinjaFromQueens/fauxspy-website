@@ -24,6 +24,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added Product Hunt 30% discount code to launch email and PH page
 - Switched to Resend REST API for email broadcasts due to SDK limitations
 - Improved CI pipeline to skip manifest checks for extension repository
+- Set up automated launch email campaigns to be sent every other day for 2 weeks
+- Fixed launch email issues including audience validation and missing owner copy
+- Added Faux Spy explainer section to the launch email
+- Updated Product Hunt URL and added 30% discount code to launch materials
+- Fixed email broadcast delivery using Resend REST API instead of SDK
 
 ## 2026-05-28
 - Added dev-tracker and function-audit agents for enhanced monitoring capabilities
