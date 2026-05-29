@@ -29,6 +29,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added Faux Spy explainer section to the launch email
 - Updated Product Hunt URL and added 30% discount code to launch materials
 - Fixed email broadcast delivery using Resend REST API instead of SDK
+- Added a prominent Chrome Web Store install button to the launch email
+- Created an explainer section in the launch email introducing Faux Spy
+- Fixed multiple issues found in launch email audit
+- Scheduled automated launch emails to send every other day for 2 weeks
+- Added a Product Hunt 30% discount code to launch email and promotional page
 
 ## 2026-05-28
 - Added dev-tracker and function-audit agents for enhanced monitoring capabilities
