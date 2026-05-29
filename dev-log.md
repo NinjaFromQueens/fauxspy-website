@@ -38,6 +38,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added Chrome Web Store install button and Faux Spy explainer to launch email
 - Fixed multiple issues found in launch email audit and audience configuration
 - Added ProductHunt 30% off promotional code to launch email and product page
+- Updated all website URLs to use www.fauxspy.com domain
+- Launched email campaign with daily sends through mid-June (14 emails total)
+- Added prominent Chrome Web Store install button and explainer section to launch email
+- Fixed multiple issues in launch email and added audience verification
+- Created Product Hunt page with 30% off promotional code
 
 ## 2026-05-28
 - Added dev-tracker and function-audit agents for enhanced monitoring capabilities
