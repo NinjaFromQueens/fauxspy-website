@@ -93,12 +93,32 @@ async function main() {
 </body>
 </html>`;
 
-  // Use Resend REST API directly — resend.broadcasts requires SDK v4+
   const headers = {
     'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
     'Content-Type': 'application/json',
   };
 
+  // Step 0: Check audience size so we know what we're sending to
+  const audienceResp = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, { headers });
+  const audienceData = await audienceResp.json();
+  const contactCount = audienceData?.data?.length ?? 'unknown';
+  console.log(`Audience "${audienceId}" has ${contactCount} contact(s)`);
+
+  // Step 1: Always send a direct copy to the owner first (confirms Resend is working)
+  console.log('Sending owner copy to duroneppsjr7@gmail.com...');
+  const ownerResp = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ from: fromEmail, to: ['duroneppsjr7@gmail.com'], subject, html }),
+  });
+  const ownerData = await ownerResp.json();
+  if (ownerResp.ok) {
+    console.log('✅ Owner copy sent:', ownerData.id);
+  } else {
+    console.error('❌ Owner copy failed:', ownerData);
+  }
+
+  // Step 2: Send broadcast to audience (may have 0 contacts if no one signed up yet)
   console.log('Creating broadcast...');
   const createResp = await fetch('https://api.resend.com/broadcasts', {
     method: 'POST',
