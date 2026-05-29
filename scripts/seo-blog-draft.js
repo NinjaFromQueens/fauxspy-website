@@ -19,7 +19,7 @@ const BLOG_DIR = path.join(SITE_ROOT, 'blog');
 const BLOG_INDEX = path.join(BLOG_DIR, 'index.html');
 const SITEMAP_FILE = path.join(SITE_ROOT, 'sitemap.xml');
 const INDEXNOW_FILE = path.join(SITE_ROOT, '.github', 'workflows', 'indexnow.yml');
-const SITE_BASE = 'https://fauxspy.com';
+const SITE_BASE = 'https://www.fauxspy.com';
 
 const topic = process.env.BLOG_TOPIC;
 const category = process.env.BLOG_CATEGORY || 'AI Detection';
@@ -277,7 +277,7 @@ Output a complete HTML article file using EXACTLY this structure — replace the
   <meta name="description" content="[130-155 character meta description — specific, not generic]">
   <meta property="og:title" content="[Article Title]">
   <meta property="og:description" content="[OG description — same as meta or variation]">
-  <meta property="og:image" content="https://fauxspy.com/og-image.png">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image.png">
   <meta property="og:url" content="${SITE_BASE}/blog/${slug}">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="${SITE_BASE}/blog/${slug}">
@@ -290,7 +290,7 @@ Output a complete HTML article file using EXACTLY this structure — replace the
     "headline": "[Article Title]",
     "description": "[Schema description]",
     "author": {"@type": "Organization", "name": "Faux Spy"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://fauxspy.com"},
+    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
     "datePublished": "${displayDate}",
     "dateModified": "${displayDate}"
   }
