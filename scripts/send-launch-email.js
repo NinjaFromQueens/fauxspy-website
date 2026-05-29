@@ -44,7 +44,10 @@ async function main() {
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'Duron at Faux Spy <duron@fauxspy.com>';
   const audienceId = process.env.RESEND_AUDIENCE_ID;
 
-  const subject = "We're live on Product Hunt today 🕵️";
+  // Vary subject so follow-up sends don't look like duplicates in spam filters
+  const subject = daysSinceStart === 0
+    ? "We're live on Product Hunt today 🕵️"
+    : "Faux Spy is live on Product Hunt — have you seen it? 🕵️";
 
   const html = `<!DOCTYPE html>
 <html>
@@ -69,14 +72,14 @@ async function main() {
 <body>
   <div class="header">
     <div class="logo-text">🕵️ Faux Spy</div><br>
-    <span class="ph-badge">LIVE ON PRODUCT HUNT TODAY</span>
+    <span class="ph-badge">LIVE ON PRODUCT HUNT</span>
   </div>
 
-  <h1>We're live. I'd love your honest opinion.</h1>
+  <h1>${daysSinceStart === 0 ? "We're live. I'd love your honest opinion." : "We launched on Product Hunt — here's your 30% off."}</h1>
 
   <p>Hey — it's Duron. You signed up for the Faux Spy Pro waitlist a while back, which means you already believe the problem is real.</p>
 
-  <p>Today we launched on Product Hunt. If you have a minute, I'd genuinely appreciate you checking out the listing and sharing your honest thoughts — a comment from someone who's actually used the extension (or tried it today) means everything on launch day.</p>
+  <p>We launched on Product Hunt. If you have a minute, I'd genuinely appreciate you checking out the listing and sharing your honest thoughts — a comment from someone who's actually used the extension means everything.</p>
 
   <p><a href="${PRODUCT_HUNT_URL}" class="cta-btn">🚀 See Faux Spy on Product Hunt</a></p>
 
@@ -108,42 +111,50 @@ async function main() {
 </body>
 </html>`;
 
+  const TIMEOUT = AbortSignal.timeout(30000); // 30s — prevents silent hangs in CI
   const headers = {
     'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
     'Content-Type': 'application/json',
   };
 
-  // Step 0: Check audience size so we know what we're sending to
-  const audienceResp = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, { headers });
+  // Step 0: Check audience size
+  const audienceResp = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
+    headers,
+    signal: AbortSignal.timeout(30000),
+  });
   const audienceData = await audienceResp.json();
   const contactCount = audienceData?.data?.length ?? 'unknown';
-  console.log(`Audience "${audienceId}" has ${contactCount} contact(s)`);
+  console.log(`Audience has ${contactCount} contact(s)`);
 
-  // Step 1: Always send a direct copy to the owner first (confirms Resend is working)
-  console.log('Sending owner copy to duroneppsjr7@gmail.com...');
-  const ownerResp = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ from: fromEmail, to: ['duroneppsjr7@gmail.com'], subject, html }),
-  });
-  const ownerData = await ownerResp.json();
-  if (ownerResp.ok) {
-    console.log('✅ Owner copy sent:', ownerData.id);
-  } else {
-    console.error('❌ Owner copy failed:', ownerData);
+  // Step 1: Send owner copy only on day 0 (already in audience, would get 2 emails otherwise)
+  if (daysSinceStart === 0) {
+    console.log('Sending owner copy to duroneppsjr7@gmail.com...');
+    const ownerResp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers,
+      signal: AbortSignal.timeout(30000),
+      body: JSON.stringify({ from: fromEmail, to: ['duroneppsjr7@gmail.com'], subject, html }),
+    });
+    const ownerData = await ownerResp.json();
+    if (ownerResp.ok) {
+      console.log('✅ Owner copy sent:', ownerData.id);
+    } else {
+      console.error('❌ Owner copy failed:', ownerData);
+    }
   }
 
-  // Step 2: Send broadcast to audience (may have 0 contacts if no one signed up yet)
+  // Step 2: Create and send broadcast to full audience
   console.log('Creating broadcast...');
   const createResp = await fetch('https://api.resend.com/broadcasts', {
     method: 'POST',
     headers,
+    signal: AbortSignal.timeout(30000),
     body: JSON.stringify({
       audience_id: audienceId,
       from: fromEmail,
       subject,
       html,
-      name: `Product Hunt Launch — ${new Date().toISOString().slice(0, 10)}`,
+      name: `PH Launch Day ${daysSinceStart} — ${new Date().toISOString().slice(0, 10)}`,
     }),
   });
   const createData = await createResp.json();
@@ -159,6 +170,7 @@ async function main() {
   const sendResp = await fetch(`https://api.resend.com/broadcasts/${broadcastId}/send`, {
     method: 'POST',
     headers,
+    signal: AbortSignal.timeout(30000),
     body: JSON.stringify({}),
   });
   const sendData = await sendResp.json();
