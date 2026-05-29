@@ -19,6 +19,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Switched to Resend REST API for broadcast emails to work around SDK limitations
 - Added Product Hunt 30% discount code to launch email and product page
 - Fixed GitHub issue automation to properly comment and close issues separately
+- Fixed launch email issues including owner copy and audience size validation
+- Set up automated launch email sending every other day for 2 weeks
+- Added Product Hunt 30% discount code to launch email and PH page
+- Switched to Resend REST API for email broadcasts due to SDK limitations
+- Improved CI pipeline to skip manifest checks for extension repository
 
 ## 2026-05-28
 - Added dev-tracker and function-audit agents for enhanced monitoring capabilities
