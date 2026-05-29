@@ -93,32 +93,47 @@ async function main() {
 </body>
 </html>`;
 
-  console.log('Creating broadcast...');
-  const { data: broadcast, error: createErr } = await resend.broadcasts.create({
-    audienceId,
-    from: fromEmail,
-    subject,
-    html,
-    name: `Product Hunt Launch — ${new Date().toISOString().slice(0, 10)}`,
-  });
+  // Use Resend REST API directly — resend.broadcasts requires SDK v4+
+  const headers = {
+    'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+    'Content-Type': 'application/json',
+  };
 
-  if (createErr) {
-    console.error('Failed to create broadcast:', createErr);
+  console.log('Creating broadcast...');
+  const createResp = await fetch('https://api.resend.com/broadcasts', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      audience_id: audienceId,
+      from: fromEmail,
+      subject,
+      html,
+      name: `Product Hunt Launch — ${new Date().toISOString().slice(0, 10)}`,
+    }),
+  });
+  const createData = await createResp.json();
+  if (!createResp.ok) {
+    console.error('Failed to create broadcast:', createData);
     process.exit(1);
   }
 
-  console.log(`Broadcast created: ${broadcast.id}`);
+  const broadcastId = createData.id;
+  console.log(`Broadcast created: ${broadcastId}`);
   console.log('Sending...');
 
-  const { data: sent, error: sendErr } = await resend.broadcasts.send(broadcast.id);
-
-  if (sendErr) {
-    console.error('Failed to send broadcast:', sendErr);
+  const sendResp = await fetch(`https://api.resend.com/broadcasts/${broadcastId}/send`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({}),
+  });
+  const sendData = await sendResp.json();
+  if (!sendResp.ok) {
+    console.error('Failed to send broadcast:', sendData);
     process.exit(1);
   }
 
   console.log('✅ Launch email sent successfully.');
-  console.log(`   Broadcast ID: ${broadcast.id}`);
+  console.log(`   Broadcast ID: ${broadcastId}`);
   console.log(`   Sent at: ${new Date().toISOString()}`);
 }
 
