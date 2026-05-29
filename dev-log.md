@@ -34,6 +34,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed multiple issues found in launch email audit
 - Scheduled automated launch emails to send every other day for 2 weeks
 - Added a Product Hunt 30% discount code to launch email and promotional page
+- Configured launch email campaign to send daily through June 12 (14 total sends)
+- Added Chrome Web Store install button and Faux Spy explainer to launch email
+- Fixed multiple issues found in launch email audit and audience configuration
+- Added ProductHunt 30% off promotional code to launch email and product page
 
 ## 2026-05-28
 - Added dev-tracker and function-audit agents for enhanced monitoring capabilities
