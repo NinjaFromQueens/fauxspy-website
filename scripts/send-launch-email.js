@@ -97,7 +97,10 @@ async function main() {
 
   <div style="background:#f1f5f9;border-radius:10px;padding:16px 20px;margin:1rem 0;">
     <p style="margin:0 0 8px;font-weight:700;">What you get with the free tier:</p>
-    <p style="margin:0;font-size:0.9rem;color:#374151;">✓ 10 scans/day &nbsp;·&nbsp; Right-click or hover any image &nbsp;·&nbsp; 5-category verdict &nbsp;·&nbsp; Works on 10+ platforms &nbsp;·&nbsp; No account needed</p>
+    <p style="margin:0 0 12px;font-size:0.9rem;color:#374151;">✓ 10 scans/day &nbsp;·&nbsp; Right-click or hover any image &nbsp;·&nbsp; 5-category verdict &nbsp;·&nbsp; Works on 10+ platforms &nbsp;·&nbsp; No account needed</p>
+    <p style="margin:0;text-align:center;">
+      <a href="${INSTALL_URL}" style="display:inline-block;padding:11px 22px;background:#1a1f2e;color:#fbbf24;text-decoration:none;border-radius:8px;font-weight:700;font-size:0.9rem;border:1.5px solid #fbbf24;">🕵️ Add Faux Spy to Chrome — Free</a>
+    </p>
   </div>
 
   <hr class="divider">
@@ -110,8 +113,6 @@ async function main() {
     </div>
     <p style="margin-top:0.5rem;"><a href="${EXCLUSIVE_OFFER_URL}">👉 Click here to subscribe with 30% off →</a></p>
   </div>
-
-  <p>If you haven't installed the free version yet, here's the link: <a href="${INSTALL_URL}">Add FauxSpy to Chrome</a> — 10 free scans/day, no account needed.</p>
 
   <p>Thanks for being here early. It means more than you know.</p>
 
