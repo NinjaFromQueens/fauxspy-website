@@ -18,21 +18,16 @@ const PRODUCT_HUNT_URL = 'https://www.producthunt.com/products/faux-spy?launch=f
 const EXCLUSIVE_OFFER_URL = 'https://fauxspy.com/pro?promo=PRODUCTHUNT';
 const INSTALL_URL = 'https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg';
 
-// Campaign schedule: every other day for 2 weeks starting May 29
-// Days 0,2,4,6,8,10,12 = 7 sends (May 29, 31, Jun 2, 4, 6, 8, 10)
+// Campaign schedule: every day from May 29 through June 12 (14 sends)
 const CAMPAIGN_START = new Date('2026-05-29T09:00:00Z');
 const daysSinceStart = Math.floor((Date.now() - CAMPAIGN_START) / (1000 * 60 * 60 * 24));
 
 async function main() {
-  if (daysSinceStart > 12) {
+  if (daysSinceStart > 14) {
     console.log(`Campaign ended (day ${daysSinceStart}). Not sending.`);
     process.exit(0);
   }
-  if (daysSinceStart % 2 !== 0) {
-    console.log(`Day ${daysSinceStart} — not a send day. Skipping.`);
-    process.exit(0);
-  }
-  console.log(`Campaign day ${daysSinceStart} of 12 — sending...`);
+  console.log(`Campaign day ${daysSinceStart} of 14 — sending...`);
 
   const missing = ['RESEND_API_KEY', 'RESEND_AUDIENCE_ID'].filter(k => !process.env[k]);
   if (missing.length) {
