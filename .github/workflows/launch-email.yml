@@ -1,7 +1,9 @@
 name: Product Hunt Launch Email
 
 on:
-  workflow_dispatch:   # Fire manually on launch morning (8 AM EST)
+  schedule:
+    - cron: '0 9 * * *'   # Daily at 9am UTC — script decides if today is a send day
+  workflow_dispatch:       # Manual trigger
 
 jobs:
   send:
