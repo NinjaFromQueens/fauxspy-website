@@ -9,6 +9,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed email broadcast functionality by switching to Resend REST API
 - Fixed GitHub issue commenting workflow in CI/CD process
 - Resolved manifest validation check that was failing in CI environment
+- Added owner copy and audience size validation to launch email to prevent sending to empty lists
+- Switched to Resend REST API for broadcast emails due to SDK limitations
+- Updated launch email and Product Hunt page with 30% off promotional code
+- Fixed GitHub issue commenting workflow to properly add comments and close issues
+- Improved CI reliability by skipping manifest validation when extension repo isn't available
 
 ## 2026-05-28
 - Added dev-tracker and function-audit agents for enhanced monitoring capabilities
