@@ -54,6 +54,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Implemented Resend inbound webhook support with signature verification and proper payload parsing
 - Switched from Vercel KV to Upstash Redis for better reliability across API routes
 - Fixed inbox display bugs including unread counter accuracy and admin panel data persistence
+- Added ability to backfill past emails received through Resend into the inbox
+- Implemented email reply functionality in the admin panel inbox
+- Fixed inbox display to show email count and handle errors from webhook parsing
+- Switched from Vercel KV to Upstash Redis for storing inbox data
+- Added signature verification for Resend inbound webhooks and support for unsigned webhooks
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
