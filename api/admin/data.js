@@ -108,38 +108,31 @@ ${body.replace(/\n/g, '<br>')}
         const { data: emails = [] } = await listResp.json();
         let imported = 0, skipped = 0;
         for (const email of emails) {
-          const emailId = email.email_id || email.id;
+          const emailId = email.id;
           if (!emailId) { skipped++; continue; }
-          const dedupKey = `inbox:dedup:${emailId}`;
-          if (await kv.get(dedupKey)) { skipped++; continue; }
-          let fullEmail = {};
-          try {
-            const dr = await fetch(`https://api.resend.com/emails/receiving/${emailId}`, {
-              headers: { Authorization: `Bearer ${apiKey}` }
-            });
-            if (dr.ok) fullEmail = await dr.json();
-          } catch {}
-          const fromRaw = email.from || fullEmail.from || '';
+          // Use Resend email.id as the record key — stable, no random ID collisions
+          if (await kv.get(`inbox:${emailId}`)) { skipped++; continue; }
+          // Clear any orphaned dedup key left by a previous timed-out backfill run
+          await kv.del(`inbox:dedup:${emailId}`);
+          const fromRaw = email.from || '';
           const m = fromRaw.match(/^(.+?)\s*<([^>]+)>$/);
           const fromName = m ? m[1].trim() : '';
           const fromEmail = m ? m[2].trim() : fromRaw.trim();
           if (!fromEmail) { skipped++; continue; }
-          const hdrs = Array.isArray(fullEmail.headers) ? fullEmail.headers : [];
-          const recId = `reply_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+          // Store list metadata only — no per-email detail fetch avoids Vercel timeout
           const record = {
-            id: recId,
+            id: emailId,
             from: fromEmail, fromName,
-            subject: email.subject || fullEmail.subject || '(no subject)',
-            text: fullEmail.text || '', html: fullEmail.html || '',
-            messageId: email.message_id || hdrs.find(h => h.name === 'Message-ID')?.value || '',
-            inReplyTo: hdrs.find(h => h.name === 'In-Reply-To')?.value || '',
-            timestamp: email.created_at || new Date().toISOString(),
+            subject: email.subject || '(no subject)',
+            text: '', html: '',
+            messageId: email.message_id || '',
+            inReplyTo: '',
+            timestamp: email.created_at,
             status: 'unread'
           };
-          await kv.set(`inbox:${recId}`, record);
-          await kv.sadd('inbox:all', recId);
+          await kv.set(`inbox:${emailId}`, record);
+          await kv.sadd('inbox:all', emailId);
           await kv.incr('inbox:unread');
-          await kv.set(dedupKey, '1', { ex: 60 * 60 * 24 * 30 });
           imported++;
         }
         return res.status(200).json({ ok: true, imported, skipped, total: emails.length });
