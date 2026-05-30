@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-05-30
+- Launched Product Hunt with a blog agent feature
+- Added senior safety content cluster
+- Fixed styling issues with blog cards
+
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
 - Fixed GitHub issue commenting workflow to use separate comment and close commands
