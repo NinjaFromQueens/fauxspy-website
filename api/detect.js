@@ -3,13 +3,13 @@
 // Free: Real / Inconclusive / AI (genai model only)
 // Pro: Real / Digital Art / Inconclusive / AI Art / AI Photo (genai + type models)
 
-const { kv } = require('@vercel/kv');
 const { Redis } = require('@upstash/redis');
 
-const licenseKv = new Redis({
+const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
   token: process.env.UPSTASH_REST_TOKEN,
 });
+const licenseKv = kv;
 
 const FREE_TIER_DAILY_LIMIT = 10;
 const CACHE_TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days

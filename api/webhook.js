@@ -15,9 +15,6 @@ const kv = new Redis({
   token: process.env.UPSTASH_REST_TOKEN,
 });
 
-// Vercel KV — used for inbox data (same store as admin/data.js reads from)
-const { kv: vkv } = require('@vercel/kv');
-
 // IMPORTANT: Vercel needs raw body for Stripe signature verification
 // This config disables JSON parsing so we get the raw buffer
 module.exports.config = {
@@ -97,7 +94,7 @@ async function handleResendInbound(req, res) {
 
     // Deduplication — Resend uses at-least-once delivery, so retries can arrive
     const dedupKey = `inbox:dedup:${emailId}`;
-    const alreadyDone = await vkv.get(dedupKey);
+    const alreadyDone = await kv.get(dedupKey);
     if (alreadyDone) {
       console.log('Resend inbound: duplicate', emailId, '— skipping');
       return res.status(200).json({ ok: true });
@@ -142,10 +139,10 @@ async function handleResendInbound(req, res) {
     const id = `reply_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     const record = { id, from: fromEmail, fromName, subject, text, html, messageId, inReplyTo, timestamp, status: 'unread' };
 
-    await vkv.set(`inbox:${id}`, record);
-    await vkv.sadd('inbox:all', id);
-    await vkv.incr('inbox:unread');
-    await vkv.set(dedupKey, '1', { ex: 60 * 60 * 24 * 30 }); // 30-day TTL
+    await kv.set(`inbox:${id}`, record);
+    await kv.sadd('inbox:all', id);
+    await kv.incr('inbox:unread');
+    await kv.set(dedupKey, '1', { ex: 60 * 60 * 24 * 30 }); // 30-day TTL
 
     console.log('📥 Inbound email stored:', id, 'from:', fromEmail, 'subject:', subject);
     return res.status(200).json({ ok: true });

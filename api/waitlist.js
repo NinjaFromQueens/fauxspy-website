@@ -3,7 +3,11 @@
 // Newsletter mode: POST /api/waitlist?list=newsletter (also reachable via /api/newsletter rewrite)
 // Waitlist mode:   POST /api/waitlist (default, unchanged behavior)
 
-const { kv } = require('@vercel/kv');
+const { Redis } = require('@upstash/redis');
+const kv = new Redis({
+  url: process.env.UPSTASH_REST_URL,
+  token: process.env.UPSTASH_REST_TOKEN,
+});
 const { Resend } = require('resend');
 
 module.exports = async (req, res) => {
