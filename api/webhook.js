@@ -37,9 +37,41 @@ async function getRawBody(req) {
 // Routed here via vercel.json rewrite: /api/resend-inbound → /api/webhook?source=resend-inbound
 // ============================================================================
 
+function verifyResendSignature(rawBody, headers, secret) {
+  if (!secret) return true; // Skip verification if secret not configured
+  const msgId = headers['svix-id'];
+  const msgTimestamp = headers['svix-timestamp'];
+  const msgSignature = headers['svix-signature'];
+  if (!msgId || !msgTimestamp || !msgSignature) return false;
+
+  // Reject if timestamp is more than 5 minutes old (replay attack prevention)
+  const tsSeconds = parseInt(msgTimestamp, 10);
+  if (Math.abs(Date.now() / 1000 - tsSeconds) > 300) return false;
+
+  // Compute expected signature: HMAC-SHA256(key, "{id}.{timestamp}.{body}")
+  const { createHmac } = require('crypto');
+  const keyBytes = Buffer.from(secret.replace(/^whsec_/, ''), 'base64');
+  const toSign = `${msgId}.${msgTimestamp}.${rawBody.toString()}`;
+  const computed = createHmac('sha256', keyBytes).update(toSign).digest('base64');
+
+  // svix-signature may contain multiple space-separated "v1,<sig>" values
+  return msgSignature.split(' ').some(part => {
+    const sig = part.replace(/^v\d+,/, '');
+    return sig === computed;
+  });
+}
+
 async function handleResendInbound(req, res) {
   try {
     const rawBody = await getRawBody(req);
+
+    // Verify Resend webhook signature
+    const secret = process.env.RESEND_WEBHOOK_SECRET;
+    if (secret && !verifyResendSignature(rawBody, req.headers, secret)) {
+      console.warn('Resend inbound: invalid signature — request rejected');
+      return res.status(401).json({ error: 'Invalid signature' });
+    }
+
     let payload;
     try {
       payload = JSON.parse(rawBody.toString());
