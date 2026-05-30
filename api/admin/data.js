@@ -62,13 +62,14 @@ ${body.replace(/\n/g, '<br>')}
         if (id) {
           const record = await kv.get(`inbox:${id}`);
           if (record) {
+            const wasUnread = record.status === 'unread';
             record.status = 'replied';
             record.repliedAt = new Date().toISOString();
-            if (record.status === 'unread') {
+            await kv.set(`inbox:${id}`, record);
+            if (wasUnread) {
               const current = await kv.get('inbox:unread') || 0;
               if (current > 0) await kv.decr('inbox:unread');
             }
-            await kv.set(`inbox:${id}`, record);
           }
         }
 

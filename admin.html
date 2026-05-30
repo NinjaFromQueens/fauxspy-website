@@ -315,6 +315,32 @@
       color: #4ade80;
       border: 1px solid rgba(34,197,94,0.3);
     }
+    .email-meta-header {
+      background: rgba(251,191,36,0.05);
+      border: 1px solid rgba(251,191,36,0.12);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      line-height: 1.9;
+    }
+    .meta-label {
+      color: #64748b;
+      font-weight: 600;
+      display: inline-block;
+      width: 58px;
+      flex-shrink: 0;
+    }
+    .email-frame {
+      width: 100%;
+      min-height: 180px;
+      max-height: 420px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      background: #fff;
+      margin-bottom: 12px;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -433,6 +459,7 @@
     const SESSION_KEY = 'fs_admin_token';
     let currentTab = 'messages';
     let cachedToken = '';
+    let inboxMessages = [];
 
     function getToken() {
       return sessionStorage.getItem(SESSION_KEY) || '';
@@ -587,11 +614,11 @@
     }
 
     function renderInbox(data) {
-      const messages = data.messages || [];
+      inboxMessages = data.messages || [];
       const unread = data.unread || 0;
 
       document.getElementById('statsInbox').innerHTML =
-        '<div class="stat-pill"><strong>' + data.total + '</strong> received</div>' +
+        '<div class="stat-pill"><strong>' + (data.total || 0) + '</strong> received</div>' +
         '<div class="stat-pill red"><strong>' + unread + '</strong> unread</div>';
 
       const badge = document.getElementById('inboxBadge');
@@ -603,41 +630,68 @@
       }
 
       const tbody = document.getElementById('inboxBody');
-      if (!messages.length) {
-        tbody.innerHTML = '<tr><td colspan="4" class="state-msg">No inbound messages yet.<br><span style="font-size:0.8rem;color:#475569;">Once your reply-to domain is configured in Resend, replies will appear here.</span></td></tr>';
+      if (!inboxMessages.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="state-msg">No inbound messages yet.<br><span style="font-size:0.8rem;color:#475569;">Configure reply.fauxspy.com as an inbound domain in Resend, then set the webhook to /api/resend-inbound.</span></td></tr>';
         return;
       }
 
-      tbody.innerHTML = messages.map((m, i) => {
+      tbody.innerHTML = inboxMessages.map((m, i) => {
         const statusBadge = m.status === 'unread'
           ? '<span class="badge-unread">UNREAD</span>'
           : m.status === 'replied'
             ? '<span class="badge-replied">replied</span>'
             : '<span class="badge-read">read</span>';
-        const detailId = 'inbox_detail_' + i;
-        const replyId = 'inbox_reply_' + i;
-        const fromDisplay = m.fromName ? esc(m.fromName) + ' <span style="color:#64748b;">' + esc(m.from) + '</span>' : esc(m.from);
+        const fromDisplay = m.fromName
+          ? esc(m.fromName) + ' <span style="color:#64748b;">&lt;' + esc(m.from) + '&gt;</span>'
+          : esc(m.from);
 
-        return '<tr class="inbox-row" id="inbox_row_' + i + '" onclick="toggleInbox(' + i + ',\'' + esc(m.id) + '\',\'' + esc(m.from) + '\',\'' + esc(m.subject) + '\',\'' + esc(m.messageId || '') + '\')">' +
-          '<td style="white-space:nowrap;color:#94a3b8;">' + esc(formatDate(m.timestamp)) + '</td>' +
-          '<td>' + fromDisplay + '</td>' +
-          '<td style="color:#f8fafc;">' + esc(m.subject || '(no subject)') + '</td>' +
-          '<td>' + statusBadge + '</td>' +
+        const bodyHtml = m.html
+          ? '<iframe class="email-frame" id="email_frame_' + i + '" sandbox="allow-same-origin"></iframe>'
+          : '<div class="inbox-body" id="inbox_body_' + i + '"></div>';
+
+        return (
+          '<tr class="inbox-row" id="inbox_row_' + i + '" onclick="toggleInbox(' + i + ')">' +
+            '<td style="white-space:nowrap;color:#94a3b8;">' + esc(formatDate(m.timestamp)) + '</td>' +
+            '<td>' + fromDisplay + '</td>' +
+            '<td style="color:#f8fafc;">' + esc(m.subject || '(no subject)') + '</td>' +
+            '<td>' + statusBadge + '</td>' +
           '</tr>' +
-          '<tr id="' + detailId + '" style="display:none;">' +
-          '<td colspan="4" class="inbox-detail">' +
-          '<div class="inbox-body" id="inbox_body_' + i + '">' + esc(m.text || m.html || '(no body)') + '</div>' +
-          '<div class="reply-form" id="' + replyId + '">' +
-          '<div style="font-size:0.8rem;color:#94a3b8;margin-bottom:6px;">Reply to <strong style="color:#f8fafc;">' + esc(m.from) + '</strong></div>' +
-          '<textarea id="reply_body_' + i + '" placeholder="Write your reply…"></textarea>' +
-          '<div class="reply-actions">' +
-          '<button class="btn-admin btn-green" onclick="sendReply(event,' + i + ',\'' + esc(m.id) + '\',\'' + esc(m.from) + '\',\'' + esc(m.subject) + '\',\'' + esc(m.messageId || '') + '\')">Send Reply</button>' +
-          '<span class="reply-status" id="reply_status_' + i + '"></span>' +
-          '</div></div></td></tr>';
+          '<tr id="inbox_detail_' + i + '" style="display:none;">' +
+            '<td colspan="4" class="inbox-detail">' +
+              '<div class="email-meta-header">' +
+                '<div><span class="meta-label">From</span> ' + fromDisplay + '</div>' +
+                '<div><span class="meta-label">Subject</span> ' + esc(m.subject || '(no subject)') + '</div>' +
+                '<div><span class="meta-label">Date</span> ' + esc(formatDate(m.timestamp)) + '</div>' +
+              '</div>' +
+              bodyHtml +
+              '<div class="reply-form">' +
+                '<div style="font-size:0.8rem;color:#94a3b8;margin-bottom:6px;">Reply to <strong style="color:#f8fafc;">' + esc(m.from) + '</strong></div>' +
+                '<textarea id="reply_body_' + i + '" placeholder="Write your reply…"></textarea>' +
+                '<div class="reply-actions">' +
+                  '<button class="btn-admin btn-green" onclick="sendReply(event,' + i + ')">Send Reply</button>' +
+                  '<span class="reply-status" id="reply_status_' + i + '"></span>' +
+                '</div>' +
+              '</div>' +
+            '</td>' +
+          '</tr>'
+        );
       }).join('');
+
+      // Set iframe srcdoc and text body via JS to avoid HTML attribute escaping issues
+      inboxMessages.forEach((m, i) => {
+        if (m.html) {
+          const frame = document.getElementById('email_frame_' + i);
+          if (frame) frame.srcdoc = m.html;
+        } else {
+          const bodyEl = document.getElementById('inbox_body_' + i);
+          if (bodyEl) bodyEl.textContent = m.text || '(no body)';
+        }
+      });
     }
 
-    function toggleInbox(i, id, from, subject, messageId) {
+    function toggleInbox(i) {
+      const m = inboxMessages[i];
+      if (!m) return;
       const detail = document.getElementById('inbox_detail_' + i);
       const row = document.getElementById('inbox_row_' + i);
       const isOpen = detail.style.display !== 'none';
@@ -645,19 +699,21 @@
       detail.style.display = isOpen ? 'none' : '';
       row.classList.toggle('expanded', !isOpen);
 
-      if (!isOpen) {
-        // Mark as read
+      if (!isOpen && m.status === 'unread') {
         const token = getToken();
         fetch('/api/admin/data?token=' + encodeURIComponent(token), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'mark-read', id })
-        }).catch(() => {});
+          body: JSON.stringify({ action: 'mark-read', id: m.id })
+        }).then(() => { m.status = 'read'; }).catch(() => {});
       }
     }
 
-    async function sendReply(e, i, id, to, subject, messageId) {
+    async function sendReply(e, i) {
       e.stopPropagation();
+      const m = inboxMessages[i];
+      if (!m) return;
+
       const body = document.getElementById('reply_body_' + i).value.trim();
       const statusEl = document.getElementById('reply_status_' + i);
       if (!body) { statusEl.className = 'reply-status err'; statusEl.textContent = 'Write a reply first.'; return; }
@@ -667,20 +723,21 @@
       btn.textContent = 'Sending…';
       statusEl.textContent = '';
 
-      const replySubject = subject.startsWith('Re:') ? subject : 'Re: ' + subject;
+      const replySubject = (m.subject || '').startsWith('Re:') ? m.subject : 'Re: ' + (m.subject || '');
       const token = getToken();
 
       try {
         const res = await fetch('/api/admin/data?token=' + encodeURIComponent(token), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'reply', id, to, subject: replySubject, body, messageId })
+          body: JSON.stringify({ action: 'reply', id: m.id, to: m.from, subject: replySubject, body, messageId: m.messageId || '' })
         });
         const d = await res.json();
         if (res.ok) {
           statusEl.className = 'reply-status ok';
           statusEl.textContent = '✓ Sent';
           btn.textContent = 'Sent ✓';
+          m.status = 'replied';
           fetchInbox();
         } else {
           statusEl.className = 'reply-status err';
