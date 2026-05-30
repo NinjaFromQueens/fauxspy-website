@@ -1,0 +1,50 @@
+name: Weekly Newsletter
+
+on:
+  schedule:
+    - cron: '0 10 * * 4'  # Thursdays 10am UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Write newsletter but skip sending (true/false)'
+        required: false
+        default: 'true'
+        type: string
+
+jobs:
+  send-newsletter:
+    name: Write and Send Newsletter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history needed for git log research
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Write and send newsletter
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NEWSLETTER_AUDIENCE_ID: ${{ secrets.NEWSLETTER_AUDIENCE_ID }}
+          RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: node scripts/write-newsletter.js
+
+      - name: Upload newsletter draft
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsletter-draft-${{ github.run_number }}
+          path: newsletter-draft.html
+          if-no-files-found: ignore
+          retention-days: 30

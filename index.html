@@ -457,6 +457,23 @@
     </div>
   </section>
 
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-card">
+        <h2>The weekly AI scam briefing</h2>
+        <p>New scam tactics, deepfake news, and detection tips — once a week. No filler.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off">
+          <div class="newsletter-input-row">
+            <input type="email" id="newsletterEmail" name="email" placeholder="your@email.com" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+          <div id="newsletterMsg" style="display:none;margin-top:0.75rem;font-size:0.875rem;"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
@@ -503,5 +520,42 @@
   </footer>
 
   <script src="/checkout.js"></script>
+  <script>
+    document.getElementById('newsletterForm')?.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      const msg = document.getElementById('newsletterMsg');
+      const email = document.getElementById('newsletterEmail').value;
+      const honeypot = this.querySelector('[name="website"]').value;
+      btn.disabled = true;
+      btn.textContent = 'Subscribing...';
+      try {
+        const r = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, website: honeypot }),
+        });
+        const d = await r.json();
+        msg.style.display = 'block';
+        if (r.ok) {
+          msg.style.color = 'var(--gold)';
+          msg.textContent = "You’re in. Check your inbox for a confirmation.";
+          this.reset();
+          btn.textContent = 'Subscribed ✓';
+        } else {
+          msg.style.color = '#f87171';
+          msg.textContent = d.error || 'Something went wrong. Try again.';
+          btn.disabled = false;
+          btn.textContent = 'Subscribe';
+        }
+      } catch {
+        msg.style.display = 'block';
+        msg.style.color = '#f87171';
+        msg.textContent = 'Could not connect. Try again.';
+        btn.disabled = false;
+        btn.textContent = 'Subscribe';
+      }
+    });
+  </script>
 </body>
 </html>
