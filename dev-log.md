@@ -45,6 +45,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added webhook signature verification for Resend inbound emails
 - Improved admin panel by syncing inbox data to Vercel KV storage
 - Created PH launch blog agent and senior safety content cluster
+- Built a weekly newsletter system with signup, automated agent, and broadcast capabilities
+- Fixed inbox display issues including error handling, unread counters, and styling
+- Improved webhook handling for Resend inbound emails with proper signature verification
+- Created a PH launch blog agent and senior safety content cluster
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
