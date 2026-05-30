@@ -49,6 +49,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed inbox display issues including error handling, unread counters, and styling
 - Improved webhook handling for Resend inbound emails with proper signature verification
 - Created a PH launch blog agent and senior safety content cluster
+- Built a weekly newsletter system with signup, automated agent, and broadcast functionality
+- Added email reply capability in the admin panel inbox with error handling and styling fixes
+- Implemented Resend inbound webhook support with signature verification and proper payload parsing
+- Switched from Vercel KV to Upstash Redis for better reliability across API routes
+- Fixed inbox display bugs including unread counter accuracy and admin panel data persistence
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
