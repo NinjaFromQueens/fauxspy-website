@@ -432,8 +432,9 @@
 
       <!-- INBOX TAB -->
       <div id="panelInbox" style="display:none;">
-        <div class="stats-bar" id="statsInbox">
+        <div class="stats-bar" id="statsInbox" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <div class="stat-pill"><span class="spinner"></span> Loading…</div>
+          <button class="btn-admin" id="btnBackfill" onclick="backfillInbox()" style="margin-left:auto;background:#1e3a5f;color:#93c5fd;border:1px solid #3b82f6;" title="Import all past emails from Resend into the inbox">⬇ Sync from Resend</button>
         </div>
         <div class="data-table-wrap">
           <table class="data-table">
@@ -622,6 +623,28 @@
           '<tr><td colspan="4" class="state-msg" style="color:#f87171;">Network error loading inbox.</td></tr>';
         console.error('fetchInbox failed:', e);
       }
+    }
+
+    async function backfillInbox() {
+      const btn = document.getElementById('btnBackfill');
+      btn.disabled = true;
+      btn.textContent = '⏳ Syncing…';
+      const token = getToken();
+      try {
+        const res = await fetch('/api/admin/backfill-inbox?token=' + encodeURIComponent(token), { method: 'POST' });
+        const d = await res.json();
+        if (res.ok) {
+          btn.textContent = '✓ Synced (' + d.imported + ' new)';
+          if (d.imported > 0) fetchInbox();
+        } else {
+          btn.textContent = '✗ ' + (d.error || 'Failed');
+          console.error('Backfill error:', d);
+        }
+      } catch (e) {
+        btn.textContent = '✗ Network error';
+        console.error('Backfill network error:', e);
+      }
+      setTimeout(() => { btn.disabled = false; btn.textContent = '⬇ Sync from Resend'; }, 4000);
     }
 
     function renderInbox(data) {
