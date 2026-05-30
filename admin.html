@@ -611,8 +611,15 @@
         const res = await fetch('/api/admin/data?resource=inbox&token=' + encodeURIComponent(token));
         if (res.status === 401 || res.status === 403) { showUnauthorized(); return; }
         const data = await res.json();
+        if (!res.ok) {
+          document.getElementById('inboxBody').innerHTML =
+            '<tr><td colspan="4" class="state-msg" style="color:#f87171;">Failed to load inbox: ' + esc(data.message || data.error || 'Unknown error') + '</td></tr>';
+          return;
+        }
         renderInbox(data);
       } catch (e) {
+        document.getElementById('inboxBody').innerHTML =
+          '<tr><td colspan="4" class="state-msg" style="color:#f87171;">Network error loading inbox.</td></tr>';
         console.error('fetchInbox failed:', e);
       }
     }

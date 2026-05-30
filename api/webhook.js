@@ -86,24 +86,58 @@ async function handleResendInbound(req, res) {
       return res.status(200).json({ ok: true }); // Return 200 always so Resend doesn't retry
     }
 
+    // Resend wraps email metadata under payload.data
+    const emailData = payload.data || {};
+    const emailId = emailData.email_id;
+
+    if (!emailId) {
+      console.warn('Resend inbound: no email_id in payload, skipping');
+      return res.status(200).json({ ok: true });
+    }
+
+    // Deduplication — Resend uses at-least-once delivery, so retries can arrive
+    const dedupKey = `inbox:dedup:${emailId}`;
+    const alreadyDone = await vkv.get(dedupKey);
+    if (alreadyDone) {
+      console.log('Resend inbound: duplicate', emailId, '— skipping');
+      return res.status(200).json({ ok: true });
+    }
+
+    // Fetch full email content (text/html/headers are NOT included in the webhook)
+    let fullEmail = {};
+    const apiKey = process.env.RESEND_API_KEY;
+    if (apiKey) {
+      try {
+        const apiResp = await fetch(`https://api.resend.com/emails/receiving/${emailId}`, {
+          headers: { Authorization: `Bearer ${apiKey}` }
+        });
+        if (apiResp.ok) fullEmail = await apiResp.json();
+        else console.warn('Resend receiving API returned', apiResp.status, 'for', emailId);
+      } catch (e) {
+        console.warn('Resend receiving API fetch failed:', e.message);
+      }
+    }
+
     // Parse sender — Resend sends "Name <email>" or just "email"
-    const fromRaw = payload.from || '';
+    const fromRaw = emailData.from || fullEmail.from || '';
     const fromMatch = fromRaw.match(/^(.+?)\s*<([^>]+)>$/);
     const fromName = fromMatch ? fromMatch[1].trim() : '';
     const fromEmail = fromMatch ? fromMatch[2].trim() : fromRaw.trim();
-
-    const subject = payload.subject || '(no subject)';
-    const text = payload.text || '';
-    const html = payload.html || '';
-    const headers = payload.headers || {};
-    const messageId = headers['Message-ID'] || headers['message-id'] || '';
-    const inReplyTo = headers['In-Reply-To'] || headers['in-reply-to'] || '';
-    const timestamp = payload.date || new Date().toISOString();
 
     if (!fromEmail) {
       console.warn('Resend inbound: no sender email, skipping');
       return res.status(200).json({ ok: true });
     }
+
+    const subject = emailData.subject || fullEmail.subject || '(no subject)';
+    const text = fullEmail.text || '';
+    const html = fullEmail.html || '';
+
+    // fullEmail.headers is an array of {name, value} objects
+    const hdrs = Array.isArray(fullEmail.headers) ? fullEmail.headers : [];
+    const messageId = emailData.message_id || hdrs.find(h => h.name === 'Message-ID')?.value || '';
+    const inReplyTo = hdrs.find(h => h.name === 'In-Reply-To')?.value || '';
+    const timestamp = emailData.created_at || new Date().toISOString();
 
     const id = `reply_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     const record = { id, from: fromEmail, fromName, subject, text, html, messageId, inReplyTo, timestamp, status: 'unread' };
@@ -111,6 +145,7 @@ async function handleResendInbound(req, res) {
     await vkv.set(`inbox:${id}`, record);
     await vkv.sadd('inbox:all', id);
     await vkv.incr('inbox:unread');
+    await vkv.set(dedupKey, '1', { ex: 60 * 60 * 24 * 30 }); // 30-day TTL
 
     console.log('📥 Inbound email stored:', id, 'from:', fromEmail, 'subject:', subject);
     return res.status(200).json({ ok: true });
