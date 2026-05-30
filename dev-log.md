@@ -34,6 +34,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Webhook signature verification added for Resend email service
 - Email viewer styling and reply error handling improved
 - Product Hunt launch blog and safety content added
+- Email reply functionality added to admin panel inbox
+- Weekly newsletter system launched with signup and broadcast capabilities
+- Webhook handling improved to support Resend inbound webhooks
+- Fixed inbox display bugs including stat counter and unread message tracking
+- Blog agent and content clustering features added for Product Hunt launch
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
