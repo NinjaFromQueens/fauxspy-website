@@ -28,6 +28,12 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed inbox display bugs including unread counter and message stat accuracy
 - Consolidated newsletter and waitlist into a single endpoint for better resource management
 - Added Product Hunt launch blog content and improved blog card styling
+- Email reply functionality added to the admin panel inbox
+- Inbox message counter fixed to display correct unread counts
+- Weekly newsletter system launched with signup and broadcast features
+- Webhook signature verification added for Resend email service
+- Email viewer styling and reply error handling improved
+- Product Hunt launch blog and safety content added
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
