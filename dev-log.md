@@ -39,6 +39,12 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Webhook handling improved to support Resend inbound webhooks
 - Fixed inbox display bugs including stat counter and unread message tracking
 - Blog agent and content clustering features added for Product Hunt launch
+- Added email reply functionality to the admin panel inbox
+- Implemented weekly newsletter system with signup, automation, and broadcasts
+- Fixed inbox display issues including unread counter and message statistics
+- Added webhook signature verification for Resend inbound emails
+- Improved admin panel by syncing inbox data to Vercel KV storage
+- Created PH launch blog agent and senior safety content cluster
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
