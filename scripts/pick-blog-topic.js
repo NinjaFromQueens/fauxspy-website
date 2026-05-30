@@ -37,6 +37,16 @@ const TOPICS = [
   { topic: 'google reverse image search tutorial', category: 'Online Safety' },
   { topic: 'best free tools to verify someone online', category: 'AI Detection' },
   { topic: 'signs you are being catfished', category: 'Scams' },
+
+  // Senior Safety cluster — older adults targeted by AI scams, adult children as install vector
+  { topic: 'how AI scams target seniors on Facebook and email', category: 'Senior Safety' },
+  { topic: 'grandparent scam AI voice clone how it works', category: 'Senior Safety' },
+  { topic: 'how to protect elderly parents from online scams', category: 'Senior Safety' },
+  { topic: 'romance scams targeting widows and widowers', category: 'Senior Safety' },
+  { topic: 'signs your parent is being catfished online', category: 'Senior Safety' },
+  { topic: 'fake Medicare and Social Security scams using deepfakes', category: 'Senior Safety' },
+  { topic: 'AI generated images older adults cannot detect', category: 'Senior Safety' },
+  { topic: 'how to set up scam protection on a parents computer', category: 'Senior Safety' },
 ];
 
 function topicToSlug(t) {

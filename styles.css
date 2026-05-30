@@ -25,6 +25,10 @@
   --border-default: rgba(251, 191, 36, 0.15);
   --border-strong: rgba(251, 191, 36, 0.3);
   --shadow-glow-gold: 0 0 40px rgba(251, 191, 36, 0.3);
+  --bg-secondary: var(--noir-card);
+  --border: var(--border-default);
+  --text-muted: var(--text-tertiary);
+  --accent: var(--gold);
 }
 
 html {

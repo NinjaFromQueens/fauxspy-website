@@ -1,0 +1,64 @@
+name: Product Hunt Launch Blog
+
+on:
+  workflow_dispatch:
+    inputs:
+      ph_url:
+        description: 'Override PH URL (default: https://www.producthunt.com/products/faux-spy?launch=faux-spy). Leave blank to use default.'
+        required: false
+        type: string
+
+jobs:
+  write-launch-post:
+    name: Write PH Launch Blog Post
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run PH launch blog agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          PH_URL: ${{ inputs.ph_url }}
+        run: node scripts/ph-launch-blog.js
+
+      - name: Create PR for review
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "ph-launch-blog[bot]"
+          git config user.email "ph-launch-blog@fauxspy.com"
+
+          BRANCH="blog-ph-launch-${{ github.run_number }}"
+          git checkout -b "$BRANCH"
+
+          git add blog/ sitemap.xml .github/workflows/indexnow.yml
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+
+          git commit -m "draft(blog): Faux Spy Product Hunt launch post [run #${{ github.run_number }}]"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "Blog draft: Faux Spy Product Hunt Launch" \
+            --body-file blog-draft-summary.md \
+            --base main \
+            --head "$BRANCH" \
+            || true
+
+          echo "✅ PR created — review before merging to publish."
