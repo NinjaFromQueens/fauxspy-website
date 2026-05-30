@@ -618,7 +618,7 @@
       const unread = data.unread || 0;
 
       document.getElementById('statsInbox').innerHTML =
-        '<div class="stat-pill"><strong>' + (data.total || 0) + '</strong> received</div>' +
+        '<div class="stat-pill"><strong>' + (data.total ?? data.messages?.length ?? 0) + '</strong> received</div>' +
         '<div class="stat-pill red"><strong>' + unread + '</strong> unread</div>';
 
       const badge = document.getElementById('inboxBadge');
