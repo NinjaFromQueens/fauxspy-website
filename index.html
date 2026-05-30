@@ -530,10 +530,10 @@
       btn.disabled = true;
       btn.textContent = 'Subscribing...';
       try {
-        const r = await fetch('/api/newsletter', {
+        const r = await fetch('/api/waitlist?list=newsletter', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, website: honeypot }),
+          body: JSON.stringify({ email, website: honeypot, source: 'website-newsletter' }),
         });
         const d = await r.json();
         msg.style.display = 'block';
