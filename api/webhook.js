@@ -9,10 +9,14 @@ const { Redis } = require('@upstash/redis');
 const { Resend } = require('resend');
 const { randomBytes } = require('crypto');
 
+// Upstash Redis — used for license/subscription data (Stripe webhook handlers)
 const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
   token: process.env.UPSTASH_REST_TOKEN,
 });
+
+// Vercel KV — used for inbox data (same store as admin/data.js reads from)
+const { kv: vkv } = require('@vercel/kv');
 
 // IMPORTANT: Vercel needs raw body for Stripe signature verification
 // This config disables JSON parsing so we get the raw buffer
@@ -104,9 +108,9 @@ async function handleResendInbound(req, res) {
     const id = `reply_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     const record = { id, from: fromEmail, fromName, subject, text, html, messageId, inReplyTo, timestamp, status: 'unread' };
 
-    await kv.set(`inbox:${id}`, record);
-    await kv.sadd('inbox:all', id);
-    await kv.incr('inbox:unread');
+    await vkv.set(`inbox:${id}`, record);
+    await vkv.sadd('inbox:all', id);
+    await vkv.incr('inbox:unread');
 
     console.log('📥 Inbound email stored:', id, 'from:', fromEmail, 'subject:', subject);
     return res.status(200).json({ ok: true });
