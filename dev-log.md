@@ -73,6 +73,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed inbox webhook handling to properly parse Resend inbound emails and show errors
 - Improved inbox email detail panel styling and stat display
 - Added debug action to inspect incoming email API responses
+- Added inbox feature to store and display past emails received via Resend inbound webhooks
+- Implemented backfill functionality to import historical Resend emails into the inbox
+- Fixed inbox email detail panel styling and error handling for better UX
+- Replaced Vercel KV with Upstash Redis for more reliable data persistence
+- Added debug tooling to inspect incoming webhook API responses
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
