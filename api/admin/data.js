@@ -84,6 +84,16 @@ ${body.replace(/\n/g, '<br>')}
       }
     }
 
+    if (action === 'inbox-debug') {
+      const apiKey = process.env.RESEND_API_KEY;
+      if (!apiKey) return res.status(500).json({ error: 'RESEND_API_KEY not configured' });
+      const raw = await fetch('https://api.resend.com/emails/receiving?limit=100', {
+        headers: { Authorization: `Bearer ${apiKey}` }
+      });
+      const body = await raw.json();
+      return res.status(raw.status).json({ resendStatus: raw.status, body });
+    }
+
     if (action === 'backfill') {
       const apiKey = process.env.RESEND_API_KEY;
       if (!apiKey) return res.status(500).json({ error: 'RESEND_API_KEY not configured' });
