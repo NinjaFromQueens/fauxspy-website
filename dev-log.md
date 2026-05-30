@@ -23,6 +23,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Launched a weekly newsletter system with signup and broadcast features
 - Published Product Hunt launch blog and senior safety content
 - Consolidated newsletter and waitlist endpoints to optimize backend limits
+- Added weekly newsletter system with signup, distribution, and management in admin panel
+- Implemented email reply functionality in the admin inbox for managing messages
+- Fixed inbox display bugs including unread counter and message stat accuracy
+- Consolidated newsletter and waitlist into a single endpoint for better resource management
+- Added Product Hunt launch blog content and improved blog card styling
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
