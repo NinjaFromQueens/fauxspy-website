@@ -9,6 +9,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Weekly newsletter system added with signup, management, and broadcast features
 - Product Hunt launch blog post and senior safety content published
 - Blog card styling improvements for better visual presentation
+- Weekly newsletter system added with signup, agent, and broadcast functionality
+- Newsletter endpoint consolidated with waitlist to work within platform limits
+- Product Hunt launch blog agent and senior safety content cluster created
+- Blog card styling improved for better presentation
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
