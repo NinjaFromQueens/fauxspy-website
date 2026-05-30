@@ -6,6 +6,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Launched Product Hunt with a blog agent feature
 - Added senior safety content cluster
 - Fixed styling issues with blog cards
+- Weekly newsletter system added with signup, management, and broadcast features
+- Product Hunt launch blog post and senior safety content published
+- Blog card styling improvements for better visual presentation
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
