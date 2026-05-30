@@ -32,11 +32,65 @@ async function getRawBody(req) {
   });
 }
 
+// ============================================================================
+// RESEND INBOUND EMAIL HANDLER
+// Routed here via vercel.json rewrite: /api/resend-inbound → /api/webhook?source=resend-inbound
+// ============================================================================
+
+async function handleResendInbound(req, res) {
+  try {
+    const rawBody = await getRawBody(req);
+    let payload;
+    try {
+      payload = JSON.parse(rawBody.toString());
+    } catch {
+      return res.status(200).json({ ok: true }); // Return 200 always so Resend doesn't retry
+    }
+
+    // Parse sender — Resend sends "Name <email>" or just "email"
+    const fromRaw = payload.from || '';
+    const fromMatch = fromRaw.match(/^(.+?)\s*<([^>]+)>$/);
+    const fromName = fromMatch ? fromMatch[1].trim() : '';
+    const fromEmail = fromMatch ? fromMatch[2].trim() : fromRaw.trim();
+
+    const subject = payload.subject || '(no subject)';
+    const text = payload.text || '';
+    const html = payload.html || '';
+    const headers = payload.headers || {};
+    const messageId = headers['Message-ID'] || headers['message-id'] || '';
+    const inReplyTo = headers['In-Reply-To'] || headers['in-reply-to'] || '';
+    const timestamp = payload.date || new Date().toISOString();
+
+    if (!fromEmail) {
+      console.warn('Resend inbound: no sender email, skipping');
+      return res.status(200).json({ ok: true });
+    }
+
+    const id = `reply_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const record = { id, from: fromEmail, fromName, subject, text, html, messageId, inReplyTo, timestamp, status: 'unread' };
+
+    await kv.set(`inbox:${id}`, record);
+    await kv.sadd('inbox:all', id);
+    await kv.incr('inbox:unread');
+
+    console.log('📥 Inbound email stored:', id, 'from:', fromEmail, 'subject:', subject);
+    return res.status(200).json({ ok: true });
+  } catch (err) {
+    console.error('Resend inbound error:', err.message);
+    return res.status(200).json({ ok: true }); // Always 200 to prevent retries
+  }
+}
+
 module.exports = async (req, res) => {
+  // Route inbound email webhooks before Stripe processing
+  if (req.query.source === 'resend-inbound') {
+    return handleResendInbound(req, res);
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-  
+
   if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
     console.error('❌ Stripe not configured');
     return res.status(500).json({ error: 'Stripe not configured' });

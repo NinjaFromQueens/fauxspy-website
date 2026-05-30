@@ -258,6 +258,63 @@
     }
     .sign-out-link:hover { color: #f87171; }
     #mainPanel { display: none; }
+    /* Inbox styles */
+    .badge-replied {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(34,197,94,0.1);
+      color: #4ade80;
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .inbox-row { cursor: pointer; }
+    .inbox-row.expanded { background: rgba(255,255,255,0.03); }
+    .inbox-detail {
+      padding: 16px;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .inbox-body {
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #cbd5e1;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      max-height: 300px;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.15);
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    .reply-form { margin-top: 12px; }
+    .reply-form textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(251,191,36,0.2);
+      border-radius: 8px;
+      color: #f8fafc;
+      font-size: 0.875rem;
+      font-family: inherit;
+      resize: vertical;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .reply-form textarea:focus { border-color: rgba(251,191,36,0.45); }
+    .reply-actions { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+    .reply-status { font-size: 0.8rem; }
+    .reply-status.ok { color: #4ade80; }
+    .reply-status.err { color: #f87171; }
+    .btn-green {
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34,197,94,0.3);
+    }
   </style>
 </head>
 <body>
@@ -293,6 +350,7 @@
       <div class="tabs">
         <button class="tab-btn active" id="tabMessages" onclick="switchTab('messages')">📬 Messages</button>
         <button class="tab-btn" id="tabWaitlist" onclick="switchTab('waitlist')">📋 Waitlist</button>
+        <button class="tab-btn" id="tabInbox" onclick="switchTab('inbox')">📥 Inbox <span id="inboxBadge" style="display:none;background:#ef4444;color:#fff;border-radius:10px;padding:1px 6px;font-size:0.7rem;font-weight:700;margin-left:4px;"></span></button>
       </div>
 
       <!-- MESSAGES TAB -->
@@ -346,6 +404,28 @@
         </div>
       </div>
 
+      <!-- INBOX TAB -->
+      <div id="panelInbox" style="display:none;">
+        <div class="stats-bar" id="statsInbox">
+          <div class="stat-pill"><span class="spinner"></span> Loading…</div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>From</th>
+                <th>Subject</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="inboxBody">
+              <tr><td colspan="4" class="state-msg"><span class="spinner"></span> Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -393,6 +473,7 @@
         const data = await res.json();
         renderMessages(data);
         fetchWaitlist();
+        fetchInbox();
       } catch (e) {
         document.getElementById('loginError').textContent = 'Could not reach API. Check your connection.';
         document.getElementById('loginError').style.display = 'block';
@@ -495,17 +576,142 @@
       }).join('');
     }
 
+    // ── Inbox ─────────────────────────────────────────────────────────────────
+
+    async function fetchInbox() {
+      const token = getToken();
+      const res = await fetch('/api/admin/data?resource=inbox&token=' + encodeURIComponent(token));
+      if (res.status === 401 || res.status === 403) { showUnauthorized(); return; }
+      const data = await res.json();
+      renderInbox(data);
+    }
+
+    function renderInbox(data) {
+      const messages = data.messages || [];
+      const unread = data.unread || 0;
+
+      document.getElementById('statsInbox').innerHTML =
+        '<div class="stat-pill"><strong>' + data.total + '</strong> received</div>' +
+        '<div class="stat-pill red"><strong>' + unread + '</strong> unread</div>';
+
+      const badge = document.getElementById('inboxBadge');
+      if (unread > 0) {
+        badge.style.display = 'inline';
+        badge.textContent = unread;
+      } else {
+        badge.style.display = 'none';
+      }
+
+      const tbody = document.getElementById('inboxBody');
+      if (!messages.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="state-msg">No inbound messages yet.<br><span style="font-size:0.8rem;color:#475569;">Once your reply-to domain is configured in Resend, replies will appear here.</span></td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = messages.map((m, i) => {
+        const statusBadge = m.status === 'unread'
+          ? '<span class="badge-unread">UNREAD</span>'
+          : m.status === 'replied'
+            ? '<span class="badge-replied">replied</span>'
+            : '<span class="badge-read">read</span>';
+        const detailId = 'inbox_detail_' + i;
+        const replyId = 'inbox_reply_' + i;
+        const fromDisplay = m.fromName ? esc(m.fromName) + ' <span style="color:#64748b;">' + esc(m.from) + '</span>' : esc(m.from);
+
+        return '<tr class="inbox-row" id="inbox_row_' + i + '" onclick="toggleInbox(' + i + ',\'' + esc(m.id) + '\',\'' + esc(m.from) + '\',\'' + esc(m.subject) + '\',\'' + esc(m.messageId || '') + '\')">' +
+          '<td style="white-space:nowrap;color:#94a3b8;">' + esc(formatDate(m.timestamp)) + '</td>' +
+          '<td>' + fromDisplay + '</td>' +
+          '<td style="color:#f8fafc;">' + esc(m.subject || '(no subject)') + '</td>' +
+          '<td>' + statusBadge + '</td>' +
+          '</tr>' +
+          '<tr id="' + detailId + '" style="display:none;">' +
+          '<td colspan="4" class="inbox-detail">' +
+          '<div class="inbox-body" id="inbox_body_' + i + '">' + esc(m.text || m.html || '(no body)') + '</div>' +
+          '<div class="reply-form" id="' + replyId + '">' +
+          '<div style="font-size:0.8rem;color:#94a3b8;margin-bottom:6px;">Reply to <strong style="color:#f8fafc;">' + esc(m.from) + '</strong></div>' +
+          '<textarea id="reply_body_' + i + '" placeholder="Write your reply…"></textarea>' +
+          '<div class="reply-actions">' +
+          '<button class="btn-admin btn-green" onclick="sendReply(event,' + i + ',\'' + esc(m.id) + '\',\'' + esc(m.from) + '\',\'' + esc(m.subject) + '\',\'' + esc(m.messageId || '') + '\')">Send Reply</button>' +
+          '<span class="reply-status" id="reply_status_' + i + '"></span>' +
+          '</div></div></td></tr>';
+      }).join('');
+    }
+
+    function toggleInbox(i, id, from, subject, messageId) {
+      const detail = document.getElementById('inbox_detail_' + i);
+      const row = document.getElementById('inbox_row_' + i);
+      const isOpen = detail.style.display !== 'none';
+
+      detail.style.display = isOpen ? 'none' : '';
+      row.classList.toggle('expanded', !isOpen);
+
+      if (!isOpen) {
+        // Mark as read
+        const token = getToken();
+        fetch('/api/admin/data?token=' + encodeURIComponent(token), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'mark-read', id })
+        }).catch(() => {});
+      }
+    }
+
+    async function sendReply(e, i, id, to, subject, messageId) {
+      e.stopPropagation();
+      const body = document.getElementById('reply_body_' + i).value.trim();
+      const statusEl = document.getElementById('reply_status_' + i);
+      if (!body) { statusEl.className = 'reply-status err'; statusEl.textContent = 'Write a reply first.'; return; }
+
+      const btn = e.target;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      statusEl.textContent = '';
+
+      const replySubject = subject.startsWith('Re:') ? subject : 'Re: ' + subject;
+      const token = getToken();
+
+      try {
+        const res = await fetch('/api/admin/data?token=' + encodeURIComponent(token), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'reply', id, to, subject: replySubject, body, messageId })
+        });
+        const d = await res.json();
+        if (res.ok) {
+          statusEl.className = 'reply-status ok';
+          statusEl.textContent = '✓ Sent';
+          btn.textContent = 'Sent ✓';
+          fetchInbox();
+        } else {
+          statusEl.className = 'reply-status err';
+          statusEl.textContent = d.error || 'Send failed';
+          btn.disabled = false;
+          btn.textContent = 'Send Reply';
+        }
+      } catch {
+        statusEl.className = 'reply-status err';
+        statusEl.textContent = 'Network error';
+        btn.disabled = false;
+        btn.textContent = 'Send Reply';
+      }
+    }
+
+    // ── Tab switching ─────────────────────────────────────────────────────────
+
     function switchTab(tab) {
       currentTab = tab;
       document.getElementById('panelMessages').style.display = tab === 'messages' ? '' : 'none';
       document.getElementById('panelWaitlist').style.display = tab === 'waitlist' ? '' : 'none';
+      document.getElementById('panelInbox').style.display = tab === 'inbox' ? '' : 'none';
       document.getElementById('tabMessages').classList.toggle('active', tab === 'messages');
       document.getElementById('tabWaitlist').classList.toggle('active', tab === 'waitlist');
+      document.getElementById('tabInbox').classList.toggle('active', tab === 'inbox');
     }
 
     function refresh() {
       fetchMessages();
       fetchWaitlist();
+      fetchInbox();
     }
 
     function exportCSV(type) {
@@ -525,7 +731,7 @@
       if (!saved) return;
       cachedToken = saved;
       showPanel();
-      await Promise.all([fetchMessages(), fetchWaitlist()]);
+      await Promise.all([fetchMessages(), fetchWaitlist(), fetchInbox()]);
     })();
   </script>
 </body>

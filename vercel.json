@@ -6,7 +6,8 @@
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/api/admin/contact", "destination": "/api/admin/data?resource=contact" },
     { "source": "/api/admin/waitlist", "destination": "/api/admin/data?resource=waitlist" },
-    { "source": "/api/newsletter", "destination": "/api/waitlist?list=newsletter" }
+    { "source": "/api/newsletter", "destination": "/api/waitlist?list=newsletter" },
+    { "source": "/api/resend-inbound", "destination": "/api/webhook?source=resend-inbound" }
   ],
   "headers": [
     {
