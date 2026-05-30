@@ -13,6 +13,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Newsletter endpoint consolidated with waitlist to work within platform limits
 - Product Hunt launch blog agent and senior safety content cluster created
 - Blog card styling improved for better presentation
+- Added email reply functionality in the admin panel for managing inbox
+- Launched a weekly newsletter system with signup, automated agent, and broadcast capabilities
+- Published Product Hunt launch blog post and senior safety content cluster
+- Improved blog card styling and visual presentation
+- Consolidated newsletter and waitlist features into a single endpoint to optimize function usage
 
 ## 2026-05-29
 - Updated launch email and Product Hunt page with a 30% discount code
