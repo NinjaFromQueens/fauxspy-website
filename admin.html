@@ -639,7 +639,7 @@
       btn.textContent = '⏳ Syncing…';
       const token = getToken();
       try {
-        const res = await fetch('/api/admin/backfill-inbox?token=' + encodeURIComponent(token), { method: 'POST' });
+        const res = await fetch('/api/admin/data?token=' + encodeURIComponent(token), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'backfill' }) });
         const d = await res.json();
         if (res.ok) {
           btn.textContent = '✓ Synced (' + d.imported + ' new)';

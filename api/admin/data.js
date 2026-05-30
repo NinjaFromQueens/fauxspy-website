@@ -84,6 +84,60 @@ ${body.replace(/\n/g, '<br>')}
       }
     }
 
+    if (action === 'backfill') {
+      const apiKey = process.env.RESEND_API_KEY;
+      if (!apiKey) return res.status(500).json({ error: 'RESEND_API_KEY not configured' });
+      try {
+        const listResp = await fetch('https://api.resend.com/emails/receiving?limit=100', {
+          headers: { Authorization: `Bearer ${apiKey}` }
+        });
+        if (!listResp.ok) {
+          const errText = await listResp.text();
+          return res.status(502).json({ error: 'Resend API error', message: errText });
+        }
+        const { data: emails = [] } = await listResp.json();
+        let imported = 0, skipped = 0;
+        for (const email of emails) {
+          const emailId = email.email_id || email.id;
+          if (!emailId) { skipped++; continue; }
+          const dedupKey = `inbox:dedup:${emailId}`;
+          if (await kv.get(dedupKey)) { skipped++; continue; }
+          let fullEmail = {};
+          try {
+            const dr = await fetch(`https://api.resend.com/emails/receiving/${emailId}`, {
+              headers: { Authorization: `Bearer ${apiKey}` }
+            });
+            if (dr.ok) fullEmail = await dr.json();
+          } catch {}
+          const fromRaw = email.from || fullEmail.from || '';
+          const m = fromRaw.match(/^(.+?)\s*<([^>]+)>$/);
+          const fromName = m ? m[1].trim() : '';
+          const fromEmail = m ? m[2].trim() : fromRaw.trim();
+          if (!fromEmail) { skipped++; continue; }
+          const hdrs = Array.isArray(fullEmail.headers) ? fullEmail.headers : [];
+          const recId = `reply_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+          const record = {
+            id: recId,
+            from: fromEmail, fromName,
+            subject: email.subject || fullEmail.subject || '(no subject)',
+            text: fullEmail.text || '', html: fullEmail.html || '',
+            messageId: email.message_id || hdrs.find(h => h.name === 'Message-ID')?.value || '',
+            inReplyTo: hdrs.find(h => h.name === 'In-Reply-To')?.value || '',
+            timestamp: email.created_at || new Date().toISOString(),
+            status: 'unread'
+          };
+          await kv.set(`inbox:${recId}`, record);
+          await kv.sadd('inbox:all', recId);
+          await kv.incr('inbox:unread');
+          await kv.set(dedupKey, '1', { ex: 60 * 60 * 24 * 30 });
+          imported++;
+        }
+        return res.status(200).json({ ok: true, imported, skipped, total: emails.length });
+      } catch (err) {
+        return res.status(500).json({ error: 'Backfill failed', message: err.message });
+      }
+    }
+
     return res.status(400).json({ error: 'Unknown action' });
   }
 
