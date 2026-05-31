@@ -2,6 +2,13 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-05-31
+- Built email inbox feature to receive and display past emails from Resend
+- Fixed email webhook parsing and storage so admin panel can access received emails
+- Improved inbox UI styling and added debugging tools for email reception
+- Fixed database issues with orphaned data cleanup during backfill process
+- Improved SEO with canonicals, sitemaps, and meta descriptions
+
 ## 2026-05-30
 - Launched Product Hunt with a blog agent feature
 - Added senior safety content cluster
