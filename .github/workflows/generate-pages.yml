@@ -1,0 +1,109 @@
+name: Generate Landing Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      page_types:
+        description: 'Page types to generate (comma-separated: state,stats,keyword,comparison or "all")'
+        required: false
+        default: 'all'
+      limit:
+        description: 'Max pages to generate (leave blank for unlimited)'
+        required: false
+        default: ''
+      force:
+        description: 'Re-generate pages that already exist'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+      dry_run:
+        description: 'Preview what would be generated without writing files'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch sheet data
+        env:
+          GOOGLE_SHEETS_API_KEY: ${{ secrets.GOOGLE_SHEETS_API_KEY }}
+        run: node scripts/fetch-sheet-data.js
+
+      - name: Generate landing pages
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          ARGS=""
+
+          # Add --dry-run if requested
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+
+          # Add --force if requested
+          if [ "${{ inputs.force }}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
+
+          # Add --limit if specified
+          if [ -n "${{ inputs.limit }}" ]; then
+            ARGS="$ARGS --limit ${{ inputs.limit }}"
+          fi
+
+          # Handle page_types filter
+          PAGE_TYPES="${{ inputs.page_types }}"
+          if [ "$PAGE_TYPES" != "all" ] && [ -n "$PAGE_TYPES" ]; then
+            # Generate each type separately if multiple specified
+            IFS=',' read -ra TYPES <<< "$PAGE_TYPES"
+            for TYPE in "${TYPES[@]}"; do
+              TYPE=$(echo "$TYPE" | xargs)  # trim whitespace
+              echo "--- Generating type: $TYPE ---"
+              node scripts/generate-landing-pages.js --type "$TYPE" $ARGS
+            done
+          else
+            node scripts/generate-landing-pages.js $ARGS
+          fi
+
+      - name: Update sitemap
+        if: inputs.dry_run != 'true'
+        run: node scripts/update-sitemap.js
+
+      - name: Commit and push generated pages
+        if: inputs.dry_run != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit — all pages already up to date."
+          else
+            CHANGED=$(git diff --staged --name-only | grep -c '\.html$' || true)
+            git commit -m "feat: programmatic SEO pages — ${CHANGED} HTML files generated
+
+Generated via generate-pages.yml workflow.
+Types: ${{ inputs.page_types }}
+Force: ${{ inputs.force }}"
+            git push
+          fi

@@ -6,10 +6,6 @@ node_modules/
 .idea/
 .vscode/
 
-.projects/cache
-.projects/vault
-.env
-.env.local
 .env*.local
 
 # SEO agent generated files
@@ -17,3 +13,15 @@ seo-results.json
 seo-report.md
 seo-report-truncated.md
 seo-fixes-summary.md
+
+# Landing page generator — sheet data downloaded at runtime
+scripts/data/sheet-data.json
+
+# Temp token files — never commit
+temp_token.txt
+
+.projects/cache
+.projects/vault
+.env
+.env.local
+.env*
