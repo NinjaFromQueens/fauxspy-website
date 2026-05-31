@@ -23,6 +23,12 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed inbox email backfill to import past received emails and improve panel styling
 - Replaced analytics and database services (Ahrefs script loader, Upstash Redis)
 - Fixed data processing to handle orphaned dedup keys and stay within function limits
+- Added 77 new landing pages with programmatic SEO and UI improvements
+- Integrated Ahrefs web analytics across all public pages
+- Fixed Google indexing issues with canonicals, noindex tags, and sitemap
+- Added schema markup (BreadcrumbList and publisher logo) to blog posts
+- Built inbox backfill feature to import past received emails from Resend
+- Improved inbox email detail panel styling and debugging tools
 
 ## 2026-05-30
 - Launched Product Hunt with a blog agent feature
