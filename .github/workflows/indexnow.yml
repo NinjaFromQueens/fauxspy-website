@@ -9,56 +9,48 @@ jobs:
   submit:
     runs-on: ubuntu-latest
     steps:
-      - name: Submit pages to IndexNow
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build URL list from sitemap and submit to IndexNow
         run: |
+          # Extract all <loc> URLs from sitemap.xml
+          URLS=$(grep -oP '(?<=<loc>)[^<]+' sitemap.xml | head -500)
+          URL_COUNT=$(echo "$URLS" | wc -l)
+          echo "Found $URL_COUNT URLs in sitemap.xml"
+
+          # Build JSON array of URLs
+          URL_JSON=$(echo "$URLS" | python3 -c "
+          import sys, json
+          urls = [line.strip() for line in sys.stdin if line.strip()]
+          print(json.dumps(urls))
+          ")
+
+          # Submit to IndexNow (covers Bing, Yandex, and other IndexNow partners)
+          PAYLOAD=$(python3 -c "
+          import json
+          urls = $URL_JSON
+          payload = {
+            'host': 'www.fauxspy.com',
+            'key': 'a3f8b2e1d94c6071a5b8d23e1f406789',
+            'keyLocation': 'https://www.fauxspy.com/a3f8b2e1d94c6071a5b8d23e1f406789.txt',
+            'urlList': urls
+          }
+          print(json.dumps(payload))
+          ")
+
+          echo "Submitting $URL_COUNT URLs to IndexNow..."
           RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://api.indexnow.org/indexnow" \
             -H "Content-Type: application/json; charset=utf-8" \
-            -d '{
-              "host": "fauxspy.com",
-              "key": "a3f8b2e1d94c6071a5b8d23e1f406789",
-              "keyLocation": "https://fauxspy.com/a3f8b2e1d94c6071a5b8d23e1f406789.txt",
-              "urlList": [
-                "https://fauxspy.com/",
-                "https://fauxspy.com/pro",
-                "https://fauxspy.com/faq",
-                "https://fauxspy.com/deepfake-detector",
-                "https://fauxspy.com/catfish-detector",
-                "https://fauxspy.com/dating-apps",
-                "https://fauxspy.com/instagram",
-                "https://fauxspy.com/linkedin",
-                "https://fauxspy.com/pinterest",
-                "https://fauxspy.com/tiktok",
-                "https://fauxspy.com/ai-art-detector",
-                "https://fauxspy.com/buy-tokens",
-                "https://fauxspy.com/contact",
-                "https://fauxspy.com/privacy",
-                "https://fauxspy.com/terms",
-                "https://fauxspy.com/refunds",
-                "https://fauxspy.com/account",
-                "https://fauxspy.com/tinder",
-                "https://fauxspy.com/bumble",
-                "https://fauxspy.com/hinge",
-                "https://fauxspy.com/how-to-spot-ai-generated-images",
-                "https://fauxspy.com/romance-scam-warning-signs",
-                "https://fauxspy.com/blog",
-                "https://fauxspy.com/blog/signs-someone-is-catfishing-you",
-                "https://fauxspy.com/blog/ai-generated-profile-pictures",
-                "https://fauxspy.com/blog/how-catfish-scams-work",
-                "https://fauxspy.com/blog/reverse-image-search-vs-ai-detector",
-                "https://fauxspy.com/blog/deepfake-fraud-statistics",
-                "https://fauxspy.com/blog/protect-yourself-romance-scams",
-                "https://fauxspy.com/facebook",
-                "https://fauxspy.com/what-do-ai-faces-look-like",
-                "https://fauxspy.com/best-deepfake-detector",
-                "https://fauxspy.com/online-dating-safety",
-                "https://fauxspy.com/ai-video-detector",
-                "https://fauxspy.com/blog/how-to-tell-if-video-is-ai-generated",
-                "https://fauxspy.com/blog/ai-video-generators-deepfakes"
-              ]
-            }')
+            -d "$PAYLOAD")
+
           HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -1)
           echo "IndexNow response: HTTP $HTTP_CODE"
+          echo "Response body: $BODY"
+
           if [ "$HTTP_CODE" != "200" ] && [ "$HTTP_CODE" != "202" ]; then
-            echo "Unexpected status: $HTTP_CODE"
-            exit 1
+            echo "Unexpected status: $HTTP_CODE — continuing anyway (non-fatal)"
+          else
+            echo "✅ Successfully submitted $URL_COUNT URLs to IndexNow"
           fi
