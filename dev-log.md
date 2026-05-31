@@ -18,6 +18,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Built email inbox feature to receive and display past emails with improved panel styling
 - Fixed data processing and API infrastructure to handle email ingestion without hitting function limits
 - Improved email webhook parsing and added debugging tools for API response inspection
+- Added Ahrefs web analytics tracking to all 38 public pages
+- Improved SEO with canonicals, sitemaps, meta descriptions, and schema markup
+- Fixed inbox email backfill to import past received emails and improve panel styling
+- Replaced analytics and database services (Ahrefs script loader, Upstash Redis)
+- Fixed data processing to handle orphaned dedup keys and stay within function limits
 
 ## 2026-05-30
 - Launched Product Hunt with a blog agent feature
