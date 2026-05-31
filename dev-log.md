@@ -29,6 +29,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added schema markup (BreadcrumbList and publisher logo) to blog posts
 - Built inbox backfill feature to import past received emails from Resend
 - Improved inbox email detail panel styling and debugging tools
+- Built 136 landing pages and 28 blog posts using programmatic SEO
+- Fixed Google indexing issues with proper canonicals, noindex tags, and sitemap
+- Added analytics tracking and BreadcrumbList schema to all public pages
+- Improved inbox email detail panel styling and debugging capabilities
+- Optimized backend to stay within serverless function limits
 
 ## 2026-05-30
 - Launched Product Hunt with a blog agent feature
