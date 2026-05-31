@@ -13,6 +13,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Built inbox feature to receive and display emails with backfill for past messages
 - Switched from Vercel KV to Upstash Redis for better reliability
 - Fixed inbox styling, error handling, and webhook payload parsing
+- Added web analytics tracking and improved search engine visibility across all public pages
+- Fixed Google indexing issues with proper canonical tags, metadata, and sitemap configuration
+- Built email inbox feature to receive and display past emails with improved panel styling
+- Fixed data processing and API infrastructure to handle email ingestion without hitting function limits
+- Improved email webhook parsing and added debugging tools for API response inspection
 
 ## 2026-05-30
 - Launched Product Hunt with a blog agent feature
