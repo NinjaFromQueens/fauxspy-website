@@ -734,7 +734,9 @@ async function main() {
     // Write to pages/ for landing pages; blog/ stays in blog/
     const outputBase = page.slug.startsWith('blog/') ? SITE_ROOT : PAGES_DIR;
     const filePath = path.join(outputBase, `${page.slug}.html`);
-    const exists = fs.existsSync(filePath);
+    // Also check root for pages that may have been written there by older batches
+    const rootPath = path.join(SITE_ROOT, `${page.slug}.html`);
+    const exists = fs.existsSync(filePath) || (!page.slug.startsWith("blog/") && fs.existsSync(rootPath));
     const prefix = `[${i + 1}/${toProcess.length}]`;
 
     if (exists && !FORCE) {
