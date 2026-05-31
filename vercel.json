@@ -2,6 +2,7 @@
   "version": 2,
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/romance-scam-statistics-2025", "destination": "/pages/romance-scam-statistics-2025.html" },
     { "source": "/romance-scam-:slug*", "destination": "/pages/romance-scam-:slug*.html" },
     { "source": "/midjourney-detector", "destination": "/pages/midjourney-detector.html" },
     { "source": "/dalle-detector", "destination": "/pages/dalle-detector.html" },
