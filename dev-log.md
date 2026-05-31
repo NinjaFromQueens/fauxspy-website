@@ -34,6 +34,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added analytics tracking and BreadcrumbList schema to all public pages
 - Improved inbox email detail panel styling and debugging capabilities
 - Optimized backend to stay within serverless function limits
+- Built 136 landing pages and 28 blog posts using programmatic SEO generation
+- Added analytics tracking (Ahrefs) across all public pages
+- Improved search engine visibility with schema markup, canonicals, sitemaps, and meta descriptions
+- Enhanced blog discoverability with internal linking and statistics hub
+- Fixed data pipeline issues to stay within deployment limits and handle orphaned records
 
 ## 2026-05-30
 - Launched Product Hunt with a blog agent feature
