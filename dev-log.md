@@ -8,6 +8,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Improved inbox UI styling and added debugging tools for email reception
 - Fixed database issues with orphaned data cleanup during backfill process
 - Improved SEO with canonicals, sitemaps, and meta descriptions
+- Fixed SEO issues including canonicals, noindex tags, sitemap, and meta descriptions
+- Added structured data (BreadcrumbList schema and publisher logo) to blog posts
+- Built inbox feature to receive and display emails with backfill for past messages
+- Switched from Vercel KV to Upstash Redis for better reliability
+- Fixed inbox styling, error handling, and webhook payload parsing
 
 ## 2026-05-30
 - Launched Product Hunt with a blog agent feature
