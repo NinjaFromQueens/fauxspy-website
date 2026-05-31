@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -45,6 +45,7 @@
   <!-- Vercel Analytics (free, no setup) -->
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="LxH/OIwN7rRfH9EsLfyKGw" async></script>
 </head>
 <body>
   <nav class="nav">
@@ -62,7 +63,7 @@
   </nav>
 
   <section class="account-container">
-    <div class="account-icon">⚙️</div>
+    <div class="account-icon">âš™ï¸</div>
     <h1 style="font-family: Georgia, serif; font-style: italic;">Manage Your Subscription</h1>
     <p style="color: var(--text-secondary); margin-top: 16px;">
       Enter the email you used at checkout. We'll send you a secure link to manage your subscription, update payment, or cancel.
@@ -76,12 +77,12 @@
         required
       >
       <button type="submit" class="btn btn-primary btn-large btn-block" id="portalBtn">
-        📧 Send Management Link
+        ðŸ“§ Send Management Link
       </button>
     </form>
     
     <div id="successMessage" style="display: none; margin-top: 24px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; color: #34d399;">
-      ✅ Check your email for the management link!
+      âœ… Check your email for the management link!
     </div>
     
     <div id="errorMessage" style="display: none; margin-top: 24px; padding: 16px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; color: #f87171;">
@@ -96,7 +97,7 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-bottom">
-        <p>© 2026 Faux Spy. Spy on the fakes.</p>
+        <p>Â© 2026 Faux Spy. Spy on the fakes.</p>
       </div>
     </div>
   </footer>
@@ -115,7 +116,7 @@
       error.style.display = 'none';
       
       btn.disabled = true;
-      btn.textContent = '🔄 Processing...';
+      btn.textContent = 'ðŸ”„ Processing...';
       
       try {
         const response = await fetch('/api/billing-portal', {
@@ -139,7 +140,7 @@
         errorText.textContent = err.message + '. Please contact support if this persists.';
         error.style.display = 'block';
         btn.disabled = false;
-        btn.textContent = '📧 Send Management Link';
+        btn.textContent = 'ðŸ“§ Send Management Link';
       }
     });
   </script>
