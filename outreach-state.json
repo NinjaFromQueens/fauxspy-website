@@ -171,6 +171,123 @@
       "email": "liblearn@ilstu.edu",
       "method": "email",
       "sent": true
+    },
+    "slashdot.org": {
+      "date": "2026-06-01",
+      "email": "feedback@slashdot.org",
+      "method": "email",
+      "sent": true
+    },
+    "wasitaigenerated.com": {
+      "date": "2026-06-01",
+      "email": "patrick@wasitaigenerated.com",
+      "method": "email",
+      "sent": true
+    },
+    "thegentlemansjournal.com": {
+      "date": "2026-06-01",
+      "email": "advertising@thegentlemansjournal.com",
+      "method": "email",
+      "sent": true
+    },
+    "aiimagedetector.com": {
+      "date": "2026-06-01",
+      "email": "ivan@aiimagedetector.com",
+      "method": "email",
+      "sent": true
+    },
+    "apnews.com": {
+      "date": "2026-06-01",
+      "email": "kchan@ap.org",
+      "method": "email",
+      "sent": true
+    },
+    "pcworld.com": {
+      "date": "2026-06-01",
+      "email": "duroneppsjr7@gmail.com",
+      "method": "email",
+      "sent": true
+    },
+    "ice.gov": {
+      "date": "2026-06-01",
+      "email": "ice-foia@dhs.gov",
+      "method": "email",
+      "sent": true
+    },
+    "it.uclahealth.org": {
+      "date": "2026-06-01",
+      "email": "customercare@mednet.ucla.edu",
+      "method": "email",
+      "sent": true
+    },
+    "secretservice.gov": {
+      "date": "2026-06-01",
+      "email": "usssmediainquiry@usss.dhs.gov",
+      "method": "email",
+      "sent": true
+    },
+    "gcefcu.org": {
+      "date": "2026-06-01",
+      "email": "bswanson@gcefcu.org",
+      "method": "email",
+      "sent": true
+    },
+    "blog.google": {
+      "date": "2026-06-01",
+      "email": "press@google.com",
+      "method": "email",
+      "sent": true
+    },
+    "sightengine.com": {
+      "date": "2026-06-01",
+      "email": "press@sightengine.com",
+      "method": "email",
+      "sent": true
+    },
+    "insight.kellogg.northwestern.edu": {
+      "date": "2026-06-01",
+      "email": "insight@kellogg.northwestern.edu",
+      "method": "email",
+      "sent": true
+    },
+    "ddiy.co": {
+      "date": "2026-06-01",
+      "email": "claire@ddiy.co",
+      "method": "email",
+      "sent": true
+    },
+    "pangram.com": {
+      "date": "2026-06-01",
+      "email": "press@pangram.com",
+      "method": "email",
+      "sent": true
+    },
+    "gowinston.ai": {
+      "date": "2026-06-01",
+      "method": "form",
+      "sent": true
+    },
+    "tribulant.com": {
+      "date": "2026-06-01",
+      "method": "form",
+      "sent": true
+    },
+    "bushe.co": {
+      "date": "2026-06-01",
+      "email": "patrick@bushe.co",
+      "method": "email",
+      "sent": true
+    },
+    "gptzero.me": {
+      "date": "2026-06-01",
+      "method": "form",
+      "sent": true
+    },
+    "originality.ai": {
+      "date": "2026-06-01",
+      "email": "narcis@originality.ai",
+      "method": "email",
+      "sent": true
     }
   }
 }
