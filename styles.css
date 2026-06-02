@@ -936,3 +936,18 @@ kbd {
 .honeypot {
   display: none;
 }
+
+.post-byline {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  margin: 6px 0 20px;
+}
+
+.byline-author {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.byline-author:hover {
+  color: var(--gold);
+}
