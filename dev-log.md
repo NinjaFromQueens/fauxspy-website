@@ -7,6 +7,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Standardized all website URLs to www.fauxspy.com for better search indexing
 - Fixed missing Dataset name field and corrected citation schema types
 - Resolved structured data errors reported by Google Search Console
+- Restored About page content that was accidentally deleted
+- Added founder information and author credibility details to the About page
+- Standardized all website URLs to www.fauxspy.com for search engine consistency
+- Fixed structured data errors in Dataset schema and citation types
+- Improved search engine visibility through proper content organization and metadata
 
 ## 2026-05-31
 - Built email inbox feature to receive and display past emails from Resend
