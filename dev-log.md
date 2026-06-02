@@ -2,6 +2,12 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-06-02
+- Added founder bio and E-E-A-T author credibility signals to blog posts
+- Standardized all website URLs to www.fauxspy.com for better search indexing
+- Fixed missing Dataset name field and corrected citation schema types
+- Resolved structured data errors reported by Google Search Console
+
 ## 2026-05-31
 - Built email inbox feature to receive and display past emails from Resend
 - Fixed email webhook parsing and storage so admin panel can access received emails
