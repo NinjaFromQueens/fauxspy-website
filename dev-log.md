@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-06-08
+- Fixed redirect handling to ensure proper URL resolution before content moderation checks
+- Improved error code forwarding for better error reporting and debugging
+- Resolved issues affecting content analysis reliability (issues #1201 and #1044)
+
 ## 2026-06-02
 - Added founder bio and E-E-A-T author credibility signals to blog posts
 - Standardized all website URLs to www.fauxspy.com for better search indexing
