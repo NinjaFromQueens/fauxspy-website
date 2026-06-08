@@ -12,6 +12,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed YAML syntax error in the automated page generation workflow
 - Added error monitoring to the backend using Sentry to track issues
 - Improved redirect handling and error reporting for image analysis
+- Updated the extension to version 1.8.9
+- Fixed image analysis errors by following redirects before processing
+- Fixed website publishing workflow
 
 ## 2026-06-02
 - Added founder bio and E-E-A-T author credibility signals to blog posts
