@@ -12,6 +12,7 @@
     "sitemap": "node scripts/update-sitemap.js"
   },
   "dependencies": {
+    "@sentry/node": "^10.56.0",
     "@upstash/redis": "^1.38.0",
     "@vercel/kv": "^2.0.0",
     "resend": "^3.2.0",

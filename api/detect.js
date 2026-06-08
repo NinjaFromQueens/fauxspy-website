@@ -4,6 +4,10 @@
 // Pro: Real / Digital Art / Inconclusive / AI Art / AI Photo (genai + type models)
 
 const { Redis } = require('@upstash/redis');
+const Sentry = require('@sentry/node');
+if (process.env.SENTRY_DSN_BACKEND) {
+  Sentry.init({ dsn: process.env.SENTRY_DSN_BACKEND, tracesSampleRate: 0 });
+}
 
 const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
@@ -196,6 +200,12 @@ module.exports = async (req, res) => {
         });
       }
       
+      Sentry.captureEvent({
+        message: `Sightengine failure: code ${data.error?.code}`,
+        level: 'error',
+        tags: { se_code: String(data.error?.code || 'unknown'), is_pro: String(isPro) },
+        extra: { seError: data.error, urlPattern: imageUrl ? imageUrl.substring(0, 80) : null }
+      });
       return res.status(422).json({
         error: 'DETECTION_FAILED',
         seCode: data.error?.code,
@@ -305,6 +315,7 @@ module.exports = async (req, res) => {
     
   } catch (error) {
     console.error('❌ [DETECT ERROR]', error);
+    Sentry.captureException(error);
     return res.status(500).json({
       error: 'INTERNAL_ERROR',
       message: 'Something went wrong. Please try again.'
