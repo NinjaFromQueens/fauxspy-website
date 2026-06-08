@@ -9,6 +9,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added error monitoring to the backend using Sentry
 - Fixed redirect handling before checking images with Sightengine
 - Improved error code forwarding for issues #1201 and #1044
+- Fixed YAML syntax error in the automated page generation workflow
+- Added error monitoring to the backend using Sentry to track issues
+- Improved redirect handling and error reporting for image analysis
 
 ## 2026-06-02
 - Added founder bio and E-E-A-T author credibility signals to blog posts
