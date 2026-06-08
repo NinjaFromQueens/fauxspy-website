@@ -100,10 +100,7 @@ jobs:
             echo "No changes to commit — all pages already up to date."
           else
             CHANGED=$(git diff --staged --name-only | grep -c '\.html$' || true)
-            git commit -m "feat: programmatic SEO pages — ${CHANGED} HTML files generated
-
-Generated via generate-pages.yml workflow.
-Types: ${{ inputs.page_types }}
-Force: ${{ inputs.force }}"
+            COMMIT_MSG=$(printf 'feat: programmatic SEO pages — %s HTML files\n\nTypes: ${{ inputs.page_types }} | Force: ${{ inputs.force }}' "${CHANGED}")
+            git commit -m "$COMMIT_MSG"
             git push
           fi
