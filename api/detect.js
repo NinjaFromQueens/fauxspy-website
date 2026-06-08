@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   
   try {
-    const { imageUrl, imageData, userId, isPro, licenseKey, width, height, isVideoFrame } = req.body || {};
+    let { imageUrl, imageData, userId, isPro, licenseKey, width, height, isVideoFrame } = req.body || {};
 
     if (!imageUrl && !imageData) return res.status(400).json({ error: 'imageUrl or imageData required' });
     if (!userId) return res.status(400).json({ error: 'userId required' });
@@ -44,7 +44,24 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Cannot analyze data: or blob: URLs' });
       }
     }
-    
+
+    // Resolve redirect chains before calling Sightengine (fixes CDN 3xx errors, e.g. Instagram/Facebook)
+    if (imageUrl) {
+      try {
+        const headRes = await fetch(imageUrl, {
+          method: 'HEAD',
+          redirect: 'follow',
+          signal: AbortSignal.timeout(3000)
+        });
+        if (headRes.url && headRes.url !== imageUrl) {
+          console.log('↪️ [REDIRECT]', imageUrl.substring(0, 60), '→', headRes.url.substring(0, 60));
+          imageUrl = headRes.url;
+        }
+      } catch {
+        // HEAD failed — proceed with original URL
+      }
+    }
+
     // Image dimension pre-check
     if (width && height && (width < 100 || height < 100)) {
       return res.status(200).json({
@@ -179,8 +196,9 @@ module.exports = async (req, res) => {
         });
       }
       
-      return res.status(500).json({
+      return res.status(422).json({
         error: 'DETECTION_FAILED',
+        seCode: data.error?.code,
         message: data.error?.message || 'Detection failed'
       });
     }
