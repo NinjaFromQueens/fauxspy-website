@@ -6,6 +6,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed redirect handling to ensure proper URL resolution before content moderation checks
 - Improved error code forwarding for better error reporting and debugging
 - Resolved issues affecting content analysis reliability (issues #1201 and #1044)
+- Added error monitoring to the backend using Sentry
+- Fixed redirect handling before checking images with Sightengine
+- Improved error code forwarding for issues #1201 and #1044
 
 ## 2026-06-02
 - Added founder bio and E-E-A-T author credibility signals to blog posts
