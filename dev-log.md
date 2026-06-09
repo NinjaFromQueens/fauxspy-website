@@ -8,6 +8,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Improved image processing by following redirects before analysis
 - Fixed error code handling in image processing responses
 - Added error monitoring to backend with Sentry integration
+- Improved content detection with dual-engine system using Hive and Sightengine
+- Added comparisons with 9 competitors and alternative product pages
+- Fixed redirect handling before content analysis to resolve error codes
+- Enhanced error tracking and monitoring with Sentry integration
+- Fixed SEO and technical issues including canonical tags and workflow errors
 
 ## 2026-06-08
 - Fixed redirect handling to ensure proper URL resolution before content moderation checks
