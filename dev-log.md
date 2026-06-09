@@ -2,6 +2,13 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-06-09
+- Added 9 competitor comparison and alternative product pages
+- Fixed homepage canonical tag and updated version to 1.8.9
+- Improved image processing by following redirects before analysis
+- Fixed error code handling in image processing responses
+- Added error monitoring to backend with Sentry integration
+
 ## 2026-06-08
 - Fixed redirect handling to ensure proper URL resolution before content moderation checks
 - Improved error code forwarding for better error reporting and debugging
