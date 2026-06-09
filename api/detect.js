@@ -92,7 +92,7 @@ module.exports = async (req, res) => {
     let cacheKey;
 
     if (!skipCache) {
-      cacheKey = `detect:v6:${await hashUrl(imageUrl)}`;
+      cacheKey = `detect:v7:${await hashUrl(imageUrl)}`;
       const cached = await getCached(cacheKey);
 
       if (cached) {
@@ -146,91 +146,172 @@ module.exports = async (req, res) => {
     }
     
     // ========================================================================
-    // STEP 3: Validate Sightengine credentials
+    // STEP 3: Validate provider credentials
+    // SIGNAL = Hive Moderation (primary AI detection)
+    // TRACE  = Sightengine (illustration type + deepfake + genai fallback)
     // ========================================================================
+    const hiveApiKey = process.env.HIVE_API_KEY;
     const apiUser = process.env.SIGHTENGINE_API_USER;
     const apiSecret = process.env.SIGHTENGINE_API_SECRET;
-    
-    if (!apiUser || !apiSecret) {
-      console.error('❌ Sightengine credentials not configured');
+
+    if (!hiveApiKey && (!apiUser || !apiSecret)) {
+      console.error('❌ No detection provider configured (need HIVE_API_KEY or Sightengine credentials)');
       return res.status(500).json({
         error: 'SERVER_NOT_CONFIGURED',
         message: 'Detection service unavailable. Please try again later.'
       });
     }
-    
-    // ========================================================================
-    // STEP 4: Call Sightengine
-    // - Free: just genai model (1 operation)
-    // - Pro: genai + type models (2 operations, but combined call)
-    // ========================================================================
-    // Pro tier adds deepfake model to detect face swaps and head composites
-    const models = isPro ? 'genai,type,deepfake' : 'genai,type';
 
-    let response;
-    if (imageData) {
-      // Video frame capture — use Sightengine multipart media upload
-      const base64 = imageData.replace(/^data:image\/\w+;base64,/, '');
-      const buffer = Buffer.from(base64, 'base64');
-      const blob = new Blob([buffer], { type: 'image/jpeg' });
-      const form = new FormData();
-      form.append('media', blob, 'frame.jpg');
-      form.append('models', models);
-      form.append('api_user', apiUser);
-      form.append('api_secret', apiSecret);
-      console.log(`🎬 [FRAME DETECT ${isPro ? 'PRO' : 'FREE'}] ${buffer.length} bytes`);
-      response = await fetch('https://api.sightengine.com/1.0/check.json', { method: 'POST', body: form });
-    } else {
-      // Normal URL-based scan
-      const params = new URLSearchParams({ url: imageUrl, models, api_user: apiUser, api_secret: apiSecret });
-      const sightengineUrl = `https://api.sightengine.com/1.0/check.json?${params.toString()}`;
-      console.log(`🔍 [DETECT ${isPro ? 'PRO' : 'FREE'}]`, imageUrl.substring(0, 80));
-      response = await fetch(sightengineUrl, { method: 'GET', headers: { 'Accept': 'application/json' } });
-    }
-    
-    const data = await response.json();
-    
-    if (data.status === 'failure') {
-      console.error('❌ [SIGHTENGINE]', data.error);
-      
-      if (data.error?.type?.includes('quota') || data.error?.type?.includes('limit')) {
-        return res.status(503).json({
-          error: 'SERVICE_BUSY',
-          message: 'Detection service is busy. Please try again in a few minutes.'
+    // ========================================================================
+    // STEP 4: Call SIGNAL (Hive) + TRACE (Sightengine) in parallel
+    // SIGNAL provides the primary AI probability (higher accuracy on new models)
+    // TRACE provides illustration type, deepfake score, and genai fallback
+    // ========================================================================
+    const sightengineModels = isPro ? 'genai,type,deepfake' : 'genai,type';
+
+    async function callSignal() {
+      if (!hiveApiKey) throw new Error('HIVE_API_KEY not configured');
+      let hiveRes;
+      if (imageData) {
+        const base64 = imageData.replace(/^data:image\/\w+;base64,/, '');
+        const buffer = Buffer.from(base64, 'base64');
+        const blob = new Blob([buffer], { type: 'image/jpeg' });
+        const form = new FormData();
+        form.append('media', blob, 'frame.jpg');
+        console.log(`🎬 [SIGNAL ${isPro ? 'PRO' : 'FREE'}] ${buffer.length} bytes`);
+        hiveRes = await fetch('https://api.thehive.ai/api/v2/task/sync', {
+          method: 'POST',
+          headers: { 'Authorization': `Token ${hiveApiKey}` },
+          body: form,
+          signal: AbortSignal.timeout(15000)
+        });
+      } else {
+        console.log(`🔍 [SIGNAL ${isPro ? 'PRO' : 'FREE'}]`, imageUrl.substring(0, 80));
+        hiveRes = await fetch('https://api.thehive.ai/api/v2/task/sync', {
+          method: 'POST',
+          headers: { 'Authorization': `Token ${hiveApiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: imageUrl }),
+          signal: AbortSignal.timeout(10000)
         });
       }
-      
-      Sentry.captureEvent({
-        message: `Sightengine failure: code ${data.error?.code}`,
-        level: 'error',
-        tags: { se_code: String(data.error?.code || 'unknown'), is_pro: String(isPro) },
-        extra: { seError: data.error, urlPattern: imageUrl ? imageUrl.substring(0, 80) : null }
-      });
-      return res.status(422).json({
-        error: 'DETECTION_FAILED',
-        seCode: data.error?.code,
-        message: data.error?.message || 'Detection failed'
-      });
+      const hiveData = await hiveRes.json();
+      const classes = hiveData.status?.[0]?.response?.output?.[0]?.classes;
+      const score = classes?.find(c => c.class === 'ai_generated')?.score;
+      if (typeof score !== 'number') throw new Error(`Hive unexpected response: ${JSON.stringify(hiveData).substring(0, 200)}`);
+      return score;
     }
-    
-    // Extract scores
-    const aiProbability = data.type?.ai_generated;
-    
+
+    async function callTrace() {
+      if (!apiUser || !apiSecret) throw new Error('Sightengine credentials not configured');
+      let traceData;
+      if (imageData) {
+        const base64 = imageData.replace(/^data:image\/\w+;base64,/, '');
+        const buffer = Buffer.from(base64, 'base64');
+        const blob = new Blob([buffer], { type: 'image/jpeg' });
+        const form = new FormData();
+        form.append('media', blob, 'frame.jpg');
+        form.append('models', sightengineModels);
+        form.append('api_user', apiUser);
+        form.append('api_secret', apiSecret);
+        console.log(`🎬 [TRACE ${isPro ? 'PRO' : 'FREE'}] ${buffer.length} bytes`);
+        const r = await fetch('https://api.sightengine.com/1.0/check.json', { method: 'POST', body: form });
+        traceData = await r.json();
+      } else {
+        const params = new URLSearchParams({ url: imageUrl, models: sightengineModels, api_user: apiUser, api_secret: apiSecret });
+        console.log(`🔍 [TRACE ${isPro ? 'PRO' : 'FREE'}]`, imageUrl.substring(0, 80));
+        const r = await fetch(`https://api.sightengine.com/1.0/check.json?${params.toString()}`, { headers: { 'Accept': 'application/json' } });
+        traceData = await r.json();
+      }
+      if (traceData.status === 'failure') {
+        if (traceData.error?.type?.includes('quota') || traceData.error?.type?.includes('limit')) {
+          throw new Error(`Sightengine quota: ${traceData.error?.message}`);
+        }
+        Sentry.captureEvent({
+          message: `TRACE (Sightengine) failure: code ${traceData.error?.code}`,
+          level: 'error',
+          tags: { se_code: String(traceData.error?.code || 'unknown'), is_pro: String(isPro) },
+          extra: { seError: traceData.error, urlPattern: imageUrl ? imageUrl.substring(0, 80) : null }
+        });
+        throw new Error(`Sightengine error ${traceData.error?.code}: ${traceData.error?.message}`);
+      }
+      return {
+        genaiScore: traceData.type?.ai_generated ?? null,
+        illustrationScore: traceData.type?.illustration ?? 0,
+        photoScore: traceData.type?.photo ?? 0,
+        deepfakeScore: isPro ? (typeof traceData.deepfake === 'number' ? traceData.deepfake : 0) : 0
+      };
+    }
+
+    const [signalResult, traceResult] = await Promise.allSettled([callSignal(), callTrace()]);
+
+    // Resolve aiProbability: SIGNAL (Hive) primary, TRACE genai fallback
+    let aiProbability;
+    let signalStatus;
+
+    if (signalResult.status === 'fulfilled') {
+      aiProbability = signalResult.value;
+      signalStatus = 'ok';
+    } else {
+      console.warn('⚠️ [SIGNAL/Hive failed]', signalResult.reason?.message);
+      Sentry.captureEvent({
+        message: `SIGNAL (Hive) failed: ${signalResult.reason?.message}`,
+        level: 'warning',
+        tags: { is_pro: String(isPro) }
+      });
+      if (traceResult.status === 'fulfilled' && typeof traceResult.value.genaiScore === 'number') {
+        aiProbability = traceResult.value.genaiScore;
+        signalStatus = 'fallback';
+      } else {
+        return res.status(503).json({
+          error: 'SERVICE_UNAVAILABLE',
+          message: 'Detection service temporarily unavailable. Please try again.'
+        });
+      }
+    }
+
+    // Resolve TRACE scores (illustration, deepfake)
+    let illustrationScore = 0, photoScore = 0, deepfakeScore = 0;
+    let traceStatus;
+    let traceScores = null;
+
+    if (traceResult.status === 'fulfilled') {
+      illustrationScore = traceResult.value.illustrationScore;
+      photoScore = traceResult.value.photoScore;
+      deepfakeScore = traceResult.value.deepfakeScore;
+      traceStatus = 'ok';
+      traceScores = traceResult.value;
+    } else {
+      console.warn('⚠️ [TRACE/Sightengine failed]', traceResult.reason?.message);
+      traceStatus = 'failed';
+    }
+
     if (typeof aiProbability !== 'number') {
-      console.error('❌ Unexpected response:', data);
+      console.error('❌ No valid AI probability from either provider');
       return res.status(500).json({
         error: 'INVALID_RESPONSE',
         message: 'Detection returned unexpected format'
       });
     }
-    
-    // Extract type scores for all tiers (type model now always requested)
-    // type.illustration: 0-1, where 1 = illustration, 0 = photograph
-    const illustrationScore = data.type?.illustration ?? 0;
-    const photoScore = data.type?.photo ?? 0;
 
-    // deepfake score — only present for Pro tier scans (top-level field from Sightengine)
-    const deepfakeScore = isPro ? (typeof data.deepfake === 'number' ? data.deepfake : 0) : 0;
+    // Method string for client transparency
+    const detectionMethod = signalStatus === 'ok' && traceStatus === 'ok' ? 'signal_trace'
+      : signalStatus === 'ok' ? 'signal_only'
+      : traceStatus === 'ok' ? 'trace_full'
+      : 'unknown';
+
+    // SIGNAL + TRACE metadata for client display
+    const signalMeta = {
+      name: 'SIGNAL',
+      score: signalStatus === 'ok' ? signalResult.value : null,
+      status: signalStatus
+    };
+    const traceMeta = traceScores ? {
+      name: 'TRACE',
+      illustrationScore: traceScores.illustrationScore,
+      photoScore: traceScores.photoScore,
+      ...(isPro ? { deepfakeScore: traceScores.deepfakeScore } : {}),
+      status: 'ok'
+    } : { name: 'TRACE', status: 'failed' };
     
     // ========================================================================
     // STEP 5: Build BOTH free and pro verdict objects (for caching)
@@ -246,7 +327,9 @@ module.exports = async (req, res) => {
       verdict: freeVerdict.tier,
       verdictLabel: freeVerdict.label,
       category: freeVerdict.category,
-      method: 'sightengine_api',
+      method: detectionMethod,
+      signal: signalMeta,
+      trace: traceMeta,
       indicators: freeVerdict.indicators,
       // Hint about Pro tier capability
       proHint: freeVerdict.proHint,
@@ -268,7 +351,9 @@ module.exports = async (req, res) => {
         verdict: proVerdict.tier,
         verdictLabel: proVerdict.label,
         category: proVerdict.category,
-        method: 'sightengine_api_pro',
+        method: detectionMethod,
+        signal: signalMeta,
+        trace: traceMeta,
         indicators: proVerdict.indicators,
         timestamp: Date.now()
       };
@@ -303,7 +388,7 @@ module.exports = async (req, res) => {
     }
 
     const returnedResult = isPro ? proResult : freeResult;
-    console.log(`✅ [RESULT] ${returnedResult.verdictLabel} (AI: ${(aiProbability * 100).toFixed(1)}%${illustrationScore !== null ? `, Illust: ${(illustrationScore * 100).toFixed(1)}%` : ''})`);
+    console.log(`✅ [RESULT/${detectionMethod}] ${returnedResult.verdictLabel} (SIGNAL: ${(aiProbability * 100).toFixed(1)}%${traceStatus === 'ok' ? `, Illust: ${(illustrationScore * 100).toFixed(1)}%` : ''})`);
 
     // Include token balance in Pro response so extension can sync
     const tokenInfo = (isPro && proLicenseData) ? {
