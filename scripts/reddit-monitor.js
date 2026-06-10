@@ -26,6 +26,8 @@ const SUBREDDITS = [
   'relationships',
   'Tinder',
   'OnlineDating',
+  'Bumble',
+  'deepfakes',
 ];
 
 // Phrases that signal someone needs help detecting fake profiles
@@ -47,6 +49,10 @@ const TRIGGER_PHRASES = [
   'stolen photos',
   'too good to be true',
   'suspicious profile',
+  'ai photo',
+  'detect ai',
+  'is this ai',
+  'real photo',
 ];
 
 // Skip posts that already mention fauxspy or our competitors by name
