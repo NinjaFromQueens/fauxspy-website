@@ -21,6 +21,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed broken image links and encoding issues on the website
 - Upgraded detection to use dual-engine system (Hive primary, Sightengine backup)
 - Resolved crashes and error logging spam in the detection system
+- Added a /try-it quiz page where users can test the AI face detection feature
+- Replaced placeholder images with real GAN-generated faces throughout the app
+- Improved detection accuracy with dual-engine system (Hive + Sightengine)
+- Fixed crashes and errors in the detection system
+- Enhanced homepage demo section with larger image grid and self-hosted images
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
