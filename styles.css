@@ -951,3 +951,306 @@ kbd {
 .byline-author:hover {
   color: var(--gold);
 }
+
+/* ============================================================================
+   TRY IT PAGE — quiz grid
+   ============================================================================ */
+
+.try-it-hero {
+  text-align: center;
+  padding: 80px 20px 48px;
+}
+
+.try-it-title {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: clamp(40px, 7vw, 72px);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.try-it-subtitle {
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.try-it-cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.try-it-already {
+  font-size: 14px;
+  color: var(--text-tertiary);
+}
+
+.try-it-section {
+  padding: 0 0 80px;
+}
+
+.try-it-instructions {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(251, 191, 36, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 48px;
+}
+
+.try-it-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.try-it-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gradient-gold);
+  color: var(--noir-medium);
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.try-it-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.try-it-card {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+  background: var(--noir-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.try-it-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+  display: block;
+}
+
+.try-it-card:hover img {
+  transform: scale(1.05);
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 45%, rgba(0, 0, 0, 0.88) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+
+.card-hint {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.reveal-btn {
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: var(--gold);
+  padding: 7px 16px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: inherit;
+}
+
+.reveal-btn:hover:not(:disabled) {
+  background: rgba(251, 191, 36, 0.28);
+  border-color: rgba(251, 191, 36, 0.65);
+}
+
+.reveal-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.card-result {
+  display: none;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+}
+
+.card-result.revealed {
+  display: block;
+}
+
+.result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.badge-ai {
+  background: rgba(239, 68, 68, 0.88);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.badge-real {
+  background: rgba(34, 197, 94, 0.85);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.try-it-score-row {
+  text-align: center;
+  padding: 16px;
+}
+
+.try-it-score-label {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.try-it-bottom-cta {
+  padding-bottom: 80px;
+}
+
+/* ============================================================================
+   HOMEPAGE DEMO SECTION — "See It In Action"
+   ============================================================================ */
+
+.demo-section {
+  padding: 80px 0;
+  background: var(--noir-medium);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.demo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.demo-img-wrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.demo-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.demo-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.demo-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.demo-badge-real {
+  background: rgba(34, 197, 94, 0.18);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  color: #4ade80;
+}
+
+.demo-badge-real .demo-badge-dot {
+  background: #4ade80;
+}
+
+.demo-badge-ai {
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #f87171;
+}
+
+.demo-badge-ai .demo-badge-dot {
+  background: #f87171;
+}
+
+.demo-badge-ai-art {
+  background: rgba(251, 191, 36, 0.13);
+  border: 1px solid rgba(251, 191, 36, 0.38);
+  color: var(--gold);
+}
+
+.demo-badge-ai-art .demo-badge-dot {
+  background: var(--gold);
+}
+
+.demo-caption {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.demo-section-cta {
+  text-align: center;
+  margin-top: 40px;
+}

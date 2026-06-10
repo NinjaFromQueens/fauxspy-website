@@ -69,6 +69,7 @@
     { "source": "/romance-scam-warning-signs", "destination": "/pages/romance-scam-warning-signs.html" },
     { "source": "/protect-your-parents", "destination": "/pages/protect-your-parents.html" },
     { "source": "/blog", "destination": "/blog/index.html" },
+    { "source": "/try-it", "destination": "/try-it.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/api/admin/contact", "destination": "/api/admin/data?resource=contact" },
     { "source": "/api/admin/waitlist", "destination": "/api/admin/data?resource=waitlist" },
