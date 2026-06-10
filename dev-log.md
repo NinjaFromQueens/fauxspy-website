@@ -15,6 +15,12 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Enhanced detection system with dual-engine approach using Hive as primary and Sightengine as backup
 - Fixed crashes and error logging issues in the detection feature
 - Improved contact form emoji encoding
+- Added a new quiz page where users can try the face detection feature
+- Replaced placeholder AI quiz images with real GAN-generated faces for authenticity
+- Improved the homepage with a demo section and larger 3-column portrait grid layout
+- Fixed broken image links and encoding issues on the website
+- Upgraded detection to use dual-engine system (Hive primary, Sightengine backup)
+- Resolved crashes and error logging spam in the detection system
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
