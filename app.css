@@ -117,19 +117,55 @@ body {
   gap: 20px;
 }
 
+.phone-outer {
+  position: relative;
+  display: inline-block;
+}
+
+/* Hardware buttons — visible because they live OUTSIDE overflow:hidden */
+.phone-btn-right {
+  position: absolute; right: -4px; top: 120px;
+  width: 4px; height: 70px;
+  background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
+  border-radius: 0 3px 3px 0;
+  box-shadow: inset -1px 0 2px rgba(0,0,0,0.4);
+  z-index: 2;
+}
+.phone-btn-silent {
+  position: absolute; left: -4px; top: 100px;
+  width: 4px; height: 30px;
+  background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
+  border-radius: 3px 0 0 3px;
+  z-index: 2;
+}
+.phone-btn-vol-up {
+  position: absolute; left: -4px; top: 155px;
+  width: 4px; height: 45px;
+  background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
+  border-radius: 3px 0 0 3px;
+  z-index: 2;
+}
+.phone-btn-vol-down {
+  position: absolute; left: -4px; top: 215px;
+  width: 4px; height: 45px;
+  background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
+  border-radius: 3px 0 0 3px;
+  z-index: 2;
+}
+
 .phone-frame {
   width: 265px;
   height: 536px;
-  background: #1c1c1e;
+  background: linear-gradient(145deg, #2e2e30, #1c1c1e 35%, #242426 65%, #1c1c1e);
   border-radius: 50px;
-  border: 8px solid #2c2c2e;
   box-shadow:
-    0 0 0 1px #3a3a3c,
-    0 50px 100px rgba(0,0,0,0.25),
-    0 20px 40px rgba(0,0,0,0.15),
-    inset 0 0 0 1px rgba(255,255,255,0.04);
+    0 0 0 1px rgba(255,255,255,0.08),
+    inset 0 0 0 2px rgba(255,255,255,0.04),
+    0 40px 90px rgba(0,0,0,0.5),
+    0 15px 35px rgba(0,0,0,0.3);
   position: relative;
   overflow: hidden;
+  padding: 8px;
 }
 
 /* Dynamic Island */
@@ -154,29 +190,14 @@ body {
   background: #fff;
 }
 
-/* Side buttons */
-.phone-frame::before {
+.phone-screen::after {
   content: '';
-  position: absolute;
-  right: -11px;
-  top: 100px;
-  width: 3px;
-  height: 60px;
-  background: #2c2c2e;
-  border-radius: 0 3px 3px 0;
-  box-shadow: 0 80px 0 #2c2c2e;
+  position: absolute; inset: 0; z-index: 10;
+  background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 50%);
+  pointer-events: none;
+  border-radius: inherit;
 }
-.phone-frame::after {
-  content: '';
-  position: absolute;
-  left: -11px;
-  top: 80px;
-  width: 3px;
-  height: 40px;
-  background: #2c2c2e;
-  border-radius: 3px 0 0 3px;
-  box-shadow: 0 56px 0 #2c2c2e, 0 104px 0 #2c2c2e;
-}
+
 
 /* Slides */
 .phone-slides {
@@ -193,7 +214,7 @@ body {
 }
 .phone-slide.active { opacity: 1; }
 
-/* ── Slide 1: Dating profile ─────────────────────────────────────────────── */
+/* ── Slide 1: Instagram post ─────────────────────────────────────────────── */
 .slide-1 {
   background: #fff;
   display: flex;
@@ -211,149 +232,58 @@ body {
   flex-shrink: 0;
 }
 
-.app-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px;
-  border-bottom: 1px solid #f2f2f7;
-  flex-shrink: 0;
+/* Instagram-style post UI */
+.insta-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 12px 8px; border-bottom: 1px solid #efefef; flex-shrink: 0;
 }
-
-.app-topbar-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1c1c1e;
+.insta-logo {
+  font-size: 17px; font-weight: 800; font-style: italic;
+  letter-spacing: -0.5px; color: #1c1c1e;
 }
+.insta-nav-icons { display: flex; gap: 14px; font-size: 18px; color: #1c1c1e; }
 
-.app-topbar-dot {
-  width: 8px;
-  height: 8px;
-  background: #34c759;
-  border-radius: 50%;
+.insta-post-header {
+  display: flex; align-items: center; padding: 8px 10px; gap: 8px; flex-shrink: 0;
 }
-
-.profile-scroll {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
+.insta-avatar-ring {
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  padding: 2px;
 }
+.insta-avatar-inner {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: linear-gradient(160deg, #f0c9a0, #d4956a);
+  border: 1.5px solid #fff;
+}
+.insta-uname-col { flex: 1; }
+.insta-username { font-size: 11px; font-weight: 700; color: #1c1c1e; }
+.insta-subloc { font-size: 9px; color: #8e8e93; }
+.insta-more-btn { font-size: 16px; font-weight: 700; color: #1c1c1e; }
 
-.profile-photo-bg {
+/* Warm portrait photo — layered radial gradients read as person in golden-hour light */
+.insta-photo {
   width: 100%;
-  height: 220px;
-  background: linear-gradient(135deg, #f4c09a 0%, #e8955e 45%, #c46b28 100%);
-  position: relative;
-  overflow: hidden;
+  height: 200px;
+  flex-shrink: 0;
+  background:
+    radial-gradient(ellipse 90px 55px at 50% 5%, rgba(32,18,10,0.85) 0%, transparent 100%),
+    radial-gradient(ellipse 55px 80px at 50% 42%, #f3c9a0 0%, #e09070 55%, transparent 80%),
+    radial-gradient(ellipse 45px 55px at 33% 85%, rgba(240,196,160,0.7) 0%, transparent 70%),
+    radial-gradient(ellipse 45px 55px at 68% 85%, rgba(240,196,160,0.7) 0%, transparent 70%),
+    radial-gradient(ellipse 90px 90px at 18% 60%, rgba(190,120,60,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse at 70% 65%, #b8642a 0%, #8b4510 100%),
+    linear-gradient(180deg, #7a3f18 0%, #c07848 45%, #d4956a 100%);
 }
 
-.profile-photo-bg::before {
-  content: '';
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90px;
-  height: 110px;
-  background: linear-gradient(170deg, #f9d4b5 0%, #e8a070 60%, #c07038 100%);
-  border-radius: 50% 50% 45% 45%;
-  box-shadow: inset -6px -6px 12px rgba(0,0,0,0.15);
+.insta-actions-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 12px 3px; font-size: 18px; color: #1c1c1e; flex-shrink: 0;
 }
-
-.profile-photo-bg::after {
-  content: '';
-  position: absolute;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 44px;
-  height: 44px;
-  background: radial-gradient(circle, #f9d4b5 30%, #d4956a 100%);
-  border-radius: 50%;
-  box-shadow: inset -2px -3px 6px rgba(0,0,0,0.1);
-}
-
-.ai-watermark {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.5);
-  color: white;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 3px 7px;
-  border-radius: 6px;
-  letter-spacing: 0.5px;
-}
-
-.profile-info-card {
-  padding: 14px 16px 8px;
-  background: #fff;
-}
-
-.profile-name-row {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-bottom: 4px;
-}
-
-.profile-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1c1c1e;
-}
-
-.profile-age {
-  font-size: 16px;
-  color: #48484a;
-}
-
-.profile-loc {
-  font-size: 12px;
-  color: #8e8e93;
-  margin-bottom: 12px;
-}
-
-.profile-actions {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  padding: 8px 0 4px;
-}
-
-.action-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid var(--gray-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  cursor: pointer;
-  background: #fff;
-}
-
-.share-row {
-  display: flex;
-  justify-content: center;
-  padding: 8px 0;
-}
-
-.share-trigger {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--yellow-dark);
-  padding: 6px 14px;
-  border: 1.5px solid var(--yellow);
-  border-radius: 20px;
-  background: #fffbeb;
-  animation: shareGlow 2s ease-in-out infinite;
-}
+.insta-left-actions { display: flex; gap: 14px; }
+.insta-share-icon { color: var(--yellow-dark); animation: shareGlow 2s ease-in-out infinite; }
+.insta-likes { padding: 0 12px 2px; font-size: 11px; font-weight: 700; color: #1c1c1e; flex-shrink: 0; }
+.insta-caption { padding: 0 12px 8px; font-size: 10px; color: #1c1c1e; line-height: 1.4; flex-shrink: 0; }
 
 @keyframes shareGlow {
   0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.4); }
@@ -417,10 +347,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.06);
+  font-size: 18px;
+  color: white;
+  border: none;
 }
+
+/* App-specific icon colors matching real iOS share sheet */
+.icon-airdrop  { background: linear-gradient(180deg, #6e6e73, #3a3a3c); font-size: 20px; }
+.icon-messages { background: linear-gradient(180deg, #34d058, #28a745); font-size: 16px; }
+.icon-mail     { background: linear-gradient(180deg, #3a8ef8, #1f6ef0); font-size: 16px; }
+.icon-safari   { background: linear-gradient(180deg, #3a8ef8, #1f6ef0); font-size: 18px; }
+.icon-photos   { background: conic-gradient(from 180deg, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6, #ec4899, #f97316); }
+.icon-notes    { background: linear-gradient(180deg, #fde68a, #fbbf24); color: #92400e; font-size: 20px; font-weight: 700; }
+.icon-more     { background: linear-gradient(180deg, #6e6e73, #3a3a3c); font-size: 14px; letter-spacing: 1px; }
 
 .share-app-icon.fauxspy-icon {
   background: var(--yellow);
@@ -1010,4 +949,8 @@ section { padding: 96px 24px; }
     width: 220px;
     height: 445px;
   }
+  .phone-btn-right { top: 100px; height: 58px; }
+  .phone-btn-silent { top: 83px; }
+  .phone-btn-vol-up { top: 128px; height: 38px; }
+  .phone-btn-vol-down { top: 178px; height: 38px; }
 }

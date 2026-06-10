@@ -53,41 +53,45 @@
 
     <!-- Phone mockup -->
     <div class="phone-wrap">
-      <div class="phone-frame">
+      <div class="phone-outer">
+        <div class="phone-btn-right"></div>
+        <div class="phone-btn-silent"></div>
+        <div class="phone-btn-vol-up"></div>
+        <div class="phone-btn-vol-down"></div>
+        <div class="phone-frame">
         <div class="phone-island"></div>
         <div class="phone-screen">
           <div class="phone-slides">
 
-            <!-- SLIDE 1: Dating profile -->
+            <!-- SLIDE 1: Instagram post -->
             <div class="phone-slide slide-1 active" id="slide-1">
               <div class="status-bar">
                 <span>9:41</span>
                 <span>●●● ▶ 🔋</span>
               </div>
-              <div class="app-topbar">
-                <span class="app-topbar-name">Matches</span>
-                <span class="app-topbar-dot"></span>
+              <div class="insta-nav">
+                <div class="insta-logo">Instagram</div>
+                <div class="insta-nav-icons"><span>♡</span><span>✈</span></div>
               </div>
-              <div class="profile-scroll">
-                <div class="profile-photo-bg">
-                  <div class="ai-watermark">✨ Perfect lighting</div>
+              <div class="insta-post-header">
+                <div class="insta-avatar-ring"><div class="insta-avatar-inner"></div></div>
+                <div class="insta-uname-col">
+                  <div class="insta-username">jessica.m_</div>
+                  <div class="insta-subloc">New York, NY</div>
                 </div>
-                <div class="profile-info-card">
-                  <div class="profile-name-row">
-                    <span class="profile-name">Jessica</span>
-                    <span class="profile-age">24</span>
-                  </div>
-                  <div class="profile-loc">📍 2 miles away · Just joined</div>
-                  <div class="profile-actions">
-                    <div class="action-btn">✕</div>
-                    <div class="action-btn">⭐</div>
-                    <div class="action-btn">♥</div>
-                  </div>
-                  <div class="share-row">
-                    <div class="share-trigger">↗ Share &amp; Check Photo</div>
-                  </div>
-                </div>
+                <div class="insta-more-btn">···</div>
               </div>
+              <div class="insta-photo"></div>
+              <div class="insta-actions-row">
+                <div class="insta-left-actions">
+                  <span class="insta-heart">♡</span>
+                  <span>💬</span>
+                  <span class="insta-share-icon">↗</span>
+                </div>
+                <span>🔖</span>
+              </div>
+              <div class="insta-likes">1,247 likes</div>
+              <div class="insta-caption"><b>jessica.m_</b> Finally a sunny day ☀️</div>
             </div>
 
             <!-- SLIDE 2: iOS Share sheet -->
@@ -98,19 +102,19 @@
                 <div class="sheet-label">Share photo via</div>
                 <div class="share-apps-grid">
                   <div class="share-app">
-                    <div class="share-app-icon">📡</div>
+                    <div class="share-app-icon icon-airdrop">⊕</div>
                     <div class="share-app-name">AirDrop</div>
                   </div>
                   <div class="share-app">
-                    <div class="share-app-icon">💬</div>
+                    <div class="share-app-icon icon-messages">✉</div>
                     <div class="share-app-name">Messages</div>
                   </div>
                   <div class="share-app">
-                    <div class="share-app-icon">✉️</div>
+                    <div class="share-app-icon icon-mail">@</div>
                     <div class="share-app-name">Mail</div>
                   </div>
                   <div class="share-app">
-                    <div class="share-app-icon">🌐</div>
+                    <div class="share-app-icon icon-safari">◎</div>
                     <div class="share-app-name">Safari</div>
                   </div>
                   <div class="share-app">
@@ -118,15 +122,15 @@
                     <div class="share-app-name fauxspy-name">Faux Spy</div>
                   </div>
                   <div class="share-app">
-                    <div class="share-app-icon">🖼️</div>
+                    <div class="share-app-icon icon-photos"></div>
                     <div class="share-app-name">Photos</div>
                   </div>
                   <div class="share-app">
-                    <div class="share-app-icon">📝</div>
+                    <div class="share-app-icon icon-notes">≡</div>
                     <div class="share-app-name">Notes</div>
                   </div>
                   <div class="share-app">
-                    <div class="share-app-icon">···</div>
+                    <div class="share-app-icon icon-more">···</div>
                     <div class="share-app-name">More</div>
                   </div>
                 </div>
@@ -162,6 +166,7 @@
           </div><!-- .phone-slides -->
         </div><!-- .phone-screen -->
       </div><!-- .phone-frame -->
+      </div><!-- .phone-outer -->
 
       <div class="platform-pills">
         <div class="platform-pill">🍎 iOS</div>
