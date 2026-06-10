@@ -104,8 +104,8 @@ body {
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 60px;
   align-items: center;
 }
 
@@ -115,54 +115,73 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  position: relative;
+}
+
+.phone-wrap::before {
+  content: '';
+  position: absolute;
+  width: 480px;
+  height: 580px;
+  background: radial-gradient(ellipse at center, rgba(251,191,36,0.12) 0%, transparent 65%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .phone-outer {
   position: relative;
   display: inline-block;
+  transform: perspective(1000px) rotateY(-15deg) rotateX(4deg) rotateZ(1.5deg);
+  transition: transform 0.4s ease;
+}
+
+.phone-outer:hover {
+  transform: perspective(1000px) rotateY(-8deg) rotateX(2deg) rotateZ(0.5deg);
 }
 
 /* Hardware buttons — visible because they live OUTSIDE overflow:hidden */
 .phone-btn-right {
-  position: absolute; right: -4px; top: 120px;
-  width: 4px; height: 70px;
+  position: absolute; right: -4px; top: 140px;
+  width: 4px; height: 82px;
   background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
   border-radius: 0 3px 3px 0;
   box-shadow: inset -1px 0 2px rgba(0,0,0,0.4);
   z-index: 2;
 }
 .phone-btn-silent {
-  position: absolute; left: -4px; top: 100px;
-  width: 4px; height: 30px;
+  position: absolute; left: -4px; top: 117px;
+  width: 4px; height: 35px;
   background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
   border-radius: 3px 0 0 3px;
   z-index: 2;
 }
 .phone-btn-vol-up {
-  position: absolute; left: -4px; top: 155px;
-  width: 4px; height: 45px;
+  position: absolute; left: -4px; top: 181px;
+  width: 4px; height: 53px;
   background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
   border-radius: 3px 0 0 3px;
   z-index: 2;
 }
 .phone-btn-vol-down {
-  position: absolute; left: -4px; top: 215px;
-  width: 4px; height: 45px;
+  position: absolute; left: -4px; top: 251px;
+  width: 4px; height: 53px;
   background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
   border-radius: 3px 0 0 3px;
   z-index: 2;
 }
 
 .phone-frame {
-  width: 265px;
-  height: 536px;
+  width: 310px;
+  height: 630px;
   background: linear-gradient(145deg, #2e2e30, #1c1c1e 35%, #242426 65%, #1c1c1e);
   border-radius: 50px;
   box-shadow:
     0 0 0 1px rgba(255,255,255,0.08),
     inset 0 0 0 2px rgba(255,255,255,0.04),
-    0 40px 90px rgba(0,0,0,0.5),
-    0 15px 35px rgba(0,0,0,0.3);
+    25px 45px 80px rgba(0,0,0,0.55),
+    10px 20px 40px rgba(0,0,0,0.3);
   position: relative;
   overflow: hidden;
   padding: 8px;
@@ -174,8 +193,8 @@ body {
   top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 110px;
-  height: 28px;
+  width: 126px;
+  height: 33px;
   background: #1c1c1e;
   border-radius: 20px;
   z-index: 20;
@@ -264,7 +283,7 @@ body {
 /* Warm portrait photo — layered radial gradients read as person in golden-hour light */
 .insta-photo {
   width: 100%;
-  height: 200px;
+  height: 225px;
   flex-shrink: 0;
   background:
     radial-gradient(ellipse 90px 55px at 50% 5%, rgba(32,18,10,0.85) 0%, transparent 100%),
@@ -913,6 +932,10 @@ section { padding: 96px 24px; }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
+  .phone-outer {
+    transform: none;
+  }
+
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 48px;
@@ -946,11 +969,13 @@ section { padding: 96px 24px; }
   .hero-h1 { font-size: 32px; }
 
   .phone-frame {
-    width: 220px;
-    height: 445px;
+    width: 240px;
+    height: 490px;
   }
-  .phone-btn-right { top: 100px; height: 58px; }
-  .phone-btn-silent { top: 83px; }
-  .phone-btn-vol-up { top: 128px; height: 38px; }
-  .phone-btn-vol-down { top: 178px; height: 38px; }
+  .phone-island { width: 104px; height: 27px; }
+  .insta-photo { height: 175px; }
+  .phone-btn-right  { top: 110px; height: 64px; }
+  .phone-btn-silent { top: 92px; height: 28px; }
+  .phone-btn-vol-up { top: 143px; height: 40px; }
+  .phone-btn-vol-down { top: 193px; height: 40px; }
 }
