@@ -87,8 +87,8 @@ module.exports = async (req, res) => {
     // ========================================================================
     // STEP 1: Check cache (stores BOTH free and pro responses)
     // ========================================================================
-    // Video frame captures are ephemeral — skip cache entirely
-    const skipCache = isVideoFrame === true;
+    // Video frame captures and base64-only requests are ephemeral — skip cache
+    const skipCache = isVideoFrame === true || (!imageUrl && !!imageData);
     let cacheKey;
 
     if (!skipCache) {
@@ -96,7 +96,7 @@ module.exports = async (req, res) => {
       const cached = await getCached(cacheKey);
 
       if (cached) {
-        console.log('💾 [CACHE HIT]', imageUrl.substring(0, 60));
+        console.log('💾 [CACHE HIT]', (imageUrl || 'imageData').substring(0, 60));
         const result = isPro ? cached.pro : cached.free;
         return res.status(200).json({ ...result, cached: true });
       }
@@ -253,11 +253,6 @@ module.exports = async (req, res) => {
       signalStatus = 'ok';
     } else {
       console.warn('⚠️ [SIGNAL/Hive failed]', signalResult.reason?.message);
-      Sentry.captureEvent({
-        message: `SIGNAL (Hive) failed: ${signalResult.reason?.message}`,
-        level: 'warning',
-        tags: { is_pro: String(isPro) }
-      });
       if (traceResult.status === 'fulfilled' && typeof traceResult.value.genaiScore === 'number') {
         aiProbability = traceResult.value.genaiScore;
         signalStatus = 'fallback';
