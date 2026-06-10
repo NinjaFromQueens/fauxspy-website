@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-06-10
+- Improved image detection reliability using dual-engine system with Hive as primary detector
+- Added Sightengine as supplementary detection engine for better accuracy
+- Fixed crash issues in detection system that was causing errors and spam alerts
+
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
 - Fixed homepage canonical tag and updated version to 1.8.9
