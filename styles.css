@@ -1033,14 +1033,20 @@ kbd {
 
 .try-it-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   margin-bottom: 32px;
+}
+
+@media (max-width: 700px) {
+  .try-it-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .try-it-card {
   position: relative;
-  aspect-ratio: 4/3;
+  aspect-ratio: 3/4;
   overflow: hidden;
   border-radius: 12px;
   cursor: pointer;
