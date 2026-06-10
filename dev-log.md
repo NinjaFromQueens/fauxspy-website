@@ -31,6 +31,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Implemented C2PA content credential checking to verify image authenticity
 - Replaced broken image links with self-hosted AI faces and improved demo layout
 - Fixed crashes and errors in detection logic to improve stability
+- Added AI detection features using EXIF metadata analysis and C2PA content credentials
+- Created an interactive quiz page (/try-it) to let users test AI face detection
+- Replaced demo images with self-hosted AI-generated faces (StyleGAN2) instead of stock photos
+- Improved homepage with larger portrait grid layout and fixed broken image links
+- Fixed crashes and errors in the detection system to improve stability
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
