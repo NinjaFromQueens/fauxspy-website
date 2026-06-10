@@ -10,6 +10,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Enhanced homepage with demo section featuring images
 - Implemented dual-engine detection system using Hive and Sightengine
 - Fixed crashes and reduced error logging spam in detection module
+- Added a new interactive quiz page (/try-it) with demo section and sample images on homepage
+- Replaced broken image links with working Pexels images and improved portrait grid layout
+- Enhanced detection system with dual-engine approach using Hive as primary and Sightengine as backup
+- Fixed crashes and error logging issues in the detection feature
+- Improved contact form emoji encoding
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
