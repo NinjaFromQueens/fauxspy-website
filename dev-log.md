@@ -56,6 +56,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Replaced demo images with self-hosted AI-generated faces (StyleGAN2) for authenticity
 - Added Reddit AI agent that checks subreddit rules and generates human-sounding prompts
 - Fixed image quality and layout issues across the homepage and portrait grid
+- Redesigned landing page (v6) with 3D phone mockup and visual improvements
+- Added mobile app waitlist signup page at /app with realistic iPhone display
+- Enhanced detection capabilities: metadata analysis (EXIF), C2PA credentials, and AI image dimension checking
+- Replaced external image URLs with self-hosted AI-generated faces for better privacy
+- Implemented Reddit AI agent that checks subreddit rules and generates natural prompts
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
