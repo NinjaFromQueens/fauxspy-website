@@ -103,21 +103,24 @@ module.exports = async (req, res) => {
     }
     
     // ========================================================================
-    // C2PA PRE-CHECK: before limit deduction — C2PA verifications are free
-    // (no Sightengine/Hive API call made, so no token consumed)
-    // Only runs for URL-based scans; video frames have no JPEG metadata.
-    // Fails gracefully: any error falls through to normal Sightengine detection.
+    // IMAGE HEADER ANALYSIS: C2PA + EXIF metadata signals
+    // Runs before limit deduction — C2PA verifications are free.
+    // Single 64KB Range fetch covers both C2PA JUMBF and EXIF APP1 segments.
+    // Fails gracefully: any error falls through to normal detection.
     // ========================================================================
     let c2paResult = null;
+    let exifData = null;
 
     if (imageUrl && !isVideoFrame) {
       try {
-        c2paResult = await Promise.race([
-          checkC2PA(imageUrl),
+        const headerAnalysis = await Promise.race([
+          analyzeImageHeader(imageUrl),
           new Promise(resolve => setTimeout(() => resolve(null), 3000))
         ]);
-      } catch (c2paErr) {
-        console.warn('⚠️ [C2PA] Check threw unexpectedly:', c2paErr.message?.substring(0, 60));
+        c2paResult = headerAnalysis?.c2pa || null;
+        exifData = headerAnalysis?.exif || null;
+      } catch (headerErr) {
+        console.warn('⚠️ [HEADER] Analysis threw unexpectedly:', headerErr.message?.substring(0, 60));
       }
 
       if (c2paResult?.valid) {
@@ -420,6 +423,14 @@ module.exports = async (req, res) => {
       [freeResult, proResult].filter(Boolean).forEach(r => {
         r.indicators = [tamperNote, ...(r.indicators || [])];
         r.c2pa = { present: true, valid: false, error: c2paResult.error || 'structural_invalid' };
+      });
+    }
+
+    // Attach metadata signals (EXIF + dimension analysis) to both result tiers
+    const metaSignals = computeMetadataSignals(exifData, width, height);
+    if (metaSignals.length > 0) {
+      [freeResult, proResult].filter(Boolean).forEach(r => {
+        r.metadata_signals = metaSignals;
       });
     }
 
@@ -853,7 +864,7 @@ const C2PA_UUID = Buffer.from([
 const C2PA_APP11_MARKER = 0xFFEB;
 const C2PA_MAX_READ_BYTES = 65536; // 64KB — enough to capture any JPEG APP segments
 
-async function checkC2PA(imageUrl) {
+async function analyzeImageHeader(imageUrl) {
   let buf;
   try {
     const res = await fetch(imageUrl, {
@@ -863,12 +874,12 @@ async function checkC2PA(imageUrl) {
       redirect: 'follow'
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) return { c2pa: null, exif: null };
 
     // Read up to C2PA_MAX_READ_BYTES regardless of whether Range was honored.
     // This prevents loading a 50MB image into memory if the CDN ignores Range.
     const reader = res.body?.getReader();
-    if (!reader) return null;
+    if (!reader) return { c2pa: null, exif: null };
 
     const chunks = [];
     let totalBytes = 0;
@@ -885,17 +896,18 @@ async function checkC2PA(imageUrl) {
 
     buf = Buffer.concat(chunks.map(c => Buffer.from(c)));
   } catch {
-    return null; // Network error, timeout, CORS — not fatal
+    return { c2pa: null, exif: null }; // Network error, timeout, CORS — not fatal
   }
 
-  if (!buf || buf.length < 16) return null;
+  if (!buf || buf.length < 16) return { c2pa: null, exif: null };
 
   const isJpeg = buf[0] === 0xFF && buf[1] === 0xD8;
   const isWebP = buf.length >= 12 && buf.slice(8, 12).toString('ascii') === 'WEBP';
 
-  if (isJpeg) return parseJpegForC2PA(buf);
-  if (isWebP) return parseWebPForC2PA(buf);
-  return null;
+  const c2pa = isJpeg ? parseJpegForC2PA(buf) : (isWebP ? parseWebPForC2PA(buf) : null);
+  const exif = isJpeg ? parseJpegExif(buf) : null;
+
+  return { c2pa, exif };
 }
 
 function parseJpegForC2PA(buf) {
@@ -1065,6 +1077,172 @@ function extractTextFromCBOR(buf) {
         break;
       }
     }
+  }
+
+  return result;
+}
+
+// ============================================================================
+// METADATA SIGNAL ANALYSIS — EXIF + Dimension checks
+// ============================================================================
+
+// Known AI generation dimensions (exact pixel sizes used by major models)
+const AI_DIMENSIONS = new Set([
+  '512x512', '512x768', '768x512', '1024x512', '512x1024',   // SD 1.x
+  '768x1024', '1024x768',                                      // SD 1.x
+  '1024x1024',                                                 // DALL·E 3, SDXL, Flux
+  '1024x1792', '1792x1024',                                   // DALL·E 3
+  '832x1216', '1216x832',                                     // SDXL portrait/landscape
+  '896x1152', '1152x896',                                     // SDXL
+  '1344x768', '768x1344',                                     // SDXL wide
+  '1536x640', '640x1536',                                     // SDXL extreme
+  '2048x2048',                                                 // upscaled
+]);
+
+// Patterns matching AI tool names in EXIF Software tag
+const AI_SOFTWARE_RE = /stable[\s._-]?diffusion|sdxl|comfyui|automatic1111|a1111|dall[\s-]?e|midjourney|adobe\s+firefly|runway\s+ml|pika\s+labs|ideogram|flux\b|leonardo\.ai|bing\s+image|sora\b/i;
+
+function computeMetadataSignals(exif, width, height) {
+  const signals = [];
+
+  // Dimension analysis is free — width/height come from the extension request
+  if (width && height && width > 0 && height > 0) {
+    const key = `${width}x${height}`;
+    if (AI_DIMENSIONS.has(key)) {
+      signals.push({
+        type: 'dimension_ai_typical',
+        label: `Dimensions ${width}×${height} — common AI generation size`,
+        severity: 'warn'
+      });
+    }
+  }
+
+  if (!exif) return signals;
+
+  // Software tag contains an AI tool name — strong signal
+  if (exif.software && AI_SOFTWARE_RE.test(exif.software)) {
+    signals.push({
+      type: 'exif_ai_software',
+      label: `Software: ${exif.software.substring(0, 80)}`,
+      severity: 'flag'
+    });
+  }
+
+  // Has EXIF data but no camera Make or Model (often means AI-created, not photographed)
+  // Only flag when Software is also present (pure-stripped EXIF is too common on social media)
+  if (!exif.make && !exif.model && exif.software !== null) {
+    signals.push({
+      type: 'exif_no_camera',
+      label: 'No camera make/model in EXIF data',
+      severity: 'warn'
+    });
+  }
+
+  // Camera confirmed — corroborates real photo verdict
+  if (exif.make || exif.model) {
+    const cam = [exif.make, exif.model].filter(Boolean).join(' ').substring(0, 60);
+    signals.push({
+      type: 'exif_camera',
+      label: `Camera: ${cam}`,
+      severity: 'info'
+    });
+  }
+
+  return signals;
+}
+
+function parseJpegExif(buf) {
+  // Walk JPEG segments looking for APP1 (0xFFE1) with "Exif\0\0" magic
+  let pos = 2;
+  let iterations = 0;
+  const MAX_SEGMENTS = 32; // EXIF is always in first few segments
+
+  while (pos + 3 < buf.length && iterations++ < MAX_SEGMENTS) {
+    if (buf[pos] !== 0xFF) { pos++; continue; }
+
+    const marker = (buf[pos] << 8) | buf[pos + 1];
+    if (marker === 0xFFD9) break; // EOI
+
+    // RST markers have no length
+    if (marker >= 0xFFD0 && marker <= 0xFFD7) { pos += 2; continue; }
+    if (buf[pos + 1] === 0x00) { pos += 2; continue; }
+
+    if (pos + 4 > buf.length) break;
+    const segLen = (buf[pos + 2] << 8) | buf[pos + 3];
+    if (segLen < 2) break;
+
+    if (marker === 0xFFE1 && pos + 10 <= buf.length) {
+      // Check for "Exif\0\0" magic at bytes 4-9 of segment
+      const magic = buf.slice(pos + 4, pos + 10).toString('ascii');
+      if (magic === 'Exif\0\0') {
+        const tiffStart = pos + 10;
+        const exif = parseTiffIFD(buf, tiffStart);
+        if (exif) return exif;
+      }
+    }
+
+    pos += 2 + segLen;
+  }
+  return null;
+}
+
+function parseTiffIFD(buf, tiffStart) {
+  if (tiffStart + 8 > buf.length) return null;
+
+  // Byte order: "II" = little-endian, "MM" = big-endian
+  const byteOrderMark = buf.slice(tiffStart, tiffStart + 2).toString('ascii');
+  const le = byteOrderMark === 'II';
+
+  const readU16 = (offset) => {
+    if (offset + 2 > buf.length) return 0;
+    return le ? buf.readUInt16LE(offset) : buf.readUInt16BE(offset);
+  };
+  const readU32 = (offset) => {
+    if (offset + 4 > buf.length) return 0;
+    return le ? buf.readUInt32LE(offset) : buf.readUInt32BE(offset);
+  };
+
+  // Verify TIFF magic (42)
+  if (readU16(tiffStart + 2) !== 42) return null;
+
+  const ifd0Offset = readU32(tiffStart + 4);
+  const ifd0Pos = tiffStart + ifd0Offset;
+
+  if (ifd0Pos + 2 > buf.length) return null;
+  const entryCount = readU16(ifd0Pos);
+  if (entryCount > 512) return null; // sanity cap
+
+  const result = { make: null, model: null, software: null };
+  const TARGET_TAGS = { 0x010F: 'make', 0x0110: 'model', 0x0131: 'software' };
+
+  for (let i = 0; i < entryCount; i++) {
+    const entryPos = ifd0Pos + 2 + i * 12;
+    if (entryPos + 12 > buf.length) break;
+
+    const tag = readU16(entryPos);
+    const field = TARGET_TAGS[tag];
+    if (!field) continue;
+
+    const type = readU16(entryPos + 2);
+    const count = readU32(entryPos + 4);
+    const valueOrOffset = readU32(entryPos + 8);
+
+    if (type !== 2) continue; // only ASCII strings (type=2)
+    if (count < 1 || count > 256) continue; // sanity cap
+
+    // Value fits inline (≤4 bytes) or is an offset into TIFF data
+    let strStart;
+    if (count <= 4) {
+      strStart = entryPos + 8; // inline value
+    } else {
+      strStart = tiffStart + valueOrOffset;
+    }
+
+    if (strStart + count > buf.length) continue;
+
+    // ASCII string; strip null terminator and whitespace
+    const str = buf.slice(strStart, strStart + count).toString('ascii').replace(/\0/g, '').trim();
+    if (str.length >= 1) result[field] = str.substring(0, 128);
   }
 
   return result;
