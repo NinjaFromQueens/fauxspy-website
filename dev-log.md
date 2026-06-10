@@ -26,6 +26,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Improved detection accuracy with dual-engine system (Hive + Sightengine)
 - Fixed crashes and errors in the detection system
 - Enhanced homepage demo section with larger image grid and self-hosted images
+- Added dual-engine AI detection using Hive and Sightengine for more accurate results
+- Created an interactive quiz page and homepage demo with real AI-generated face images
+- Implemented C2PA content credential checking to verify image authenticity
+- Replaced broken image links with self-hosted AI faces and improved demo layout
+- Fixed crashes and errors in detection logic to improve stability
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
