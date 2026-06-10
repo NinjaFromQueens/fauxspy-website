@@ -41,6 +41,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Launched a new /try-it quiz page for users to test AI face detection
 - Added Reddit AI agent that checks subreddit rules before posting
 - Fixed crashes and improved stability in the detection system
+- Mobile app waitlist landing page added at /app
+- AI detection now checks metadata signals (EXIF data) and uses C2PA credentials
+- Reddit AI agent feature added with subreddit rules checking
+- Interactive quiz and demo section on homepage with AI-generated face images
+- Fixed crashes and improved image loading across the site
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
