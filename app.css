@@ -94,8 +94,9 @@ body {
   min-height: calc(100vh - 60px);
   display: flex;
   align-items: center;
-  padding: 80px 24px 60px;
+  padding: 60px 24px 80px;
   background:
+    radial-gradient(ellipse 550px 650px at 22% 55%, rgba(15,20,40,0.07) 0%, transparent 70%),
     radial-gradient(ellipse 600px 500px at 25% 50%, rgba(251,191,36,0.07) 0%, transparent 70%),
     var(--white);
 }
@@ -121,13 +122,53 @@ body {
 .phone-wrap::before {
   content: '';
   position: absolute;
-  width: 480px;
-  height: 580px;
-  background: radial-gradient(ellipse at center, rgba(251,191,36,0.12) 0%, transparent 65%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  pointer-events: none;
+  width: 500px; height: 500px;
+  background: radial-gradient(ellipse at center, rgba(251,191,36,0.16) 0%, transparent 65%);
+  bottom: 0; left: 8%;
+  z-index: -1; pointer-events: none;
+}
+
+.phone-wrap::after {
+  content: '';
+  position: absolute;
+  width: 380px; height: 380px;
+  background: radial-gradient(ellipse at center, rgba(99,102,241,0.13) 0%, transparent 65%);
+  top: 0; right: 5%;
+  z-index: -1; pointer-events: none;
+}
+
+/* Floating AI Confidence chip — isolated component technique */
+.phone-float-chip {
+  position: absolute;
+  right: -16px; top: 48%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, rgba(239,68,68,0.95), rgba(185,28,28,0.9));
+  color: white;
+  padding: 10px 18px;
+  border-radius: 100px;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 8px 30px rgba(239,68,68,0.45), 0 2px 8px rgba(0,0,0,0.2);
+  white-space: nowrap; letter-spacing: 0.3px;
+  animation: chipFloat 3s ease-in-out infinite;
+  z-index: 10;
+}
+
+.chip-pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #fff; flex-shrink: 0;
+  animation: chipPulse 1.5s ease-out infinite;
+}
+
+@keyframes chipFloat {
+  0%, 100% { transform: translateY(-50%) translateY(0px); }
+  50% { transform: translateY(-50%) translateY(-8px); }
+}
+
+@keyframes chipPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
 }
 
 .phone-outer {
@@ -143,38 +184,38 @@ body {
 
 /* Hardware buttons — visible because they live OUTSIDE overflow:hidden */
 .phone-btn-right {
-  position: absolute; right: -4px; top: 140px;
-  width: 4px; height: 82px;
+  position: absolute; right: -4px; top: 154px;
+  width: 4px; height: 90px;
   background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
   border-radius: 0 3px 3px 0;
   box-shadow: inset -1px 0 2px rgba(0,0,0,0.4);
   z-index: 2;
 }
 .phone-btn-silent {
-  position: absolute; left: -4px; top: 117px;
-  width: 4px; height: 35px;
+  position: absolute; left: -4px; top: 129px;
+  width: 4px; height: 39px;
   background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
   border-radius: 3px 0 0 3px;
   z-index: 2;
 }
 .phone-btn-vol-up {
-  position: absolute; left: -4px; top: 181px;
-  width: 4px; height: 53px;
+  position: absolute; left: -4px; top: 199px;
+  width: 4px; height: 58px;
   background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
   border-radius: 3px 0 0 3px;
   z-index: 2;
 }
 .phone-btn-vol-down {
-  position: absolute; left: -4px; top: 251px;
-  width: 4px; height: 53px;
+  position: absolute; left: -4px; top: 276px;
+  width: 4px; height: 58px;
   background: linear-gradient(180deg, #3a3a3c, #2c2c2e, #3a3a3c);
   border-radius: 3px 0 0 3px;
   z-index: 2;
 }
 
 .phone-frame {
-  width: 310px;
-  height: 630px;
+  width: 340px;
+  height: 695px;
   background: linear-gradient(145deg, #2e2e30, #1c1c1e 35%, #242426 65%, #1c1c1e);
   border-radius: 50px;
   box-shadow:
@@ -193,8 +234,8 @@ body {
   top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 126px;
-  height: 33px;
+  width: 138px;
+  height: 36px;
   background: #1c1c1e;
   border-radius: 20px;
   z-index: 20;
@@ -283,7 +324,7 @@ body {
 /* Warm portrait photo — layered radial gradients read as person in golden-hour light */
 .insta-photo {
   width: 100%;
-  height: 225px;
+  height: 248px;
   flex-shrink: 0;
   background:
     radial-gradient(ellipse 90px 55px at 50% 5%, rgba(32,18,10,0.85) 0%, transparent 100%),
@@ -934,6 +975,10 @@ section { padding: 96px 24px; }
 @media (max-width: 900px) {
   .phone-outer {
     transform: none;
+  }
+
+  .phone-float-chip {
+    display: none;
   }
 
   .hero-inner {
