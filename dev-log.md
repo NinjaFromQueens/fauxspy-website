@@ -46,6 +46,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Reddit AI agent feature added with subreddit rules checking
 - Interactive quiz and demo section on homepage with AI-generated face images
 - Fixed crashes and improved image loading across the site
+- Added a mobile app waitlist landing page with a realistic iPhone mockup
+- Built an interactive quiz/demo section where users can test AI face detection
+- Improved AI detection with metadata analysis (EXIF data) and C2PA credential checking
+- Replaced placeholder images with real AI-generated faces for more authentic demos
+- Added Reddit AI agent that can check subreddit rules and generate human-sounding posts
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
