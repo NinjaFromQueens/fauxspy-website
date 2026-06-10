@@ -6,6 +6,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Improved image detection reliability using dual-engine system with Hive as primary detector
 - Added Sightengine as supplementary detection engine for better accuracy
 - Fixed crash issues in detection system that was causing errors and spam alerts
+- Added a new quiz page at /try-it with interactive demo content
+- Enhanced homepage with demo section featuring images
+- Implemented dual-engine detection system using Hive and Sightengine
+- Fixed crashes and reduced error logging spam in detection module
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
