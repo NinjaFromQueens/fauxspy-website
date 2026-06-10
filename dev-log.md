@@ -36,6 +36,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Replaced demo images with self-hosted AI-generated faces (StyleGAN2) instead of stock photos
 - Improved homepage with larger portrait grid layout and fixed broken image links
 - Fixed crashes and errors in the detection system to improve stability
+- Added AI face detection using metadata analysis and C2PA credential checking
+- Replaced placeholder images with real StyleGAN2-generated AI faces throughout the site
+- Launched a new /try-it quiz page for users to test AI face detection
+- Added Reddit AI agent that checks subreddit rules before posting
+- Fixed crashes and improved stability in the detection system
 
 ## 2026-06-09
 - Added 9 competitor comparison and alternative product pages
