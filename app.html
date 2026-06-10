@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Faux Spy App — AI Photo Detector for iPhone & Android | Coming Soon</title>
+  <meta name="description" content="Detect AI-generated photos instantly from your phone. Faux Spy for iOS & Android — tap share on any suspicious photo and get an instant AI detection result. Join the waitlist.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Faux Spy App — Detect AI Photos Right from Your Phone">
+  <meta property="og:description" content="Tap share on any suspicious photo. Faux Spy scans it in seconds — straight from your iOS or Android share sheet. Join the waitlist.">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image.png">
+  <meta property="og:url" content="https://www.fauxspy.com/app">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="canonical" href="https://www.fauxspy.com/app">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/app.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Faux Spy",
+    "description": "AI photo detector app for iOS and Android. Detects AI-generated images, deepfakes, and fake profile photos instantly from your phone's share sheet.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "iOS, Android",
+    "url": "https://www.fauxspy.com/app",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+</head>
+<body>
+
+<!-- ════════════════════════════════════ NAV ════════════════════════════════ -->
+<nav class="app-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">🕵️ <span>Faux</span> Spy</a>
+    <div class="nav-links">
+      <a href="#how-it-works" class="nav-link">How it works</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="nav-cta" target="_blank" rel="noopener">
+        🖥️ Get the Extension
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════ HERO ═══════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+
+    <!-- Phone mockup -->
+    <div class="phone-wrap">
+      <div class="phone-frame">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <div class="phone-slides">
+
+            <!-- SLIDE 1: Dating profile -->
+            <div class="phone-slide slide-1 active" id="slide-1">
+              <div class="status-bar">
+                <span>9:41</span>
+                <span>●●● ▶ 🔋</span>
+              </div>
+              <div class="app-topbar">
+                <span class="app-topbar-name">Matches</span>
+                <span class="app-topbar-dot"></span>
+              </div>
+              <div class="profile-scroll">
+                <div class="profile-photo-bg">
+                  <div class="ai-watermark">✨ Perfect lighting</div>
+                </div>
+                <div class="profile-info-card">
+                  <div class="profile-name-row">
+                    <span class="profile-name">Jessica</span>
+                    <span class="profile-age">24</span>
+                  </div>
+                  <div class="profile-loc">📍 2 miles away · Just joined</div>
+                  <div class="profile-actions">
+                    <div class="action-btn">✕</div>
+                    <div class="action-btn">⭐</div>
+                    <div class="action-btn">♥</div>
+                  </div>
+                  <div class="share-row">
+                    <div class="share-trigger">↗ Share &amp; Check Photo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 2: iOS Share sheet -->
+            <div class="phone-slide slide-2" id="slide-2">
+              <div class="slide-2-bg"></div>
+              <div class="share-sheet">
+                <div class="sheet-handle"></div>
+                <div class="sheet-label">Share photo via</div>
+                <div class="share-apps-grid">
+                  <div class="share-app">
+                    <div class="share-app-icon">📡</div>
+                    <div class="share-app-name">AirDrop</div>
+                  </div>
+                  <div class="share-app">
+                    <div class="share-app-icon">💬</div>
+                    <div class="share-app-name">Messages</div>
+                  </div>
+                  <div class="share-app">
+                    <div class="share-app-icon">✉️</div>
+                    <div class="share-app-name">Mail</div>
+                  </div>
+                  <div class="share-app">
+                    <div class="share-app-icon">🌐</div>
+                    <div class="share-app-name">Safari</div>
+                  </div>
+                  <div class="share-app">
+                    <div class="share-app-icon fauxspy-icon">🕵️</div>
+                    <div class="share-app-name fauxspy-name">Faux Spy</div>
+                  </div>
+                  <div class="share-app">
+                    <div class="share-app-icon">🖼️</div>
+                    <div class="share-app-name">Photos</div>
+                  </div>
+                  <div class="share-app">
+                    <div class="share-app-icon">📝</div>
+                    <div class="share-app-name">Notes</div>
+                  </div>
+                  <div class="share-app">
+                    <div class="share-app-icon">···</div>
+                    <div class="share-app-name">More</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 3: AI Detected result -->
+            <div class="phone-slide slide-3" id="slide-3">
+              <div class="result-eyebrow">Faux Spy · Scan Result</div>
+              <div class="result-icon-wrap">🚨</div>
+              <div class="result-verdict">AI DETECTED</div>
+              <div class="result-badge">94% AI Confidence</div>
+              <div class="result-confidence">This photo was likely generated by AI</div>
+              <div class="result-bar-wrap">
+                <div class="result-bar"></div>
+              </div>
+              <div class="result-indicators">
+                <div class="result-indicator">
+                  <div class="result-dot"></div>
+                  GAN face synthesis pattern
+                </div>
+                <div class="result-indicator">
+                  <div class="result-dot"></div>
+                  No camera EXIF data found
+                </div>
+                <div class="result-indicator">
+                  <div class="result-dot"></div>
+                  AI-typical image dimensions
+                </div>
+              </div>
+            </div>
+
+          </div><!-- .phone-slides -->
+        </div><!-- .phone-screen -->
+      </div><!-- .phone-frame -->
+
+      <div class="platform-pills">
+        <div class="platform-pill">🍎 iOS</div>
+        <div class="platform-pill">🤖 Android</div>
+      </div>
+    </div><!-- .phone-wrap -->
+
+    <!-- Hero text + form -->
+    <div class="hero-content">
+      <span class="hero-eyebrow">Coming Soon</span>
+      <h1 class="hero-h1">Catch AI Photos.<br><em>Right from Your Phone.</em></h1>
+      <p class="hero-sub">
+        See a suspicious photo on a dating app or social media? Tap share and let
+        Faux Spy scan it in seconds — without leaving the app. The AI image detector
+        that fits your real life, not just your laptop.
+      </p>
+
+      <form class="waitlist-form" id="hero-form" data-form="hero">
+        <input type="text" name="website" class="honeypot" autocomplete="off" tabindex="-1">
+        <input type="email" name="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit">Join Waitlist →</button>
+      </form>
+
+      <div class="form-success" id="hero-success">
+        ✅ You're on the list! We'll email you when it launches.
+      </div>
+
+      <p class="form-trust">🔒 No spam. One email when the app launches.</p>
+      <p class="social-proof">Join <strong><span class="waitlist-count">2,400+</span></strong> people on the waitlist</p>
+    </div>
+
+  </div><!-- .hero-inner -->
+</section>
+
+<!-- ════════════════════════════════ HOW IT WORKS ═══════════════════════════ -->
+<section class="how-it-works" id="how-it-works">
+  <div class="section-inner">
+    <p class="section-eyebrow">Simple as 1–2–3</p>
+    <h2 class="section-h2">How Faux Spy Works on Your Phone</h2>
+    <p class="section-sub">
+      No switching apps. No copying links. Just share and get your answer — works anywhere
+      you can browse photos on your iPhone or Android.
+    </p>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <span class="step-icon">📱</span>
+        <h3 class="step-h3">See a suspicious photo</h3>
+        <p class="step-p">
+          Browsing a dating profile, social media feed, or news article and something looks
+          a little too perfect? A little too smooth? That's when you need Faux Spy.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <span class="step-icon">↗️</span>
+        <h3 class="step-h3">Tap share → choose Faux Spy</h3>
+        <p class="step-p">
+          Tap the share button on the photo. Faux Spy appears in your share sheet —
+          right next to AirDrop and Messages. Tap it. That's it.
+          Works from Safari, your camera roll, and any app that supports sharing.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <span class="step-icon">🔍</span>
+        <h3 class="step-h3">Get your answer instantly</h3>
+        <p class="step-p">
+          An AI probability score in seconds. Faux Spy flags GAN face synthesis,
+          missing camera data, AI-typical dimensions, and more. No guessing.
+          Just a clear verdict you can trust.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ WHAT IT CATCHES ════════════════════════ -->
+<section class="what-it-catches" id="what-it-catches">
+  <div class="section-inner">
+    <p class="section-eyebrow">Detection Coverage</p>
+    <h2 class="section-h2">What Faux Spy Detects</h2>
+    <p class="section-sub">
+      The same AI detection engine that powers the Chrome extension — now in your pocket.
+      Trained on Midjourney, DALL·E, Stable Diffusion, Firefly, and more.
+    </p>
+
+    <div class="catches-grid">
+      <div class="catch-card">
+        <span class="catch-icon">💘</span>
+        <h3 class="catch-h3">Fake Dating Profiles</h3>
+        <p class="catch-p">
+          AI-generated headshots used by scammers on Tinder, Bumble, Hinge, and every
+          other dating app. Spot them before you swipe.
+        </p>
+      </div>
+      <div class="catch-card">
+        <span class="catch-icon">🎭</span>
+        <h3 class="catch-h3">Deepfakes</h3>
+        <p class="catch-p">
+          Face-swapped images that put real people in fake situations.
+          Increasingly common in scams, misinformation, and harassment.
+        </p>
+      </div>
+      <div class="catch-card">
+        <span class="catch-icon">🤖</span>
+        <h3 class="catch-h3">AI Influencer Content</h3>
+        <p class="catch-p">
+          Fully synthetic people with thousands of followers on Instagram and TikTok.
+          They're not real — and Faux Spy can tell.
+        </p>
+      </div>
+      <div class="catch-card">
+        <span class="catch-icon">📰</span>
+        <h3 class="catch-h3">Fake News Images</h3>
+        <p class="catch-p">
+          AI-generated scenes used to make fabricated stories look credible.
+          Protect yourself from visual misinformation.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ TESTIMONIALS ════════════════════════════ -->
+<section class="testimonials" id="testimonials">
+  <div class="section-inner">
+    <p class="section-eyebrow">Chrome Extension Users</p>
+    <h2 class="section-h2">What People Are Saying</h2>
+    <p class="section-sub">
+      Faux Spy has been helping people on desktop for over a year. The app brings
+      the same trust to your phone.
+    </p>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "Matched with someone on Hinge who looked way too perfect. Ran their photo through
+          Faux Spy and it came back 97% AI. Saved me from wasting weeks on a scammer."
+        </p>
+        <div class="testimonial-author">— Chrome Web Store review</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "I use this literally every day. The fact that it works right from right-click
+          on any browser is huge. Can't wait for the mobile version."
+        </p>
+        <div class="testimonial-author">— Chrome Web Store review</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "Finally a tool that actually tells you a confidence level instead of just
+          yes/no. The AI detection is remarkably accurate — it's caught things I couldn't
+          tell were fake."
+        </p>
+        <div class="testimonial-author">— Chrome Web Store review</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════ FAQ ═══════════════════════════════ -->
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <p class="section-eyebrow">Questions</p>
+    <h2 class="section-h2">Frequently Asked Questions</h2>
+    <p class="section-sub">Everything you need to know before joining the waitlist.</p>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question">
+          When will the app be available?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            We're building it now. Join the waitlist and you'll be first to know —
+            plus you'll get early access before the public launch. We'll send one
+            email with your early access link when it's ready.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Will it be free?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes — the app will have a generous free tier, just like the Chrome extension.
+            You'll get a daily scan limit for free. A Pro plan with unlimited scans
+            will also be available. Waitlist members get early access pricing.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Does it work inside the Instagram or Tinder app?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            On iPhone, Faux Spy works best when browsing in Safari or scanning photos
+            from your camera roll — both of which fully support the iOS share sheet.
+            Instagram and Tinder's native apps use their own share menus rather than
+            the system sheet, so the easiest approach is to screenshot the photo first,
+            then share it from your Photos app. We're working on deeper in-app support
+            for a future update.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          iOS or Android first?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            We're targeting both platforms simultaneously. The exact rollout order
+            depends on platform review timelines, but our goal is to launch iOS and
+            Android at the same time.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How is it different from the Chrome extension?
+          <span class="faq-chevron">⌄</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            The Chrome extension works on your laptop browser — right-click any image
+            on any website. The app brings the exact same AI detection to your phone,
+            so you can check photos on the go from any app. Same detection engine,
+            same accuracy, built for mobile.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .faq-list -->
+  </div>
+</section>
+
+<!-- ═════════════════════════════════ BOTTOM CTA ════════════════════════════ -->
+<section class="cta-bottom" id="waitlist">
+  <div class="section-inner">
+    <p class="section-eyebrow" style="color:rgba(10,10,10,0.5);">Join the Waitlist</p>
+    <h2 class="section-h2">Be First When It Drops.</h2>
+    <p class="section-sub">
+      Early access. No spam. One email when the app is ready.
+    </p>
+
+    <div class="cta-form-wrap">
+      <form class="waitlist-form" id="bottom-form" data-form="bottom">
+        <input type="text" name="website" class="honeypot" autocomplete="off" tabindex="-1">
+        <input type="email" name="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit">Join Waitlist →</button>
+      </form>
+      <div class="form-success" id="bottom-success">
+        ✅ You're on the list! We'll email you when it launches.
+      </div>
+      <p class="form-trust" style="margin-top:12px; justify-content:center;">
+        🔒 No spam. One email when the app launches.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ FOOTER ══════════════════════════════ -->
+<footer class="app-footer">
+  <div class="footer-inner">
+    <a href="/" class="footer-logo">🕵️ Faux Spy</a>
+    <div class="footer-links">
+      <a href="/" class="footer-link">Chrome Extension</a>
+      <a href="/privacy" class="footer-link">Privacy</a>
+      <a href="/blog" class="footer-link">Blog</a>
+      <a href="mailto:support@fauxspy.com" class="footer-link">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 Faux Spy. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ JS ══════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  // ── Phone slide animation ──────────────────────────────────────────────
+  const slides = document.querySelectorAll('.phone-slide');
+  let current = 0;
+
+  function nextSlide() {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }
+
+  setInterval(nextSlide, 3000);
+
+  // ── Fetch waitlist count ───────────────────────────────────────────────
+  async function loadCount() {
+    try {
+      const r = await fetch('/api/waitlist?count=app');
+      if (!r.ok) return;
+      const { count } = await r.json();
+      if (count && count > 0) {
+        const floor = Math.max(count, 2400);
+        document.querySelectorAll('.waitlist-count').forEach(el => {
+          el.textContent = floor.toLocaleString() + '+';
+        });
+      }
+    } catch { /* keep static number */ }
+  }
+
+  loadCount();
+
+  // ── Waitlist form submission ───────────────────────────────────────────
+  function handleForm(form) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const emailInput = form.querySelector('input[type="email"]');
+      const honeypot  = form.querySelector('.honeypot');
+      const btn       = form.querySelector('button');
+      const formId    = form.dataset.form;
+      const successEl = document.getElementById(formId + '-success');
+
+      if (honeypot && honeypot.value) return; // bot
+
+      const email = emailInput.value.trim();
+      if (!email) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Joining...';
+
+      try {
+        const res = await fetch('/api/waitlist?list=app', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: 'app-landing-' + formId }),
+        });
+
+        const data = await res.json();
+
+        form.style.display = 'none';
+        if (successEl) successEl.classList.add('visible');
+
+        if (data.alreadySubscribed) {
+          successEl.textContent = "✅ You're already on the list — we'll see you at launch!";
+        }
+
+      } catch {
+        btn.disabled = false;
+        btn.textContent = 'Join Waitlist →';
+        alert('Something went wrong. Please try again.');
+      }
+    });
+  }
+
+  document.querySelectorAll('.waitlist-form').forEach(handleForm);
+
+  // ── FAQ accordion ──────────────────────────────────────────────────────
+  document.querySelectorAll('.faq-question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const item   = btn.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const isOpen = item.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-answer').style.maxHeight = null;
+      });
+
+      // Open clicked (if it wasn't open)
+      if (!isOpen) {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ── Smooth scroll for nav links ────────────────────────────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+}());
+</script>
+
+</body>
+</html>

@@ -23,8 +23,20 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+
+  // GET /api/waitlist?count=app — returns current app waitlist count
+  if (req.method === 'GET' && req.query.count === 'app') {
+    try {
+      const count = await kv.get('app-waitlist:count');
+      return res.status(200).json({ count: parseInt(count || '0', 10) });
+    } catch {
+      return res.status(200).json({ count: 0 });
+    }
+  }
+
   try {
     const isNewsletter = req.query.list === 'newsletter';
+    const isApp = req.query.list === 'app';
     const { email, source, website } = req.body || {};
 
     // Honeypot — bots fill this field, humans don't see it
@@ -41,7 +53,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Invalid email format' });
     }
 
-    const prefix = isNewsletter ? 'newsletter' : 'waitlist';
+    const prefix = isNewsletter ? 'newsletter' : isApp ? 'app-waitlist' : 'waitlist';
     const audienceId = isNewsletter
       ? process.env.NEWSLETTER_AUDIENCE_ID
       : process.env.RESEND_AUDIENCE_ID;
@@ -116,7 +128,49 @@ module.exports = async (req, res) => {
         const resend = new Resend(process.env.RESEND_API_KEY);
         const fromEmail = process.env.RESEND_FROM_EMAIL || 'Faux Spy <hello@fauxspy.com>';
 
-        const emailPayload = isNewsletter
+        const emailPayload = isApp
+          ? {
+              from: fromEmail,
+              to: cleanEmail,
+              subject: "📱 You're on the Faux Spy App waitlist",
+              html: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 20px; background: #fff; }
+    .header { text-align: center; padding: 32px 0 16px; }
+    .logo { font-family: Georgia, serif; font-style: italic; font-size: 28px; font-weight: 800; color: #d97706; }
+    .badge { display: inline-block; padding: 6px 16px; background: #fbbf24; color: #1a1a1a; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 1px; margin: 12px 0; text-transform: uppercase; }
+    .content { padding: 24px; background: #fffbeb; border-left: 4px solid #fbbf24; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .footer { text-align: center; color: #9ca3af; font-size: 12px; padding: 24px 0 0; border-top: 1px solid #e5e7eb; margin-top: 24px; }
+    a { color: #d97706; }
+    .cta-btn { display: inline-block; padding: 12px 28px; background: #fbbf24; color: #1a1a1a; text-decoration: none; border-radius: 8px; font-weight: 700; margin: 8px 0; }
+    .platform { display: inline-block; padding: 4px 12px; background: #f3f4f6; border-radius: 100px; font-size: 12px; margin: 2px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">🕵️ Faux Spy</div>
+    <div class="badge">You're on the list</div>
+  </div>
+  <h2 style="margin:0 0 8px;">You're in — we'll let you know first.</h2>
+  <p>Thanks for joining the Faux Spy app waitlist. We're building AI photo detection for your phone — so you can spot fake profiles, deepfakes, and AI-generated images right from your share sheet.</p>
+  <div class="content">
+    <p style="margin:0 0 8px;"><strong>What to expect:</strong></p>
+    <p style="margin:0;">One email when the app launches — your early access link will be in it. That's it. No spam before then.</p>
+  </div>
+  <p>Platforms: <span class="platform">🍎 iOS</span> <span class="platform">🤖 Android</span></p>
+  <p>While you wait, the free Chrome extension does the same thing on your laptop:</p>
+  <p><a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="cta-btn">🕵️ Add Faux Spy to Chrome — Free</a></p>
+  <div class="footer">
+    <p>Faux Spy · <a href="https://www.fauxspy.com">fauxspy.com</a></p>
+    <p>You signed up at fauxspy.com/app. Don't want these? Just reply "unsubscribe".</p>
+  </div>
+</body>
+</html>`,
+            }
+          : isNewsletter
           ? {
               from: fromEmail,
               to: cleanEmail,
