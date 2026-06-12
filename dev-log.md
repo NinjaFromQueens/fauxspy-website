@@ -2,6 +2,10 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-06-12
+- Added ONNX AI image detector model (50MB) for detecting objects in images
+- Enables on-device AI image analysis without relying on external services
+
 ## 2026-06-10
 - Improved image detection reliability using dual-engine system with Hive as primary detector
 - Added Sightengine as supplementary detection engine for better accuracy
