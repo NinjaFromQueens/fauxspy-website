@@ -404,6 +404,122 @@
       "email": "outreach@netsafe.org.nz",
       "method": "email",
       "sent": true
+    },
+    "brook.org.uk": {
+      "date": "2026-06-15",
+      "email": "press@brook.org.uk",
+      "method": "email",
+      "sent": true
+    },
+    "lovesaid.org": {
+      "date": "2026-06-15",
+      "email": "post@lovesaid.org",
+      "method": "email",
+      "sent": true
+    },
+    "pmc.ncbi.nlm.nih.gov": {
+      "date": "2026-06-15",
+      "email": "pietro.tarchi@unifi.it",
+      "method": "email",
+      "sent": true
+    },
+    "finrafoundation.org": {
+      "date": "2026-06-15",
+      "method": "form",
+      "sent": true
+    },
+    "acfe.com": {
+      "date": "2026-06-15",
+      "email": "memberservices@acfe.com",
+      "method": "email",
+      "sent": true
+    },
+    "napsa-now.org": {
+      "date": "2026-06-15",
+      "email": "icoa@aging.idaho.gov",
+      "method": "email",
+      "sent": true
+    },
+    "fairfaxcounty.gov": {
+      "date": "2026-06-15",
+      "email": "fairfaxaaa@fairfaxcounty.gov",
+      "method": "email",
+      "sent": true
+    },
+    "idnow.io": {
+      "date": "2026-06-15",
+      "email": "stefano.mandola@idnow.io",
+      "method": "email",
+      "sent": true
+    },
+    "centralbank.net": {
+      "date": "2026-06-15",
+      "email": "cbccustomerservice@centralbank.net",
+      "method": "email",
+      "sent": true
+    },
+    "eapon.ca": {
+      "date": "2026-06-15",
+      "method": "form",
+      "sent": true
+    },
+    "department.va.gov": {
+      "date": "2026-06-15",
+      "email": "vapublicaffairs@va.gov",
+      "method": "email",
+      "sent": true
+    },
+    "care.com": {
+      "date": "2026-06-15",
+      "email": "denys.chesanovskyi@care.com",
+      "method": "email",
+      "sent": true
+    },
+    "strohscheinlawgroup.com": {
+      "date": "2026-06-15",
+      "method": "form",
+      "sent": true
+    },
+    "hebrewseniorlife.org": {
+      "date": "2026-06-15",
+      "email": "mediarelations@hsl.harvard.edu",
+      "method": "email",
+      "sent": true
+    },
+    "guardey.com": {
+      "date": "2026-06-15",
+      "method": "form",
+      "sent": true
+    },
+    "hooksecurity.co": {
+      "date": "2026-06-15",
+      "email": "sales@hooksecurity.co",
+      "method": "email",
+      "sent": true
+    },
+    "resource.medpro.com": {
+      "date": "2026-06-15",
+      "email": "experts@medpro.com",
+      "method": "email",
+      "sent": true
+    },
+    "lab.witness.org": {
+      "date": "2026-06-15",
+      "email": "medialab@witness.org",
+      "method": "email",
+      "sent": true
+    },
+    "utopia.ut.edu": {
+      "date": "2026-06-15",
+      "email": "library@ut.edu",
+      "method": "email",
+      "sent": true
+    },
+    "researchguides.journalism.cuny.edu": {
+      "date": "2026-06-15",
+      "email": "research@journalism.cuny.edu",
+      "method": "email",
+      "sent": true
     }
   }
 }
