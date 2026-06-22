@@ -189,12 +189,16 @@ module.exports = async (req, res) => {
 
   // Idempotency guard — skip if we've already processed this event (Stripe retries)
   const dedupKey = `processed_event:${event.id}`;
-  const alreadyProcessed = await kv.get(dedupKey);
-  if (alreadyProcessed) {
-    console.log('⏭️ Duplicate event, skipping:', event.id);
-    return res.status(200).json({ received: true, duplicate: true });
+  try {
+    const alreadyProcessed = await kv.get(dedupKey);
+    if (alreadyProcessed) {
+      console.log('⏭️ Duplicate event, skipping:', event.id);
+      return res.status(200).json({ received: true, duplicate: true });
+    }
+    await kv.set(dedupKey, 1, { ex: 86400 }); // TTL 24h
+  } catch (redisErr) {
+    console.warn('⚠️ Redis dedup check failed (processing anyway):', redisErr.message);
   }
-  await kv.set(dedupKey, 1, { ex: 86400 }); // TTL 24h
 
   try {
     switch (event.type) {
