@@ -6,6 +6,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed a bug where Redis deduplication checks could cause 500 errors
 - Users now receive a confirmation email when they purchase a token top-up
 - Improved error handling to prevent server crashes from Redis deduplication checks
+- Users now receive a confirmation email when they purchase token top-ups
+- Fixed a bug that could cause server errors when checking for duplicate transactions
+- Updated deployment configuration to properly handle token pricing settings
 
 ## 2026-06-12
 - Added ONNX AI image detector model (50MB) for detecting objects in images
