@@ -520,6 +520,124 @@
       "email": "research@journalism.cuny.edu",
       "method": "email",
       "sent": true
+    },
+    "guides.lib.virginia.edu": {
+      "date": "2026-06-22",
+      "email": "library@virginia.edu",
+      "method": "email",
+      "sent": true
+    },
+    "theconversation.com": {
+      "date": "2026-06-22",
+      "email": "theconversationus@newsie.social",
+      "method": "email",
+      "sent": true
+    },
+    "stylist.co.uk": {
+      "date": "2026-06-22",
+      "email": "stylist@dcthomson.co.uk",
+      "method": "email",
+      "sent": true
+    },
+    "saifsociety.ca": {
+      "date": "2026-06-22",
+      "email": "mark@saifsociety.ca",
+      "method": "email",
+      "sent": true
+    },
+    "consumerfinance.gov": {
+      "date": "2026-06-22",
+      "email": "sblhelp@cfpb.gov",
+      "method": "email",
+      "sent": true
+    },
+    "buckley-law.com": {
+      "date": "2026-06-22",
+      "method": "form",
+      "sent": true
+    },
+    "heraldopenaccess.us": {
+      "date": "2026-06-22",
+      "email": "oluwatoyin.sorinmade@nhs.net",
+      "method": "email",
+      "sent": true
+    },
+    "ninjio.com": {
+      "date": "2026-06-22",
+      "email": "csoutherly@ninjio.com",
+      "method": "email",
+      "sent": true
+    },
+    "publicmediaalliance.org": {
+      "date": "2026-06-22",
+      "email": "editor@publicmediaalliance.org",
+      "method": "email",
+      "sent": true
+    },
+    "guides.library.msstate.edu": {
+      "date": "2026-06-22",
+      "email": "jshedd@library.msstate.edu",
+      "method": "email",
+      "sent": true
+    },
+    "justsecurity.org": {
+      "date": "2026-06-22",
+      "method": "form",
+      "sent": true
+    },
+    "jerseycatholic.org": {
+      "date": "2026-06-22",
+      "email": "submissions@rcan.org",
+      "method": "email",
+      "sent": true
+    },
+    "staysafeonline.org": {
+      "date": "2026-06-22",
+      "email": "nca@modop.com",
+      "method": "email",
+      "sent": true
+    },
+    "it.wisc.edu": {
+      "date": "2026-06-22",
+      "email": "webchanges@doit.wisc.edu",
+      "method": "email",
+      "sent": true
+    },
+    "extension.psu.edu": {
+      "date": "2026-06-22",
+      "email": "tlr141@psu.edu",
+      "method": "email",
+      "sent": true
+    },
+    "eden-ts.com": {
+      "date": "2026-06-22",
+      "email": "enquiries@eden-ts.com",
+      "method": "email",
+      "sent": true
+    },
+    "securechildrensnetwork.org": {
+      "date": "2026-06-22",
+      "email": "celestestudios@gmail.com",
+      "method": "email",
+      "sent": true
+    },
+    "libguides.uvic.ca": {
+      "date": "2026-06-22",
+      "email": "askus@uvic.ca",
+      "method": "email",
+      "sent": true
+    },
+    "visavis.iti.gr": {
+      "date": "2026-06-22",
+      "email": "visavis@iti.gr",
+      "method": "email",
+      "sent": true
+    },
+    "centralmethodist.libguides.com": {
+      "date": "2026-06-22",
+      "email": "library@centralmethodist.edu",
+      "method": "email",
+      "sent": true
     }
   }
 }
