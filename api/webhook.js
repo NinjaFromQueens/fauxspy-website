@@ -405,6 +405,8 @@ async function handleTopUpCompleted(session) {
   await kv.set(`license:${licenseKey}`, license);
 
   console.log(`✅ Added ${packSize} top-up tokens to ${licenseKey}. New top-up balance: ${license.topupBalance}`);
+
+  await sendTopUpEmail(license.email, packSize, license.topupBalance);
 }
 
 async function handlePaymentFailed(invoice) {
@@ -528,9 +530,41 @@ async function sendLicenseEmail(email, licenseKey, plan) {
     });
     
     console.log('✅ License email sent to:', email);
-    
+
   } catch (error) {
     console.error('❌ Email send failed:', error);
     // Don't throw — license is still saved in KV
+  }
+}
+
+async function sendTopUpEmail(email, tokensAdded, newBalance) {
+  if (!email || !process.env.RESEND_API_KEY) return;
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'Faux Spy <hello@fauxspy.com>';
+    await resend.emails.send({
+      from: fromEmail,
+      to: email,
+      subject: `🕵️ ${tokensAdded} tokens added to your Faux Spy account`,
+      html: `
+<!DOCTYPE html>
+<html>
+<body style="font-family: -apple-system, sans-serif; background: #0f0f0f; color: #e2e8f0; padding: 40px 20px;">
+  <div style="max-width: 480px; margin: 0 auto; background: #1a1a2e; border-radius: 12px; padding: 32px; border: 1px solid #7c3aed;">
+    <h2 style="color: #7c3aed; margin: 0 0 16px;">Token Top-Up Confirmed 🕵️</h2>
+    <p style="margin: 0 0 12px;"><strong>${tokensAdded} tokens</strong> have been added to your Faux Spy account and are ready to use immediately.</p>
+    <p style="color: #94a3b8; margin: 0 0 24px;">Top-up balance: <strong style="color: #e2e8f0;">${newBalance} tokens</strong></p>
+    <p style="font-size: 13px; color: #64748b; margin: 0;">
+      Questions? Reply to this email or visit <a href="https://fauxspy.com" style="color: #7c3aed;">fauxspy.com</a>
+    </p>
+  </div>
+</body>
+</html>
+      `.trim(),
+    });
+    console.log('✅ Top-up email sent to:', email);
+  } catch (err) {
+    console.warn('⚠️ Top-up email failed:', err.message);
+    // Don't throw — tokens are already saved in Redis
   }
 }
