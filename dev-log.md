@@ -4,6 +4,8 @@ Automatic record of what was built and changed. Updated on every push to main.
 
 ## 2026-06-22
 - Fixed a bug where Redis deduplication checks could cause 500 errors
+- Users now receive a confirmation email when they purchase a token top-up
+- Improved error handling to prevent server crashes from Redis deduplication checks
 
 ## 2026-06-12
 - Added ONNX AI image detector model (50MB) for detecting objects in images
