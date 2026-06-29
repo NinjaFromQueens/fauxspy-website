@@ -2,6 +2,10 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-06-29
+- Added missing Open Graph image meta tag for social media sharing on pro and buy-tokens pages
+- Added missing social media meta tags to pro and buy-tokens pages for better sharing previews
+
 ## 2026-06-22
 - Fixed a bug where Redis deduplication checks could cause 500 errors
 - Users now receive a confirmation email when they purchase a token top-up
