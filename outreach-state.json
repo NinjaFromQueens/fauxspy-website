@@ -638,6 +638,52 @@
       "email": "library@centralmethodist.edu",
       "method": "email",
       "sent": true
+    },
+    "bankrich.com": {
+      "date": "2026-06-29",
+      "email": "customerservice@bankrich.com",
+      "method": "email",
+      "sent": true
+    },
+    "mwvagefriendly.org": {
+      "date": "2026-06-29",
+      "method": "form",
+      "sent": true
+    },
+    "bitsight.com": {
+      "date": "2026-06-29",
+      "method": "form",
+      "sent": true
+    },
+    "firstdraftnews.org": {
+      "date": "2026-06-29",
+      "email": "firstdraftnews@gmail.com",
+      "method": "email",
+      "sent": true
+    },
+    "smartsocial.com": {
+      "date": "2026-06-29",
+      "email": "josh@gmail.com",
+      "method": "email",
+      "sent": true
+    },
+    "fas.org": {
+      "date": "2026-06-29",
+      "email": "fas@fas.org",
+      "method": "email",
+      "sent": true
+    },
+    "childrenandscreens.org": {
+      "date": "2026-06-29",
+      "email": "jon@prospectpr.com",
+      "method": "email",
+      "sent": true
+    },
+    "jndm.alnoor.edu.iq": {
+      "date": "2026-06-29",
+      "email": "alnoor.journalmedia@alnoor.edu.iq",
+      "method": "email",
+      "sent": true
     }
   }
 }
