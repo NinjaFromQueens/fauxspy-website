@@ -4,6 +4,8 @@ Automatic record of what was built and changed. Updated on every push to main.
 
 ## 2026-06-30
 - Fixed 404 errors on pages caused by conflicting URL rewriting rules in Vercel configuration
+- Fixed romance scam detection by replacing a wildcard rule with specific page-based rules
+- Resolved 404 errors on Vercel by removing unnecessary .html extensions from URL rewrites
 
 ## 2026-06-29
 - Added missing Open Graph image meta tag for social media sharing on pro and buy-tokens pages
