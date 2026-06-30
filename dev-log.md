@@ -6,6 +6,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed 404 errors on pages caused by conflicting URL rewriting rules in Vercel configuration
 - Fixed romance scam detection by replacing a wildcard rule with specific page-based rules
 - Resolved 404 errors on Vercel by removing unnecessary .html extensions from URL rewrites
+- Fixed landing page links to display in gold, matching the brand theme
+- Replaced wildcard rewrite rules with specific page-by-page rules for romance scam content
+- Fixed 404 errors on pages caused by conflicting URL rewrite settings
 
 ## 2026-06-29
 - Added missing Open Graph image meta tag for social media sharing on pro and buy-tokens pages
