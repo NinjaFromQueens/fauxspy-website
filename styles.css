@@ -726,6 +726,8 @@ kbd {
   font-size: 15px;
 }
 .landing-section p strong { color: var(--text-primary); }
+.landing-section a { color: var(--gold); text-decoration: none; }
+.landing-section a:hover { color: #fde68a; text-decoration: underline; }
 .landing-steps {
   color: var(--text-secondary);
   line-height: 1.8;
