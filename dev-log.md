@@ -2,6 +2,9 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-06-30
+- Fixed 404 errors on pages caused by conflicting URL rewriting rules in Vercel configuration
+
 ## 2026-06-29
 - Added missing Open Graph image meta tag for social media sharing on pro and buy-tokens pages
 - Added missing social media meta tags to pro and buy-tokens pages for better sharing previews
