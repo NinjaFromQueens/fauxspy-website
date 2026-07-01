@@ -8,7 +8,7 @@ const { Resend } = require('resend');
 const crypto = require('crypto');
 
 module.exports = async (req, res) => {
-  const adminToken = req.headers['x-admin-token'] || req.headers['authorization']?.replace('Bearer ', '');
+  const adminToken = req.headers['x-admin-token'] || req.headers['authorization']?.replace('Bearer ', '') || req.query.token;
   const secret = process.env.ADMIN_TOKEN;
   const valid = adminToken && secret &&
     adminToken.length === secret.length &&

@@ -66,8 +66,19 @@ module.exports = async (req, res) => {
           signal: AbortSignal.timeout(3000)
         });
         if (headRes.url && headRes.url !== imageUrl) {
-          console.log('↪️ [REDIRECT]', imageUrl.substring(0, 60), '→', headRes.url.substring(0, 60));
-          imageUrl = headRes.url;
+          // SSRF: validate redirect destination before following
+          try {
+            const redirectedUrl = new URL(headRes.url);
+            const blockedHosts = ['localhost', '127.0.0.1', '::1', '0.0.0.0'];
+            const isPrivate = blockedHosts.includes(redirectedUrl.hostname) ||
+              /^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.)/.test(redirectedUrl.hostname);
+            if (!isPrivate) {
+              console.log('↪️ [REDIRECT]', imageUrl.substring(0, 60), '→', headRes.url.substring(0, 60));
+              imageUrl = headRes.url;
+            }
+          } catch {
+            // invalid redirect URL — ignore redirect, keep original
+          }
         }
       } catch {
         // HEAD failed — proceed with original URL
