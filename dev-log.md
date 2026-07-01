@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-07-01
+- Fixed security vulnerabilities across the extension and website
+- Closed 10 audit findings in critical and high-priority security categories
+- Hardened the application against potential security threats
+
 ## 2026-06-30
 - Fixed 404 errors on pages caused by conflicting URL rewriting rules in Vercel configuration
 - Fixed romance scam detection by replacing a wildcard rule with specific page-based rules
