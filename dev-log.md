@@ -6,6 +6,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed security vulnerabilities across the extension and website
 - Closed 10 audit findings in critical and high-priority security categories
 - Hardened the application against potential security threats
+- Fixed two bugs discovered during security verification
+- Closed 10 security audit findings across multiple severity tiers
+- Improved overall security hardening of the extension and website
 
 ## 2026-06-30
 - Fixed 404 errors on pages caused by conflicting URL rewriting rules in Vercel configuration
