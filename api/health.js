@@ -3,9 +3,15 @@
 // Returns JSON status for all detection APIs.
 // Protected by ADMIN_TOKEN.
 
+const crypto = require('crypto');
+
 module.exports = async (req, res) => {
-  const token = req.headers['x-admin-token'] || req.query.token;
-  if (!token || token !== process.env.ADMIN_TOKEN) {
+  const token = req.headers['x-admin-token'] || req.headers['authorization']?.replace('Bearer ', '');
+  const secret = process.env.ADMIN_TOKEN;
+  const valid = token && secret &&
+    token.length === secret.length &&
+    crypto.timingSafeEqual(Buffer.from(token), Buffer.from(secret));
+  if (!valid) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 

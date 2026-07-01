@@ -24,7 +24,7 @@ const inMemoryUsage = new Map();
 const inMemoryCache = new Map();
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.fauxspy.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
@@ -46,6 +46,14 @@ module.exports = async (req, res) => {
       }
       if (imageUrl.startsWith('data:') || imageUrl.startsWith('blob:')) {
         return res.status(400).json({ error: 'Cannot analyze data: or blob: URLs' });
+      }
+
+      // SSRF: block requests to private/localhost IP ranges
+      const parsedUrl = new URL(imageUrl);
+      const blockedHosts = ['localhost', '127.0.0.1', '::1', '0.0.0.0'];
+      if (blockedHosts.includes(parsedUrl.hostname) ||
+          /^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.)/.test(parsedUrl.hostname)) {
+        return res.status(400).json({ error: 'Invalid image source' });
       }
     }
 
@@ -207,6 +215,18 @@ module.exports = async (req, res) => {
       }
     }
     
+    // ========================================================================
+    // RATE LIMITING: 100 requests/min per license key (pro) or userId (free)
+    // ========================================================================
+    try {
+      const rlKey = `ratelimit:detect:${(licenseKey || userId)?.substring(0, 16)}`;
+      const rlCount = await kv.incr(rlKey);
+      if (rlCount === 1) await kv.expire(rlKey, 60);
+      if (rlCount > 100) {
+        return res.status(429).json({ error: 'RATE_LIMIT_EXCEEDED', message: 'Too many requests. Please slow down.' });
+      }
+    } catch { /* non-fatal — don't block on Redis failure */ }
+
     // ========================================================================
     // STEP 3: Validate provider credentials
     // SIGNAL = Hive Moderation (primary AI detection)

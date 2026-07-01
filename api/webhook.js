@@ -39,14 +39,13 @@ async function getRawBody(req) {
 // ============================================================================
 
 function verifyResendSignature(rawBody, headers, secret) {
-  if (!secret) return true; // Skip verification if secret not configured
+  if (!secret) return false; // Fail closed — if secret is not configured, reject all requests
 
   const msgId = headers['svix-id'];
   const msgTimestamp = headers['svix-timestamp'];
   const msgSignature = headers['svix-signature'];
 
-  // Resend inbound webhooks don't use Svix signing — only verify if headers are present
-  if (!msgId || !msgTimestamp || !msgSignature) return true;
+  if (!msgId || !msgTimestamp || !msgSignature) return false;
 
   // Reject if timestamp is more than 5 minutes old (replay attack prevention)
   const tsSeconds = parseInt(msgTimestamp, 10);

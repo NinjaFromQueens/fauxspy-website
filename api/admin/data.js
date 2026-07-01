@@ -5,9 +5,15 @@ const kv = new Redis({
 });
 const { Resend } = require('resend');
 
+const crypto = require('crypto');
+
 module.exports = async (req, res) => {
-  const adminToken = req.headers['x-admin-token'] || req.query.token;
-  if (!adminToken || adminToken !== process.env.ADMIN_TOKEN) {
+  const adminToken = req.headers['x-admin-token'] || req.headers['authorization']?.replace('Bearer ', '');
+  const secret = process.env.ADMIN_TOKEN;
+  const valid = adminToken && secret &&
+    adminToken.length === secret.length &&
+    crypto.timingSafeEqual(Buffer.from(adminToken), Buffer.from(secret));
+  if (!valid) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 

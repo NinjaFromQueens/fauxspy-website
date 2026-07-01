@@ -15,7 +15,7 @@ const CACHE_TTL_SECONDS = 24 * 60 * 60; // 24 hours
 const SIGHTENGINE_TIMEOUT_MS = 90_000;
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.fauxspy.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -116,6 +116,16 @@ module.exports = async (req, res) => {
         topupBalance: licenseData.topupBalance || 0
       });
     }
+
+    // ── Rate limiting: 100 req/min per license key ──────────────────────────
+    try {
+      const rlKey = `ratelimit:detect-video:${licenseKey?.substring(0, 16)}`;
+      const rlCount = await kv.incr(rlKey);
+      if (rlCount === 1) await kv.expire(rlKey, 60);
+      if (rlCount > 100) {
+        return res.status(429).json({ error: 'RATE_LIMIT_EXCEEDED', message: 'Too many requests. Please slow down.' });
+      }
+    } catch { /* non-fatal */ }
 
     // ── Sightengine credentials ─────────────────────────────────────────────
     const apiUser   = process.env.SIGHTENGINE_API_USER;
