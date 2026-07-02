@@ -528,11 +528,11 @@ function getFreeTierVerdict(score, illustrationScore) {
   if (score >= 0.85) {
     return {
       tier: 'definitely_ai',
-      label: 'Definitely Faux',
+      label: 'Very Likely AI',
       category: 'ai',
       indicators: [
         `AI confidence: ${aiPercent}%`,
-        'Strong AI generation signals detected'
+        'Strong AI generation signals — no detector is 100% accurate'
       ],
       proHint: 'Pro identifies the exact AI generator used'
     };
@@ -542,7 +542,7 @@ function getFreeTierVerdict(score, illustrationScore) {
   if (score >= 0.65) {
     return {
       tier: 'likely_ai',
-      label: 'Likely Faux',
+      label: 'Likely AI',
       category: 'ai',
       indicators: [
         `AI confidence: ${aiPercent}%`,
@@ -557,12 +557,12 @@ function getFreeTierVerdict(score, illustrationScore) {
   if (isIllustration) {
     return {
       tier: 'digital_art',
-      label: 'Digital Art',
+      label: 'Human-Made Art',
       category: 'digital_art',
       indicators: [
-        'This appears to be digital art or an illustration',
+        'This appears to be human-created artwork — NOT AI-generated',
         'Could be: painting, game art, comic, 3D render, or animation frame',
-        score >= 0.40 ? '⚠️ Has some AI signals — could be AI-assisted art' : 'Low AI signals — likely human-made'
+        score >= 0.40 ? '⚠️ Has some AI signals — could be AI-assisted art' : 'Low AI signals — likely fully human-made'
       ],
       proHint: 'Pro confirms whether this is human-made or AI-generated art'
     };
@@ -642,23 +642,23 @@ function getProTierVerdict(aiScore, illustrationScore, deepfakeScore = 0) {
     if (isIllustration) {
       return {
         tier: 'definitely_ai_art',
-        label: 'AI Art (Confirmed)',
+        label: 'AI Art',
         category: 'ai_art',
         indicators: [
           `AI confidence: ${aiPercent}%`,
           `Illustration confidence: ${illustPercent}%`,
-          'This appears to be AI-generated digital art',
+          'This appears to be AI-generated digital art — no detector is 100% accurate',
           'Likely from: Midjourney, Stable Diffusion, DALL-E (artistic style)'
         ]
       };
     } else {
       return {
         tier: 'definitely_ai',
-        label: 'AI Photo (Confirmed)',
+        label: 'AI Photo',
         category: 'ai_photo',
         indicators: [
           `AI confidence: ${aiPercent}%`,
-          'This appears to be a photorealistic AI-generated image',
+          'This appears to be a photorealistic AI-generated image — no detector is 100% accurate',
           'Likely from: Midjourney v6, Flux, Imagen (photo mode)'
         ]
       };
@@ -699,13 +699,13 @@ function getProTierVerdict(aiScore, illustrationScore, deepfakeScore = 0) {
     if (isIllustration) {
       return {
         tier: 'digital_art_uncertain',
-        label: 'Digital Art (Possibly AI)',
+        label: 'Human-Made Art (AI Uncertain)',
         category: 'digital_art',
         indicators: [
           `AI confidence: ${aiPercent}%`,
           `Illustration confidence: ${illustPercent}%`,
-          'This is digital art (painting, drawing, render, or game art)',
-          '⚠️ Has some AI signals but not conclusive'
+          'This appears to be human-created artwork — some AI signals present but not conclusive',
+          '⚠️ Could be AI-assisted art — use Pro for a definitive verdict'
         ]
       };
     } else {
@@ -729,12 +729,12 @@ function getProTierVerdict(aiScore, illustrationScore, deepfakeScore = 0) {
     if (isIllustration) {
       return {
         tier: 'digital_art',
-        label: 'Digital Art / Illustration',
+        label: 'Human-Made Art',
         category: 'digital_art',
         indicators: [
           `Real confidence: ${realPercent}%`,
           `Illustration confidence: ${illustPercent}%`,
-          'Human-made digital art (painting, drawing, render)',
+          'This appears to be human-created artwork — not AI-generated',
           'Could be: Photoshop painting, 3D render, cartoon, game asset'
         ]
       };
@@ -760,12 +760,12 @@ function getProTierVerdict(aiScore, illustrationScore, deepfakeScore = 0) {
   if (isIllustration) {
     return {
       tier: 'digital_art_verified',
-      label: 'Digital Art (Verified)',
+      label: 'Human-Made Art',
       category: 'digital_art',
       indicators: [
         `Real confidence: ${realPercent}%`,
         `Illustration confidence: ${illustPercent}%`,
-        'Confirmed: human-made digital art',
+        'Confirmed human-created artwork — not AI-generated',
         'Could be: traditional painting, digital illustration, 3D render, cartoon, game art'
       ]
     };
