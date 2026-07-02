@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-07-02
+- Softened verdict language and improved Digital Art labels for clarity
+- Fixed two bugs discovered during security audit verification
+- Closed 10 security vulnerabilities across critical audit findings
+
 ## 2026-07-01
 - Fixed security vulnerabilities across the extension and website
 - Closed 10 audit findings in critical and high-priority security categories
