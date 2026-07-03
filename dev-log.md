@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-07-03
+- Added dedicated landing pages for Firefox and Edge browsers
+- Created a homepage badge strip for visual branding/promotion
+- Expanded browser support beyond the original platform
+
 ## 2026-07-02
 - Softened verdict language and improved Digital Art labels for clarity
 - Fixed two bugs discovered during security audit verification
