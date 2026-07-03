@@ -119,6 +119,8 @@
     { "source": "/faux-spy-vs-tineye", "destination": "/pages/faux-spy-vs-tineye" },
     { "source": "/ai-or-not-alternative", "destination": "/pages/ai-or-not-alternative" },
     { "source": "/illuminarty-alternative", "destination": "/pages/illuminarty-alternative" },
+    { "source": "/firefox", "destination": "/pages/firefox" },
+    { "source": "/edge", "destination": "/pages/edge" },
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/try-it", "destination": "/try-it.html" },
     { "source": "/admin", "destination": "/admin.html" },
