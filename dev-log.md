@@ -2,6 +2,12 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-07-04
+- Added SEO landing pages for Chrome extension, pig butchering scams, military romance scams, and ChatGPT image detection
+- Created a FAQ page with geographic targeting
+- Added browser landing pages for Firefox and Edge browsers
+- Added a badge strip to the homepage highlighting browser compatibility
+
 ## 2026-07-03
 - Added dedicated landing pages for Firefox and Edge browsers
 - Created a homepage badge strip for visual branding/promotion
