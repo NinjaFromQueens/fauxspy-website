@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Image Detector Chrome Extension | Faux Spy — Detect AI Photos in 2 Seconds</title>
+  <meta name="description" content="Faux Spy is a free Chrome extension that detects AI-generated images. Right-click any photo for a 2-second verdict — Real, AI Photo, or AI Art. Works on dating apps, social media, and any website.">
+  <meta property="og:title" content="Faux Spy — AI Image Detector Chrome Extension">
+  <meta property="og:description" content="Right-click any photo anywhere in Chrome for an instant AI verdict. Free, no account needed. Works on dating apps, social media, and anywhere else.">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image.png">
+  <meta property="og:url" content="https://www.fauxspy.com/chrome">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.fauxspy.com/chrome">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is there a Chrome extension that detects AI-generated images?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — Faux Spy is a free Chrome extension that detects AI-generated photos. Right-click any image on any website and select 'Investigate this image' to get a verdict in about 2 seconds. It works on dating apps, social media, news sites, and anywhere else in Chrome. Install it free from the Chrome Web Store — no account required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I detect AI-generated photos in Chrome?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Install Faux Spy from the Chrome Web Store (free). Then right-click any image on any website and select 'Investigate this image.' Faux Spy analyzes the image and returns a verdict — Real, Likely AI, AI Photo, or AI Art — with a confidence score in about 2 seconds. No uploading or tab switching required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Faux Spy free on Chrome?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The free tier gives you 10 scans per day with no account or signup required. Pro ($9.99/month) unlocks unlimited scans, AI Photo vs. AI Art distinction, Case Files history, and deepfake detection. Token top-up packs ($1.99, $5.99, $11.99) are also available for one-time needs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the Chrome extension work on all websites?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — Faux Spy works on any image on any website you can visit in Chrome. This includes dating apps (Tinder, Hinge, Bumble in browser), social media (Instagram, LinkedIn, Facebook, X, TikTok), news sites, marketplaces, forums, and anywhere else images appear."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How accurate is the AI image detector Chrome extension?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy achieves approximately 94% accuracy on images from major AI generators including Midjourney, DALL-E 3, Stable Diffusion, and Adobe Firefly. It uses a two-stage detection pipeline: a local machine learning model for fast pre-filtering, then a cloud ensemble (Sightengine + HiveModeration) for more complex cases."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Detect AI-Generated Images in Chrome",
+    "description": "Use the Faux Spy Chrome extension to detect AI-generated photos on any website",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Install Faux Spy",
+        "text": "Add Faux Spy to Chrome from the Chrome Web Store — free, takes 10 seconds."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Navigate to any image",
+        "text": "Go to any website with images — dating apps, social media, news sites, anywhere."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Right-click the image",
+        "text": "Right-click any photo and select 'Investigate this image' from the context menu."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Read the verdict",
+        "text": "Faux Spy returns a verdict in ~2 seconds: Real, Likely AI, AI Photo, AI Art, or Inconclusive — with a confidence score."
+      }
+    ]
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script>
+    var ahrefs_analytics_script = document.createElement('script');
+    ahrefs_analytics_script.async = true;
+    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
+    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero">
+        <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:20px;padding:0.35rem 1rem;font-size:0.8rem;font-weight:700;color:var(--gold,#fbbf24);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:1.25rem;">
+          🔵 Live on Chrome Web Store
+        </div>
+        <h1>The AI Image Detector Chrome Extension</h1>
+        <p class="landing-subtitle">Right-click any photo on any website in Chrome and find out if it's AI-generated in 2 seconds. No uploading. No tab switching. No account needed. Works on dating apps, social media, news — anywhere images live.</p>
+
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;margin-top:2rem;">
+          <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">
+            🕵️ Add to Chrome — Free
+          </a>
+          <p style="margin:0;font-size:0.85rem;color:var(--text-muted,#94a3b8);">10 scans/day free &middot; No account required &middot; Instant install</p>
+        </div>
+
+        <div style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:2rem;padding:1.25rem;background:var(--noir-card,#1e2536);border-radius:12px;border:1px solid var(--border-subtle,rgba(251,191,36,0.08));">
+          <div style="text-align:center;">
+            <div style="font-size:1.5rem;font-weight:800;color:var(--gold,#fbbf24);">94%</div>
+            <div style="font-size:0.8rem;color:var(--text-muted,#94a3b8);">Detection accuracy</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.5rem;font-weight:800;color:var(--gold,#fbbf24);">~2s</div>
+            <div style="font-size:0.8rem;color:var(--text-muted,#94a3b8);">Avg. verdict time</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.5rem;font-weight:800;color:var(--gold,#fbbf24);">Any site</div>
+            <div style="font-size:0.8rem;color:var(--text-muted,#94a3b8);">Works everywhere</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.5rem;font-weight:800;color:var(--gold,#fbbf24);">Free</div>
+            <div style="font-size:0.8rem;color:var(--text-muted,#94a3b8);">10 scans/day</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-section">
+        <h2><strong>How it works — three steps</strong></h2>
+        <ol class="landing-steps">
+          <li><strong>Install from the Chrome Web Store.</strong> Free, takes 10 seconds. No account, no signup, no permissions beyond what's needed.</li>
+          <li><strong>Right-click any image on any website.</strong> Select "Investigate this image" from the context menu. Works on dating apps, Instagram, LinkedIn, news sites — everywhere.</li>
+          <li><strong>Read the verdict.</strong> Faux Spy returns: Real, Likely AI, AI Photo, AI Art, or Inconclusive — with a confidence percentage. Takes about 2 seconds.</li>
+        </ol>
+      </div>
+
+      <div class="landing-section">
+        <h2><strong>Why you need an AI image detector in Chrome</strong></h2>
+        <p>AI-generated profile photos are now indistinguishable from real ones to the human eye. A 2025 Microsoft study found people correctly identify AI images only <strong>61% of the time</strong> — barely better than guessing. The problem: modern AI generators create faces that have never existed, so reverse image search finds nothing. There's no original photo to match against.</p>
+        <p>Romance scam victims in the US lost <strong>$1.14 billion in 2023</strong> (FTC). The entry point is almost always a convincing fake profile photo. AI generators like Midjourney, DALL-E 3, and Stable Diffusion produce these at scale — a scammer can generate 100 unique fake identities in minutes.</p>
+        <p>Faux Spy uses machine learning pixel analysis to find what human eyes miss. AI generators leave subtle artifacts in image noise, frequency patterns, and lighting behavior. The detector finds these in seconds, on any image, right inside Chrome.</p>
+      </div>
+
+      <div class="inline-cta" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.5rem;margin:2rem 0;text-align:center;">
+        <p style="margin:0 0 0.75rem;font-weight:600;color:var(--text-primary,#f8fafc);">Try it on a suspicious photo right now.</p>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome &#x2014; Free</a>
+        <p style="margin:0.75rem 0 0;font-size:0.82rem;color:var(--text-muted,#94a3b8);">10 checks/day free &middot; No account required</p>
+      </div>
+
+      <div class="landing-section">
+        <h2><strong>What it detects</strong></h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1.25rem;">
+          <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <div style="font-weight:700;color:var(--gold,#fbbf24);margin-bottom:0.35rem;">Real Photo</div>
+            <div style="font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">An authentic photograph taken by a real camera.</div>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <div style="font-weight:700;color:#f87171;margin-bottom:0.35rem;">AI Photo</div>
+            <div style="font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Photorealistic AI-generated image (Midjourney, DALL-E, SDXL).</div>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <div style="font-weight:700;color:#fb923c;margin-bottom:0.35rem;">AI Art</div>
+            <div style="font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Stylized AI-generated artwork — not photorealistic.</div>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <div style="font-weight:700;color:#94a3b8;margin-bottom:0.35rem;">Inconclusive</div>
+            <div style="font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Image is ambiguous — treat as a yellow flag.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-section">
+        <h2><strong>Works on every site in Chrome</strong></h2>
+        <ul>
+          <li><strong>Dating apps:</strong> <a href="/tinder">Tinder</a>, <a href="/hinge">Hinge</a>, <a href="/bumble">Bumble</a>, <a href="/dating-apps">all dating sites</a> — check every profile photo before you match</li>
+          <li><strong>Social media:</strong> <a href="/instagram">Instagram</a>, <a href="/linkedin">LinkedIn</a>, <a href="/facebook">Facebook</a>, <a href="/x-twitter">X (Twitter)</a>, <a href="/tiktok">TikTok</a> — verify accounts before you trust them</li>
+          <li><strong>News and journalism:</strong> Spot AI-generated images used in articles, propaganda, or viral content</li>
+          <li><strong>Marketplaces:</strong> Check seller profile photos on Facebook Marketplace, Craigslist, eBay</li>
+          <li><strong>Email and messaging:</strong> If you can open an image in Chrome, Faux Spy can check it</li>
+        </ul>
+      </div>
+
+      <div class="landing-section">
+        <h2><strong>Free vs Pro</strong></h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.25rem;">
+          <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:12px;padding:1.25rem 1.5rem;">
+            <div style="font-weight:700;font-size:1rem;margin-bottom:0.75rem;">Free</div>
+            <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);display:flex;flex-direction:column;gap:0.35rem;">
+              <li>10 scans per day</li>
+              <li>No account required</li>
+              <li>Real, Likely AI, Inconclusive verdicts</li>
+              <li>Confidence score</li>
+            </ul>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(251,191,36,0.3);border-radius:12px;padding:1.25rem 1.5rem;">
+            <div style="font-weight:700;font-size:1rem;margin-bottom:0.75rem;color:var(--gold,#fbbf24);">Pro — $9.99/mo</div>
+            <ul style="margin:0;padding-left:1.25rem;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);display:flex;flex-direction:column;gap:0.35rem;">
+              <li>Unlimited scans</li>
+              <li>AI Photo vs. AI Art distinction</li>
+              <li>Case Files — full scan history</li>
+              <li>Priority support</li>
+            </ul>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:1.25rem;">
+          <a href="/pro" style="color:var(--gold,#fbbf24);font-size:0.875rem;text-decoration:none;">Compare plans in detail →</a>
+        </div>
+      </div>
+
+      <div class="landing-faq">
+        <h2>Common questions</h2>
+
+        <details class="faq-item">
+          <summary>Is there a Chrome extension that detects AI-generated images?</summary>
+          <p>Yes — Faux Spy is a free Chrome extension that detects AI-generated photos. Right-click any image on any website for a verdict in 2 seconds. Install from the Chrome Web Store, no account required.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I detect AI photos in Chrome?</summary>
+          <p>Install Faux Spy from the Chrome Web Store (free). Then right-click any image on any website and select "Investigate this image." Faux Spy returns a verdict — Real, Likely AI, AI Photo, or AI Art — with a confidence score in about 2 seconds.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is Faux Spy free?</summary>
+          <p>Yes — 10 scans per day, no account needed. Pro ($9.99/month) gives unlimited scans, AI Photo vs. AI Art distinction, and Case Files scan history. Token top-up packs are also available for one-time needs.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Does it work on dating apps?</summary>
+          <p>Yes. Open Tinder, Hinge, Bumble, or any dating app in Chrome, right-click a profile photo, and select "Investigate this image." Results appear in about 2 seconds without leaving the page.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How accurate is it?</summary>
+          <p>Approximately 94% accuracy on images from major generators: Midjourney, DALL-E 3, Stable Diffusion, Adobe Firefly. Faux Spy gives you a confidence score rather than a flat verdict so you can weigh edge cases. No detector is 100% accurate — treat it as one strong signal alongside your own judgment.</p>
+        </details>
+
+      </div>
+
+      <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(251,191,36,0.2);border-radius:14px;padding:2rem;margin:2.5rem 0;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.75rem;">🕵️</div>
+        <h2 style="margin:0 0 0.5rem;font-size:1.3rem;">Start detecting AI images in Chrome — free</h2>
+        <p style="margin:0 0 1.5rem;color:var(--text-muted,#94a3b8);font-size:0.9rem;">10 scans/day · No account · Instant install</p>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">Add to Chrome — Free</a>
+        <div style="margin-top:1.25rem;display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;font-size:0.82rem;color:var(--text-muted,#94a3b8);">
+          <span>🦊 <a href="/firefox" style="color:var(--gold,#fbbf24);text-decoration:none;">Firefox coming soon</a></span>
+          <span>🔷 <a href="/edge" style="color:var(--gold,#fbbf24);text-decoration:none;">Edge coming soon</a></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/pro">Pricing</a>
+          <a href="/faq">FAQ</a>
+          <a href="/try-it">Try It</a>
+          <a href="/chrome">Chrome Extension</a>
+          <a href="/firefox">Firefox Add-on</a>
+          <a href="/edge">Edge Extension</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/about">About</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <a href="/deepfake-detector">Deepfake Detector</a>
+          <a href="/catfish-detector">Catfish Detector</a>
+          <a href="/dating-apps">Dating Apps</a>
+          <a href="/tinder">Tinder</a>
+          <a href="/bumble">Bumble</a>
+          <a href="/hinge">Hinge</a>
+          <a href="/instagram">Instagram</a>
+          <a href="/linkedin">LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
