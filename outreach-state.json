@@ -684,6 +684,74 @@
       "email": "alnoor.journalmedia@alnoor.edu.iq",
       "method": "email",
       "sent": true
+    },
+    "stockmanbank.com": {
+      "date": "2026-07-06",
+      "method": "form",
+      "sent": true
+    },
+    "cjig.cn": {
+      "date": "2026-07-06",
+      "email": "12345@163.com",
+      "method": "email",
+      "sent": true
+    },
+    "datephotos.ai": {
+      "date": "2026-07-06",
+      "email": "your@email.com",
+      "method": "email",
+      "sent": true
+    },
+    "taking.care": {
+      "date": "2026-07-06",
+      "email": "sales.mailbox@taking.care",
+      "method": "email",
+      "sent": true
+    },
+    "techsafety.org.au": {
+      "date": "2026-07-06",
+      "email": "qo@r.fj",
+      "method": "email",
+      "sent": true
+    },
+    "security.org": {
+      "date": "2026-07-06",
+      "method": "form",
+      "sent": true
+    },
+    "us.eascorp.org": {
+      "date": "2026-07-06",
+      "method": "form",
+      "sent": true
+    },
+    "mediablog.prnewswire.com": {
+      "date": "2026-07-06",
+      "email": "media.relations@prnewswire.com",
+      "method": "email",
+      "sent": true
+    },
+    "hrw.org": {
+      "date": "2026-07-06",
+      "email": "netherlands@hrw.org",
+      "method": "email",
+      "sent": true
+    },
+    "sofi.com": {
+      "date": "2026-07-06",
+      "method": "form",
+      "sent": true
+    },
+    "libguides.blinn.edu": {
+      "date": "2026-07-06",
+      "email": "library@blinn.edu",
+      "method": "email",
+      "sent": true
+    },
+    "scanly.co": {
+      "date": "2026-07-06",
+      "email": "your@email.com",
+      "method": "email",
+      "sent": true
     }
   }
 }
