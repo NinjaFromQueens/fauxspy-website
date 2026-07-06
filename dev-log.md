@@ -2,6 +2,10 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-07-06
+- Added Firefox installation links across the website for AMO (Firefox add-on store)
+- Made Firefox launch support available sitewide rather than in isolated locations
+
 ## 2026-07-04
 - Added SEO landing pages for Chrome extension, pig butchering scams, military romance scams, and ChatGPT image detection
 - Created a FAQ page with geographic targeting
