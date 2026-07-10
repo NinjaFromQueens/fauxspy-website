@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free AI Image Detector — Check Any Photo Online | Faux Spy</title>
+  <meta name="description" content="Check if any photo is AI-generated — free. Paste an image URL or upload a file. No account, no extension required. Detects Midjourney, DALL-E, Stable Diffusion, Flux, and more. 10 free checks per day.">
+  <meta property="og:title" content="Free AI Image Detector — Check Any Photo | Faux Spy">
+  <meta property="og:description" content="Is this photo AI-generated? Paste a URL or upload an image — get a verdict in 2 seconds. Free, no account needed.">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image.png">
+  <meta property="og:url" content="https://www.fauxspy.com/check">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.fauxspy.com/check">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Faux Spy AI Image Detector",
+    "applicationCategory": "WebApplication",
+    "operatingSystem": "Any",
+    "url": "https://www.fauxspy.com/check",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free: 10 scans per day, no account required. Pro: $9.99/month for unlimited scans."
+    },
+    "description": "Check if any image is AI-generated. Paste a URL or upload a file — verdict in 2 seconds. Detects Midjourney, DALL-E, Stable Diffusion, Flux, Firefly, and more.",
+    "featureList": "URL scanning, file upload, confidence scoring, no account required, detects all major AI generators"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this AI image detector really free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The free tier gives you 10 image scans per day with no account or signup required. Pro ($9.99/month) gives unlimited scans and advanced classification."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to install an extension to use this tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. This web-based AI image detector works in any browser with no extension required. Paste an image URL or upload a file and get a verdict in about 2 seconds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How accurate is the AI image detection?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Approximately 94% accuracy on images from major generators: Midjourney, DALL-E 3, Stable Diffusion, Adobe Firefly. The confidence score tells you how certain the result is — treat scores below 65% as ambiguous."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What AI generators does Faux Spy detect?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Midjourney (v4, v5, v6), DALL-E 2 and 3, Stable Diffusion, Adobe Firefly, Flux, Grok/Aurora, Runway, Bing Image Creator, and most other major generators."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my image stored or shared?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Only the image URL (or a temporary in-memory copy for file uploads) is used for analysis. Images are not stored on Faux Spy servers, indexed, or shared with third parties."
+        }
+      }
+    ]
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script>
+    var ahrefs_analytics_script = document.createElement('script');
+    ahrefs_analytics_script.async = true;
+    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
+    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+  <style>
+    .scanner-widget {
+      background: var(--noir-card, #1e2536);
+      border: 1px solid var(--border-default, rgba(251,191,36,0.15));
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 680px;
+      margin: 2rem auto 0;
+    }
+    .scanner-tabs {
+      display: flex;
+      border: 1px solid var(--border-subtle, rgba(251,191,36,0.1));
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .scanner-tab {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted, #94a3b8);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .scanner-tab.active { background: rgba(251,191,36,0.1); color: var(--gold, #fbbf24); }
+    .scanner-tab:hover:not(.active) { background: rgba(255,255,255,0.03); color: var(--text-secondary, #cbd5e1); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .url-input-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .url-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.75rem 1rem;
+      background: var(--noir-dark, #0f1117);
+      border: 1px solid var(--border-subtle, rgba(251,191,36,0.12));
+      border-radius: 10px;
+      color: var(--text-primary, #f8fafc);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .url-input:focus { border-color: rgba(251,191,36,0.4); }
+    .url-input::placeholder { color: var(--text-muted, #94a3b8); }
+    .dropzone {
+      border: 2px dashed rgba(251,191,36,0.2);
+      border-radius: 12px;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+    }
+    .dropzone:hover, .dropzone.dragover {
+      border-color: rgba(251,191,36,0.5);
+      background: rgba(251,191,36,0.04);
+    }
+    .dropzone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .dropzone-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .dropzone p { margin: 0.25rem 0; color: var(--text-secondary, #cbd5e1); font-size: 0.9rem; }
+    .dropzone .muted { color: var(--text-muted, #94a3b8); font-size: 0.8rem; }
+    .upload-preview {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+    .upload-preview img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle, rgba(251,191,36,0.12));
+      flex-shrink: 0;
+    }
+    .preview-info { flex: 1; min-width: 100px; }
+    .preview-name {
+      font-size: 0.85rem;
+      color: var(--text-primary, #f8fafc);
+      margin-bottom: 0.2rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 220px;
+    }
+    .preview-size { font-size: 0.75rem; color: var(--text-muted, #94a3b8); }
+    .scan-loading { text-align: center; padding: 2rem 1rem; }
+    .scan-spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(251,191,36,0.12);
+      border-top-color: var(--gold, #fbbf24);
+      border-radius: 50%;
+      animation: fs-spin 0.75s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes fs-spin { to { transform: rotate(360deg); } }
+    .scan-loading p { color: var(--text-muted, #94a3b8); font-size: 0.9rem; margin: 0; }
+    .result-card { border-radius: 14px; padding: 1.5rem; margin-top: 0.25rem; }
+    .result-card.is-real    { background: rgba(34,197,94,0.08);  border: 1px solid rgba(34,197,94,0.25); }
+    .result-card.is-likely  { background: rgba(34,197,94,0.05);  border: 1px solid rgba(34,197,94,0.18); }
+    .result-card.is-mixed   { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.22); }
+    .result-card.is-art     { background: rgba(99,102,241,0.07); border: 1px solid rgba(99,102,241,0.22); }
+    .result-card.is-likelyai{ background: rgba(251,146,60,0.08); border: 1px solid rgba(251,146,60,0.25); }
+    .result-card.is-ai      { background: rgba(248,113,113,0.08);border: 1px solid rgba(248,113,113,0.25);}
+    .result-verdict { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .result-card.is-real     .result-verdict { color: #4ade80; }
+    .result-card.is-likely   .result-verdict { color: #86efac; }
+    .result-card.is-mixed    .result-verdict { color: #fbbf24; }
+    .result-card.is-art      .result-verdict { color: #a5b4fc; }
+    .result-card.is-likelyai .result-verdict { color: #fb923c; }
+    .result-card.is-ai       .result-verdict { color: #f87171; }
+    .result-desc { font-size: 0.84rem; color: var(--text-muted, #94a3b8); margin: 0 0 1rem; }
+    .conf-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .conf-label { font-size: 0.75rem; color: var(--text-muted, #94a3b8); white-space: nowrap; }
+    .conf-track { flex: 1; height: 6px; background: var(--noir-darkest, #0a0e1a); border-radius: 3px; overflow: hidden; }
+    .conf-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 0.55s ease; }
+    .result-card.is-real     .conf-fill { background: linear-gradient(90deg,#4ade80,#22c55e); }
+    .result-card.is-likely   .conf-fill { background: linear-gradient(90deg,#86efac,#4ade80); }
+    .result-card.is-mixed    .conf-fill { background: linear-gradient(90deg,#fbbf24,#f59e0b); }
+    .result-card.is-art      .conf-fill { background: linear-gradient(90deg,#a5b4fc,#818cf8); }
+    .result-card.is-likelyai .conf-fill { background: linear-gradient(90deg,#fb923c,#f97316); }
+    .result-card.is-ai       .conf-fill { background: linear-gradient(90deg,#f87171,#ef4444); }
+    .conf-val { font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
+    .result-card.is-real     .conf-val { color: #4ade80; }
+    .result-card.is-likely   .conf-val { color: #86efac; }
+    .result-card.is-mixed    .conf-val { color: #fbbf24; }
+    .result-card.is-art      .conf-val { color: #a5b4fc; }
+    .result-card.is-likelyai .conf-val { color: #fb923c; }
+    .result-card.is-ai       .conf-val { color: #f87171; }
+    .result-inds { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.5rem; }
+    .ind-item {
+      font-size: 0.79rem;
+      color: var(--text-secondary, #cbd5e1);
+      padding: 0.3rem 0.6rem;
+      background: rgba(0,0,0,0.2);
+      border-radius: 6px;
+      border-left: 2px solid rgba(255,255,255,0.06);
+    }
+    .pro-hint-box {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-muted, #94a3b8);
+      padding: 0.5rem 0.75rem;
+      background: rgba(251,191,36,0.06);
+      border: 1px solid rgba(251,191,36,0.12);
+      border-radius: 8px;
+    }
+    .pro-hint-box a { color: var(--gold, #fbbf24); text-decoration: none; }
+    .pro-hint-box a:hover { text-decoration: underline; }
+    .error-card {
+      background: rgba(248,113,113,0.07);
+      border: 1px solid rgba(248,113,113,0.22);
+      border-radius: 12px;
+      padding: 1.1rem 1.35rem;
+    }
+    .error-card p { margin: 0; color: #fca5a5; font-size: 0.88rem; }
+    .error-card a { color: var(--gold, #fbbf24); }
+    .post-result-cta {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--noir-medium, #1a1f2e);
+      border: 1px solid var(--border-subtle, rgba(251,191,36,0.08));
+      border-radius: 12px;
+      text-align: center;
+    }
+    .post-result-cta p { margin: 0 0 1rem; font-size: 0.84rem; color: var(--text-muted, #94a3b8); }
+    .post-result-cta .cta-btns { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+    .check-again-row { text-align: center; margin-top: 0.75rem; }
+    .limit-banner {
+      background: rgba(251,191,36,0.05);
+      border: 1px solid rgba(251,191,36,0.15);
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted, #94a3b8);
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .limit-banner strong { color: var(--gold, #fbbf24); }
+    .limit-banner a { color: var(--gold, #fbbf24); text-decoration: none; }
+    .limit-banner a:hover { text-decoration: underline; }
+    @media (max-width: 520px) {
+      .scanner-widget { padding: 1.25rem; }
+      .url-input-row { flex-direction: column; }
+      .url-input-row .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero" style="padding-bottom:0;">
+        <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:20px;padding:0.35rem 1rem;font-size:0.8rem;font-weight:700;color:var(--gold,#fbbf24);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:1.25rem;">
+          🕵️ Free &middot; No Account &middot; No Extension Needed
+        </div>
+        <h1>Is this image AI-generated?</h1>
+        <p class="landing-subtitle">Paste an image URL or upload a file. Get a verdict in 2 seconds — free, no signup required.</p>
+      </div>
+
+      <!-- ── Scanner widget ── -->
+      <div class="scanner-widget">
+
+        <div class="scanner-tabs" role="tablist">
+          <button class="scanner-tab active" role="tab" data-tab="url" aria-selected="true">🔗 Paste URL</button>
+          <button class="scanner-tab" role="tab" data-tab="upload" aria-selected="false">📁 Upload Image</button>
+        </div>
+
+        <!-- URL tab -->
+        <div id="tab-url" class="tab-panel active" role="tabpanel">
+          <form id="urlForm" autocomplete="off">
+            <div class="url-input-row">
+              <input type="url" id="imageUrlInput" class="url-input"
+                placeholder="https://example.com/photo.jpg"
+                aria-label="Paste image URL">
+              <button type="submit" class="btn btn-primary" id="urlBtn">Check Image</button>
+            </div>
+            <p style="margin:0.5rem 0 0;font-size:0.78rem;color:var(--text-muted,#94a3b8);">Paste any direct image link — JPG, PNG, WebP, GIF</p>
+          </form>
+        </div>
+
+        <!-- Upload tab -->
+        <div id="tab-upload" class="tab-panel" role="tabpanel">
+          <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="Upload an image file">
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" aria-label="Choose image file">
+            <div class="dropzone-icon">🖼️</div>
+            <p>Drag &amp; drop or click to upload</p>
+            <p class="muted">JPG, PNG, WebP, GIF &middot; Max 10 MB</p>
+          </div>
+          <div id="uploadPreview" style="display:none;margin-top:0.75rem;">
+            <div class="upload-preview">
+              <img id="previewImg" src="" alt="Image preview">
+              <div class="preview-info">
+                <div class="preview-name" id="previewName"></div>
+                <div class="preview-size" id="previewSize"></div>
+              </div>
+              <button class="btn btn-primary" id="uploadBtn">Check Image</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="scanLoading" style="display:none;">
+          <div class="scan-loading">
+            <div class="scan-spinner"></div>
+            <p>Analyzing image&hellip;</p>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div id="scanResult" style="display:none;margin-top:0.5rem;">
+          <div id="resultCard" class="result-card is-real">
+            <div class="result-verdict" id="resultVerdict"></div>
+            <p class="result-desc" id="resultDesc"></p>
+            <div class="conf-row">
+              <span class="conf-label">Confidence</span>
+              <div class="conf-track"><div class="conf-fill" id="confFill"></div></div>
+              <span class="conf-val" id="confVal"></span>
+            </div>
+            <div class="result-inds" id="resultInds"></div>
+            <div class="pro-hint-box" id="proHintBox" style="display:none;"></div>
+          </div>
+
+          <div class="post-result-cta">
+            <p>Get right-click detection on every website — no uploading required</p>
+            <div class="cta-btns">
+              <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary" target="_blank" rel="noopener">🕵️ Add to Chrome — Free</a>
+              <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
+            </div>
+          </div>
+          <div class="check-again-row">
+            <button class="btn btn-secondary" id="resultReset" style="font-size:0.85rem;">↩ Check another image</button>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div id="scanError" style="display:none;margin-top:0.5rem;">
+          <div class="error-card"><p id="errorMsg"></p></div>
+          <div class="check-again-row">
+            <button class="btn btn-secondary" id="errorReset" style="margin-top:0.75rem;font-size:0.85rem;">↩ Try again</button>
+          </div>
+        </div>
+
+        <!-- Limit indicator -->
+        <div id="limitBanner" class="limit-banner" style="display:none;">
+          <strong id="scansLeft"></strong> free scan<span id="scanPlural">s</span> remaining today &middot; <a href="/pro">Upgrade to Pro</a> for unlimited
+        </div>
+
+      </div>
+      <!-- ── end scanner widget ── -->
+
+      <!-- How it works -->
+      <div class="landing-section" style="margin-top:4rem;">
+        <h2 style="text-align:center;margin-bottom:2rem;"><strong>How it works</strong></h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:600px;margin:0 auto;">
+          <div style="text-align:center;padding:1.5rem 1rem;">
+            <div style="font-size:2rem;margin-bottom:0.75rem;">🔗</div>
+            <h3 style="margin:0 0 0.5rem;font-size:1rem;">1. Paste a URL or upload</h3>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Drop in an image URL from any website, or upload a file directly from your device.</p>
+          </div>
+          <div style="text-align:center;padding:1.5rem 1rem;">
+            <div style="font-size:2rem;margin-bottom:0.75rem;">⚡</div>
+            <h3 style="margin:0 0 0.5rem;font-size:1rem;">2. We analyze the pixels</h3>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">The detection engine scans for AI generation fingerprints that are invisible to the human eye.</p>
+          </div>
+          <div style="text-align:center;padding:1.5rem 1rem;">
+            <div style="font-size:2rem;margin-bottom:0.75rem;">✅</div>
+            <h3 style="margin:0 0 0.5rem;font-size:1rem;">3. Get your verdict</h3>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Real, Likely AI, or AI-Generated — with a confidence score in about 2 seconds.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generators -->
+      <div class="landing-section">
+        <h2 style="text-align:center;"><strong>Detects images from all major AI generators</strong></h2>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.6rem;margin-top:1.25rem;">
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">Midjourney</span>
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">DALL-E 3</span>
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">Stable Diffusion</span>
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">Adobe Firefly</span>
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">Flux</span>
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">Grok / Aurora</span>
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">Runway</span>
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">Bing Image Creator</span>
+          <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">+ many more</span>
+        </div>
+        <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--text-muted,#94a3b8);">~94% accuracy on images from major generators &middot; Confidence score included on every scan</p>
+      </div>
+
+      <!-- FAQ -->
+      <div class="landing-section">
+        <h2 style="text-align:center;margin-bottom:1.5rem;"><strong>Frequently asked questions</strong></h2>
+        <div style="display:flex;flex-direction:column;gap:1rem;max-width:640px;margin:0 auto;">
+
+          <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Is this really free?<span>+</span></summary>
+            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">Yes. The free tier gives you 10 image scans per day — no account, no email, no signup. Pro ($9.99/month) unlocks unlimited scans, AI Photo vs. AI Art distinction, and deepfake detection.</p>
+          </details>
+
+          <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Do I need to install an extension?<span>+</span></summary>
+            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">No — this page works in any browser with no extension required. If you want right-click detection directly on images as you browse (no uploading), you can install the <a href="/chrome" style="color:var(--gold,#fbbf24);">Chrome extension</a> or <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" target="_blank" rel="noopener" style="color:var(--gold,#fbbf24);">Firefox add-on</a>.</p>
+          </details>
+
+          <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">How accurate is it?<span>+</span></summary>
+            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">Approximately 94% on images from major generators. The confidence score matters: 90%+ is very reliable, 60–80% is ambiguous and should be treated as one signal alongside other checks. No detector is 100% accurate against the latest models.</p>
+          </details>
+
+          <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Is my image stored or shared?<span>+</span></summary>
+            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">No. For URL scans, only the URL is passed to the detection API — we never download or store the image. For file uploads, the image is held in memory during the scan and discarded immediately. Results may be cached for up to 30 days against the same URL for performance.</p>
+          </details>
+
+          <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Why does the URL check sometimes fail for social media images?<span>+</span></summary>
+            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">Instagram, X/Twitter, Facebook, and TikTok block cross-origin image fetches. If a URL from one of those sites fails, save the image to your device (right-click → Save image) and upload it using the Upload tab instead — that path works for any image you can save locally.</p>
+          </details>
+
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(251,191,36,0.15);border-radius:14px;padding:2rem;margin:2.5rem 0;text-align:center;">
+        <div style="font-size:1.75rem;margin-bottom:0.75rem;">🕵️</div>
+        <h2 style="margin:0 0 0.5rem;font-size:1.15rem;">Prefer right-click detection on any site?</h2>
+        <p style="margin:0 0 1.5rem;color:var(--text-muted,#94a3b8);font-size:0.875rem;">Install the extension — detect any image without leaving the page. Works on dating apps, social media, news sites, anywhere.</p>
+        <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+          <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">🕵️ Add to Chrome — Free</a>
+          <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary btn-large" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
+        </div>
+        <p style="margin:0.75rem 0 0;font-size:0.8rem;color:var(--text-muted,#94a3b8);">10 scans/day free &middot; No account required &middot; Instant install</p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/pro">Pricing</a>
+          <a href="/faq">FAQ</a>
+          <a href="/check">Check Image</a>
+          <a href="/try-it">Try It</a>
+          <a href="/firefox">Firefox Add-on</a>
+          <a href="/edge">Edge Extension</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/about">About</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <a href="/deepfake-detector">Deepfake Detector</a>
+          <a href="/catfish-detector">Catfish Detector</a>
+          <a href="/dating-apps">Dating Apps</a>
+          <a href="/tinder">Tinder</a>
+          <a href="/bumble">Bumble</a>
+          <a href="/hinge">Hinge</a>
+          <a href="/instagram">Instagram</a>
+          <a href="/linkedin">LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── User ID (persistent, anonymous) ──────────────────────
+    function getUserId() {
+      let uid = localStorage.getItem('fs_uid');
+      if (!uid) {
+        uid = 'fs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('fs_uid', uid);
+      }
+      return uid;
+    }
+
+    // ── Local scan counter (client-side hint; server enforces the real limit) ──
+    const TODAY = new Date().toDateString();
+    if (localStorage.getItem('fs_scan_date') !== TODAY) {
+      localStorage.setItem('fs_scan_date', TODAY);
+      localStorage.setItem('fs_scan_count', '0');
+    }
+    let scanCount = parseInt(localStorage.getItem('fs_scan_count') || '0', 10);
+
+    function bumpScanCount() {
+      scanCount++;
+      localStorage.setItem('fs_scan_count', String(scanCount));
+      updateLimitBanner();
+    }
+
+    function updateLimitBanner() {
+      const remaining = Math.max(0, 10 - scanCount);
+      const banner = document.getElementById('limitBanner');
+      if (scanCount >= 7) {
+        banner.style.display = 'block';
+        document.getElementById('scansLeft').textContent = remaining;
+        document.getElementById('scanPlural').textContent = remaining === 1 ? '' : 's';
+      } else {
+        banner.style.display = 'none';
+      }
+    }
+
+    // ── File upload state ─────────────────────────────────────
+    let pendingBase64 = null;
+
+    // ── Tab switching ─────────────────────────────────────────
+    document.querySelectorAll('.scanner-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.scanner-tab').forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+        resetResult();
+      });
+    });
+
+    // ── FAQ toggles ───────────────────────────────────────────
+    document.querySelectorAll('details').forEach(d => {
+      d.addEventListener('toggle', function () {
+        const s = this.querySelector('summary span');
+        if (s) s.textContent = this.open ? '−' : '+';
+      });
+    });
+
+    // ── Show / hide scanner states ────────────────────────────
+    function setDisplay(id, show) {
+      document.getElementById(id).style.display = show ? (id === 'scanLoading' ? 'block' : 'block') : 'none';
+    }
+
+    function showState(state) {
+      setDisplay('scanLoading', state === 'loading');
+      setDisplay('scanResult',  state === 'result');
+      setDisplay('scanError',   state === 'error');
+    }
+
+    function resetResult() {
+      showState('none');
+      pendingBase64 = null;
+      document.getElementById('imageUrlInput').value = '';
+      document.getElementById('uploadPreview').style.display = 'none';
+      document.getElementById('dropzone').style.display = 'block';
+    }
+
+    document.getElementById('resultReset').addEventListener('click', resetResult);
+    document.getElementById('errorReset').addEventListener('click', resetResult);
+
+    // ── URL form ──────────────────────────────────────────────
+    document.getElementById('urlForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const url = document.getElementById('imageUrlInput').value.trim();
+      if (!url) return;
+      await runDetection({ imageUrl: url });
+    });
+
+    // ── File drag-and-drop and picker ─────────────────────────
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      const f = e.dataTransfer.files[0];
+      if (f && f.type.startsWith('image/')) handleFile(f);
+    });
+    dropzone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files[0]) handleFile(fileInput.files[0]);
+    });
+
+    document.getElementById('uploadBtn').addEventListener('click', async () => {
+      if (pendingBase64) await runDetection({ imageData: pendingBase64 });
+    });
+
+    function handleFile(file) {
+      if (file.size > 10 * 1024 * 1024) {
+        showError('That file is over 10 MB. Please upload a smaller image.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = ev => {
+        pendingBase64 = ev.target.result;
+        document.getElementById('previewImg').src = pendingBase64;
+        document.getElementById('previewName').textContent = file.name;
+        document.getElementById('previewSize').textContent = (file.size / 1024).toFixed(0) + ' KB';
+        dropzone.style.display = 'none';
+        document.getElementById('uploadPreview').style.display = 'block';
+        showState('none');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ── Core API call ─────────────────────────────────────────
+    async function runDetection({ imageUrl, imageData }) {
+      showState('loading');
+
+      const body = { userId: getUserId(), pageHost: window.location.hostname };
+      if (imageUrl)   body.imageUrl = imageUrl;
+      if (imageData)  { body.imageData = imageData; body.isVideoFrame = false; }
+
+      try {
+        const r = await fetch('/api/detect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await r.json();
+
+        if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
+          showError('You\'ve used your 10 free scans for today. Resets at midnight &mdash; or <a href="/pro">upgrade to Pro</a> for unlimited scans.');
+          return;
+        }
+        if (r.status === 402 || data.error === 'TOKENS_EXHAUSTED') {
+          showError('Your Pro token balance is empty. <a href="/pro">Top up or renew your subscription</a>.');
+          return;
+        }
+        if (!r.ok) {
+          const errMap = {
+            'Invalid imageUrl': 'That URL couldn\'t be loaded. Try a direct image link (ending in .jpg, .png, .webp) or upload the file instead.',
+            'imageUrl or imageData required': 'Please provide an image URL or upload a file.',
+            'Cannot analyze data: or blob: URLs': 'That looks like a local blob URL. Save the image and upload it using the Upload tab.',
+          };
+          showError(errMap[data.error] || (r.status === 503
+            ? 'Detection service is temporarily unavailable. Please try again in a moment.'
+            : 'Something went wrong. Please try again.'));
+          return;
+        }
+        if (!data.success) {
+          showError('Detection failed. Try a different image or upload the file directly.');
+          return;
+        }
+
+        bumpScanCount();
+        renderResult(data);
+
+      } catch {
+        showError('Couldn\'t reach the detection service. Check your connection and try again.');
+      }
+    }
+
+    // ── Render result ─────────────────────────────────────────
+    const CAT_MAP = {
+      verified_real: { cls: 'is-real',     icon: '✓', label: 'Real Photo',          desc: 'No AI generation signals detected in this image.' },
+      likely_real:   { cls: 'is-likely',   icon: '✓', label: 'Likely Real',          desc: 'Minimal AI signals — this image appears to be a real photograph.' },
+      inconclusive:  { cls: 'is-mixed',    icon: '⚠', label: 'Inconclusive',         desc: 'Mixed signals — treat this result with additional caution.' },
+      digital_art:   { cls: 'is-art',      icon: '🎨', label: 'Digital Art',          desc: 'This appears to be digital artwork rather than a photograph.' },
+      likely_ai:     { cls: 'is-likelyai', icon: '⚠', label: 'Likely AI-Generated',  desc: 'Strong AI generation patterns detected in this image.' },
+      definitely_ai: { cls: 'is-ai',       icon: '✗', label: 'AI-Generated',         desc: 'This image was almost certainly created by an AI generator.' },
+    };
+
+    function renderResult(data) {
+      const cat  = data.category || (data.isAI ? 'definitely_ai' : 'likely_real');
+      const info = CAT_MAP[cat] || CAT_MAP.inconclusive;
+      const prob = Math.round((data.aiProbability || 0) * 100);
+      const label = data.verdictLabel || info.label;
+
+      const card = document.getElementById('resultCard');
+      card.className = 'result-card ' + info.cls;
+      document.getElementById('resultVerdict').textContent = info.icon + ' ' + label;
+      document.getElementById('resultDesc').textContent = info.desc;
+
+      setTimeout(() => { document.getElementById('confFill').style.width = prob + '%'; }, 40);
+      document.getElementById('confVal').textContent = prob + '%';
+
+      // Indicators
+      const indsEl = document.getElementById('resultInds');
+      indsEl.innerHTML = '';
+      const inds = [...(data.indicators || [])];
+      if (Array.isArray(data.metadata_signals)) {
+        data.metadata_signals.forEach(s => inds.push(typeof s === 'string' ? s : (s && s.label) ? s.label : null));
+      }
+      if (data.c2pa && data.c2pa.present) {
+        inds.push(data.c2pa.valid ? '✅ C2PA content credentials: verified' : '⚠️ C2PA credentials present but invalid');
+      }
+      inds.filter(Boolean).slice(0, 6).forEach(txt => {
+        const d = document.createElement('div');
+        d.className = 'ind-item';
+        d.textContent = String(txt);
+        indsEl.appendChild(d);
+      });
+
+      // Pro hint
+      const hintEl = document.getElementById('proHintBox');
+      if (data.proHint) {
+        hintEl.style.display = 'block';
+        hintEl.innerHTML = '🔒 <a href="/pro">' + esc(data.proHint) + '</a>';
+      } else {
+        hintEl.style.display = 'none';
+      }
+
+      showState('result');
+    }
+
+    function showError(html) {
+      document.getElementById('errorMsg').innerHTML = html;
+      showState('error');
+    }
+
+    function esc(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    updateLimitBanner();
+  </script>
+</body>
+</html>
