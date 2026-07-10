@@ -11,6 +11,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added a free web-based AI image detector at /check for identifying fake images
 - Fixed bugs in check.html where results weren't displaying and form visibility was broken
 - Implemented SEO improvements across the project (Week 1-3 work)
+- Added a free web-based AI image detector tool at /check
+- Fixed bugs in the detector's result display and form visibility
+- Launched a roundup post about the best AI image detector extensions for 2026
+- Implemented initial SEO optimization strategy for weeks 1-3
 
 ## 2026-07-06
 - Added Firefox installation links across the website for AMO (Firefox add-on store)
