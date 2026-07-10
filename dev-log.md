@@ -2,6 +2,10 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-07-10
+- Added a free web-based AI image detector accessible at /check endpoint
+- Users can now detect AI-generated images without installing the extension
+
 ## 2026-07-06
 - Added Firefox installation links across the website for AMO (Firefox add-on store)
 - Made Firefox launch support available sitewide rather than in isolated locations
