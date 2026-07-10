@@ -609,14 +609,14 @@
     });
 
     // ── Show / hide scanner states ────────────────────────────
-    function setDisplay(id, show) {
-      document.getElementById(id).style.display = show ? (id === 'scanLoading' ? 'block' : 'block') : 'none';
-    }
-
     function showState(state) {
-      setDisplay('scanLoading', state === 'loading');
-      setDisplay('scanResult',  state === 'result');
-      setDisplay('scanError',   state === 'error');
+      // Hide all input panels when active, restore the active one when idle
+      document.querySelectorAll('.tab-panel').forEach(p => {
+        p.style.display = (state === 'none') ? (p.classList.contains('active') ? 'block' : 'none') : 'none';
+      });
+      document.getElementById('scanLoading').style.display = state === 'loading' ? 'block' : 'none';
+      document.getElementById('scanResult').style.display  = state === 'result'  ? 'block' : 'none';
+      document.getElementById('scanError').style.display   = state === 'error'   ? 'block' : 'none';
     }
 
     function resetResult() {
@@ -721,7 +721,7 @@
         bumpScanCount();
         renderResult(data);
 
-      } catch {
+      } catch(e) {
         showError('Couldn\'t reach the detection service. Check your connection and try again.');
       }
     }
@@ -737,7 +737,7 @@
     };
 
     function renderResult(data) {
-      const cat  = data.category || (data.isAI ? 'definitely_ai' : 'likely_real');
+      const cat  = data.verdict || (data.isAI ? 'definitely_ai' : 'likely_real');
       const info = CAT_MAP[cat] || CAT_MAP.inconclusive;
       const prob = Math.round((data.aiProbability || 0) * 100);
       const label = data.verdictLabel || info.label;
