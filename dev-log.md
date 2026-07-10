@@ -5,6 +5,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 ## 2026-07-10
 - Added a free web-based AI image detector accessible at /check endpoint
 - Users can now detect AI-generated images without installing the extension
+- Added a new /check web page for free AI-powered image detection
+- Fixed result display rendering issues on the check page
+- Fixed form visibility and display bugs on the check page
 
 ## 2026-07-06
 - Added Firefox installation links across the website for AMO (Firefox add-on store)
