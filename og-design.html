@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; background: #0a0e1a; }
+
+  .og-card {
+    width: 1200px; height: 630px;
+    background: #0a0e1a;
+    position: relative; overflow: hidden;
+    display: flex;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .glow-gold {
+    position: absolute; width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(251,191,36,0.16) 0%, transparent 65%);
+    top: -280px; left: -120px; pointer-events: none; z-index: 0;
+  }
+  .glow-violet {
+    position: absolute; width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+    bottom: -180px; right: -80px; pointer-events: none; z-index: 0;
+  }
+
+  .left {
+    width: 700px; padding: 44px 52px 44px 64px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; z-index: 1; flex-shrink: 0;
+  }
+
+  .top-row { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 11px; }
+  .brand-icon { font-size: 26px; line-height: 1; }
+  .brand-name {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic; font-weight: 800; font-size: 24px; letter-spacing: 0.01em;
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .badge {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #fbbf24; border: 1px solid rgba(251,191,36,0.35); border-radius: 4px;
+    padding: 4px 10px; background: rgba(251,191,36,0.06); white-space: nowrap;
+  }
+
+  .content { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 8px 0; }
+
+  .headline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic; font-weight: 800; font-size: 76px;
+    line-height: 1.03; letter-spacing: -0.025em;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 60%, #d97706 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  .description { font-size: 19px; line-height: 1.6; color: #f8fafc; font-weight: 400; max-width: 500px; }
+
+  .browsers { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+  .browser-chip {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px;
+    border: 1px solid rgba(251,191,36,0.25); color: rgba(251,191,36,0.85);
+    background: rgba(251,191,36,0.05);
+  }
+
+  .bottom-stack { display: flex; flex-direction: column; gap: 14px; }
+  .stats { display: flex; align-items: center; }
+  .stat { display: flex; flex-direction: column; gap: 3px; }
+  .stat-number { font-size: 26px; font-weight: 700; color: #fbbf24; letter-spacing: -0.02em; line-height: 1; }
+  .stat-label { font-size: 12px; color: #94a3b8; font-weight: 500; letter-spacing: 0.02em; white-space: nowrap; }
+  .stat-sep { width: 1px; height: 36px; background: rgba(251,191,36,0.15); margin: 0 28px; }
+  .domain { font-size: 14px; color: rgba(148,163,184,0.5); letter-spacing: 0.06em; font-weight: 500; }
+
+  .divider {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(251,191,36,0.12) 20%, rgba(251,191,36,0.12) 80%, transparent 100%);
+    margin: 44px 0; position: relative; z-index: 1;
+  }
+
+  .right { flex: 1; display: flex; align-items: center; justify-content: center; padding: 44px 48px; position: relative; z-index: 1; }
+
+  .verdict-card {
+    width: 268px; background: #1a2135;
+    border: 1px solid rgba(251,191,36,0.28); border-radius: 14px; overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(251,191,36,0.06), 0 0 50px rgba(251,191,36,0.12), 0 24px 48px rgba(0,0,0,0.55);
+  }
+
+  .card-header {
+    padding: 11px 16px; border-bottom: 1px solid rgba(251,191,36,0.1);
+    display: flex; align-items: center; gap: 7px; background: rgba(251,191,36,0.03);
+  }
+  .card-icon { font-size: 13px; }
+  .card-brand { font-family: Georgia, serif; font-style: italic; font-weight: 700; font-size: 12px; color: #fbbf24; }
+
+  .card-photo {
+    width: 100%; height: 104px;
+    background: linear-gradient(160deg, #222d45 0%, #1a2438 100%);
+    border-bottom: 1px solid rgba(251,191,36,0.08);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .silhouette { display: flex; flex-direction: column; align-items: center; }
+  .silhouette-head { width: 34px; height: 34px; border-radius: 50%; background: #2e3d58; }
+  .silhouette-body { width: 54px; height: 26px; background: #2e3d58; border-radius: 27px 27px 0 0; margin-top: 4px; }
+
+  .scan-beam {
+    position: absolute; left: 0; right: 0; height: 2px; top: 52%;
+    background: linear-gradient(90deg, transparent 0%, rgba(251,191,36,0.0) 10%, rgba(251,191,36,0.75) 40%, rgba(251,191,36,0.95) 50%, rgba(251,191,36,0.75) 60%, rgba(251,191,36,0.0) 90%, transparent 100%);
+    box-shadow: 0 0 10px rgba(251,191,36,0.45);
+  }
+
+  .bracket { position: absolute; width: 18px; height: 18px; border-color: rgba(251,191,36,0.5); border-style: solid; }
+  .bracket-tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+  .bracket-tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+  .bracket-bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+  .bracket-br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+  .card-body { padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 12px; }
+  .verdict-row { display: flex; align-items: center; gap: 8px; }
+  .verdict-dot { width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; flex-shrink: 0; box-shadow: 0 0 10px rgba(245,158,11,0.7); }
+  .verdict-title { font-size: 21px; font-weight: 700; color: #f8fafc; letter-spacing: -0.01em; line-height: 1; }
+
+  .confidence { display: flex; flex-direction: column; gap: 6px; }
+  .confidence-meta { display: flex; justify-content: space-between; align-items: baseline; }
+  .confidence-key { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 600; }
+  .confidence-pct { font-size: 16px; font-weight: 700; color: #fbbf24; }
+  .bar-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; width: 94%; background: linear-gradient(90deg, #fbbf24, #d97706); border-radius: 3px; }
+
+  .card-footer { padding: 10px 16px 12px; border-top: 1px solid rgba(251,191,36,0.08); text-align: center; }
+  .card-footer-text { font-size: 11px; color: rgba(148,163,184,0.4); letter-spacing: 0.03em; }
+</style>
+</head>
+<body>
+<div class="og-card">
+  <div class="glow-gold"></div>
+  <div class="glow-violet"></div>
+
+  <div class="left">
+    <div class="top-row">
+      <div class="brand">
+        <span class="brand-icon">🕵️</span>
+        <span class="brand-name">Faux Spy</span>
+      </div>
+      <span class="badge">Free · No Account</span>
+    </div>
+
+    <div class="content">
+      <div class="headline">Spy on the<br>fakes.</div>
+      <div class="description">
+        Right-click any photo — find out if it's AI-generated
+        in 2 seconds. Works on dating apps, social media,
+        and every website.
+      </div>
+      <div class="browsers">
+        <span class="browser-chip">Chrome</span>
+        <span class="browser-chip">Firefox</span>
+        <span class="browser-chip">Edge</span>
+      </div>
+    </div>
+
+    <div class="bottom-stack">
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-number">94%</span>
+          <span class="stat-label">Accuracy</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-number">10</span>
+          <span class="stat-label">Free scans/day</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-number">2 sec</span>
+          <span class="stat-label">Avg verdict</span>
+        </div>
+      </div>
+      <span class="domain">fauxspy.com</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="right">
+    <div class="verdict-card">
+      <div class="card-header">
+        <span class="card-icon">🕵️</span>
+        <span class="card-brand">Faux Spy</span>
+      </div>
+      <div class="card-photo">
+        <div class="silhouette">
+          <div class="silhouette-head"></div>
+          <div class="silhouette-body"></div>
+        </div>
+        <div class="scan-beam"></div>
+        <div class="bracket bracket-tl"></div>
+        <div class="bracket bracket-tr"></div>
+        <div class="bracket bracket-bl"></div>
+        <div class="bracket bracket-br"></div>
+      </div>
+      <div class="card-body">
+        <div class="verdict-row">
+          <div class="verdict-dot"></div>
+          <span class="verdict-title">AI Photo</span>
+        </div>
+        <div class="confidence">
+          <div class="confidence-meta">
+            <span class="confidence-key">Confidence</span>
+            <span class="confidence-pct">94%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-footer-text">Likely AI-Generated · Faux Spy v1.9.3</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
