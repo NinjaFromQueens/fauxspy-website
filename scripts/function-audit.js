@@ -86,8 +86,8 @@ async function runChecks() {
   }));
 
   // 2. OG image
-  results.push(await check('og-image.png exists', async () => {
-    const { status, contentType } = await fetchRaw(`${SITE}/og-image.png`);
+  results.push(await check('og-image-v2.png exists', async () => {
+    const { status, contentType } = await fetchRaw(`${SITE}/og-image-v2.png`);
     if (status !== 200) throw new Error(`HTTP ${status}`);
     if (!contentType.includes('image')) throw new Error(`Wrong content-type: ${contentType}`);
   }));

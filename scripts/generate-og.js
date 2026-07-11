@@ -1,5 +1,5 @@
 'use strict';
-// Generates og-image.png for Faux Spy
+// Generates og-image-v2.png for Faux Spy
 // Usage: node scripts/generate-og.js
 
 const path = require('path');
@@ -7,7 +7,7 @@ const sharp = require('sharp');
 
 const WIDTH = 1200;
 const HEIGHT = 630;
-const OUT = path.join(__dirname, '..', 'og-image.png');
+const OUT = path.join(__dirname, '..', 'og-image-v2.png');
 
 // Build SVG — brand colors match the site (#667eea → #764ba2 gradient)
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}">
@@ -62,7 +62,7 @@ async function generate() {
   await sharp(Buffer.from(svg))
     .png({ quality: 95, compressionLevel: 8 })
     .toFile(OUT);
-  console.log('✅ og-image.png generated:', OUT);
+  console.log('✅ og-image-v2.png generated:', OUT);
 }
 
 generate().catch(err => {

@@ -315,7 +315,7 @@ Output a complete HTML article file using EXACTLY this structure:
   <meta name="description" content="[130-155 character meta description — specific and honest, not hype]">
   <meta property="og:title" content="[Article Title]">
   <meta property="og:description" content="[OG description]">
-  <meta property="og:image" content="https://www.fauxspy.com/og-image.png">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
   <meta property="og:url" content="${CANONICAL_URL}">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="${CANONICAL_URL}">

@@ -115,7 +115,7 @@ HTML STRUCTURE — use EXACTLY this:
   <meta name="description" content="[150-160 char description]">
   <meta property="og:title" content="[OG title]">
   <meta property="og:description" content="[OG description]">
-  <meta property="og:image" content="https://fauxspy.com/og-image.png">
+  <meta property="og:image" content="https://fauxspy.com/og-image-v2.png">
   <meta property="og:url" content="[CANONICAL URL]">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="[CANONICAL URL]">
