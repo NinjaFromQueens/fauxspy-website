@@ -2,6 +2,13 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-07-11
+- Added a free web-based AI image detector tool at /check with result rendering
+- Fixed bugs in the detector form visibility and result display
+- Published a roundup post about the best AI image detector Chrome extensions
+- Improved the social preview image used when sharing the project
+- Launched initial SEO optimization strategy across the first 3 weeks
+
 ## 2026-07-10
 - Added a free web-based AI image detector accessible at /check endpoint
 - Users can now detect AI-generated images without installing the extension
