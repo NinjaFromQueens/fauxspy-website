@@ -18,6 +18,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Expanded keywords and added call-to-action for the deepfake detector on check.html
 - Published "Best AI Image Detector Chrome Extensions 2026" roundup post
 - Implemented multi-week SEO strategy to improve search visibility
+- Added a free web-based AI image detector at /check with form and result rendering
+- Launched SEO strategy including keyword expansion, blog roundup post, and CTAs
+- Updated social preview image with cache-busting to improve link sharing
+- Added "Featured on Launch Llama" badge to homepage hero section
 
 ## 2026-07-10
 - Added a free web-based AI image detector accessible at /check endpoint
