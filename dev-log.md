@@ -12,6 +12,12 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Created a roundup post about the best AI image detector Chrome extensions
 - Implemented SEO improvements as part of a multi-week strategy
 - Redesigned the social preview image for better sharing appearance
+- Added a free web-based AI image detector at /check with form and results
+- Fixed bugs in the /check page form visibility and result display
+- Created new social preview image for better sharing and added SEO optimizations
+- Expanded keywords and added call-to-action for the deepfake detector on check.html
+- Published "Best AI Image Detector Chrome Extensions 2026" roundup post
+- Implemented multi-week SEO strategy to improve search visibility
 
 ## 2026-07-10
 - Added a free web-based AI image detector accessible at /check endpoint
