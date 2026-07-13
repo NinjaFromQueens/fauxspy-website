@@ -752,6 +752,52 @@
       "email": "your@email.com",
       "method": "email",
       "sent": true
+    },
+    "ourcodeworld.com": {
+      "date": "2026-07-13",
+      "method": "form",
+      "sent": true
+    },
+    "digitalunite.com": {
+      "date": "2026-07-13",
+      "email": "du@digitalunite.com",
+      "method": "email",
+      "sent": true
+    },
+    "infragardnational.org": {
+      "date": "2026-07-13",
+      "email": "education@infragardnational.org",
+      "method": "email",
+      "sent": true
+    },
+    "againstscams.org": {
+      "date": "2026-07-13",
+      "email": "victimes@france-victimes.fr",
+      "method": "email",
+      "sent": true
+    },
+    "sao.wa.gov": {
+      "date": "2026-07-13",
+      "email": "center@sao.wa.gov",
+      "method": "email",
+      "sent": true
+    },
+    "news.tianet.org": {
+      "date": "2026-07-13",
+      "email": "marketing@tianet.org",
+      "method": "email",
+      "sent": true
+    },
+    "splcenter.org": {
+      "date": "2026-07-13",
+      "method": "form",
+      "sent": true
+    },
+    "youthlearn.org": {
+      "date": "2026-07-13",
+      "email": "ol@uvkn.fvx",
+      "method": "email",
+      "sent": true
     }
   }
 }
