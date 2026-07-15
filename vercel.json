@@ -3,6 +3,8 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/romance-scam-statistics", "destination": "/pages/romance-scam-statistics" },
+    { "source": "/fake-dating-profile-statistics", "destination": "/pages/fake-dating-profile-statistics" },
+    { "source": "/ai-fraud-statistics", "destination": "/pages/ai-fraud-statistics" },
     { "source": "/romance-scam-statistics-2025", "destination": "/pages/romance-scam-statistics-2025" },
     { "source": "/romance-scam-warning-signs", "destination": "/pages/romance-scam-warning-signs" },
     { "source": "/romance-scam-arizona", "destination": "/pages/romance-scam-arizona" },
