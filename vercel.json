@@ -2,6 +2,9 @@
   "version": 2,
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/deepfake-statistics", "destination": "/pages/deepfake-statistics" },
+    { "source": "/what-is-a-deepfake", "destination": "/pages/what-is-a-deepfake" },
+    { "source": "/catfishing-statistics", "destination": "/pages/catfishing-statistics" },
     { "source": "/romance-scam-statistics", "destination": "/pages/romance-scam-statistics" },
     { "source": "/fake-dating-profile-statistics", "destination": "/pages/fake-dating-profile-statistics" },
     { "source": "/ai-fraud-statistics", "destination": "/pages/ai-fraud-statistics" },
