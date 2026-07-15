@@ -4,6 +4,10 @@
   "rewrites": [
     { "source": "/deepfake-statistics", "destination": "/pages/deepfake-statistics" },
     { "source": "/what-is-a-deepfake", "destination": "/pages/what-is-a-deepfake" },
+    { "source": "/what-is-catfishing", "destination": "/pages/what-is-catfishing" },
+    { "source": "/what-is-a-romance-scam", "destination": "/pages/what-is-a-romance-scam" },
+    { "source": "/sextortion-statistics", "destination": "/pages/sextortion-statistics" },
+    { "source": "/online-dating-statistics", "destination": "/pages/online-dating-statistics" },
     { "source": "/catfishing-statistics", "destination": "/pages/catfishing-statistics" },
     { "source": "/romance-scam-statistics", "destination": "/pages/romance-scam-statistics" },
     { "source": "/fake-dating-profile-statistics", "destination": "/pages/fake-dating-profile-statistics" },
