@@ -1262,3 +1262,70 @@ kbd {
   text-align: center;
   margin-top: 40px;
 }
+
+/* ============================================================================
+   LANDING PAGE FAQ — styled accordion (applies to all /what-is-* and stats pages)
+   ============================================================================ */
+
+.landing-faq details {
+  background: var(--noir-card);
+  border: 1px solid rgba(251, 191, 36, 0.12);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.landing-faq details:hover {
+  border-color: rgba(251, 191, 36, 0.28);
+}
+
+.landing-faq details[open] {
+  border-color: rgba(251, 191, 36, 0.35);
+}
+
+.landing-faq summary {
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.landing-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.landing-faq summary::after {
+  content: '+';
+  font-size: 1.25rem;
+  color: var(--gold);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.landing-faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.landing-faq details p {
+  padding: 0 1.25rem 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Landing section h3 sub-headings (narrative, not card titles) */
+.landing-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 1.5rem 0 0.5rem;
+}
