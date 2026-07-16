@@ -36,6 +36,54 @@
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which AI video generators are most commonly used to make deepfakes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most widely used AI video generators for deepfake production include Sora (OpenAI), Runway Gen-3 Alpha, Pika 1.5, Veo 2 (Google), and Kling. Each leaves different pixel-level signatures that allow detection tools to identify which generator was used."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do detection tools identify which AI generated a video?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Each AI video generator uses a different architecture and training dataset, which leaves distinctive artifacts in the output — specific noise patterns, compression signatures, and motion characteristics. Detection models trained on samples from each generator can identify these patterns even when the video looks realistic to human eyes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Sora-generated videos be detected?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, though Sora produces some of the most realistic AI video available. Detection tools analyze frame-level consistency, physics artifacts (objects passing through each other, unnatural water movement), and spatial coherence patterns that Sora currently imperfects. Detection accuracy is lower for Sora than for older generators."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What makes AI-generated video different from real video?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI-generated video tends to show: unnatural motion in hair, fabric, and water; inconsistent object permanence (items appear and disappear); skin texture that is too smooth; background elements that blur or warp at edges; and subtle frame-to-frame inconsistencies in lighting and shadows. These artifacts are diminishing as models improve."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are AI video deepfakes used in scams?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI video deepfakes are used to impersonate real people in scam video calls (making a romance scammer appear to be who they claim), to create fake celebrity endorsements for investment fraud, and to produce non-consensual intimate media for sextortion. The videos may be pre-recorded and played during a call rather than generated live."
+        }
+      }
+    ]
+  }
+  </script>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
   <script>

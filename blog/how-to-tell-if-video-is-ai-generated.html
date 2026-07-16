@@ -36,6 +36,54 @@
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What are the visual signs that a video is AI-generated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Look for: unnatural skin smoothness or texture; hair and fabric that moves oddly or clips through surfaces; backgrounds with repeating patterns or warping at edges; lighting that shifts inconsistently between frames; fingers or hands that look malformed; and lips that don't quite sync with speech in older deepfakes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does video metadata reveal if a video was made by AI?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Rarely. Most AI-generated videos are re-encoded before sharing, which strips or overwrites the original metadata. Some platforms embed C2PA (Content Credentials) provenance data, but this is not yet universal. Metadata checks are an unreliable primary method and should be treated as a secondary signal."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can AI-generated video fool you on a live video call?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pre-recorded deepfake videos are sometimes played during video calls to impersonate someone. To verify, ask the person to perform a specific real-time action — wave with their left hand, hold up today's newspaper, rotate 90 degrees. Inconsistency, freezing, or refusal to comply are strong indicators of a pre-recorded deepfake."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What tools can detect AI-generated video?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dedicated video deepfake detectors include Faux Spy's video detection feature, Deepware Scanner, and Sensity AI. These tools analyze frame-level artifacts and motion consistency. For still frames extracted from video, AI image detectors also work — right-click a video frame and open in a new tab, then run Faux Spy."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why doesn't reverse video search work for AI deepfakes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI-generated video is unique content that has never been uploaded anywhere else, so database matching finds nothing. Reverse video search (Google, TinEye Video) can only match clips that already exist in their index. For synthetic content, you need a detection tool that analyzes the video itself rather than searching for it."
+        }
+      }
+    ]
+  }
+  </script>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
   <script>
