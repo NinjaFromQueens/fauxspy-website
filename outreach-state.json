@@ -798,6 +798,122 @@
       "email": "ol@uvkn.fvx",
       "method": "email",
       "sent": true
+    },
+    "facedetection.com": {
+      "date": "2026-07-20",
+      "email": "david@globalhopegroup.com",
+      "method": "email",
+      "sent": true
+    },
+    "attestiv.com": {
+      "date": "2026-07-20",
+      "email": "default@osm.org",
+      "method": "email",
+      "sent": true
+    },
+    "foxbusiness.com": {
+      "date": "2026-07-20",
+      "email": "bradford.betz@fox.com",
+      "method": "email",
+      "sent": true
+    },
+    "vaarhaft.com": {
+      "date": "2026-07-20",
+      "email": "605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com",
+      "method": "email",
+      "sent": true
+    },
+    "nhimg.org": {
+      "date": "2026-07-20",
+      "method": "form",
+      "sent": true
+    },
+    "fightcybercrime.org": {
+      "date": "2026-07-20",
+      "method": "form",
+      "sent": true
+    },
+    "illinoisattorneygeneral.gov": {
+      "date": "2026-07-20",
+      "email": "outreach@ilag.gov",
+      "method": "email",
+      "sent": true
+    },
+    "westerracu.com": {
+      "date": "2026-07-20",
+      "email": "lendingcontactcenter@westerracu.com",
+      "method": "email",
+      "sent": true
+    },
+    "ovc.ojp.gov": {
+      "date": "2026-07-20",
+      "email": "ojpcongressional@usdoj.gov",
+      "method": "email",
+      "sent": true
+    },
+    "livingsecurity.com": {
+      "date": "2026-07-20",
+      "email": "sales@livingsecurity.com",
+      "method": "email",
+      "sent": true
+    },
+    "bakerdonelson.com": {
+      "date": "2026-07-20",
+      "email": "jdaniels@bakerdonelson.com",
+      "method": "email",
+      "sent": true
+    },
+    "truescreen.io": {
+      "date": "2026-07-20",
+      "email": "nome@azienda.com",
+      "method": "email",
+      "sent": true
+    },
+    "fauxlens.com": {
+      "date": "2026-07-20",
+      "method": "form",
+      "sent": true
+    },
+    "invid-project.eu": {
+      "date": "2026-07-20",
+      "email": "invid-verification-plugin@iti.gr",
+      "method": "email",
+      "sent": true
+    },
+    "ap.org": {
+      "date": "2026-07-20",
+      "method": "form",
+      "sent": true
+    },
+    "guides.temple.edu": {
+      "date": "2026-07-20",
+      "email": "asktulibrary@temple.edu",
+      "method": "email",
+      "sent": true
+    },
+    "newsinitiative.withgoogle.com": {
+      "date": "2026-07-20",
+      "email": "contactgni@google.com",
+      "method": "email",
+      "sent": true
+    },
+    "kiwifamilies.co.nz": {
+      "date": "2026-07-20",
+      "email": "jarrod@kiwifamilies.co.nz",
+      "method": "email",
+      "sent": true
+    },
+    "thewhitehatter.ca": {
+      "date": "2026-07-20",
+      "email": "605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com",
+      "method": "email",
+      "sent": true
+    },
+    "alannahandmadeline.org.au": {
+      "date": "2026-07-20",
+      "email": "tracs@amf.org.au",
+      "method": "email",
+      "sent": true
     }
   }
 }
