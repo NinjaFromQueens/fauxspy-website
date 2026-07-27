@@ -914,6 +914,70 @@
       "email": "tracs@amf.org.au",
       "method": "email",
       "sent": true
+    },
+    "dpss.umich.edu": {
+      "date": "2026-07-27",
+      "email": "dpss@umich.edu",
+      "method": "email",
+      "sent": true
+    },
+    "ucwv.edu": {
+      "date": "2026-07-27",
+      "email": "-@h.tf",
+      "method": "email",
+      "sent": true
+    },
+    "diopter.ai": {
+      "date": "2026-07-27",
+      "email": "press@diopter.ai",
+      "method": "email",
+      "sent": true
+    },
+    "scribbr.com": {
+      "date": "2026-07-27",
+      "method": "form",
+      "sent": true
+    },
+    "makeuseof.com": {
+      "date": "2026-07-27",
+      "email": "duroneppsjr7@gmail.com",
+      "method": "email",
+      "sent": true
+    },
+    "kpmg.com": {
+      "date": "2026-07-27",
+      "email": "ageschonneck@kpmg.com",
+      "method": "email",
+      "sent": true
+    },
+    "thrive.psu.edu": {
+      "date": "2026-07-27",
+      "email": "thrive@psu.edu",
+      "method": "email",
+      "sent": true
+    },
+    "missingkids.org": {
+      "date": "2026-07-27",
+      "email": "gethelp@ncmec.org",
+      "method": "email",
+      "sent": true
+    },
+    "snopes.com": {
+      "date": "2026-07-27",
+      "email": "foo@bar.com",
+      "method": "email",
+      "sent": true
+    },
+    "kentonlibrary.org": {
+      "date": "2026-07-27",
+      "email": "kcpl.reference@kentonlibrary.org",
+      "method": "email",
+      "sent": true
+    },
+    "newslit.org": {
+      "date": "2026-07-27",
+      "method": "form",
+      "sent": true
     }
   }
 }
