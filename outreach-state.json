@@ -978,6 +978,76 @@
       "date": "2026-07-27",
       "method": "form",
       "sent": true
+    },
+    "mkepdpio.org": {
+      "date": "2026-08-03",
+      "email": "jemmon@milwaukee.gov",
+      "method": "email",
+      "sent": true
+    },
+    "harvardmagazine.com": {
+      "date": "2026-08-03",
+      "email": "harvard_magazine@harvard.edu",
+      "method": "email",
+      "sent": true
+    },
+    "petapixel.com": {
+      "date": "2026-08-03",
+      "email": "studio@jaronschneider.com",
+      "method": "email",
+      "sent": true
+    },
+    "sosafe-awareness.com": {
+      "date": "2026-08-03",
+      "email": "press@sosafe.de",
+      "method": "email",
+      "sent": true
+    },
+    "onemainfinancial.com": {
+      "date": "2026-08-03",
+      "email": "remodifications@onemainfinancial.com",
+      "method": "email",
+      "sent": true
+    },
+    "fotto.ai": {
+      "date": "2026-08-03",
+      "method": "form",
+      "sent": true
+    },
+    "ahcu.org": {
+      "date": "2026-08-03",
+      "email": "team@empireseoservices.com",
+      "method": "email",
+      "sent": true
+    },
+    "ubmich.com": {
+      "date": "2026-08-03",
+      "email": "rwillson@ubmich.com",
+      "method": "email",
+      "sent": true
+    },
+    "breacher.ai": {
+      "date": "2026-08-03",
+      "email": "deepfake-phishing-platform-comparison-500x383@2x.avif",
+      "method": "email",
+      "sent": true
+    },
+    "niemanlab.org": {
+      "date": "2026-08-03",
+      "method": "form",
+      "sent": true
+    },
+    "optinspire.org": {
+      "date": "2026-08-03",
+      "email": "connect@optinspire.org",
+      "method": "email",
+      "sent": true
+    },
+    "parentingagingparents.com": {
+      "date": "2026-08-03",
+      "email": "eight7@aol.com",
+      "method": "email",
+      "sent": true
     }
   }
 }
