@@ -57,6 +57,30 @@
           "@type": "Answer",
           "text": "Yes — Faux Spy detects AI-generated photos and AI-generated art across all subject types. The five detection categories include AI Photo (photorealistic scenes and portraits), AI Art (illustrated or rendered styles), and Digital Art (computer-generated content more broadly). It's not limited to faces."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "How accurate are AI image detectors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Accuracy varies by tool and by the generator being tested. Most leading detectors report 85–95% accuracy on typical AI-generated images, but accuracy drops on heavily compressed images, screenshots, or outputs from the newest generator versions. No detector is 100% accurate — treat results as evidence to weigh alongside other signals, not a definitive verdict."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a free AI image detector that doesn't require an account?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Faux Spy gives you 10 free image checks per day with no account or sign-up required. Install the Chrome or Firefox extension, right-click any image on any website, and click Investigate. The result appears in seconds. No email, no password, no credit card."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does AI image detection work on screenshots and compressed images?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Screenshots and heavily compressed images reduce detection accuracy because they alter the pixel-level patterns the model looks for. Detection still works in many cases, but confidence scores are lower. For the most reliable result, try to analyze the original image at its native resolution rather than a screenshot or a thumbnail."
+        }
       }
     ]
   }
@@ -88,7 +112,7 @@
       "url": "https://www.fauxspy.com"
     },
     "datePublished": "2025-01-15",
-    "dateModified": "2026-07-16",
+    "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/how-to-spot-ai-generated-images"
   }
   </script>
@@ -127,6 +151,12 @@
         <p class="landing-subtitle">AI-generated photos used to be easy to spot. That's no longer true. This guide covers what your eyes can still catch, where they'll fail you, and when to use a detection tool instead.</p>
         <a href="/pro" class="btn btn-primary btn-large">&#x1F575;&#xFE0F; Check Any Photo — Free</a>
         <p class="landing-note">10 checks/day free. No account required.</p>
+      </div>
+
+      <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:0 0 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);border-radius:4px 0 0 4px;"></div>
+        <p style="margin:0 0 0.4rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">To tell if a photo is AI-generated, check the hands (finger count and proportions), teeth (too uniform or too many), ears (flat or featureless inner structure), and background text (garbled or incoherent). For photorealistic portraits, visual inspection is no longer reliable — use a pixel-level detection tool like Faux Spy for a confidence-scored verdict in seconds.</p>
       </div>
 
       <div class="landing-section">
@@ -180,6 +210,7 @@
         <p>Visual inspection is a first pass. For anything where accuracy matters — a dating profile you're about to invest time in, a news photo you're about to share, a job applicant's headshot — use a detection tool as the second step.</p>
         <p>Faux Spy checks any image visible in Chrome. Right-click the photo (or hover for the Investigate button), click it, and you'll have a verdict with a confidence score in a few seconds. The five detection categories — AI Photo, Real Photo, AI Art, Digital Art, Illustrated — cover the main types of generated and real images you'll encounter.</p>
         <p>For the specific use case of dating profile verification, the <a href="/catfish-detector">catfish detector guide</a> covers the full workflow. For deepfake faces specifically, see the <a href="/deepfake-detector">deepfake detector guide</a>. For AI art on platforms like Etsy or DeviantArt, see the <a href="/ai-art-detector">AI art detector page</a>.</p>
+        <p>If Faux Spy flagged a photo you believe is real, see <a href="/why-real-photo-flagged-ai">why real photos sometimes get flagged as AI</a> — false positives happen in specific situations and are fixable.</p>
       </div>
 
       <div class="landing-faq">
@@ -203,6 +234,18 @@
         <details class="faq-item">
           <summary>Does it work on AI images that aren't faces?</summary>
           <p>Yes. Faux Spy detects AI-generated images across all subject types — landscapes, objects, scenes, abstract images, not just portraits. The detection categories cover photorealistic AI images, AI art, digital art, and more.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How accurate are AI image detectors?</summary>
+          <p>Most leading detectors report 85–95% accuracy on typical AI-generated images. Accuracy drops on heavily compressed images, screenshots, or outputs from the newest generator versions — the models that produce images keep improving, and detection models need to keep pace. Treat results as strong evidence to weigh alongside other signals, not a binary verdict.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a free AI image detector that doesn't require an account?</summary>
+          <p>Yes — Faux Spy gives you 10 free checks per day with no account, no sign-up, and no email required. Install the Chrome or Firefox extension, right-click any image on any page, and click Investigate. The result appears in a few seconds. Nothing to configure.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does detection work on screenshots or compressed images?</summary>
+          <p>It works, but accuracy is lower. Screenshots and compressed images alter the pixel-level patterns that detection models rely on. For the most reliable result, try to check the image at its native resolution — for example, open the full-size image in a new tab before running the check, rather than right-clicking a thumbnail.</p>
         </details>
       </div>
 

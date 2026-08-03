@@ -49,6 +49,22 @@
           "@type": "Answer",
           "text": "Trust your instincts. A Real Photo result means the image likely wasn't AI-generated — but catfishing also happens with real photos stolen from other people's accounts. Run a reverse image search, look for inconsistencies in their story, and watch for pressure to move off-platform quickly."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Faux Spy compare to Social Catfish?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Social Catfish specializes in identity lookup — it searches public records, social profiles, and reverse image search to identify whether a person is who they claim to be. Faux Spy does something different: it detects whether a photo was AI-generated, which Social Catfish cannot do. AI-generated faces have never existed online, so they return clean results in any reverse search. For a complete check, use both: Faux Spy to catch AI-generated faces, and a reverse image search or Social Catfish to catch stolen real photos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does CatfishLens detect AI-generated photos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CatfishLens claims to detect AI-generated faces as part of its reverse face search service, which primarily works by matching faces across databases of real people. Faux Spy takes a different approach: it analyzes pixel-level generation artifacts in the image itself, which works whether or not the face has ever appeared elsewhere online. Faux Spy is also free for 10 checks per day with no account, while CatfishLens requires a paid subscription for full results."
+        }
       }
     ]
   }
@@ -97,7 +113,7 @@
       "url": "https://www.fauxspy.com"
     },
     "datePublished": "2025-01-15",
-    "dateModified": "2026-07-16",
+    "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/catfish-detector"
   }
   </script>
@@ -139,6 +155,12 @@
         <p class="landing-note">10 checks/day free. No account required.</p>
       </div>
 
+      <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:0 0 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);border-radius:4px 0 0 4px;"></div>
+        <p style="margin:0 0 0.4rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">A catfish detector checks whether a dating profile photo was AI-generated — a face that was never a real person. Right-click the photo in Chrome with Faux Spy, click Investigate, and you'll get a verdict with a confidence score in seconds. Free, no account required, works on any dating app or social platform visible in your browser.</p>
+      </div>
+
       <!-- Key Stats -->
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin:2.5rem 0;">
         <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(251,191,36,0.2);border-radius:12px;padding:1.5rem;text-align:center;">
@@ -163,7 +185,7 @@
         <h2>Catfishing in the AI era</h2>
         <p>The old version of catfishing was simple to understand: someone steals a photo of an attractive stranger and uses it as their own. A reverse image search would often catch this. The photo existed somewhere else on the internet.</p>
         <p>AI catfishing doesn't work that way. The face in the photo was never a real person. It was generated — probably in under a minute, using one of several free tools. There's no original to search for. No other account using the same image. The face exists nowhere except in this profile.</p>
-        <p>The FTC reported over $700 million lost to romance scams in 2024. Experts in 2026 are calling AI-generated profiles "nearly impossible to spot with the naked eye." That's not exaggeration — it's a description of where the technology actually is.</p>
+        <p>The <a href="https://consumer.ftc.gov/consumer-alerts/2024/02/romance-scammers-favorite-lies-exposed" target="_blank" rel="noopener">FTC reported $1.14 billion in romance scam losses in 2023</a> — and the FBI IC3's 2024 data shows $672 million in reported losses that year, with the gap reflecting that most victims never report. Experts in 2026 are calling AI-generated profiles "nearly impossible to spot with the naked eye." That's not exaggeration — it's a description of where the technology actually is.</p>
       </div>
 
       <div class="inline-cta" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0;text-align:center;">
@@ -202,6 +224,63 @@
         <h2>Beyond the photo check</h2>
         <p>Faux Spy tells you if the photo is AI-generated. It can't tell you if a real photo was stolen from someone else's account. For that, do a reverse image search: right-click the photo → Search Image with Google (or save it and upload to TinEye). If the same photo appears on a model's Instagram or a stock photo site, you've found your answer.</p>
         <p>Together — Faux Spy for AI-generated faces, reverse image search for stolen real photos — you've covered both main catfishing methods. Run both before you invest real time in someone you haven't met in person.</p>
+        <p>If Faux Spy flagged a photo you believe is real, see <a href="/why-real-photo-flagged-ai">why real photos sometimes get flagged as AI</a> — professional retouching, filters, and compressed copies are the most common causes. Also relevant: <a href="/facebook-marketplace-fake-photos">spotting fake photos on Facebook Marketplace</a>, which uses the same detection workflow for purchase fraud.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How Faux Spy compares to other catfish detection tools</h2>
+        <p>There are several tools marketed as catfish detectors. They work in meaningfully different ways, and understanding the difference helps you use the right one for the right job.</p>
+        <div style="overflow-x:auto;margin:1.25rem 0;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border-default,rgba(255,255,255,0.1));">
+                <th style="text-align:left;padding:0.75rem 1rem;color:var(--text-muted,#94a3b8);font-weight:600;">Feature</th>
+                <th style="text-align:center;padding:0.75rem 1rem;color:var(--gold,#fbbf24);font-weight:700;">Faux Spy</th>
+                <th style="text-align:center;padding:0.75rem 1rem;color:var(--text-muted,#94a3b8);font-weight:600;">Social Catfish</th>
+                <th style="text-align:center;padding:0.75rem 1rem;color:var(--text-muted,#94a3b8);font-weight:600;">CatfishLens</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border-default,rgba(255,255,255,0.07));">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Detects AI-generated faces</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#4ade80;font-weight:600;">✓</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#f87171;">✗</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#fbbf24;">Partial</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-default,rgba(255,255,255,0.07));">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Detects stolen real photos</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#f87171;">✗ (use reverse image search)</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#4ade80;font-weight:600;">✓</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#4ade80;font-weight:600;">✓</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-default,rgba(255,255,255,0.07));">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Works directly in browser (no upload)</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#4ade80;font-weight:600;">✓</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#f87171;">✗</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#f87171;">✗</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-default,rgba(255,255,255,0.07));">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Free tier (no account)</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#4ade80;font-weight:600;">10/day, no account</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#fbbf24;">Preview only; paid for results</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#fbbf24;">Free start; paid for full results</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-default,rgba(255,255,255,0.07));">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Works on any website</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#4ade80;font-weight:600;">✓</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#f87171;">✗ (upload only)</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#f87171;">✗ (upload only)</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Identity / background lookup</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#f87171;">✗</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#4ade80;font-weight:600;">✓</td>
+                <td style="text-align:center;padding:0.75rem 1rem;color:#f87171;">✗</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-muted,#94a3b8);">The most thorough catfish check uses all three approaches: Faux Spy for AI-generated faces, reverse image search (Google Images / TinEye) for stolen real photos, and Social Catfish if you need a full identity lookup. No single tool covers all cases.</p>
       </div>
 
       <div class="landing-faq">
@@ -221,6 +300,14 @@
         <details class="faq-item">
           <summary>I've already been catfished. What should I do?</summary>
           <p>If money was involved, report it to the FTC at ReportFraud.ftc.gov and your bank immediately. If it was romantic without financial fraud, the FBI's IC3 (ic3.gov) handles online scam reports. Don't feel embarrassed — this happens to people at every level of tech sophistication.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does Faux Spy compare to Social Catfish?</summary>
+          <p>They solve different problems. Social Catfish runs identity lookups — searching public records, reverse image search, and social profiles to verify who someone is. It's strong for catching stolen real photos but cannot detect AI-generated faces, because those faces have never appeared online and have no records to find. Faux Spy detects AI generation at the pixel level and works instantly in your browser without any upload or subscription. Use both for a complete check: Faux Spy first (seconds, free), Social Catfish if you need to go deeper on a real-but-suspicious photo.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does CatfishLens detect AI-generated photos?</summary>
+          <p>CatfishLens claims AI detection as part of its reverse face search service. Its primary method is facial recognition — matching a face against databases of real people. Faux Spy analyzes the image itself for pixel-level AI generation artifacts, which catches faces that have never appeared in any database. Faux Spy also runs directly in your browser with no upload, and 10 checks per day are free with no account — CatfishLens requires a paid subscription for full results.</p>
         </details>
       </div>
 

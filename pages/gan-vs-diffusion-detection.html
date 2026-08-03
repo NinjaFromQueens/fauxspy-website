@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAN vs Diffusion Models: How AI Detectors Tell Them Apart (2026)</title>
+  <meta name="description" content="GAN-generated images leave periodic frequency fingerprints detectable by Fourier analysis. Diffusion models leave different artifacts — noise distribution and denoising signatures. Here's how detection works for each.">
+  <meta property="og:title" content="GAN vs Diffusion Models: How AI Detectors Tell Them Apart">
+  <meta property="og:description" content="GANs leave frequency grid artifacts. Diffusion models leave noise distribution signatures. Different generators, different detection techniques. The technical breakdown.">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
+  <meta property="og:url" content="https://www.fauxspy.com/gan-vs-diffusion-detection">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.fauxspy.com/gan-vs-diffusion-detection">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/gan-vs-diffusion-detection"},
+    "headline": "GAN vs Diffusion Models: How AI Detectors Tell Them Apart",
+    "description": "GAN images leave periodic frequency artifacts in the Fourier domain. Diffusion images leave characteristic noise distributions and denoising signatures. Detection approaches differ for each generator class.",
+    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "datePublished": "2026-08-03",
+    "dateModified": "2026-08-03",
+    "url": "https://www.fauxspy.com/gan-vs-diffusion-detection"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do AI detectors tell apart GAN images and diffusion model images?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GAN detection uses Discrete Fourier Transform (DFT) frequency analysis to find periodic grid artifacts produced by the GAN's upsampling convolutions — peaks at fixed intervals in the frequency domain that real photos don't have. Diffusion model detection is harder and uses multiple signals: the characteristic noise distribution from the denoising process, unnatural high-frequency smoothness in specific frequency bands, and cross-region statistical inconsistencies. Modern detection models combine both approaches and handle both generator types."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which is easier to detect — GAN images or diffusion model images?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GAN images are generally easier to detect because they leave a consistent, strong frequency artifact from the convolution-upsampling process — a periodic grid pattern in the frequency domain. Diffusion images don't have a single strong fingerprint; detectors rely on weaker, overlapping signals (noise distribution, smoothness patterns, VAE compression artifacts). This is why diffusion model detection requires larger training datasets and more complex models than GAN detection."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can AI detectors identify which specific model generated an image?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Partially. Illuminarty attempts to identify the probable generator (Midjourney, Stable Diffusion, DALL-E, etc.) based on the specific frequency and noise signature characteristics of each model's output. This works reasonably well for images from major well-known generators, less well for fine-tuned models or new generators the detector hasn't been trained on. The genai model used by Sightengine (and FauxSpy) focuses on the binary AI-or-real classification rather than generator identification."
+        }
+      }
+    ]
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script>
+    var ahrefs_analytics_script = document.createElement('script');
+    ahrefs_analytics_script.async = true;
+    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
+    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero">
+        <h1>GAN vs Diffusion Models: How AI Detectors Tell Them Apart</h1>
+        <p class="landing-subtitle">GAN-generated images (StyleGAN, BigGAN) leave a specific, detectable fingerprint in the frequency domain. Diffusion model images (Midjourney, Stable Diffusion, DALL-E, Flux) leave different and subtler artifacts. Detection works differently for each — here's the technical breakdown, without the jargon where possible.</p>
+      </div>
+
+      <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:0 0 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);border-radius:4px 0 0 4px;"></div>
+        <p style="margin:0 0 0.4rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">GAN images leave periodic grid artifacts in the frequency domain — detectable by Discrete Fourier Transform analysis — from the convolution-upsampling process. Diffusion images don't have a single strong fingerprint; detectors instead analyze the characteristic noise distribution from the denoising process, unnatural high-frequency smoothness, and VAE compression signatures. GANs are easier to detect; diffusion models require more complex multi-signal classifiers.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How GANs generate images — and why that leaves a detectable mark</h2>
+        <p>A GAN (Generative Adversarial Network) generates images through a series of <strong>upsampling convolutions</strong>. The generator starts with a small noise vector and progressively scales it up to full resolution through convolutional layers. At each scale, it applies learned filters — convolutions — that multiply pixel values according to a fixed kernel pattern.</p>
+        <p>This convolution process creates a characteristic side effect: because the same convolutional kernel is applied at fixed intervals across the image, the resulting image has <strong>periodic patterns in the frequency domain</strong>. The patterns are invisible to the eye — they represent tiny, repeating variations in pixel values at fixed spatial frequencies. But when you apply a Discrete Fourier Transform (DFT) to convert the image from spatial representation to frequency representation, the GAN fingerprint shows up as peaks at specific intervals.</p>
+        <p>Real photographs don't have these periodic frequency peaks. A real photo has complex, non-periodic noise from the camera sensor and optical system. The presence of periodic peaks at intervals corresponding to the GAN's architecture is a reliable indicator of GAN origin.</p>
+
+        <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1.25rem;margin:1.25rem 0;">
+          <p style="margin:0 0 0.5rem;font-weight:700;color:var(--text-primary,#f8fafc);">Why GAN detection generalizes across architectures</p>
+          <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">StyleGAN, BigGAN, ProGAN, and most other GAN architectures all use some form of convolution-upsampling. The frequency peaks shift position depending on the specific architecture and the number of upsampling stages, but the fact that periodic peaks exist is consistent. A classifier trained on frequency maps from multiple GAN architectures generalizes reasonably well to new GAN architectures — they all leave a recognizable family of marks.</p>
+        </div>
+      </div>
+
+      <div class="landing-section">
+        <h2>How diffusion models generate images — and why detection is harder</h2>
+        <p>Diffusion models (Stable Diffusion, Midjourney, DALL-E, Flux, Imagen) work entirely differently from GANs. Instead of progressive convolution, they start with random noise and <strong>iteratively remove noise</strong> step by step, guided by a text prompt or conditioning signal. Each step is computed by a neural network (the denoising model, often a U-Net) that predicts what noise to remove.</p>
+        <p>After denoising, the image is decoded from a compressed latent space by a VAE (variational autoencoder) decoder. The entire process produces no periodic frequency grid — the denoising steps don't apply the same operation repeatedly at fixed spatial intervals the way GAN convolutions do.</p>
+
+        <p>Without a GAN-style frequency fingerprint, detectors rely on several weaker, overlapping signals:</p>
+
+        <div style="display:grid;gap:0.875rem;margin:1.25rem 0;">
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--gold,#fbbf24);">Noise distribution signature</p>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Real camera sensor noise is heterogeneous — noisier in dark regions (high ISO) and smoother in bright regions. Diffusion model output has a different noise distribution: more spatially uniform because the denoising process applies consistent smoothing across regions without the physical constraints of a sensor. Statistical analysis of residual noise distribution across image regions produces a signal that classifiers can learn.</p>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--gold,#fbbf24);">High-frequency smoothness anomaly</p>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Diffusion images often have unnaturally smooth high-frequency content in specific frequency bands. Real photographs have fine-grained texture noise at every scale from the optical system. Diffusion images lack this at specific sub-pixel frequencies — not because they look smooth, but because the statistical distribution of very-high-frequency content differs from camera noise characteristics.</p>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--gold,#fbbf24);">VAE decoder compression artifacts</p>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Most diffusion models encode and decode images through a VAE. The VAE decoder introduces characteristic compression artifacts in the pixel domain — different from JPEG artifacts — that are specific to the decoder architecture. Models trained on images from specific diffusion pipelines (Stable Diffusion's KL-F8 VAE, SDXL's VAE) can learn these decoder-specific fingerprints.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-section">
+        <h2>Head-to-head: GAN vs diffusion detection properties</h2>
+        <div style="overflow-x:auto;margin:1.25rem 0;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+            <thead>
+              <tr style="background:var(--noir-card,#1e2536);">
+                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));"></th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">GAN images</th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Diffusion model images</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);font-weight:600;">Primary fingerprint</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">Periodic frequency peaks (DFT)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">Noise distribution + VAE artifacts</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);font-weight:600;">Fingerprint strength</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">Strong, single signal</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;">Weak, multi-signal</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);font-weight:600;">Cross-architecture generalization</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">Good — all GANs use convolution</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;">Moderate — VAE signatures vary by model</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);font-weight:600;">Survives JPEG compression?</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;">Partially — frequency peaks degrade</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#ef4444;">Poorly — noise signatures are fragile</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);font-weight:600;">Relative detection difficulty</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">Easier</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;font-weight:700;">Harder</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);font-weight:600;">Dominant generator type (2026)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">Declining — diffusion now dominant</td>
+                <td style="padding:0.75rem 1pm;text-align:center;color:#22c55e;font-weight:700;">Dominant — Midjourney, SD, DALL-E, Flux</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The shift from GAN-dominated to diffusion-dominated AI image generation (roughly 2022-2024) was a genuine setback for detection: the stronger, more reliable GAN fingerprint is less common now, and the harder-to-detect diffusion artifacts are more common. Modern detection models like Sightengine's genai API are trained on large, diverse datasets of diffusion outputs specifically to address this.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>Why GAN detection generalizes better — and why diffusion detection is catching up</h2>
+        <p>The key insight is that GAN detection became a well-solved problem because of the strong, consistent convolution artifact. A detector trained on StyleGAN generalizes to ProGAN, VGAN, and other architectures because they all share the underlying convolution mechanism. The training data doesn't need to cover every possible GAN — the signal is architectural, not model-specific.</p>
+        <p>Diffusion detection doesn't have this advantage. The VAE decoder signature for Stable Diffusion is different from the one for SDXL, which is different from the one for Flux, which is different from the one for DALL-E. Each pipeline produces somewhat different artifacts. Diffusion detectors need diverse training data covering many generator pipelines and must be updated as new models emerge.</p>
+        <p>The trajectory is improving: as the major diffusion pipelines stabilize (SD, SDXL, Flux, DALL-E 3, Midjourney v6/v7), detection models built on comprehensive training sets of their outputs are achieving accuracy comparable to GAN detectors on the specific generators they've been trained on. The challenge remains with genuinely novel models or significantly fine-tuned versions of existing models.</p>
+      </div>
+
+      <div class="landing-faq">
+        <h2>Common questions</h2>
+        <details class="faq-item">
+          <summary>How do AI detectors tell apart GAN images and diffusion model images?</summary>
+          <p>GAN detection uses Discrete Fourier Transform frequency analysis to find periodic grid artifacts from the convolution-upsampling process — peaks at fixed intervals that real photos don't have. Diffusion detection is harder and uses overlapping signals: the noise distribution from denoising, high-frequency smoothness anomalies, and VAE decoder compression artifacts. Modern detection models handle both generator types by training on large diverse datasets and combining multiple signals.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which is easier to detect — GAN images or diffusion model images?</summary>
+          <p>GAN images. They leave a strong, consistent frequency fingerprint from the convolution-upsampling process that generalizes across architectures. Diffusion images rely on weaker, overlapping signals that don't generalize as cleanly and are more sensitive to post-processing. The shift from GAN-dominated to diffusion-dominated AI image generation (2022-2024) made detection harder, though modern models have substantially closed the gap on major diffusion pipelines.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can AI detectors identify which specific model generated an image?</summary>
+          <p>Partially. Illuminarty attempts generator identification (Midjourney, Stable Diffusion, DALL-E, etc.) based on model-specific frequency and noise signatures. This works reasonably for images from well-known generators without post-processing. It's less reliable for fine-tuned models or new generators the detector hasn't been trained on. FauxSpy's genai model focuses on the binary AI-or-real classification rather than generator identification.</p>
+        </details>
+      </div>
+
+      <div class="landing-section">
+        <h2>Related reading</h2>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2.4;">
+          <li><a href="/how-ai-image-detection-works" style="color:var(--gold,#fbbf24);">How AI image detection works</a> — the full technical explainer (accessible level)</li>
+          <li><a href="/why-real-photo-flagged-ai" style="color:var(--gold,#fbbf24);">Why real photos sometimes get flagged as AI</a> — how false positives happen</li>
+          <li><a href="/free-vs-paid-ai-image-detectors" style="color:var(--gold,#fbbf24);">Free vs paid AI image detectors</a> — accuracy implications for practical use</li>
+          <li><a href="/midjourney-detector" style="color:var(--gold,#fbbf24);">Midjourney detector</a> — diffusion detection in practice</li>
+          <li><a href="/stable-diffusion-detector" style="color:var(--gold,#fbbf24);">Stable Diffusion detector</a> — open-source diffusion model detection</li>
+        </ul>
+      </div>
+
+      <div class="landing-cta">
+        <h2>Try the detector — covers both GANs and diffusion models</h2>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
+        <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/faq">FAQ</a>
+          <a href="/chrome">Chrome Extension</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/about">About</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <a href="/how-ai-image-detection-works">How Detection Works</a>
+          <a href="/why-real-photo-flagged-ai">False Positives</a>
+          <a href="/free-vs-paid-ai-image-detectors">Free vs Paid</a>
+          <a href="/midjourney-detector">Midjourney Detector</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

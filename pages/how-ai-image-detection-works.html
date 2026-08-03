@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How AI Image Detection Works (Explained Simply) — Faux Spy</title>
+  <meta name="description" content="AI image detection works by analyzing statistical patterns in pixel data that human eyes can't see — frequency artifacts, GAN fingerprints, and diffusion model noise signatures. Here's the full explanation, plainly written.">
+  <meta property="og:title" content="How AI Image Detection Actually Works (Explained Simply)">
+  <meta property="og:description" content="AI detectors don't spot fakes by looking for visual glitches. They look for invisible statistical patterns left behind by the AI generator — frequency artifacts, GAN fingerprints, diffusion noise. Here's how.">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
+  <meta property="og:url" content="https://www.fauxspy.com/how-ai-image-detection-works">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.fauxspy.com/how-ai-image-detection-works">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/how-ai-image-detection-works"},
+    "headline": "How AI Image Detection Actually Works (Explained Simply)",
+    "description": "AI image detection identifies generated images by finding invisible statistical artifacts left behind by the AI generator — frequency patterns, GAN fingerprints, and diffusion model noise — rather than looking for visual flaws.",
+    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "datePublished": "2026-08-03",
+    "dateModified": "2026-08-03",
+    "url": "https://www.fauxspy.com/how-ai-image-detection-works"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does AI image detection work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI image detection works by analyzing statistical patterns in pixel data that human eyes cannot see. Every AI image generator — whether GAN-based or diffusion-based — leaves behind characteristic artifacts in the frequency domain and pixel-level noise patterns. Detection models are trained on known AI-generated images and learn to recognize these invisible signatures, returning a probability that an image is AI-generated rather than photographed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a GAN fingerprint and how do detectors find it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A GAN fingerprint is a repeating, grid-like pattern of artifacts left by the generator network in an AI-synthesized image. GANs (generative adversarial networks) use a convolution process that creates periodic noise at fixed pixel intervals — invisible to the eye but detectable by applying a frequency analysis technique called the Discrete Fourier Transform (DFT) to the image. The resulting frequency map shows characteristic peaks that real photographs don't have."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can AI image detectors be fooled?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Research from Imagera in 2026 found that no commercial AI image detector exceeded 45-60% accuracy against images specifically optimized to evade detection — the same detectors that achieve 88-91% accuracy on standard AI-generated images. Common evasion techniques include JPEG compression at specific quality settings, adding slight Gaussian noise, resizing by a non-integer factor, and screenshot-then-crop cycles, all of which degrade the frequency artifacts detectors rely on."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the difference between GAN detection and diffusion model detection?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GAN detection primarily targets periodic frequency artifacts from the convolution process. Diffusion model detection (covering tools like Midjourney, DALL-E, Stable Diffusion) is harder because diffusion images don't have a fixed grid artifact. Instead, detectors look for characteristic noise patterns introduced during the denoising process, unnatural smoothness in specific frequency bands, and statistical uniformity in noise distribution that real camera sensors don't produce."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How accurate are AI image detectors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On standard test sets of AI-generated images (not specifically optimized to evade detection), leading tools benchmark at 88-98% accuracy as of 2026: Hive Moderation 89-98%, Illuminarty approximately 91%, FauxSpy (which uses Sightengine's genai API) approximately 88%. False positive rates — real photos misidentified as AI — run approximately 3% for leading tools under controlled conditions. Accuracy drops significantly against post-processed or evasion-optimized images."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does JPEG compression affect AI image detection accuracy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. JPEG compression is one of the most effective ways to degrade AI detection accuracy because it overwrites the fine-grained frequency artifacts that detectors rely on. Images saved at JPEG quality 85 or below lose enough high-frequency detail to meaningfully reduce detection confidence. This is why screenshots of AI images (which apply JPEG compression) are harder to detect than the original AI-generated files."
+        }
+      }
+    ]
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script>
+    var ahrefs_analytics_script = document.createElement('script');
+    ahrefs_analytics_script.async = true;
+    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
+    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero">
+        <h1>How AI Image Detection Actually Works</h1>
+        <p class="landing-subtitle">Most people assume AI image detectors look for obvious visual glitches — extra fingers, blurry ears, artifacts around hair. That's not what they do. The actual detection happens at a level below what your eyes can see: invisible statistical patterns in pixel data that every AI generator leaves behind. This page explains the real mechanism, plainly.</p>
+      </div>
+
+      <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:0 0 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);border-radius:4px 0 0 4px;"></div>
+        <p style="margin:0 0 0.4rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">AI image detection works by finding invisible statistical artifacts in pixel data — frequency-domain fingerprints left behind by the AI generator's mathematical process — that real photographs don't have. Models trained on thousands of known AI-generated images learn to recognize these signatures and return a probability score. No detector looks for visual glitches; they look for patterns human eyes can't see.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>The core idea: every AI generator leaves a fingerprint</h2>
+        <p>When an AI model generates an image, it doesn't paint pixels the way a photographer captures them. It runs a mathematical process — convolution in GANs, iterative denoising in diffusion models — that produces characteristic statistical patterns in the pixel array. These patterns are invisible to the eye but show up clearly when you apply the right analysis.</p>
+        <p>Think of it like a manufacturing process. A photo printed on an inkjet printer and a photo printed on a laser printer look the same to a casual viewer. But under a microscope, the inkjet print has a characteristic dot pattern and the laser print has a different characteristic toner pattern. An expert with a microscope can tell them apart not by how the photo looks, but by the physical signature of the process that made it.</p>
+        <p>AI detectors are the "microscope." They don't look at whether the photo seems too perfect or the lighting seems off — those visual tells are unreliable. They look for the process signature that the AI generator left in the data.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How GAN detection works: frequency domain analysis</h2>
+        <p>The first generation of AI image detectors was built specifically for GANs (Generative Adversarial Networks) — the technology behind tools like StyleGAN that generate photorealistic faces. GANs work through a series of convolutional operations that upsample a low-resolution noise vector into a full-resolution image. That convolution process creates repeating patterns at fixed pixel intervals — a grid-like artifact in the frequency domain.</p>
+
+        <h3 style="color:var(--text-secondary,#cbd5e1);margin:1.25rem 0 0.5rem;font-size:1rem;">What is a GAN fingerprint?</h3>
+        <p>A GAN fingerprint is the characteristic frequency artifact produced by the upsampling convolutions in the generator network. To find it, detectors apply a technique called the <strong>Discrete Fourier Transform (DFT)</strong> to the image — this converts the pixel data from a spatial representation (where pixels are) into a frequency representation (how often patterns repeat across the image). In the frequency domain, GAN-generated images show distinctive peaks at intervals that correspond to the generator's architecture. Real photographs don't have these periodic peaks.</p>
+
+        <p>The peaks are small — they represent a tiny fraction of the total pixel energy. But they're consistent. Because all GAN generators using similar upsampling architectures leave similar-shaped peaks, a classifier trained on frequency maps can identify GAN-generated images even when the visual output looks completely realistic. A 2019 paper by Zhang et al. (<a href="https://openaccess.thecvf.com/content_CVPR_2019/papers/Zhang_Detecting_and_Simulating_Artifacts_in_GAN_Fake_Images_CVPR_2019_paper.pdf" target="_blank" rel="noopener" style="color:var(--gold,#fbbf24);">CVPR 2019</a>) first demonstrated this approach and showed it could achieve over 99% accuracy on a controlled dataset of GAN images.</p>
+
+        <h3 style="color:var(--text-secondary,#cbd5e1);margin:1.25rem 0 0.5rem;font-size:1rem;">Why GAN detection is easier than diffusion detection</h3>
+        <p>GAN images have a predictable, architecture-specific fingerprint. Once you've trained a detector on images from a specific GAN architecture (StyleGAN, BigGAN, etc.), it generalizes reasonably well to other GAN architectures because the convolution-upsampling process is structurally similar across them. The frequency peaks shift position depending on the architecture, but the fact that peaks exist is consistent.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How diffusion model detection works: noise pattern analysis</h2>
+        <p>Modern AI image generators — Midjourney, DALL-E, Stable Diffusion, Imagen, Flux — use diffusion models rather than GANs. Diffusion is a different process: start with random noise, then iteratively remove noise step-by-step guided by a text prompt or conditioning signal until the image emerges. This process doesn't produce the same fixed-frequency artifacts as GAN convolution, which means frequency-domain GAN detectors don't transfer reliably to diffusion images.</p>
+
+        <h3 style="color:var(--text-secondary,#cbd5e1);margin:1.25rem 0 0.5rem;font-size:1rem;">What diffusion detectors look for instead</h3>
+        <p>Diffusion model detection relies on several overlapping signals rather than a single frequency fingerprint:</p>
+
+        <div style="display:grid;gap:0.875rem;margin:1.25rem 0;">
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">Denoising noise distribution</p>
+            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">The iterative denoising process in diffusion models produces a characteristic statistical distribution of residual noise across the image — more uniform than real camera sensor noise, which is heterogeneous (noisier in dark areas, less noisy in bright areas). Detectors can quantify this by analyzing the local noise variance pattern across image regions.</p>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">High-frequency smoothness</p>
+            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">Diffusion models tend to produce images that are smoother at fine scales than photographs of equivalent content. Real photos have fine-grained texture noise from the camera sensor and optical system at every scale. Diffusion images often lack this fine-scale variation in specific frequency bands — not because they look smooth, but because the statistical distribution of very-high-frequency content is different from real images.</p>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">Cross-region consistency artifacts</p>
+            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">Real photos have natural optical relationships between regions — the depth of field falloff, the light source consistency, the lens distortion at edges — that constrain how different parts of the image relate to each other. Diffusion images generate each region more independently, sometimes producing subtle statistical inconsistencies in how light behaves across the image that a classifier can learn to detect.</p>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">Generator-specific compression artifacts</p>
+            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">Many diffusion models save their output in a specific format or run through a specific VAE (variational autoencoder) decoder that introduces characteristic compression patterns. Detectors trained on large datasets of specific generator outputs can learn these format-specific signatures even when they're subtle.</p>
+          </div>
+        </div>
+
+        <p>Because diffusion detection depends on multiple overlapping signals rather than a single strong fingerprint, it's generally harder than GAN detection — and accuracy numbers reflect this. The advance of the field has been in building classifiers that combine all of these signals together, using neural networks that learn which combination of features best predicts AI origin across diverse generator architectures.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How deepfake detection works: it's different from AI image detection</h2>
+        <p>Deepfake detection is related to but distinct from AI image detection. A deepfake typically involves a real photo or video with a face surgically replaced or manipulated — not a fully AI-generated image. This means the detection problem is different: instead of finding a generator fingerprint across the whole image, the detector looks for localized inconsistencies at the boundary between the real and manipulated regions.</p>
+
+        <div style="display:grid;gap:0.875rem;margin:1.25rem 0;">
+          <div style="border-left:3px solid var(--gold,#fbbf24);padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">Face-swap boundary analysis</p>
+            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">The edges of a replaced face often have blending artifacts — statistical noise patterns that differ between the pasted region and the surrounding original image. Detectors segment the face region, analyze the edge quality, and compare noise characteristics between the face and background.</p>
+          </div>
+          <div style="border-left:3px solid var(--gold,#fbbf24);padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">Biometric inconsistency</p>
+            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">Face-swap algorithms sometimes introduce subtle biometric inconsistencies: eye gaze direction doesn't match the geometry of the 3D scene, pupil reflections are inconsistent with the light source, facial asymmetry is slightly different on one frame than another in a video. Video deepfake detectors can track these across frames.</p>
+          </div>
+          <div style="border-left:3px solid var(--gold,#fbbf24);padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">Temporal coherence (video only)</p>
+            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">In video deepfakes, the swapped face often flickers slightly between frames — the face-swap algorithm processes each frame somewhat independently, so subtle variations accumulate in ways that look unnatural in motion. Video deepfake detectors specifically look for these frame-to-frame inconsistencies.</p>
+          </div>
+        </div>
+
+        <p>FauxSpy uses different detection models for these two problems: Sightengine's <code>genai</code> and <code>type</code> models for AI image detection on the free tier, and the <code>deepfake</code> model (which powers Pro) for face manipulation and video deepfake analysis. The distinction matters: a fully AI-generated face scores high on AI image detection; a deepfake of a real person's face in a real photo scores high on deepfake detection; a photo of a real person scores low on both.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>Why detectors can be fooled — and what the numbers actually mean</h2>
+        <p>The honest answer: AI image detection accuracy is conditional. On standard test sets — images from known AI generators with no post-processing — the leading tools in 2026 benchmark at 88-98% accuracy. Hive Moderation reports 89-98% depending on the test; Illuminarty approximately 91%; FauxSpy (Sightengine genai) approximately 88%. False positive rates — real photos incorrectly flagged as AI — run approximately 3% for leading tools under controlled test conditions.</p>
+
+        <p>Those numbers drop significantly in the real world for several reasons:</p>
+
+        <div style="overflow-x:auto;margin:1.25rem 0;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+            <thead>
+              <tr style="background:var(--noir-card,#1e2536);">
+                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">What degrades accuracy</th>
+                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Why it works</th>
+                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Effect on detection</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">JPEG compression (below quality 90)</td>
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Destroys high-frequency artifacts that detectors key on</td>
+                <td style="padding:0.75rem 1rem;color:#f59e0b;">Moderate degradation</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Screenshot-then-crop</td>
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Applies re-compression and resampling in one step</td>
+                <td style="padding:0.75rem 1rem;color:#f59e0b;">Moderate degradation</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Adding Gaussian noise</td>
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Obscures generator noise pattern with random noise</td>
+                <td style="padding:0.75rem 1rem;color:#ef4444;">High degradation</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Non-integer resize (e.g. 87%)</td>
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Interpolation shifts frequency artifacts to unpredicted positions</td>
+                <td style="padding:0.75rem 1rem;color:#f59e0b;">Moderate degradation</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Adversarial post-processing (targeted)</td>
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Specifically optimized to fool a known detector</td>
+                <td style="padding:0.75rem 1rem;color:#ef4444;">Severe degradation</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Heavy photo editing (crop, filters, retouch)</td>
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Overwrites generator signature with editing software artifacts</td>
+                <td style="padding:0.75rem 1rem;color:#f59e0b;">Moderate degradation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Research from Imagera in 2026 found that against images specifically optimized to evade detection, no commercial detector tested exceeded 45-60% accuracy — compared to 88-98% on unmodified AI images. This gap is the central challenge for the field: the same techniques used to improve image quality (compression, denoising, upscaling) also happen to strip out the signals detectors rely on.</p>
+
+        <p>This is why FauxSpy returns an <strong>Inconclusive</strong> result when confidence falls below a threshold rather than forcing a binary verdict. A low-confidence "probably real" verdict is less useful — and potentially more harmful — than an honest "we can't tell." Accuracy on unmodified images is high; the Inconclusive category handles the edges where the evidence is genuinely ambiguous.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>What C2PA (Content Credentials) adds — and what it doesn't</h2>
+        <p>C2PA (Coalition for Content Provenance and Authenticity) is a complementary approach to AI image detection that works fundamentally differently: instead of analyzing the image after the fact, it embeds a cryptographically signed provenance record at the moment of generation or capture. OpenAI embeds C2PA metadata in DALL-E and ChatGPT images; Adobe embeds it in Firefly-generated content; major camera manufacturers are adding it to hardware.</p>
+
+        <p>C2PA is promising but has a significant real-world limitation: <strong>metadata gets stripped when images are uploaded to most social platforms.</strong> Instagram, X/Twitter, Facebook, Reddit, and WhatsApp all strip or ignore EXIF and IPTC metadata during upload processing — which is also where C2PA data lives. An image with intact C2PA credentials is provably from a specific source. The same image shared through a typical social media workflow has no credentials at all, even if it was originally credentialed at the source.</p>
+
+        <p>This means C2PA and statistical AI image detection are complementary, not competing, approaches:</p>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2.4;">
+          <li><strong style="color:var(--text-primary,#f8fafc);">C2PA excels at</strong> — verifying images shared through credentialing-aware workflows (journalism, legal proceedings, authenticated media) where the chain of custody is intact</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Statistical detection excels at</strong> — analyzing images in the wild, on social media, in profile photos, in marketplace listings, where metadata has been stripped or was never present</li>
+        </ul>
+        <p>For most consumer use cases — checking a profile photo, a news image, a marketplace listing — the image has passed through at least one platform that strips metadata, so C2PA provides no useful signal. Statistical detection is the relevant tool.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How FauxSpy's detection specifically works</h2>
+        <p>FauxSpy's detection is powered by <a href="https://sightengine.com" target="_blank" rel="noopener" style="color:var(--gold,#fbbf24);">Sightengine's API</a> — a computer vision API that provides specialized models for AI-generated content detection. This is the same API used directly by developers building moderation systems; FauxSpy wraps it in a right-click browser interface that requires no technical setup.</p>
+
+        <p><strong>Free tier:</strong> Uses Sightengine's <code>genai</code> model (detects AI-generated images across GAN and diffusion generators) and the <code>type</code> model (classifies content type). Returns a probability score from 0.0 to 1.0 for AI origin. FauxSpy translates scores above a threshold into "Likely AI," scores below into "Likely Real," and borderline scores into "Inconclusive" rather than forcing a verdict.</p>
+
+        <p><strong>Pro tier:</strong> Adds Sightengine's <code>deepfake</code> model — a separate model specifically trained for face-swap detection and video manipulation. The deepfake model catches cases the genai model doesn't: a real photo with an AI-generated face transplanted into it, for example, might pass the genai model (the base image is real) but fail the deepfake model (the face region has manipulation artifacts).</p>
+
+        <p>Processing time using Sightengine is under 1 second for standard-resolution images — the result appears in the overlay before you'd have time to open a separate tab.</p>
+      </div>
+
+      <div class="landing-faq">
+        <h2>Common questions</h2>
+        <details class="faq-item">
+          <summary>How does AI image detection work?</summary>
+          <p>AI image detection analyzes statistical patterns in pixel data that human eyes can't see. Every AI generator leaves behind invisible fingerprints in the frequency domain and noise structure of the image — GAN generators leave periodic frequency peaks from their convolution process; diffusion models leave characteristic noise distributions from their denoising process. Detectors are neural networks trained on large datasets of known AI and real images to recognize these patterns and return a probability score.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a GAN fingerprint and how do detectors find it?</summary>
+          <p>A GAN fingerprint is a repeating, grid-like artifact left by the generator network's convolution process. Detectors apply a Discrete Fourier Transform (DFT) to the image to convert pixel data into a frequency representation, then look for the characteristic peaks at fixed intervals that GANs produce. Real photographs don't have these periodic peaks. The technique was first described in Zhang et al. (CVPR 2019) and still underlies many modern GAN detectors.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can AI image detectors be fooled?</summary>
+          <p>Yes. Against images specifically optimized to evade detection — processed with noise addition, JPEG recompression, or non-integer resizing — Imagera's 2026 research found that no commercial detector exceeded 45-60% accuracy. The same tools achieve 88-98% on unmodified AI-generated images. The gap exists because the post-processing techniques that strip out AI artifacts are the same operations used for normal image editing and sharing.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What's the difference between GAN detection and diffusion model detection?</summary>
+          <p>GAN detection uses Discrete Fourier Transform frequency analysis to find periodic grid artifacts. Diffusion model detection is harder — diffusion images don't have a fixed grid pattern — so detectors instead look for characteristic noise distributions from the denoising process, unnatural high-frequency smoothness in specific frequency bands, and cross-region statistical inconsistencies. Both types are handled by modern detectors, but diffusion detection requires larger and more diverse training datasets.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How accurate are AI image detectors in 2026?</summary>
+          <p>On standard unmodified AI-generated images: Hive Moderation 89-98%, Illuminarty approximately 91%, FauxSpy (Sightengine genai API) approximately 88%. False positive rates on real photos run approximately 3% for leading tools under controlled conditions. These numbers drop significantly against post-processed or evasion-optimized images — accuracy is conditional on whether the image has been processed after generation.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does JPEG compression affect AI image detection accuracy?</summary>
+          <p>Yes, meaningfully. JPEG compression overwrites the fine-grained frequency artifacts that detectors rely on — particularly at quality settings below 90. Images saved from social media (which re-compress uploaded images) or taken as screenshots are harder to detect than the original AI-generated file. This is why FauxSpy's Inconclusive result appears more often on compressed or re-uploaded images than on fresh AI generator output.</p>
+        </details>
+      </div>
+
+      <div class="landing-section">
+        <h2>Related reading</h2>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2.4;">
+          <li><a href="/how-to-spot-ai-generated-images" style="color:var(--gold,#fbbf24);">How to tell if a photo is AI-generated</a> — visual tells and what to look for when using a detector</li>
+          <li><a href="/why-real-photo-flagged-ai" style="color:var(--gold,#fbbf24);">Why real photos sometimes get flagged as AI</a> — causes and what to do about it</li>
+          <li><a href="/free-ai-image-detector-no-signup" style="color:var(--gold,#fbbf24);">Free AI image detectors with no sign-up</a> — comparing every free tier available in 2026</li>
+          <li><a href="/faux-spy-vs-hive-moderation-sightengine" style="color:var(--gold,#fbbf24);">FauxSpy vs Hive Moderation vs Sightengine</a> — which tool fits which use case</li>
+          <li><a href="/deepfake-detector" style="color:var(--gold,#fbbf24);">Deepfake detector</a> — how face-swap detection differs from AI image detection</li>
+        </ul>
+      </div>
+
+      <div class="landing-cta">
+        <h2>Try the detector — free, no account</h2>
+        <p>Right-click any image in your browser and run the check instantly. 10 free checks per day, no email required.</p>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
+        <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/faq">FAQ</a>
+          <a href="/check">Check Image</a>
+          <a href="/chrome">Chrome Extension</a>
+          <a href="/firefox">Firefox Add-on</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/about">About</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <a href="/how-to-spot-ai-generated-images">Spot AI Photos</a>
+          <a href="/how-ai-image-detection-works">How Detection Works</a>
+          <a href="/why-real-photo-flagged-ai">False Positives</a>
+          <a href="/free-ai-image-detector-no-signup">Free Detectors</a>
+          <a href="/faux-spy-vs-hive-moderation-sightengine">vs Hive / Sightengine</a>
+          <a href="/fake-ai-job-applicants">Fake AI Applicants</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

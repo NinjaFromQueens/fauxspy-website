@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Video and Deepfake Detection: What It Is and Where FauxSpy Fits (2026)</title>
+  <meta name="description" content="AI-generated video and deepfakes are different problems requiring different detection approaches. Here's how video deepfake detection works, which tools cover it, and where FauxSpy fits.">
+  <meta property="og:title" content="AI Video and Deepfake Detection: What It Is and Where FauxSpy Fits">
+  <meta property="og:description" content="Deepfake video detection looks for temporal inconsistencies and face-swap boundaries across frames. Here's how it works and which tools handle video analysis in 2026.">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
+  <meta property="og:url" content="https://www.fauxspy.com/ai-video-deepfake-detection">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.fauxspy.com/ai-video-deepfake-detection">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/ai-video-deepfake-detection"},
+    "headline": "AI Video and Deepfake Detection: What It Is and Where FauxSpy Fits",
+    "description": "Video deepfakes use face-swap technology on real video footage. Detection looks for frame-to-frame temporal inconsistencies, face boundary artifacts, and biometric inconsistencies — different from still-image AI detection.",
+    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "datePublished": "2026-08-03",
+    "dateModified": "2026-08-03",
+    "url": "https://www.fauxspy.com/ai-video-deepfake-detection"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between AI-generated video and a deepfake?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI-generated video (tools like Sora, Runway, Kling, Pika) creates entirely synthetic footage from a text prompt or image — nothing in the video was originally captured by a camera. A deepfake is typically real video footage with a specific face replaced or manipulated using AI — the background and body are real, but the face is swapped. Detection approaches differ: AI-generated video detection looks for synthetic generation artifacts across the whole frame; deepfake detection looks for boundary artifacts and temporal inconsistencies specifically at the face region."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does video deepfake detection work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Video deepfake detection analyzes three main signals: (1) temporal inconsistency — face-swap algorithms process frames somewhat independently, creating subtle frame-to-frame variations in the swapped region that look unnatural in motion; (2) face boundary artifacts — the blending region between the swapped face and the original neck/head often has statistical differences in noise and compression; (3) biometric inconsistencies — eye gaze, skin reflections, and micro-expressions may be inconsistent with the surrounding scene across frames."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does FauxSpy detect deepfakes in video?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FauxSpy Pro + Video ($29.99/month) includes video content checking using Sightengine's deepfake model. The free tier and standard Pro tier ($9.99/month) check still images only. For video deepfake detection without FauxSpy, BitMind's free browser extension covers both images and video. Resemble AI's Chrome extension covers image, video, and audio deepfakes with 4 free checks per day. UncovAI also offers video deepfake detection."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I check a video for deepfakes using a browser extension?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BitMind (Chrome/Edge, free, no account) can check video content without uploading. Resemble AI (Chrome extension, 4/day free) covers video, image, and audio. UncovAI (Chrome extension) includes video. FauxSpy Pro + Video adds video checking to the FauxSpy extension. For most still-video deepfake checking (a social media video you're viewing), right-clicking a specific frame and running an image check is a quick first pass before running a full video analysis."
+        }
+      }
+    ]
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script>
+    var ahrefs_analytics_script = document.createElement('script');
+    ahrefs_analytics_script.async = true;
+    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
+    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero">
+        <h1>AI Video and Deepfake Detection: What It Is and Where FauxSpy Fits</h1>
+        <p class="landing-subtitle">Video fakes split into two distinct problems: fully AI-generated video (Sora, Runway, Kling) that creates synthetic footage from scratch, and deepfake video that swaps one real person's face into another real video. Detection approaches differ significantly between them. Here's how each works, which consumer tools cover video in 2026, and where FauxSpy fits in the stack.</p>
+      </div>
+
+      <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:0 0 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);border-radius:4px 0 0 4px;"></div>
+        <p style="margin:0 0 0.4rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">AI-generated video and deepfake video are different problems. Fully synthetic video (from tools like Sora or Runway) is detected by analyzing generation artifacts across all frames. Face-swap deepfakes in real video are detected by looking for temporal inconsistencies frame-to-frame and boundary artifacts at the face region. For consumer use: BitMind (free, anonymous) and Resemble AI (4/day free) cover video in browser extensions. FauxSpy Pro + Video adds this capability to FauxSpy.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>AI-generated video vs deepfake video: two different problems</h2>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.25rem 0;">
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1.25rem;">
+            <p style="margin:0 0 0.5rem;font-weight:700;color:var(--gold,#fbbf24);font-size:1rem;">AI-generated video</p>
+            <p style="margin:0 0 0.75rem;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Created entirely from a text prompt or reference image. The camera never captured any of this footage. Examples: Sora, Runway, Pika, Kling, Emu Video.</p>
+            <p style="margin:0;font-size:0.82rem;color:var(--text-muted,#94a3b8);font-weight:600;">Detection looks for: synthetic generation artifacts across all pixels, unnatural motion physics, temporal frequency artifacts in the whole frame</p>
+          </div>
+          <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1.25rem;">
+            <p style="margin:0 0 0.5rem;font-weight:700;color:var(--gold,#fbbf24);font-size:1rem;">Deepfake video</p>
+            <p style="margin:0 0 0.75rem;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Real camera footage with one or more faces swapped using AI. The background, body, and scene are real; the face is replaced. Examples: FaceSwap, DeepFaceLab, commercial APIs.</p>
+            <p style="margin:0;font-size:0.82rem;color:var(--text-muted,#94a3b8);font-weight:600;">Detection looks for: frame-to-frame face inconsistencies, boundary blending artifacts, biometric inconsistencies across frames</p>
+          </div>
+        </div>
+
+        <p>Most consumer deepfake concerns — a video call that seems off, a viral video of a public figure saying something suspicious, a video sent in a romance scam — involve face-swap deepfakes rather than fully synthetic AI video. Fully AI-generated video is still visually distinguishable to trained eyes (unnatural motion, physics violations, texture anomalies) at current quality levels, though this is changing rapidly.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How video deepfake detection works</h2>
+        <p>Unlike still-image detection, video deepfake detection has an additional signal source: temporal coherence across frames. A face-swap algorithm processes each frame with some independence — the blending parameters shift slightly, the skin texture varies slightly frame to frame, the positioning of the swapped face may drift. In a real video, the same face has a consistent statistical signature across frames. In a deepfake, the swapped face region shows frame-to-frame variation patterns that differ from how real faces behave in video.</p>
+
+        <div style="display:grid;gap:0.875rem;margin:1.25rem 0;">
+          <div style="border-left:3px solid var(--gold,#fbbf24);padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.25rem;font-weight:700;color:var(--text-primary,#f8fafc);">Temporal inconsistency analysis</p>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Detector compares the face region across frames, looking for variation patterns inconsistent with natural face movement. A swapped face "flickers" slightly because the face-swap algorithm isn't perfectly temporally coherent.</p>
+          </div>
+          <div style="border-left:3px solid var(--gold,#fbbf24);padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.25rem;font-weight:700;color:var(--text-primary,#f8fafc);">Face boundary artifacts</p>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">The boundary between the swapped face and the original neck and jaw has characteristic blending artifacts — frequency patterns at the transition that differ from how real skin-to-skin boundaries appear in camera footage. Detectors segment the face and analyze boundary statistics.</p>
+          </div>
+          <div style="border-left:3px solid var(--gold,#fbbf24);padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.25rem;font-weight:700;color:var(--text-primary,#f8fafc);">Biometric inconsistency</p>
+            <p style="margin:0;font-size:0.875rem;color:var(--text-secondary,#cbd5e1);">Eye gaze, pupil reflections, and skin light response should be consistent with the scene's light source. Deepfakes often produce subtle inconsistencies in how the swapped face responds to lighting across frames, or micro-expression timing that doesn't match the body language.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-section">
+        <h2>Which tools cover video deepfake detection in 2026</h2>
+
+        <div style="overflow-x:auto;margin:1.25rem 0;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+            <thead>
+              <tr style="background:var(--noir-card,#1e2536);">
+                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Tool</th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Video deepfake</th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">AI-gen video</th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Free tier</th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Extension</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">FauxSpy Pro + Video</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">$29.99/mo</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓ Chrome + Firefox</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">BitMind</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;">Partial</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">Free, no account</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓ Chrome + Edge</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Resemble AI</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">4/day free</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓ Chrome</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">UncovAI</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;">Partial</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">Free tier</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓ Chrome</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Hive Moderation (API)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;">✓</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#ef4444;">No free tier</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#ef4444;">No extension</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-muted,#94a3b8);">Table reflects mid-2026 research. Verify current features on each tool's site before purchasing.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>Where FauxSpy fits</h2>
+        <p>FauxSpy's primary focus is still-image AI detection — the use case it handles best, with no account required and 10 free checks per day. The Pro tier ($9.99/month) adds Sightengine's deepfake model for still-image face-swap detection. The Pro + Video tier ($29.99/month) extends this to video content analysis.</p>
+        <p>For users who primarily check still images (profile photos, product listings, news images) and occasionally need video checking, Pro + Video covers both. For users who only need video deepfake detection and don't have a still-image use case, BitMind's free tier (anonymous, no account, video included) may be more cost-effective.</p>
+        <p>See the <a href="/deepfake-detector" style="color:var(--gold,#fbbf24);">deepfake detector page</a> for a complete breakdown of FauxSpy's deepfake-specific capabilities.</p>
+      </div>
+
+      <div class="landing-faq">
+        <h2>Common questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between AI-generated video and a deepfake?</summary>
+          <p>AI-generated video (Sora, Runway, Kling) creates entirely synthetic footage from a text prompt — no real camera footage involved. A deepfake uses real video with a specific face replaced by AI. Detection differs: AI-generated video is caught by analyzing synthetic artifacts across all frames; deepfakes are caught by looking for face boundary artifacts and frame-to-frame temporal inconsistencies at the face region specifically.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does video deepfake detection work?</summary>
+          <p>Three main signals: temporal inconsistency (face-swap algorithms process frames somewhat independently, creating subtle frame-to-frame flickering); face boundary artifacts (the blending region between swapped face and original has characteristic statistical differences); biometric inconsistencies (eye gaze, skin reflections, micro-expressions may be inconsistent with the scene across frames). All three are more reliable signals than any single still-frame check.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does FauxSpy detect deepfakes in video?</summary>
+          <p>FauxSpy Pro + Video ($29.99/month) includes video checking using Sightengine's deepfake model. The free tier and standard Pro check still images only. For free video deepfake checking, BitMind (free, no account, Chrome/Edge extension) includes video analysis. Resemble AI offers 4 free video checks per day via its Chrome extension.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I check a video for deepfakes using a browser extension?</summary>
+          <p>Yes. BitMind (Chrome/Edge, free, no account) works on video content in-browser. Resemble AI's Chrome extension covers video with 4 free checks per day. UncovAI also includes video. FauxSpy Pro + Video adds this to the FauxSpy extension. For a quick first pass on a social media video, right-clicking a suspicious frame and running a still-image check with FauxSpy free is a reasonable starting point before running full video analysis.</p>
+        </details>
+      </div>
+
+      <div class="landing-section">
+        <h2>Related</h2>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2.4;">
+          <li><a href="/deepfake-detector" style="color:var(--gold,#fbbf24);">Deepfake detector</a> — FauxSpy's deepfake-specific capabilities</li>
+          <li><a href="/best-deepfake-detector" style="color:var(--gold,#fbbf24);">Best deepfake detectors</a> — full comparison including video tools</li>
+          <li><a href="/how-ai-image-detection-works" style="color:var(--gold,#fbbf24);">How AI image detection works</a> — the technical foundation (still images)</li>
+          <li><a href="/free-vs-paid-ai-image-detectors" style="color:var(--gold,#fbbf24);">Free vs paid AI detectors</a> — when to upgrade</li>
+        </ul>
+      </div>
+
+      <div class="landing-cta">
+        <h2>Start with still-image detection — free, no account</h2>
+        <p>10 checks/day for AI-generated images. Upgrade to Pro + Video when you need video deepfake analysis.</p>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
+        <a href="/pro" class="btn btn-secondary">See Pro + Video</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/pro">Pro Plans</a>
+          <a href="/faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/about">About</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <a href="/deepfake-detector">Deepfake Detection</a>
+          <a href="/best-deepfake-detector">Best Deepfake Tools</a>
+          <a href="/how-ai-image-detection-works">How It Works</a>
+          <a href="/free-vs-paid-ai-image-detectors">Free vs Paid</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

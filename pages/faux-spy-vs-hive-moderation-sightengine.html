@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FauxSpy vs Hive Moderation vs Sightengine: Which AI Image Detector Should You Use? (2026)</title>
+  <meta name="description" content="Honest comparison of three AI image detectors: FauxSpy (consumer browser extension), Sightengine (developer API), and Hive Moderation (enterprise platform). Which fits your use case?">
+  <meta property="og:title" content="FauxSpy vs Hive Moderation vs Sightengine: Which Should You Use? (2026)">
+  <meta property="og:description" content="FauxSpy is built on Sightengine's API. Hive Moderation is enterprise-grade. Here's an honest breakdown of what each does well — and who each one is actually for.">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
+  <meta property="og:url" content="https://www.fauxspy.com/faux-spy-vs-hive-moderation-sightengine">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.fauxspy.com/faux-spy-vs-hive-moderation-sightengine">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between FauxSpy, Hive Moderation, and Sightengine?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FauxSpy is a consumer Chrome/Firefox extension — install it, right-click any image, get an AI verdict in seconds. Sightengine is a developer API for teams building platforms or apps that need to moderate images programmatically; FauxSpy uses Sightengine as its detection backend. Hive Moderation is an enterprise platform designed for organizations that need to moderate large volumes of content across images, video, and text, with custom model training and dedicated support. They serve fundamentally different use cases."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does FauxSpy use Sightengine?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. FauxSpy's AI detection is powered by Sightengine's genai and type API models on the free tier, and adds Sightengine's deepfake model on Pro. This means FauxSpy delivers Sightengine-quality accuracy with zero API integration required — users get the same underlying technology through a consumer-friendly browser extension instead of a raw API."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which is more accurate: FauxSpy, Hive Moderation, or Sightengine?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On AI-generated image detection for individual photos, all three tools draw on similar underlying models and deliver comparable accuracy. Hive Moderation publishes benchmark accuracy figures in the 90%+ range for its AI-generated image detection model. Sightengine's genai model targets similar accuracy for photorealistic AI images. FauxSpy, built on Sightengine, inherits that accuracy for consumer use. Where they differ: Hive Moderation has a broader range of moderation models (nudity, weapons, text detection) relevant to platform-scale needs. FauxSpy adds a conservative threshold that returns Inconclusive rather than a false positive — tuned specifically for consumer catfish/verification use cases."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Hive Moderation free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hive Moderation offers a limited free tier for developers (API access with low volume limits) but is primarily an enterprise product with custom pricing. It is not available as a consumer tool or browser extension. Sightengine offers a free developer tier (2,000 API calls/month on the starter plan) and paid plans starting at $29/month. FauxSpy is free for individuals with 10 checks per day — no account, no API integration."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I use Sightengine directly or use FauxSpy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use Sightengine directly if you're a developer building a product that needs programmatic image moderation — you'll get the full API, custom model parameters, and volume pricing. Use FauxSpy if you're an individual checking photos while browsing social media, dating apps, or websites — you get the same Sightengine-powered detection with zero integration work, through a right-click interface in Chrome or Firefox."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/faux-spy-vs-hive-moderation-sightengine"},
+    "headline": "FauxSpy vs Hive Moderation vs Sightengine: Which AI Image Detector Should You Use?",
+    "description": "Honest comparison of three AI image detectors: FauxSpy (consumer extension), Sightengine (developer API), and Hive Moderation (enterprise platform).",
+    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "datePublished": "2026-08-03",
+    "dateModified": "2026-08-03",
+    "url": "https://www.fauxspy.com/faux-spy-vs-hive-moderation-sightengine"
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script>
+    var ahrefs_analytics_script = document.createElement('script');
+    ahrefs_analytics_script.async = true;
+    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
+    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero">
+        <h1>FauxSpy vs Hive Moderation vs Sightengine: Which AI Image Detector Should You Use?</h1>
+        <p class="landing-subtitle">Three tools, three completely different use cases. FauxSpy is a consumer browser extension. Sightengine is a developer API — and it's FauxSpy's own detection backend. Hive Moderation is an enterprise platform for content-heavy organizations. Here's an honest breakdown of what each does well and who each one is for.</p>
+      </div>
+
+      <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:0 0 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);border-radius:4px 0 0 4px;"></div>
+        <p style="margin:0 0 0.4rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">For individuals checking photos in a browser: use FauxSpy (free, right-click, no account). For developers integrating AI detection into an app: use Sightengine (the same API FauxSpy is built on). For enterprise content platforms moderating at scale: use Hive Moderation. All three are good at what they do — the choice is about use case, not accuracy.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>The honest context you need to know first</h2>
+        <p>Most AI image detector comparisons are written by one of the vendors and frame the comparison to favor their own product. This one isn't, so here's the disclosure upfront: <strong>FauxSpy's detection is powered by Sightengine's API.</strong> The <code>genai</code> and <code>type</code> models used on the FauxSpy free tier, and the <code>deepfake</code> model on Pro, are Sightengine's models called through FauxSpy's backend.</p>
+        <p>That means FauxSpy and Sightengine deliver very similar accuracy on AI-generated image detection — because FauxSpy is Sightengine, wrapped in a consumer extension with a right-click interface, a free tier, and no API key required.</p>
+        <p>Hive Moderation is a separate company with its own models. It's genuinely strong — enterprise organizations trust it for a reason — but it solves a fundamentally different problem at a fundamentally different price point and complexity level.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>Side-by-side comparison</h2>
+        <div style="overflow-x:auto;margin:1.25rem 0;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+            <thead>
+              <tr style="background:var(--noir-card,#1e2536);">
+                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Feature</th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--gold,#fbbf24);font-weight:700;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">FauxSpy</th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);font-weight:700;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Sightengine</th>
+                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);font-weight:700;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Hive Moderation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Who it's for</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">Individuals</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">Developers / teams</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">Enterprise platforms</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Delivery format</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">Chrome / Firefox extension</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">REST API</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">REST API + dashboard</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Works directly in browser on any site</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#ef4444;">✗ API only</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#ef4444;">✗ API only</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">No account needed to start</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes (10/day free)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;">API key required</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;">Account required</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Free tier</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">10 checks/day, no account</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">2,000 API calls/month</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">Limited developer tier</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Paid pricing</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">$9.99/mo (Pro)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">$29/mo (Starter API)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">Custom enterprise pricing</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">AI-generated image detection</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Deepfake / face-swap detection</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Pro tier</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes (API)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Video content moderation</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Pro + Video plan</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes (API)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">NSFW / content policy moderation</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#ef4444;">✗ Not the use case</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Yes (broadest coverage)</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Custom model training</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#ef4444;">✗</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#f59e0b;">Partial</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">✓ Enterprise</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Setup time</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">~30 seconds (install extension)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">Minutes to hours (API integration)</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-primary,#f8fafc);">Days to weeks (enterprise onboarding)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="landing-section">
+        <h2>FauxSpy: what it does well, and what it doesn't</h2>
+        <p><strong>Who it's for:</strong> Individuals who want to verify photos while browsing. The primary use cases are catfish detection on dating apps, fake profile verification on social media, and checking whether photos attached to suspicious messages or listings are AI-generated. It works on any image visible in Chrome or Firefox — right-click, one result, no uploading.</p>
+
+        <p><strong>Real strengths:</strong></p>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2;">
+          <li><strong style="color:var(--text-primary,#f8fafc);">No friction.</strong> 10 checks per day, no account, no API key. Install the extension and it works immediately on any website.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">In-page scanning.</strong> No uploading the image to a separate website. The check happens in the browser, on the same page where the image appears.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Sightengine accuracy.</strong> Because FauxSpy uses Sightengine's API, its detection accuracy is not that of a small startup guessing — it's the same models used by Sightengine's API customers at scale.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Conservative threshold.</strong> FauxSpy returns Inconclusive rather than forcing a binary verdict when confidence is low — this reduces false positives for consumer use where a wrong "Definitely AI" verdict damages trust.</li>
+        </ul>
+
+        <p><strong>Real limitations:</strong></p>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2;">
+          <li><strong style="color:var(--text-primary,#f8fafc);">Not for platform moderation.</strong> FauxSpy has no API, no webhook, no dashboard. If you're building a product that needs to moderate images at scale, FauxSpy is not the right tool — use Sightengine or Hive directly.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">No NSFW or content-policy detection.</strong> FauxSpy only detects AI-generated images and deepfakes — it's not a general content moderation tool.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Extension required.</strong> Works only in Chrome and Firefox with the extension installed. No web interface to paste a URL or upload an image independently.</li>
+        </ul>
+      </div>
+
+      <div class="landing-section">
+        <h2>Sightengine: what it does well, and what it doesn't</h2>
+        <p><strong>Who it's for:</strong> Developers and teams building apps or platforms that need to moderate user-generated images programmatically. Dating apps, social networks, marketplaces, and CMS platforms use Sightengine to automatically flag AI-generated content, NSFW images, or other policy violations before they reach users.</p>
+
+        <p><strong>Real strengths:</strong></p>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2;">
+          <li><strong style="color:var(--text-primary,#f8fafc);">Breadth of detection models.</strong> AI-generated images, deepfakes, NSFW content, nudity, weapons, drugs, quality assessment, text detection, faces — all accessible through the same API with simple model selection.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Developer-friendly pricing.</strong> Pay-per-operation model, with a free tier for testing. The Starter plan ($29/month) covers 10,000 operations — reasonable for an early-stage product.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Fast and well-documented.</strong> Clean REST API, response times typically under 500ms, solid documentation with code examples in multiple languages.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Proven at scale.</strong> Sightengine powers real products, including FauxSpy itself — the AI detection models are actively maintained and updated.</li>
+        </ul>
+
+        <p><strong>Real limitations:</strong></p>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2;">
+          <li><strong style="color:var(--text-primary,#f8fafc);">Integration work required.</strong> There is no consumer UI. Using Sightengine means writing API calls, handling responses, and building whatever user-facing experience you need around it.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Not designed for individuals.</strong> If you just want to check whether a photo is AI-generated while browsing, Sightengine is the wrong level of complexity. Use FauxSpy.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Volume-based cost can scale up fast.</strong> At scale (millions of checks per month), Sightengine costs can become significant — at which point Hive Moderation's enterprise pricing may be more favorable.</li>
+        </ul>
+      </div>
+
+      <div class="landing-section">
+        <h2>Hive Moderation: what it does well, and what it doesn't</h2>
+        <p><strong>Who it's for:</strong> Enterprise teams — social platforms, media companies, online marketplaces — that need a comprehensive content moderation stack with custom models, dedicated support, and compliance-grade audit trails. Hive is used by some of the largest consumer platforms for automated content moderation at millions of items per day.</p>
+
+        <p><strong>Real strengths:</strong></p>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2;">
+          <li><strong style="color:var(--text-primary,#f8fafc);">Broadest coverage.</strong> Hive offers more pre-built detection categories than Sightengine — AI-generated images, deepfakes, CSAM detection, hate symbols, misinformation-related labels, and more. For a platform with complex content-policy requirements, this breadth matters.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Custom model training.</strong> Enterprise clients can train custom classifiers on their own data — if your moderation needs don't fit a pre-built category, Hive can build the model with you.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Enterprise support.</strong> Dedicated SLAs, human review pipelines, compliance documentation — things that individual developers and smaller teams don't need but that enterprise procurement teams require.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Benchmark accuracy.</strong> Hive publishes accuracy benchmarks for its AI-generated image detection model that compare favorably to other enterprise solutions, particularly for novel AI generators.</li>
+        </ul>
+
+        <p><strong>Real limitations:</strong></p>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2;">
+          <li><strong style="color:var(--text-primary,#f8fafc);">Enterprise pricing, enterprise complexity.</strong> Hive is not a fit for individual developers or small teams without substantial moderation volume. Custom pricing means a sales conversation before you see a number.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">No consumer option.</strong> Like Sightengine, there is no browser extension or consumer-facing product. It's API and platform, period.</li>
+          <li><strong style="color:var(--text-primary,#f8fafc);">Overkill for most use cases.</strong> If you're building a dating app that wants to catch AI-generated profile photos, Sightengine's API will cover this well at far lower cost and complexity. You don't need Hive's enterprise feature set until you need its scale or breadth.</li>
+        </ul>
+      </div>
+
+      <div class="landing-section">
+        <h2>Which should you use?</h2>
+        <div style="display:grid;gap:1rem;margin:1.25rem 0;">
+          <div style="border-left:3px solid var(--gold,#fbbf24);padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--gold,#fbbf24);">You're an individual checking photos while browsing</p>
+            <p style="margin:0;color:var(--text-secondary,#cbd5e1);font-size:0.9rem;">→ Use <strong style="color:var(--text-primary,#f8fafc);">FauxSpy</strong>. Install the Chrome or Firefox extension. Right-click any photo. 10 checks/day free, no account required. Sightengine and Hive require API integration — they're not designed for this use case.</p>
+          </div>
+          <div style="border-left:3px solid #64748b;padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">You're a developer building a product that needs image moderation</p>
+            <p style="margin:0;color:var(--text-secondary,#cbd5e1);font-size:0.9rem;">→ Use <strong style="color:var(--text-primary,#f8fafc);">Sightengine</strong>. Developer-friendly API, good documentation, reasonable pricing at moderate volume. It's the same API FauxSpy uses — well-tested, actively maintained.</p>
+          </div>
+          <div style="border-left:3px solid #64748b;padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">You're an enterprise team with complex content-policy requirements at scale</p>
+            <p style="margin:0;color:var(--text-secondary,#cbd5e1);font-size:0.9rem;">→ Use <strong style="color:var(--text-primary,#f8fafc);">Hive Moderation</strong>. Enterprise SLAs, custom model training, compliance documentation, and the broadest pre-built moderation category set available. Worth the complexity at the scale it's designed for.</p>
+          </div>
+          <div style="border-left:3px solid #64748b;padding:0.75rem 1rem;background:var(--noir-card,#1e2536);border-radius:0 8px 8px 0;">
+            <p style="margin:0 0 0.35rem;font-weight:700;color:var(--text-primary,#f8fafc);">You're a developer who just wants to test before committing</p>
+            <p style="margin:0;color:var(--text-secondary,#cbd5e1);font-size:0.9rem;">→ Start with <strong style="color:var(--text-primary,#f8fafc);">Sightengine's free tier</strong> (2,000 API calls/month). If your use case outgrows it, Hive is the upgrade path for enterprise needs. FauxSpy's free tier gives you a quick way to see what Sightengine's detection actually looks like without writing any code.</p>
+          </div>
+        </div>
+
+        <div class="inline-cta" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0;text-align:center;">
+          <p style="margin:0 0 0.75rem;font-weight:600;color:var(--text-primary,#f8fafc);">For individuals: try the Sightengine-powered detection without any API setup</p>
+          <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary" target="_blank" rel="noopener" style="display:inline-block;">&#x1F575;&#xFE0F; Add FauxSpy to Chrome — Free</a>
+          <p style="margin:0.6rem 0 0;font-size:0.82rem;color:var(--text-muted,#94a3b8);">10 checks/day free &middot; No account &middot; Right-click any image</p>
+        </div>
+      </div>
+
+      <div class="landing-faq">
+        <h2>Common questions</h2>
+        <details class="faq-item">
+          <summary>What is the difference between FauxSpy, Hive Moderation, and Sightengine?</summary>
+          <p>FauxSpy is a consumer Chrome/Firefox extension — install it, right-click any image, get a verdict. Sightengine is a developer API for programmatic image moderation; FauxSpy uses Sightengine as its detection backend. Hive Moderation is an enterprise platform for organizations moderating content at scale with custom models and compliance requirements. They serve completely different use cases.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does FauxSpy use Sightengine?</summary>
+          <p>Yes — FauxSpy's AI detection is powered by Sightengine's genai and type API models (free tier) and Sightengine's deepfake model (Pro). FauxSpy delivers Sightengine-quality accuracy through a consumer-friendly browser extension with zero API integration required. This is worth disclosing because it's directly relevant to the accuracy comparison.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which is more accurate?</summary>
+          <p>On AI-generated image detection for individual photos, all three tools deliver comparable accuracy — they use similar underlying detection approaches and benchmark in the 90%+ range for photorealistic AI-generated images. Where they differ: Hive Moderation has broader pre-built categories for enterprise content policies; Sightengine covers deepfakes, NSFW, quality, and other categories alongside AI detection; FauxSpy adds a conservative threshold that returns Inconclusive rather than forcing a verdict when confidence is low.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is Hive Moderation free?</summary>
+          <p>Hive Moderation has a limited developer free tier but is primarily an enterprise product with custom pricing. It is not available as a consumer tool. Sightengine offers a free tier of 2,000 API calls/month. FauxSpy is free for individuals at 10 checks per day with no account required.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I use Sightengine directly or use FauxSpy?</summary>
+          <p>If you're a developer building a product: use Sightengine directly (API access, programmatic integration, volume pricing). If you're an individual checking photos in your browser: use FauxSpy (same Sightengine-powered detection, zero integration work, right-click interface). FauxSpy is essentially a consumer-friendly wrapper around Sightengine's detection — for the individual use case, it's the better experience at the same accuracy.</p>
+        </details>
+      </div>
+
+      <div class="landing-section">
+        <h2>Further reading</h2>
+        <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2.2;">
+          <li><a href="/how-to-spot-ai-generated-images" style="color:var(--gold,#fbbf24);">How to tell if a photo is AI-generated</a> — visual tells and tool-assisted detection</li>
+          <li><a href="/catfish-detector" style="color:var(--gold,#fbbf24);">Catfish photo detector</a> — how to verify a dating profile photo</li>
+          <li><a href="/why-real-photo-flagged-ai" style="color:var(--gold,#fbbf24);">Why real photos get flagged as AI</a> — false positives explained</li>
+          <li><a href="/fake-ai-job-applicants" style="color:var(--gold,#fbbf24);">Hiring manager's guide to fake AI applicants</a> — how to verify LinkedIn headshots</li>
+        </ul>
+      </div>
+
+      <div class="landing-cta">
+        <h2>Try the Sightengine-powered detection as a consumer</h2>
+        <p>10 checks per day, free, no account required. Works on any image in Chrome or Firefox.</p>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
+        <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/faq">FAQ</a>
+          <a href="/check">Check Image</a>
+          <a href="/chrome">Chrome Extension</a>
+          <a href="/firefox">Firefox Add-on</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/about">About</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <a href="/catfish-detector">Catfish Detector</a>
+          <a href="/deepfake-detector">Deepfake Detector</a>
+          <a href="/how-to-spot-ai-generated-images">Spot AI Photos</a>
+          <a href="/dating-apps">Dating Apps</a>
+          <a href="/linkedin">LinkedIn</a>
+          <a href="/facebook">Facebook</a>
+          <a href="/instagram">Instagram</a>
+          <a href="/fake-ai-job-applicants">Fake AI Applicants</a>
+          <a href="/facebook-marketplace-fake-photos">Marketplace Fakes</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
