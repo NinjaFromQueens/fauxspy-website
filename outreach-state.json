@@ -1048,6 +1048,29 @@
       "email": "eight7@aol.com",
       "method": "email",
       "sent": true
+    },
+    "it.nc.gov": {
+      "date": "2026-08-10",
+      "email": "lisa.crawley@nc.gov",
+      "method": "email",
+      "sent": true
+    },
+    "ryanbartelfoundation.org": {
+      "date": "2026-08-10",
+      "email": "605a7baede844d278b89dc95ae0a9123@sentry-next.wixpress.com",
+      "method": "email",
+      "sent": true
+    },
+    "middlebury.libguides.com": {
+      "date": "2026-08-10",
+      "email": "refdesk@middlebury.edu",
+      "method": "email",
+      "sent": true
+    },
+    "websfirm.com": {
+      "date": "2026-08-10",
+      "method": "form",
+      "sent": true
     }
   }
 }
