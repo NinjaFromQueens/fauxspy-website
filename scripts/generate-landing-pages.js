@@ -290,7 +290,7 @@ function buildPagePlan(ctx) {
 const SYSTEM_PROMPT = `You are generating SEO landing pages for Faux Spy, a Chrome extension that detects AI-generated images and deepfakes. Users hover or right-click any image in Chrome to get an instant AI vs. Real verdict with a confidence score.
 
 PRODUCT FACTS:
-- Free: 10 checks/day, no account needed, works on any website in Chrome
+- Free: 3 checks/day, no account needed, works on any website in Chrome
 - Pro: Unlimited checks ($9.99/mo or $99/yr), adds deepfake detection and manipulation detection
 - Chrome Web Store: ${CWS_URL}
 - Works on: tinder.com, bumble.com, hinge.co, instagram.com, facebook.com, linkedin.com, pinterest.com, x.com, and any other website
@@ -362,7 +362,7 @@ HTML STRUCTURE — use EXACTLY this structure with these CSS classes:
         <h1>[COMPELLING H1 — primary keyword near front, under 70 chars]</h1>
         <p class="landing-subtitle">[2-3 sentence hook — lead with the key stat, end with how FauxSpy solves it]</p>
         <a href="${CWS_URL}" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
-        <p class="landing-note">10 checks/day free. No account required.</p>
+        <p class="landing-note">3 checks/day free. No account required.</p>
       </div>
 
       [3-5 .landing-section divs with H2 + paragraphs. For stats pages add tables with class="data-table". For how-to pages add <ol class="landing-steps">. For generator pages include an "accuracy" section.]

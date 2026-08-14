@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -45,7 +45,7 @@
         "name": "What does paying for an AI image detector actually get you?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Paid AI image detection typically adds: (1) higher or unlimited daily check volume — free tiers cap at 4-10 checks/day; (2) deepfake detection — face-swap and facial manipulation detection requires a separate model not included in most free tiers; (3) video analysis — checking video frames for AI-generated or manipulated content; (4) API access for integrating detection into your own applications; (5) batch processing for analyzing large numbers of images at once. Still-image accuracy on standard AI-generated photos is not meaningfully higher on paid tiers."
+          "text": "Paid AI image detection typically adds: (1) higher or unlimited daily check volume — free tiers cap at 4-3 checks/day; (2) deepfake detection — face-swap and facial manipulation detection requires a separate model not included in most free tiers; (3) video analysis — checking video frames for AI-generated or manipulated content; (4) API access for integrating detection into your own applications; (5) batch processing for analyzing large numbers of images at once. Still-image accuracy on standard AI-generated photos is not meaningfully higher on paid tiers."
         }
       },
       {
@@ -53,7 +53,7 @@
         "name": "When should I upgrade from a free to paid AI image detector?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Upgrade when: you consistently hit the daily check limit (10/day on FauxSpy free); you need deepfake detection for face-swap and manipulation analysis (not just AI-generated images); you need to check video content; you're building a product that needs API access to detection services; you're doing systematic verification of large numbers of images for research or journalism. For casual use — a few checks per day on photos you encounter while browsing — the free tier is sufficient."
+          "text": "Upgrade when: you consistently hit the daily check limit (3/day on FauxSpy free); you need deepfake detection for face-swap and manipulation analysis (not just AI-generated images); you need to check video content; you're building a product that needs API access to detection services; you're doing systematic verification of large numbers of images for research or journalism. For casual use — a few checks per day on photos you encounter while browsing — the free tier is sufficient."
         }
       }
     ]
@@ -121,7 +121,7 @@
           </div>
           <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
             <p style="margin:0 0 0.35rem;font-weight:700;color:var(--gold,#fbbf24);">Volume — removing the daily cap</p>
-            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">Free tiers cap at 4-10 checks per day. If you're a recruiter checking LinkedIn headshots of every applicant, a journalist verifying images at volume, or a platform moderator checking user uploads, the cap becomes the primary constraint. Paid tiers remove it (FauxSpy Pro: unlimited; other paid tiers similarly).</p>
+            <p style="margin:0;font-size:0.9rem;color:var(--text-secondary,#cbd5e1);">Free tiers cap at 4-3 checks per day. If you're a recruiter checking LinkedIn headshots of every applicant, a journalist verifying images at volume, or a platform moderator checking user uploads, the cap becomes the primary constraint. Paid tiers remove it (FauxSpy Pro: unlimited; other paid tiers similarly).</p>
           </div>
           <div style="background:var(--noir-card,#1e2536);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:1rem 1.25rem;">
             <p style="margin:0 0 0.35rem;font-weight:700;color:var(--gold,#fbbf24);">API access</p>
@@ -145,7 +145,7 @@
             <tbody>
               <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
                 <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Daily image checks</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">10/day</td>
+                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">3/day</td>
                 <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">Unlimited</td>
                 <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">Unlimited</td>
               </tr>
@@ -181,7 +181,7 @@
       <div class="landing-section">
         <h2>When the free tier is good enough</h2>
         <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2.6;">
-          <li>You check fewer than 10 images per day</li>
+          <li>You check fewer than 3 images per day</li>
           <li>You're verifying still images (profile photos, product photos, news images) not video</li>
           <li>You don't need to detect face-swap manipulation in photos of specific real people</li>
           <li>You don't need API access or batch processing</li>
@@ -190,7 +190,7 @@
 
         <h2 style="margin-top:1.75rem;">When to upgrade to paid</h2>
         <ul style="margin:0.75rem 0;padding-left:1.5rem;color:var(--text-secondary,#cbd5e1);line-height:2.6;">
-          <li>You consistently hit the 10/day cap</li>
+          <li>You consistently hit the 3/day cap</li>
           <li>You need deepfake detection — face-swap analysis on specific real people's photos or videos</li>
           <li>You need to check video content for AI-generated or manipulated frames</li>
           <li>You're a recruiter, journalist, or researcher checking images at scale</li>
@@ -206,11 +206,11 @@
         </details>
         <details class="faq-item">
           <summary>What does paying for an AI image detector actually get you?</summary>
-          <p>Higher daily volume (unlimited vs 10/day); deepfake detection for face-swap and manipulation analysis; video frame analysis; API access for application integration; batch processing. Still-image accuracy on standard AI-generated photos does not meaningfully increase at paid tiers — the underlying detection models are similar, and the free tier already runs on Sightengine's production API.</p>
+          <p>Higher daily volume (unlimited vs 3/day); deepfake detection for face-swap and manipulation analysis; video frame analysis; API access for application integration; batch processing. Still-image accuracy on standard AI-generated photos does not meaningfully increase at paid tiers — the underlying detection models are similar, and the free tier already runs on Sightengine's production API.</p>
         </details>
         <details class="faq-item">
           <summary>When should I upgrade from free to paid?</summary>
-          <p>Upgrade when: you regularly hit the 10/day free cap; you need deepfake detection (face-swap analysis); you need video checking; you're doing high-volume systematic verification; you need API access. For casual individual use — a few checks per day on images you encounter while browsing — free is sufficient.</p>
+          <p>Upgrade when: you regularly hit the 3/day free cap; you need deepfake detection (face-swap analysis); you need video checking; you're doing high-volume systematic verification; you need API access. For casual individual use — a few checks per day on images you encounter while browsing — free is sufficient.</p>
         </details>
       </div>
 
@@ -225,7 +225,7 @@
       </div>
 
       <div class="landing-cta">
-        <h2>Start free — 10 checks/day, no account, no signup</h2>
+        <h2>Start free — 3 checks/day, no account, no signup</h2>
         <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
         <a href="/pro" class="btn btn-secondary">See Pro plans</a>
       </div>

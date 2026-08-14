@@ -90,7 +90,7 @@ function buildEntityKeyStatMap(sheetData) {
 const SYSTEM_PROMPT = `You are re-generating SEO landing pages for Faux Spy, a Chrome extension that detects AI-generated images and deepfakes. Users hover or right-click any image in Chrome to get an instant AI vs. Real verdict.
 
 PRODUCT FACTS:
-- Free: 10 checks/day, no account needed, works on any website in Chrome
+- Free: 3 checks/day, no account needed, works on any website in Chrome
 - Pro: Unlimited checks ($9.99/mo or $99/yr), deepfake detection, manipulation detection
 - Chrome Web Store: ${CWS_URL}
 
@@ -157,7 +157,7 @@ HTML STRUCTURE — use EXACTLY this:
         <h1>[COMPELLING H1 — platform name + fake/AI detection angle]</h1>
         <p class="landing-subtitle">[MUST include the primary enforcement stat in the first sentence. E.g. "Facebook removes 1.1 billion fake accounts per quarter — and that's just what their systems catch."]</p>
         <a href="${CWS_URL}" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
-        <p class="landing-note">10 checks/day free. No account required.</p>
+        <p class="landing-note">3 checks/day free. No account required.</p>
       </div>
 
       [3-5 .landing-section divs — each with bold H2 and 3-4 short paragraphs]

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free AI Photo Checker — Detect AI-Generated Images Online | Faux Spy</title>
-  <meta name="description" content="Free AI photo checker — upload any image or paste a URL to find out if it's AI-generated. No account required. Detects Midjourney, DALL-E, Stable Diffusion, Flux, and more. 10 free checks per day.">
+  <meta name="description" content="Free AI photo checker — upload any image or paste a URL to find out if it's AI-generated. No account required. Detects Midjourney, DALL-E, Stable Diffusion, Flux, and more. 3 free checks per day.">
   <meta property="og:title" content="Free AI Photo Checker — Detect AI Images Online | Faux Spy">
   <meta property="og:description" content="Is this photo AI-generated? Paste a URL or upload an image — get a verdict in 2 seconds. Free, no account needed.">
   <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
@@ -28,7 +28,7 @@
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD",
-      "description": "Free: 10 scans per day, no account required. Pro: $9.99/month for unlimited scans."
+      "description": "Free: 3 scans per day, no account required. Pro: $9.99/month for unlimited scans."
     },
     "description": "Check if any image is AI-generated. Paste a URL or upload a file — verdict in 2 seconds. Detects Midjourney, DALL-E, Stable Diffusion, Flux, Firefly, and more.",
     "featureList": "URL scanning, file upload, confidence scoring, no account required, detects all major AI generators"
@@ -496,7 +496,7 @@
           <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">🕵️ Add to Chrome — Free</a>
           <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary btn-large" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
         </div>
-        <p style="margin:0.75rem 0 0;font-size:0.8rem;color:var(--text-muted,#94a3b8);">10 scans/day free &middot; No account required &middot; Instant install</p>
+        <p style="margin:0.75rem 0 0;font-size:0.8rem;color:var(--text-muted,#94a3b8);">3 scans/day free &middot; No account required &middot; Instant install</p>
       </div>
 
     </div>
@@ -574,7 +574,7 @@
     }
 
     function updateLimitBanner() {
-      const remaining = Math.max(0, 10 - scanCount);
+      const remaining = Math.max(0, 3 - scanCount);
       const banner = document.getElementById('limitBanner');
       if (scanCount >= 7) {
         banner.style.display = 'block';
@@ -698,7 +698,7 @@
         const data = await r.json();
 
         if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
-          showError('You\'ve used your 10 free scans for today. Resets at midnight &mdash; or <a href="/pro">upgrade to Pro</a> for unlimited scans.');
+          showError('You\'ve used your 3 free scans for today. Resets at midnight &mdash; or <a href="/pro">upgrade to Pro</a> for unlimited scans.');
           return;
         }
         if (r.status === 402 || data.error === 'TOKENS_EXHAUSTED') {
