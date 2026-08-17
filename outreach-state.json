@@ -1071,6 +1071,47 @@
       "date": "2026-08-10",
       "method": "form",
       "sent": true
+    },
+    "bitdefender.com": {
+      "date": "2026-08-17",
+      "email": "hotforsecurity@bitdefender.com",
+      "method": "email",
+      "sent": true
+    },
+    "sharedhope.org": {
+      "date": "2026-08-17",
+      "email": "savelives@sharedhope.org",
+      "method": "email",
+      "sent": true
+    },
+    "mtu.edu": {
+      "date": "2026-08-17",
+      "email": "computing@mtu.edu",
+      "method": "email",
+      "sent": true
+    },
+    "elderlawcenterbrevard.com": {
+      "date": "2026-08-17",
+      "email": "coordinator@elderlawcenterbrevard.com",
+      "method": "email",
+      "sent": true
+    },
+    "aol.com": {
+      "date": "2026-08-17",
+      "email": "bbruner@dispatch.com",
+      "method": "email",
+      "sent": true
+    },
+    "fosi.org": {
+      "date": "2026-08-17",
+      "method": "form",
+      "sent": true
+    },
+    "frontiersin.org": {
+      "date": "2026-08-17",
+      "email": "ajalabneh@zu.edu.jo",
+      "method": "email",
+      "sent": true
     }
   }
 }
