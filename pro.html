@@ -95,16 +95,22 @@
     
     /* Pricing options grid */
     .pricing-options {
-      max-width: 800px;
+      max-width: 1100px;
       margin: 40px auto 60px;
     }
-    
+
     .pricing-card-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 20px;
     }
-    
+
+    @media (max-width: 900px) {
+      .pricing-card-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
     @media (max-width: 640px) {
       .pricing-card-row {
         grid-template-columns: 1fr;
@@ -276,19 +282,21 @@
     }
     
     .comparison-table {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
       background: var(--noir-card);
       border-radius: 16px;
       overflow: hidden;
       border: 1px solid var(--border-default);
+      overflow-x: auto;
     }
-    
+
     .comparison-row {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
       padding: 16px 24px;
       border-bottom: 1px solid var(--border-subtle);
+      min-width: 560px;
     }
     
     .comparison-row:last-child {
@@ -304,26 +312,35 @@
     .comparison-row.header .pro-col {
       color: var(--gold);
     }
-    
+
+    .comparison-row.header .video-col {
+      color: #60a5fa;
+    }
+
     .feature-col {
       color: var(--text-secondary);
       font-size: 14px;
     }
-    
-    .free-col, .pro-col {
+
+    .free-col, .pro-col, .video-col {
       text-align: center;
       font-size: 14px;
     }
-    
+
     .free-col {
       color: var(--text-tertiary);
     }
-    
+
     .pro-col {
       color: var(--text-primary);
       font-weight: 600;
     }
-    
+
+    .video-col {
+      color: #93c5fd;
+      font-weight: 600;
+    }
+
     .check { color: #34d399; }
     .cross { color: #f87171; }
 
@@ -508,44 +525,6 @@
         </p>
       </div>
 
-      <!-- PRO + VIDEO COMING SOON -->
-      <div style="margin:2rem auto;max-width:480px;padding:2rem;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.25);border-radius:16px;">
-        <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#3b82f6;margin-bottom:0.5rem;font-weight:700;">COMING SOON</div>
-        <div style="font-size:1.1rem;font-weight:700;color:#60a5fa;margin-bottom:0.25rem;">🎬 PRO + VIDEO</div>
-        <div style="font-size:2rem;font-weight:800;margin-bottom:0.25rem;">$29.99<span style="font-size:1rem;font-weight:400;color:var(--text-muted,#8a9bb0);">/month</span></div>
-        <div style="font-size:0.85rem;color:var(--text-muted,#8a9bb0);margin-bottom:1.25rem;">or $299/year — save ~17%</div>
-        <ul style="list-style:none;padding:0;margin:0 0 1.5rem;font-size:0.9rem;line-height:1.9;">
-          <li>✅ Everything in Secret Agent</li>
-          <li>🎬 <strong>AI video detection</strong> — hover any video in Chrome</li>
-          <li>✅ <strong>Identifies the generator</strong> — Sora, Runway, Pika, Veo, Kling</li>
-          <li>✅ <strong>500 tokens/month</strong> (10 per video scan)</li>
-          <li>✅ Token top-ups available, never expire</li>
-          <li>✅ Yearly option: $299/year (save ~17%)</li>
-        </ul>
-
-        <!-- Video waitlist form -->
-        <div id="videoWaitlistForm">
-          <p style="font-size:0.875rem;color:#93c5fd;margin:0 0 0.75rem;">Get notified at launch + early access pricing:</p>
-          <div style="display:flex;gap:8px;">
-            <input type="email" id="videoEmailInput" placeholder="your@email.com"
-              style="flex:1;padding:11px 14px;border-radius:8px;border:1px solid rgba(59,130,246,0.35);background:rgba(59,130,246,0.08);color:#e2e8f0;font-size:0.9rem;outline:none;"
-              required>
-            <button onclick="submitVideoWaitlist()" id="videoSubmitBtn"
-              style="padding:11px 18px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.9rem;white-space:nowrap;">
-              Notify Me
-            </button>
-          </div>
-          <div id="videoWaitlistError" style="display:none;margin-top:8px;font-size:0.8rem;color:#f87171;"></div>
-        </div>
-
-        <!-- Success state -->
-        <div id="videoWaitlistSuccess" style="display:none;text-align:center;padding:12px 0;">
-          <div style="font-size:1.5rem;margin-bottom:6px;">🎉</div>
-          <div style="font-weight:700;color:#60a5fa;margin-bottom:4px;">You're on the list!</div>
-          <div style="font-size:0.85rem;color:#93c5fd;">We'll email you when Pro + Video launches.</div>
-        </div>
-      </div>
-
       <!-- WAITLIST SECTION (default - shown when Stripe not configured) -->
       <div class="waitlist-card" id="waitlistCard">
         <h3>🚀 Get early access</h3>
@@ -606,7 +585,7 @@
         <div class="pro-feature-card">
           <div class="pro-feature-icon">⚡</div>
           <h4>Unlimited Investigations</h4>
-          <p>No daily limits. Investigate as many images as you want. Free users get 20/day.</p>
+          <p>No daily limits. Investigate as many images as you want. Free users get 3/day.</p>
         </div>
 
         <div class="pro-feature-card">
@@ -648,57 +627,84 @@
           <div class="feature-col">Feature</div>
           <div class="free-col">Free</div>
           <div class="pro-col">Pro</div>
+          <div class="video-col">🎬 Pro+Video</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col">Daily investigations</div>
           <div class="free-col">3</div>
           <div class="pro-col">Unlimited</div>
+          <div class="video-col">Unlimited</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col">Hover detection</div>
           <div class="free-col check">✓</div>
           <div class="pro-col check">✓</div>
+          <div class="video-col check">✓</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col">Ctrl+Click detection</div>
           <div class="free-col check">✓</div>
           <div class="pro-col check">✓</div>
+          <div class="video-col check">✓</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col">Stakeout mode (visible images)</div>
           <div class="free-col check">✓</div>
           <div class="pro-col check">✓</div>
+          <div class="video-col check">✓</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col"><strong>Deep Dive mode (all images)</strong></div>
           <div class="free-col cross">✗</div>
           <div class="pro-col check">✓</div>
+          <div class="video-col check">✓</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col">Multi-detector accuracy</div>
           <div class="free-col cross">✗</div>
           <div class="pro-col check">✓</div>
+          <div class="video-col check">✓</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col">Detective Case Files</div>
           <div class="free-col cross">✗</div>
           <div class="pro-col check">✓</div>
+          <div class="video-col check">✓</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col">Priority support</div>
           <div class="free-col cross">✗</div>
           <div class="pro-col check">✓</div>
+          <div class="video-col check">✓</div>
         </div>
         <div class="comparison-row">
-          <div class="feature-col">Social media support</div>
-          <div class="free-col check">✓</div>
-          <div class="pro-col check">✓</div>
+          <div class="feature-col"><strong>AI video detection</strong></div>
+          <div class="free-col cross">✗</div>
+          <div class="pro-col cross">✗</div>
+          <div class="video-col check">✓</div>
+        </div>
+        <div class="comparison-row">
+          <div class="feature-col">Generator identification</div>
+          <div class="free-col cross">✗</div>
+          <div class="pro-col cross">✗</div>
+          <div class="video-col check">✓</div>
+        </div>
+        <div class="comparison-row">
+          <div class="feature-col">Monthly scan tokens</div>
+          <div class="free-col">—</div>
+          <div class="pro-col">200</div>
+          <div class="video-col">500</div>
+        </div>
+        <div class="comparison-row">
+          <div class="feature-col">Price</div>
+          <div class="free-col">Free</div>
+          <div class="pro-col">$9.99/mo</div>
+          <div class="video-col">$29.99/mo</div>
         </div>
       </div>
 
       <p style="text-align: center; margin-top: 32px; color: var(--text-secondary);">
-        <strong style="color: var(--gold);">Waitlist members lock in $4.99/month forever.</strong><br>
-        Public price will be $9.99/month or $99/year.
+        🔒 Secure payment via Stripe &nbsp;·&nbsp; 14-day refund &nbsp;·&nbsp; Cancel anytime
       </p>
     </div>
   </section>
@@ -708,8 +714,8 @@
     <div class="container">
       <div class="cta-card">
         <h2>Ready to upgrade your detective work?</h2>
-        <p>Join 100s of users on the Pro waitlist.</p>
-        <a href="#waitlistCard" class="btn btn-primary btn-large" onclick="document.getElementById('emailInput').focus()">🕵️ Join the Waitlist</a>
+        <p>Image detection, video detection, unlimited investigations. Start today.</p>
+        <a href="#buyNowSection" class="btn btn-primary btn-large">🕵️ See Plans</a>
       </div>
     </div>
   </section>
@@ -762,52 +768,6 @@
   </footer>
 
   <script>
-    // ============================================================================
-    // Pro + Video waitlist signup
-    // ============================================================================
-    async function submitVideoWaitlist() {
-      const emailInput = document.getElementById('videoEmailInput');
-      const submitBtn = document.getElementById('videoSubmitBtn');
-      const errorDiv = document.getElementById('videoWaitlistError');
-      const email = emailInput.value.trim();
-
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errorDiv.textContent = 'Please enter a valid email address.';
-        errorDiv.style.display = 'block';
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = '...';
-      errorDiv.style.display = 'none';
-
-      try {
-        const resp = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, source: 'pro-video' })
-        });
-        const data = await resp.json();
-        if (resp.ok && data.success) {
-          document.getElementById('videoWaitlistForm').style.display = 'none';
-          document.getElementById('videoWaitlistSuccess').style.display = 'block';
-        } else {
-          throw new Error(data.error || 'Signup failed');
-        }
-      } catch (err) {
-        errorDiv.textContent = 'Something went wrong. Please try again.';
-        errorDiv.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Notify Me';
-      }
-    }
-
-    // Allow Enter key to submit
-    document.addEventListener('DOMContentLoaded', () => {
-      const input = document.getElementById('videoEmailInput');
-      if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') submitVideoWaitlist(); });
-    });
-
     // ============================================================================
     // Auto-detect: Stripe enabled or waitlist mode?
     // Set this to true once Stripe is configured + tested
