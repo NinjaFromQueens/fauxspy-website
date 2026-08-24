@@ -1112,6 +1112,35 @@
       "email": "ajalabneh@zu.edu.jo",
       "method": "email",
       "sent": true
+    },
+    "aifacesearch.io": {
+      "date": "2026-08-24",
+      "email": "contactaifacesearch@gmail.com",
+      "method": "email",
+      "sent": true
+    },
+    "eyesift.com": {
+      "date": "2026-08-24",
+      "email": "your@email.com",
+      "method": "email",
+      "sent": true
+    },
+    "link.springer.com": {
+      "date": "2026-08-24",
+      "email": "journalpermissions@springernature.com",
+      "method": "email",
+      "sent": true
+    },
+    "coveron.com": {
+      "date": "2026-08-24",
+      "email": "6cc04afff2c44a03802ecef1f63ddba0@debug.coveron.com",
+      "method": "email",
+      "sent": true
+    },
+    "enoughabuse.org": {
+      "date": "2026-08-24",
+      "method": "form",
+      "sent": true
     }
   }
 }
