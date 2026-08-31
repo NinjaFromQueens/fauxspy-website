@@ -1141,6 +1141,35 @@
       "date": "2026-08-24",
       "method": "form",
       "sent": true
+    },
+    "adaptivesecurity.com": {
+      "date": "2026-08-31",
+      "email": "emoore@gmail.com",
+      "method": "email",
+      "sent": true
+    },
+    "news.ufl.edu": {
+      "date": "2026-08-31",
+      "email": "news@ufl.edu",
+      "method": "email",
+      "sent": true
+    },
+    "libguides.astate.edu": {
+      "date": "2026-08-31",
+      "email": "library@astate.edu",
+      "method": "email",
+      "sent": true
+    },
+    "safetysift.com": {
+      "date": "2026-08-31",
+      "method": "form",
+      "sent": true
+    },
+    "guides.hsict.library.utoronto.ca": {
+      "date": "2026-08-31",
+      "email": "hslibrary@unityhealth.to",
+      "method": "email",
+      "sent": true
     }
   }
 }
