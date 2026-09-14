@@ -1299,6 +1299,22 @@
       "date": "2026-09-07",
       "method": "form",
       "sent": true
+    },
+    "insightface.ai": {
+      "date": "2026-09-14",
+      "method": "form",
+      "sent": true
+    },
+    "idtheftcenter.org": {
+      "date": "2026-09-14",
+      "email": "itrc@idtheftcenter.org",
+      "method": "email",
+      "sent": true
+    },
+    "sctdd.org": {
+      "date": "2026-09-14",
+      "method": "form",
+      "sent": true
     }
   }
 }
