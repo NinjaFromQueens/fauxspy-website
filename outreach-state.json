@@ -1315,6 +1315,47 @@
       "date": "2026-09-14",
       "method": "form",
       "sent": true
+    },
+    "podcasts.apple.com": {
+      "date": "2026-09-21",
+      "email": "nhello@lyssboss.com",
+      "method": "email",
+      "sent": true
+    },
+    "nltimes.nl": {
+      "date": "2026-09-21",
+      "email": "tips@nltimes.nldid",
+      "method": "email",
+      "sent": true
+    },
+    "arstechnica.com": {
+      "date": "2026-09-21",
+      "email": "duroneppsjr7@gmail.com",
+      "method": "email",
+      "sent": true
+    },
+    "fincen.gov": {
+      "date": "2026-09-21",
+      "email": "frc@fincen.gov",
+      "method": "email",
+      "sent": true
+    },
+    "dnr.state.mn.us": {
+      "date": "2026-09-21",
+      "method": "form",
+      "sent": true
+    },
+    "libguides.mcckc.edu": {
+      "date": "2026-09-21",
+      "email": "mcc_librarys-queue@chat.libraryh3lp.com",
+      "method": "email",
+      "sent": true
+    },
+    "abc7ny.com": {
+      "date": "2026-09-21",
+      "email": "7onyoursidenina@abc.com",
+      "method": "email",
+      "sent": true
     }
   }
 }
