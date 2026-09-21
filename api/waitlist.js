@@ -205,7 +205,7 @@ module.exports = async (req, res) => {
   <p><a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="cta-btn">🕵️ Add Faux Spy to Chrome</a></p>
   <div class="footer">
     <p>Faux Spy · <a href="https://www.fauxspy.com">fauxspy.com</a></p>
-    <p>You signed up at fauxspy.com. Don't want these? <a href="{{unsubscribe_url}}">Unsubscribe</a>.</p>
+    <p>You signed up at fauxspy.com. Don't want these? Just reply "unsubscribe".</p>
   </div>
 </body>
 </html>`,

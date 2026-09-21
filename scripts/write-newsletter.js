@@ -152,7 +152,7 @@ HTML RULES:
 - Background: white (#ffffff) for email client compatibility
 - Text: #1a1f2e (near-black)
 - Accent/links: #d97706 (gold-dark)
-- Use the Resend variable {{unsubscribe_url}} in the unsubscribe link — Resend replaces it automatically
+- Use the Resend variable {{{RESEND_UNSUBSCRIBE_URL}}} (exactly three braces each side) as the href of the unsubscribe link — Resend replaces it automatically
 - No images (they get blocked in many email clients)
 - Keep it under 700 words of visible text
 
@@ -198,6 +198,21 @@ Write the newsletter now. Return only the JSON object {"subject":"...","html":".
     if (match) return JSON.parse(match[0]);
     throw new Error(`Could not parse Claude response as JSON: ${cleaned.slice(0, 200)}`);
   }
+}
+
+// ─── Unsubscribe link guard ──────────────────────────────────────────────────
+
+const UNSUBSCRIBE_VAR = '{{{RESEND_UNSUBSCRIBE_URL}}}';
+
+// The link is required for deliverability and compliance, so it can't depend on model output.
+function ensureUnsubscribeLink(html) {
+  const fixed = html.replace(/\{\{\{?\s*unsubscribe_url\s*\}?\}\}/gi, UNSUBSCRIBE_VAR);
+  if (fixed.includes(UNSUBSCRIBE_VAR)) return fixed;
+
+  const footer = `<p style="text-align:center;font-size:12px;color:#94a3b8;margin:24px 0 0;">Don't want these? <a href="${UNSUBSCRIBE_VAR}" style="color:#d97706;">Unsubscribe</a></p>`;
+  return /<\/body>/i.test(fixed)
+    ? fixed.replace(/<\/body>/i, `${footer}</body>`)
+    : fixed + footer;
 }
 
 // ─── Send via Resend broadcasts API ──────────────────────────────────────────
@@ -273,6 +288,7 @@ async function main() {
 
   // Phase 2: Generate
   const newsletter = await generateNewsletter({ newPosts, productCommits, subscriberCount });
+  newsletter.html = ensureUnsubscribeLink(newsletter.html);
 
   console.log(`\nSubject: ${newsletter.subject}`);
   console.log(`HTML length: ${newsletter.html.length} chars`);

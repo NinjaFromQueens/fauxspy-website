@@ -117,7 +117,7 @@ async function main() {
 
   <div class="footer">
     <p>You received this because you joined the Faux Spy Pro waitlist at <a href="https://fauxspy.com/pro">fauxspy.com/pro</a>.<br>
-    To unsubscribe, reply to this email with "unsubscribe" and I'll remove you right away.</p>
+    Don't want these? <a href="{{{RESEND_UNSUBSCRIBE_URL}}}">Unsubscribe</a>.</p>
   </div>
 </body>
 </html>`;
