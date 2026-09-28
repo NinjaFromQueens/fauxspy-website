@@ -1356,6 +1356,123 @@
       "email": "7onyoursidenina@abc.com",
       "method": "email",
       "sent": true
+    },
+    "siteefy.com": {
+      "date": "2026-09-28",
+      "email": "team@siteefy.com",
+      "method": "email",
+      "sent": true
+    },
+    "cheaterbuster.com": {
+      "date": "2026-09-28",
+      "email": "their@email.com",
+      "method": "email",
+      "sent": true
+    },
+    "faceidsearch.com": {
+      "date": "2026-09-28",
+      "method": "form",
+      "sent": true
+    },
+    "copyseeker.net": {
+      "date": "2026-09-28",
+      "method": "form",
+      "sent": true
+    },
+    "jamaicaobserver.com": {
+      "date": "2026-09-28",
+      "email": "advertising@jamaicaobserver.com",
+      "method": "email",
+      "sent": true
+    },
+    "veriff.com": {
+      "date": "2026-09-28",
+      "email": "agustina.bustinduy@veriff.net",
+      "method": "email",
+      "sent": true
+    },
+    "cyberpeace.org": {
+      "date": "2026-09-28",
+      "email": "secretariat@cyberpeace.net",
+      "method": "email",
+      "sent": true
+    },
+    "kaspersky.com": {
+      "date": "2026-09-28",
+      "email": "enquiry.sea@kaspersky.com",
+      "method": "email",
+      "sent": true
+    },
+    "mix106radio.com": {
+      "date": "2026-09-28",
+      "email": "boise.dme@townsquaremedia.com",
+      "method": "email",
+      "sent": true
+    },
+    "ir.mountaintopuniversity.edu.ng": {
+      "date": "2026-09-28",
+      "email": "editorial@ir.mountaintopuniversity.edu.ng",
+      "method": "email",
+      "sent": true
+    },
+    "yahoo.com": {
+      "date": "2026-09-28",
+      "email": "amidoingitwrong@huffpost.com",
+      "method": "email",
+      "sent": true
+    },
+    "cms.gov": {
+      "date": "2026-09-28",
+      "email": "guidemodelteam@cms.hhs.gov",
+      "method": "email",
+      "sent": true
+    },
+    "owasp.org": {
+      "date": "2026-09-28",
+      "email": "rick.mitchell@owasp.org",
+      "method": "email",
+      "sent": true
+    },
+    "snaped.fna.usda.gov": {
+      "date": "2026-09-28",
+      "email": "askusda@usda.gov",
+      "method": "email",
+      "sent": true
+    },
+    "coursiv.io": {
+      "date": "2026-09-28",
+      "email": "u003esupport@coursiv.io",
+      "method": "email",
+      "sent": true
+    },
+    "meegle.com": {
+      "date": "2026-09-28",
+      "email": "meeglesupport@larksuite.com",
+      "method": "email",
+      "sent": true
+    },
+    "news.slashdot.org": {
+      "date": "2026-09-28",
+      "email": "feedback@slashdot.org",
+      "method": "email",
+      "sent": true
+    },
+    "windowscentral.com": {
+      "date": "2026-09-28",
+      "email": "kevinokemwa@outlook.com",
+      "method": "email",
+      "sent": true
+    },
+    "streetsafeselfdefence.com": {
+      "date": "2026-09-28",
+      "method": "form",
+      "sent": true
+    },
+    "directionscu.org": {
+      "date": "2026-09-28",
+      "email": "directionscreditunion2@directionscu.org",
+      "method": "email",
+      "sent": true
     }
   }
 }
