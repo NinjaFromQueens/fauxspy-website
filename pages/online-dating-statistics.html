@@ -29,8 +29,15 @@
     "spatialCoverage": "United States and Global",
     "creator": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "citation": [
       "Pew Research Center: Online Dating in America 2023",
@@ -48,7 +55,10 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/online-dating-statistics"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/online-dating-statistics"
+    },
     "headline": "Online Dating Statistics 2024: Users, Fake Profiles, Fraud Losses, and Safety Data",
     "description": "323 million people use online dating globally. 1 in 4 profiles is estimated to be fake. $1.14B in reported fraud losses. Comprehensive statistics from Pew, McAfee, FTC, and Statista.",
     "url": "https://www.fauxspy.com/online-dating-statistics",
@@ -56,10 +66,33 @@
     "dateModified": "2026-07-15",
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"}
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Online dating",
+      "sameAs": "https://en.wikipedia.org/wiki/Online_dating"
+    }
   }
   </script>
 
@@ -71,34 +104,26 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How many people use online dating?",
+        "name": "How many people use online dating apps?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Approximately 323 million people use online dating apps globally as of 2024 (Statista). In the United States, 30% of adults have used a dating app or website — rising to 53% among adults under 30 (Pew Research 2023). Match Group (Tinder, Hinge, OkCupid, Match, POF) reports approximately 15.2 million paying subscribers globally."
+          "text": "Approximately 323 million people use online dating apps globally as of 2024 (Statista). In the United States, 30% of adults have used a dating app or website — rising to 53% of adults under 30 (Pew Research 2023). Approximately 40% of US couples who formed relationships in recent years met online (Stanford Social Dynamics Lab 2024)."
         }
       },
       {
         "@type": "Question",
-        "name": "How many fake profiles are on dating apps?",
+        "name": "What percentage of dating app profiles are fake?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "1 in 4 online dating profiles is estimated to be fake or fraudulent, according to McAfee's 2026 Modern Love Report. Bumble removes approximately 900,000 fake profiles per month. Tinder removed 5.8 million profiles for policy violations in the first half of 2024. Facebook Dating, which draws from the broader Facebook platform, is subject to the 1.1 billion fake accounts Facebook removes quarterly. 78% of fake dating app installations (not profiles) are on dating apps (McAfee 2026)."
+          "text": "1 in 4 online dating profiles is estimated to be fake or fraudulent, according to McAfee's 2026 Modern Love Report. Individual platforms report massive removal numbers: Bumble removes ~900,000 fake profiles per month, Tinder removed 5.8 million policy-violating profiles in H1 2024, and Facebook removes over 1 billion fake accounts quarterly across its platform."
         }
       },
       {
         "@type": "Question",
-        "name": "How much money is lost to online dating fraud?",
+        "name": "How common is online dating fraud?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The FTC reported $1.14 billion in romance and online dating fraud losses in 2023. The FBI IC3 reported $672 million in romance/confidence fraud in 2024. The average victim loses $37,521 (FBI IC3). The Consumer Federation of America estimates the true total at approximately $4.7 billion annually — about 7x the reported figure — because most victims never report due to shame."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What percentage of online dating users have been scammed?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "52% of online dating users say they have encountered a suspected catfish (Pew Research 2022). 30% of online dating users report being contacted by someone they believe was trying to scam them (Pew 2023). 1 in 4 people encountered an AI-generated photo on a dating app in 2026 (McAfee). 13% of online daters say they have been asked for money by someone they met on a dating app or website (Pew 2023)."
+          "text": "The FTC reported $1.14 billion in romance fraud losses in 2023. The FBI IC3 reported $672 million in romance/confidence fraud in 2024. 52% of online daters have encountered a suspected catfish (Pew 2022). 13% have been asked for money by someone they met on a dating app (Pew 2023). The true total — including unreported cases — is estimated at $4.7 billion annually."
         }
       },
       {
@@ -106,7 +131,7 @@
         "name": "Which dating app has the most fake profiles?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Plenty of Fish (POF) accounts for 78% of all fake dating app installations, according to McAfee's 2026 report. Tinder removed 5.8 million policy-violating profiles in H1 2024. Bumble reports removing 900,000 fake profiles per month. Facebook Dating inherits the fraud problem from the broader Facebook platform, which removed 1.1 billion fake accounts in Q4 2024. Match Group's aggregate platforms collectively remove millions of profiles annually."
+          "text": "Plenty of Fish (POF) accounts for 78% of all fake dating app installations (McAfee 2026). However, by raw removal volume, Tinder (5.8M removed H1 2024) and Bumble (~900K/month) lead. Facebook Dating inherits fake accounts from the broader Facebook platform, which is the most common starting point for scams — 57% of FTC scam origin reports trace to Facebook."
         }
       },
       {
@@ -114,23 +139,31 @@
         "name": "Is online dating safe?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Online dating carries real fraud and safety risks but is not inherently unsafe — millions of people form genuine relationships through dating apps. Key safety practices: check profile photos with an AI detector (AI-generated faces are now a primary tool of scammers); do a reverse image search; video call before meeting; meet in public for first meetings; never send money to someone you've only met online; trust your instincts if something feels off."
+          "text": "Online dating is widely used and millions form genuine relationships through it, but significant fraud risks exist. Key protective steps: check profile photos with an AI detector (Faux Spy is free); run a reverse image search; request a real-time selfie; insist on a live video call before meeting; always meet in public for the first time; and never send money to someone you've only met online."
         }
       },
       {
         "@type": "Question",
-        "name": "What is AI doing to online dating safety?",
+        "name": "What is the fastest-growing online dating scam?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "AI has made fake profiles significantly harder to detect. Romance scammers now use AI image generators (Midjourney, DALL-E, Stable Diffusion) to create realistic photos of people who don't exist — faces that have no match online and can't be caught by reverse image search. 1 in 4 Americans encountered an AI-generated photo on a dating app in 2026 (McAfee). The FBI confirmed this trend in its 2024 IC3 annual report. AI detection tools like Faux Spy are the only reliable way to identify these fake faces."
+          "text": "Pig butchering (sha zhu pan) is the fastest-growing variant. The scammer builds a romantic connection, then introduces a fake cryptocurrency investment platform. The victim makes small \"test\" investments that show fake profits, then invests a large amount — which the scammer steals. Global pig butchering losses are estimated at $12.4 billion in 2024. The FBI has designated it a top financial crime priority."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the most common type of online dating fraud?",
+        "name": "How has AI changed online dating fraud?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Romance scams (catfishing for money) are the most common and costly form of online dating fraud. The scammer builds emotional trust over weeks or months before requesting money through a manufactured crisis. Pig butchering scams — where a romantic connection leads to a fake crypto investment opportunity — are the fastest-growing variant, with estimated global losses of $12.4 billion in 2024. Military romance scams are the most common persona used by scammers."
+          "text": "AI has made fake profiles dramatically harder to detect. Romance scammers now use AI image generators to create realistic fake photos of people who don't exist — faces with no match online that reverse image search cannot find. 1 in 4 Americans encountered an AI-generated dating app photo in 2026. AI chatbots also allow scammers to manage dozens of fake relationships simultaneously. AI detection tools are now essential for online dating safety."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What should I do if I suspect I'm being scammed on a dating app?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Stop contact immediately. Right-click their photo and check it with Faux Spy — if it's AI-generated, you're talking to a scammer. Run a reverse image search. Demand a live video call. If they've already asked for money: do not pay; report to IC3.gov and ReportFraud.ftc.gov; contact your bank immediately if money was sent; and report the profile on the platform. The AARP Fraud Watch Network Helpline (1-877-908-3360) provides free support."
         }
       }
     ]

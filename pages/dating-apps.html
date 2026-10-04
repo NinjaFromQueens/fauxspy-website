@@ -20,34 +20,26 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Can Faux Spy detect AI profile photos on Tinder?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Open Tinder in Chrome, hover over any profile photo, and click Investigate. Faux Spy works on any website in Chrome, including Tinder, Bumble, Hinge, and other dating apps."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Does Faux Spy work on dating app mobile apps?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Faux Spy works in the browser version of dating apps (Tinder, Bumble, and Hinge all have full-featured web apps). The native iOS and Android apps can't use browser extensions."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How accurate is Faux Spy at detecting AI-generated profile photos?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "For photorealistic AI-generated faces (the kind used in catfishing), accuracy runs 90–95%. Faux Spy gives you a confidence score so you can weigh the result — an 85% AI Photo verdict is different from a 55% one."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Which dating apps does Faux Spy work on?",
+        "name": "Which dating apps does it work on?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Any dating app with a browser version: Tinder, Bumble, Hinge, OkCupid, Match, Plenty of Fish, Coffee Meets Bagel. If the photo loads in Chrome, Faux Spy can scan it."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can it detect photos stolen from real people's accounts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No — Faux Spy detects AI-generated images specifically, not whether a photo was stolen from someone else's profile. For that, Google Images or TinEye reverse image search is what you want. The two tools work well together: run both for a thorough check."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if the result is wrong?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No detector is perfect — that's why Faux Spy gives you a confidence score instead of a flat verdict. Treat it as a strong signal, not a final word. A 92% \"AI Photo\" is compelling. A 58% one is worth noting but isn't decisive on its own."
         }
       }
     ]
@@ -87,14 +79,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/dating-apps"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/dating-apps"
+    },
     "headline": "Detect AI-Generated Profile Photos on Dating Apps | Faux Spy",
     "description": "AI-generated profile photos are everywhere on Tinder, Bumble, and Hinge. Right-click any photo in Chrome to get an instant real vs. AI verdict. Free, 3 checks/day.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

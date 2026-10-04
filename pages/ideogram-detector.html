@@ -20,47 +20,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/ideogram-detector#faq-1",
         "name": "Can Faux Spy detect Ideogram images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Faux Spy detects Ideogram-generated images by analyzing pixel patterns, lighting consistency, and texture artifacts. The extension returns an instant verdict with a confidence score."
+          "text": "Yes. Faux Spy detects Ideogram-generated images by analyzing pixel patterns, lighting consistency, texture artifacts, and statistical anomalies. The extension returns an instant AI vs. Real verdict with a confidence score. You'll get results like \"AI Photo\" or \"Inconclusive\" depending on how well-made the Ideogram image is."
         }
       },
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/ideogram-detector#faq-2",
         "name": "What makes Ideogram images hard to spot?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Ideogram excels at realistic skin texture and natural lighting. It rarely produces obvious tells like melted hands or warped text. The images look polished enough to fool most people on dating apps and social media."
+          "text": "Ideogram excels at realistic skin texture and natural lighting. It rarely produces obvious tells like melted hands or warped facial features. The images look polished enough to fool most people on casual inspection. That's exactly why catfishers and scammers use it. Human eyes miss the tells that Faux Spy's algorithm catches."
         }
       },
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/ideogram-detector#faq-3",
         "name": "How do I use Faux Spy to detect Ideogram images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Install Faux Spy from the Chrome Web Store. Hover over any image on any website or right-click it. You'll get an instant AI vs. Real verdict. No account needed for 3 free checks per day."
+          "text": "Install Faux Spy from the Chrome Web Store (free). Go to any website with images. Hover over an image or right-click it. Faux Spy instantly returns a verdict. No account needed for 3 free checks per day. If you need unlimited checks and deepfake detection, upgrade to Pro for $9.99/month or $99/year."
         }
       },
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/ideogram-detector#faq-4",
         "name": "Are Ideogram images used in scams and fake profiles?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Ideogram's realistic output makes it a top choice for catfishing on Tinder, Bumble, Hinge, and Instagram. Scammers use it to create convincing fake profile photos that pass basic scrutiny."
+          "text": "Yes, extensively. Ideogram's realism makes it the top choice for catfishing on Tinder, Bumble, Hinge, and Instagram. Scammers also use Ideogram images to impersonate recruiters on LinkedIn and influencers on social media. One generated image can replace dozens of real photos and establish enough credibility to trap someone in a romance scam or investment fraud."
         }
       },
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/ideogram-detector#faq-5",
         "name": "What's the difference between Ideogram and other AI image generators?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Ideogram is optimized for text rendering and typography in images, which it handles better than DALL-E 3 or Midjourney. It also produces smoother skin tones and more consistent lighting, making detection harder."
+          "text": "Ideogram is optimized for text rendering and typography in images—it handles text better than DALL-E 3 or Midjourney. It also produces smoother skin tones, more consistent lighting, and higher-resolution outputs. These strengths make Ideogram images harder to spot as fake, but they also leave specific fingerprints that Faux Spy's algorithm recognizes."
         }
       }
     ]
@@ -100,14 +95,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/ideogram-detector"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/ideogram-detector"
+    },
     "headline": "Ideogram Detector — Real or AI Image?",
     "description": "Detect Ideogram AI-generated images instantly. Spot fake profiles, scams, and deepfakes with Faux Spy's free Chrome extension.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

@@ -17,11 +17,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/free-vs-paid-ai-image-detectors"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/free-vs-paid-ai-image-detectors"
+    },
     "headline": "Free vs Paid AI Image Detectors: Is the Free Tier Accurate Enough?",
     "description": "Free AI image detectors are accurate enough for most consumer use cases. Paid tiers primarily add deepfake detection, video analysis, volume limits, and API access — not meaningfully higher accuracy on still images.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-08-03",
     "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/free-vs-paid-ai-image-detectors"
@@ -37,7 +62,7 @@
         "name": "Is a free AI image detector accurate enough?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "For most consumer use cases — checking dating profile photos, marketplace listings, or news images — yes. Free-tier AI image detectors benchmark at 88-91% accuracy on standard test sets of unmodified AI-generated images. Paid tiers do not typically offer meaningfully higher accuracy on still images; they primarily add deepfake detection, video analysis, higher daily volume, and API access. The free tier is sufficient for occasional checks of photos you encounter while browsing."
+          "text": "For most consumer use cases, yes. Free-tier detectors benchmark at 88-91% accuracy on standard unmodified AI images. Paid tiers add deepfake detection, video, and volume — not meaningfully higher still-image accuracy. The free tier is sufficient for checking dating profiles, marketplace listings, and social media photos at normal individual use volumes."
         }
       },
       {
@@ -45,15 +70,15 @@
         "name": "What does paying for an AI image detector actually get you?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Paid AI image detection typically adds: (1) higher or unlimited daily check volume — free tiers cap at 4-3 checks/day; (2) deepfake detection — face-swap and facial manipulation detection requires a separate model not included in most free tiers; (3) video analysis — checking video frames for AI-generated or manipulated content; (4) API access for integrating detection into your own applications; (5) batch processing for analyzing large numbers of images at once. Still-image accuracy on standard AI-generated photos is not meaningfully higher on paid tiers."
+          "text": "Higher daily volume (unlimited vs 3/day); deepfake detection for face-swap and manipulation analysis; video frame analysis; API access for application integration; batch processing. Still-image accuracy on standard AI-generated photos does not meaningfully increase at paid tiers — the underlying detection models are similar, and the free tier already runs on Sightengine's production API."
         }
       },
       {
         "@type": "Question",
-        "name": "When should I upgrade from a free to paid AI image detector?",
+        "name": "When should I upgrade from free to paid?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Upgrade when: you consistently hit the daily check limit (3/day on FauxSpy free); you need deepfake detection for face-swap and manipulation analysis (not just AI-generated images); you need to check video content; you're building a product that needs API access to detection services; you're doing systematic verification of large numbers of images for research or journalism. For casual use — a few checks per day on photos you encounter while browsing — the free tier is sufficient."
+          "text": "Upgrade when: you regularly hit the 3/day free cap; you need deepfake detection (face-swap analysis); you need video checking; you're doing high-volume systematic verification; you need API access. For casual individual use — a few checks per day on images you encounter while browsing — free is sufficient."
         }
       }
     ]

@@ -17,11 +17,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/ai-insurance-fraud-photos"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/ai-insurance-fraud-photos"
+    },
     "headline": "Insurance Adjusters Are Fighting a New Kind of Fraud: AI Claim Photos",
     "description": "AI-generated damage photos are appearing in insurance claims. Detection using genai and deepfake models is possible and is being implemented in automated claim screening workflows.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-08-03",
     "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/ai-insurance-fraud-photos"
@@ -37,7 +62,7 @@
         "name": "Can AI-generated photos be used to commit insurance fraud?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. AI image generation tools can produce photorealistic images of property damage — water damage, fire damage, vehicle collisions, roof hail damage — that are visually convincing to manual reviewers. These images lack the metadata, GPS consistency, and timestamp coherence of authentic photos, and they carry statistical AI generation artifacts detectable by genai detection APIs. The Coalition Against Insurance Fraud estimates total US insurance fraud losses at $308.6 billion annually across all fraud types."
+          "text": "Yes. AI image generators produce photorealistic property damage photos that pass quick visual review. They lack camera metadata, GPS data, and authentic timestamps, and they carry statistical AI generation artifacts detectable by genai detection APIs. The Coalition Against Insurance Fraud estimates total US insurance fraud at $308.6 billion annually across all types."
         }
       },
       {
@@ -45,7 +70,7 @@
         "name": "How can insurance adjusters detect AI-generated claim photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Four detection approaches: (1) AI image detection API — services like Sightengine's genai model flag images with AI generation probability scores; (2) metadata inspection — AI-generated images have no camera data, GPS, or authentic timestamps; (3) reverse image search — AI-generated damage images may appear in stock photo sites or other claims if the fraudster reused a generated image; (4) consistency checks — AI damage photos often show inconsistencies between damage type, lighting, and surrounding environment that a trained adjuster can spot."
+          "text": "Four approaches: (1) AI detection API — Sightengine's genai model flags images with AI generation probability; (2) metadata inspection — no camera data, GPS, or authentic timestamp; (3) reverse image search — may find reused AI-generated images from prior claims or public sources; (4) contextual consistency review — shadows, damage patterns, and architectural details inconsistent with the claimed event type."
         }
       },
       {
@@ -53,7 +78,7 @@
         "name": "What is the legal exposure for submitting AI-generated photos in insurance claims?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Submitting AI-generated photos in support of a false insurance claim constitutes insurance fraud — a criminal offense in all US states, typically a felony for claims above a threshold amount ($1,000-$10,000 depending on jurisdiction). Federal charges apply when wire fraud or mail fraud statutes are involved (claims submitted electronically or by mail). The addition of AI-generated evidence does not create a new legal category but strengthens the fraud case by showing deliberate fabrication of evidence."
+          "text": "Insurance fraud — a criminal felony in all US states above threshold amounts. The AI-generated nature strengthens the fraud case by demonstrating deliberate evidence fabrication. Federal charges apply when claims are submitted electronically (wire fraud) or by mail (mail fraud). Maintaining documented AI screening output supports criminal referrals and civil fraud claims."
         }
       }
     ]

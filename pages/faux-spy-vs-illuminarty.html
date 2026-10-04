@@ -23,7 +23,7 @@
         "name": "Is Faux Spy better than Illuminarty?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It depends on your use case. Faux Spy is better for checking images in-context — while you're on a dating app, social media, or any website — because it runs as a Chrome extension and requires no upload. Illuminarty requires downloading the image and uploading it to their site. For real-time profile checking, Faux Spy is significantly faster. For heatmap analysis of where AI artifacts appear in an image, Illuminarty has a feature Faux Spy doesn't."
+          "text": "For checking images while browsing — dating apps, social media, any website — Faux Spy is faster because it's a browser extension with no upload step. For heatmap analysis that shows exactly where AI artifacts are in an image, Illuminarty has a feature Faux Spy doesn't. If you're doing real-time profile checks, Faux Spy wins on workflow. If you need forensic detail, Illuminarty adds value."
         }
       },
       {
@@ -31,31 +31,31 @@
         "name": "Does Faux Spy require uploading images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. Faux Spy works as a Chrome extension — you hover over or right-click any image on any website and click Investigate. The image never leaves your browser to a third-party upload service. Illuminarty requires you to download the image and upload it to their website."
+          "text": "No. Faux Spy works directly on the page — no downloading, no uploading. The image stays in your browser. Illuminarty requires downloading the image first, then uploading it to their website."
         }
       },
       {
         "@type": "Question",
-        "name": "How accurate is Faux Spy compared to Illuminarty?",
+        "name": "How accurate is Faux Spy vs. Illuminarty?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy uses Hive Moderation's AI detection engine, which benchmarks at 94% accuracy across major generators including Midjourney, DALL-E, and Stable Diffusion. Illuminarty benchmarks at approximately 91%. Both are in the top tier of consumer-accessible tools. For photorealistic profile photos specifically — the main use case for dating apps — both perform well."
+          "text": "Faux Spy uses Hive Moderation's engine at 94% accuracy. Illuminarty benchmarks at approximately 91%. Both are in the top tier for consumer AI detection tools. For typical profile photo checks, the difference is marginal — both will catch most AI-generated faces."
         }
       },
       {
         "@type": "Question",
-        "name": "What does Illuminarty detect that Faux Spy doesn't?",
+        "name": "Can I use Faux Spy free?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Illuminarty offers a heatmap feature that highlights which areas of an image show the strongest AI-generation signals. Faux Spy shows a verdict and confidence score but does not currently show a heatmap. If you need to understand where in an image the AI artifacts are — for forensic purposes or to demonstrate the result to someone else — Illuminarty's heatmap is useful."
+          "text": "Yes — 3 checks per day, no account needed. Illuminarty's free tier allows 5 scans per day and requires an account. Faux Spy Pro ($9.99/month) adds unlimited checks and deepfake detection."
         }
       },
       {
         "@type": "Question",
-        "name": "Can I use Faux Spy for free?",
+        "name": "Does Illuminarty have a browser extension?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Faux Spy gives you 3 detection checks per day at no cost and without creating an account. The Pro plan ($9.99/month) gives unlimited checks plus deepfake and manipulation detection. Illuminarty offers 5 free scans per day on their free tier, with Pro plans starting at approximately $9–19 per month."
+          "text": "No. Illuminarty is a website-based tool that requires you to upload images. Faux Spy is the only AI image detector with a Chrome browser extension that works on any website without uploading."
         }
       }
     ]
@@ -79,8 +79,15 @@
     },
     "author": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "reviewBody": "Illuminarty is a capable AI image detector with solid accuracy and a useful heatmap feature. The main friction is that it requires downloading and uploading images — there is no browser extension. For users who want to check profile photos while browsing, that upload step adds meaningful friction compared to right-click detection tools."
   }
@@ -89,14 +96,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/faux-spy-vs-illuminarty"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/faux-spy-vs-illuminarty"
+    },
     "headline": "Faux Spy vs. Illuminarty: Which AI Image Detector Is Better? | Faux Spy",
     "description": "Faux Spy and Illuminarty both detect AI-generated images. One requires a file upload. The other works by right-clicking any image on any website. Here's the difference.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

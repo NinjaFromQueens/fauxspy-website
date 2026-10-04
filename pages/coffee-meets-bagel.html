@@ -20,7 +20,6 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/coffee-meets-bagel#faq-1",
         "name": "Can I use Faux Spy on Coffee Meets Bagel?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -29,7 +28,6 @@
       },
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/coffee-meets-bagel#faq-2",
         "name": "How do I detect deepfakes on dating apps?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -38,16 +36,14 @@
       },
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/coffee-meets-bagel#faq-3",
-        "name": "What does Faux Spy's verdict mean?",
+        "name": "What does \"Inconclusive\" mean?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy returns one of five verdicts: No AI Detected, AI Photo, AI Art, Digital Art, or Inconclusive. Each includes a confidence score so you know how sure the tool is."
+          "text": "Some images don't have enough signal to call definitively. They might be real, heavily filtered, or AI with an unusual style. \"Inconclusive\" means we're less than 70% confident. When in doubt, trust your gut or ask for a video call before investing time."
         }
       },
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/coffee-meets-bagel#faq-4",
         "name": "Do I need an account to use Faux Spy?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -56,11 +52,10 @@
       },
       {
         "@type": "Question",
-        "@id": "https://www.fauxspy.com/coffee-meets-bagel#faq-5",
-        "name": "Why would someone use a fake photo on Coffee Meets Bagel?",
+        "name": "What if the person has a real photo but is still a scammer?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Romance scammers use AI or stolen photos to build fake profiles. Catfish use old or filtered photos to misrepresent themselves. Both waste your time and can lead to financial or emotional harm."
+          "text": "Faux Spy catches fake or manipulated photos. It doesn't catch dishonesty (old photos, lies about age, etc.). If a profile photo is real but the person seems off—rushing to video calls, asking for money, avoiding questions—trust that instinct and unmatch."
         }
       }
     ]
@@ -111,14 +106,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/coffee-meets-bagel"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/coffee-meets-bagel"
+    },
     "headline": "Coffee Meets Bagel Fake Profile Detector | Faux Spy",
     "description": "Detect AI-generated and fake profiles on Coffee Meets Bagel instantly. See if that photo is real before you match. Free tool with 3 checks/day.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

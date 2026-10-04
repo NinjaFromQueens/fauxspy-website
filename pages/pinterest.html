@@ -20,26 +20,10 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Does Faux Spy work on Pinterest?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Open Pinterest in Chrome, hover over any Pin image, and click the Investigate button. Faux Spy checks whether the image is a real photograph, AI-generated art, or a synthetic photo-realistic image."
-        }
-      },
-      {
-        "@type": "Question",
         "name": "Can I scan my whole Pinterest feed at once?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — open the Faux Spy popup and use Page Scan to check every visible image on the current page at once. This works on Pinterest boards and search results."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What's the difference between Pinterest's AI label and Faux Spy?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Pinterest's native AI label relies on metadata attached to the image when it was uploaded — which can be stripped or missing entirely. Faux Spy checks the image itself, not the metadata. The two approaches catch different things."
+          "text": "Yes. Open the Faux Spy extension popup (click the icon in your toolbar) and hit Page Scan. It runs through every image visible on the page and returns results for each one. On a dense Pinterest grid, this is faster than checking Pins one at a time."
         }
       },
       {
@@ -47,7 +31,23 @@
         "name": "Does it work on Pins saved from other websites?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — Faux Spy checks the image content regardless of where it was originally uploaded from. Whether the Pin came from a blog, an Etsy store, or a generative AI site, the check runs the same way."
+          "text": "Yes — the check runs on the image file itself, wherever it came from. Whether a Pin originated on a recipe blog, an Etsy store, or an AI art generator, Faux Spy checks the same way."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I get an Inconclusive result?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Inconclusive usually means the image is too small or heavily compressed — common with Pinterest thumbnails in grid view. Click into the full Pin page to get the higher-resolution version, then check that. You'll usually get a clear result from the larger image."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it work on the Pinterest mobile app?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy is a Chrome extension and works on Pinterest's browser version at pinterest.com. The iOS and Android apps don't support browser extensions. If you want to check a specific Pin from the mobile app, open the Pin URL in Chrome on your desktop."
         }
       }
     ]
@@ -70,14 +70,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/pinterest"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/pinterest"
+    },
     "headline": "Detect AI-Generated Images on Pinterest | Real Photos vs AI Art | Faux Spy",
     "description": "Pinterest is flooded with AI-generated images. Right-click any Pin in Chrome to check if it's real photography, AI art, or a fully synthetic image. Free.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

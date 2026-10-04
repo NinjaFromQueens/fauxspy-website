@@ -17,11 +17,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/gan-vs-diffusion-detection"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/gan-vs-diffusion-detection"
+    },
     "headline": "GAN vs Diffusion Models: How AI Detectors Tell Them Apart",
     "description": "GAN images leave periodic frequency artifacts in the Fourier domain. Diffusion images leave characteristic noise distributions and denoising signatures. Detection approaches differ for each generator class.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-08-03",
     "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/gan-vs-diffusion-detection"
@@ -37,7 +62,7 @@
         "name": "How do AI detectors tell apart GAN images and diffusion model images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "GAN detection uses Discrete Fourier Transform (DFT) frequency analysis to find periodic grid artifacts produced by the GAN's upsampling convolutions — peaks at fixed intervals in the frequency domain that real photos don't have. Diffusion model detection is harder and uses multiple signals: the characteristic noise distribution from the denoising process, unnatural high-frequency smoothness in specific frequency bands, and cross-region statistical inconsistencies. Modern detection models combine both approaches and handle both generator types."
+          "text": "GAN detection uses Discrete Fourier Transform frequency analysis to find periodic grid artifacts from the convolution-upsampling process — peaks at fixed intervals that real photos don't have. Diffusion detection is harder and uses overlapping signals: the noise distribution from denoising, high-frequency smoothness anomalies, and VAE decoder compression artifacts. Modern detection models handle both generator types by training on large diverse datasets and combining multiple signals."
         }
       },
       {
@@ -45,7 +70,7 @@
         "name": "Which is easier to detect — GAN images or diffusion model images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "GAN images are generally easier to detect because they leave a consistent, strong frequency artifact from the convolution-upsampling process — a periodic grid pattern in the frequency domain. Diffusion images don't have a single strong fingerprint; detectors rely on weaker, overlapping signals (noise distribution, smoothness patterns, VAE compression artifacts). This is why diffusion model detection requires larger training datasets and more complex models than GAN detection."
+          "text": "GAN images. They leave a strong, consistent frequency fingerprint from the convolution-upsampling process that generalizes across architectures. Diffusion images rely on weaker, overlapping signals that don't generalize as cleanly and are more sensitive to post-processing. The shift from GAN-dominated to diffusion-dominated AI image generation (2022-2024) made detection harder, though modern models have substantially closed the gap on major diffusion pipelines."
         }
       },
       {
@@ -53,7 +78,7 @@
         "name": "Can AI detectors identify which specific model generated an image?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Partially. Illuminarty attempts to identify the probable generator (Midjourney, Stable Diffusion, DALL-E, etc.) based on the specific frequency and noise signature characteristics of each model's output. This works reasonably well for images from major well-known generators, less well for fine-tuned models or new generators the detector hasn't been trained on. The genai model used by Sightengine (and FauxSpy) focuses on the binary AI-or-real classification rather than generator identification."
+          "text": "Partially. Illuminarty attempts generator identification (Midjourney, Stable Diffusion, DALL-E, etc.) based on model-specific frequency and noise signatures. This works reasonably for images from well-known generators without post-processing. It's less reliable for fine-tuned models or new generators the detector hasn't been trained on. FauxSpy's genai model focuses on the binary AI-or-real classification rather than generator identification."
         }
       }
     ]

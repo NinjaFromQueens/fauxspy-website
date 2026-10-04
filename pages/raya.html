@@ -28,34 +28,34 @@
       },
       {
         "@type": "Question",
-        "name": "How does Raya fake profile detection work?",
+        "name": "How accurate is Faux Spy on Raya?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy analyzes the image pixel data and patterns that reveal AI generation or manipulation. You get results instantly—No AI Detected, AI Photo, AI Art, Digital Art, Possible Manipulation, or Inconclusive. No account needed for your first 3 checks per day."
+          "text": "Accuracy depends on the image quality and the sophistication of the AI. Faux Spy is trained on millions of images and can detect most AI-generated photos with high confidence. The confidence score tells you how sure the detector is. If it says 95% AI Photo, trust it. If it says 62% Inconclusive, ask for another photo."
         }
       },
       {
         "@type": "Question",
-        "name": "Is Faux Spy free on Raya?",
+        "name": "Do I need a Raya account to use Faux Spy?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, the free version gives you 3 checks per day with no account required. Pro ($9.99/mo or $99/yr) unlocks unlimited checks plus enhanced deepfake and manipulation detection."
+          "text": "No. Faux Spy is a Chrome browser extension. It works on any website, including Raya. Just install it and log in to Raya normally. The extension runs in the background and activates when you hover over or right-click any image."
         }
       },
       {
         "@type": "Question",
-        "name": "Do I need to leave Raya to use this?",
+        "name": "What if someone uses a heavily filtered photo?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. Faux Spy is a Chrome extension. You stay on Raya, hover over or right-click any profile photo, and get your verdict instantly. It works directly in your browser."
+          "text": "Faux Spy will flag it as Possible Manipulation, not AI Photo. Heavy filters, face-tuning, and beauty app effects show up differently than AI generation. If you see Possible Manipulation, it means the person is real but their photo is heavily edited. Ask them for an unfiltered selfie or request a video call to verify."
         }
       },
       {
         "@type": "Question",
-        "name": "What does Possible Manipulation mean?",
+        "name": "Does Raya know I'm using Faux Spy?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Possible Manipulation flags images that show signs of editing or alterations—filters, face-tuning, background changes, or other digital edits. It doesn't mean the photo is fake; it means it's been modified from the original."
+          "text": "No. Faux Spy is a client-side tool that runs in your browser. Raya doesn't log what extensions you use. You're not breaking any terms of service. You're just verifying images faster and smarter."
         }
       }
     ]
@@ -100,14 +100,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/raya"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/raya"
+    },
     "headline": "Raya Fake Profile Detector | AI Image Verification",
     "description": "Detect fake profiles on Raya with AI image verification. Spot catfish, deepfakes, and manipulated photos instantly with Faux Spy's Chrome extension.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

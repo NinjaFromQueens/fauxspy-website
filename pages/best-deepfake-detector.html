@@ -23,7 +23,7 @@
         "name": "What is a deepfake detector?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A deepfake detector is a tool that analyzes images or video to determine whether they were created by AI rather than a camera. Most tools look at statistical properties of the image data — patterns in the pixel distribution, artifacts from the generation process, or inconsistencies in lighting and texture that human eyes miss. They output a confidence score indicating how likely the image is to be AI-generated."
+          "text": "A deepfake detector analyzes images or video to determine whether they were created by AI rather than a camera. Most tools look at statistical properties of the image data — patterns in the pixel distribution, artifacts from the generation process, or inconsistencies that human eyes miss. They output a confidence score indicating how likely the image is to be AI-generated."
         }
       },
       {
@@ -31,7 +31,7 @@
         "name": "How accurate are deepfake detectors?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Accuracy varies by tool, image type, and how recent the generating model is. Well-maintained detectors tend to perform better on images from models they've been trained against. Because AI image generators keep improving, detection models need to be regularly retrained — so a tool that was highly accurate a year ago may perform worse on images from newer generators. The best tools combine multiple detection signals and show a confidence score rather than a simple yes/no."
+          "text": "Accuracy varies by tool, image type, and how recently the generating model was released. Well-maintained detectors perform best on images from models they've been trained against. Because generators keep improving, detection models need regular retraining — a tool that was highly accurate a year ago may perform worse on images from newer generators."
         }
       },
       {
@@ -39,23 +39,15 @@
         "name": "Do deepfake detectors work on video?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Some do, some don't. Photo-based detectors analyze still images frame by frame, which catches a lot but can miss artifacts that only appear in motion. Purpose-built video deepfake detectors also look at temporal consistency — whether facial movements, blinking, and lighting changes across frames are consistent with real video. For profile photos and social media images, a photo-based detector is usually sufficient."
+          "text": "Some do, some don't. Photo-based detectors analyze still images — which covers profile photos and most social media content. Video-specific detectors also look at temporal consistency across frames. For checking profile photos on dating apps and social platforms, a photo-based tool handles most real-world cases."
         }
       },
       {
         "@type": "Question",
-        "name": "Does Faux Spy work on any website?",
+        "name": "What's the difference between a browser extension and a web-based detector?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Faux Spy works on any website in Chrome — dating apps, social media, LinkedIn, Facebook, anywhere images appear. You don't need to download the photo or navigate to a separate tool. Hover over the image, click Investigate, and you get a result in seconds."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What's the difference between a browser extension and a web-based deepfake detector?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A browser extension works on images wherever you find them online, without uploading anything to a third-party tool. A web-based detector requires you to download the image, navigate to the tool, and upload it — which adds friction and means you're sharing the image with another service. For checking profile photos in real time, a browser extension is significantly faster."
+          "text": "A browser extension works on images wherever you find them without downloading or uploading anything. A web-based detector requires you to save the image, navigate to the tool, and upload it. For real-time profile checks, a browser extension has dramatically less friction — which matters because you'll actually use it."
         }
       }
     ]
@@ -95,14 +87,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/best-deepfake-detector"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/best-deepfake-detector"
+    },
     "headline": "Best Deepfake Detectors in 2026: What Works and What to Look For | Faux Spy",
     "description": "Not all deepfake detectors are built the same. Some work on photos, some on video, some require file uploads. Here's how to think about what you actually need.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

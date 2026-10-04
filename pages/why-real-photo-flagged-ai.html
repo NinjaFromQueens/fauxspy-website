@@ -23,39 +23,47 @@
         "name": "Why did my real photo get flagged as AI-generated?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Real photos are most commonly flagged as AI when they've been heavily retouched, run through an Instagram or Snapchat filter, compressed by a messaging app, or edited with AI-powered tools like Photoshop's generative fill. These processes alter the pixel-level patterns that detection models look for, making the image look statistically different from an unedited photograph. The fix is usually to check the original, unmodified version."
+          "text": "The most common causes are heavy retouching, photo filters, compression from messaging apps, or AI-powered editing tools applied to the photo. All of these alter the pixel statistics that detectors measure. The fix is usually to check the original, unmodified source file."
         }
       },
       {
         "@type": "Question",
-        "name": "Does heavy photo retouching cause false positives in AI detectors?",
+        "name": "Does heavy photo retouching cause false positives?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Professional retouching — especially skin smoothing, blemish removal, and frequency-separation techniques — removes the natural texture variation and noise that distinguishes a real photograph from an AI-generated image. A heavily retouched headshot can look statistically similar to a GAN-generated face, which causes some detectors to flag it as AI."
+          "text": "Yes, particularly skin smoothing and texture work. Professional retouching removes the natural noise variation that distinguishes a photograph from an AI-generated image. Heavily retouched headshots are the most common real-world cause of false positives."
         }
       },
       {
         "@type": "Question",
-        "name": "What should I do if I think Faux Spy's result is wrong?",
+        "name": "What should I do if I think the result is wrong?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "First, try the original unedited version of the photo — download the source file and check it directly rather than a screenshot or a copy that's been through a messaging app. Second, check whether the image has been filtered or heavily edited. Third, look at the confidence score: a result near 50% is genuinely uncertain, while a result above 85% is much more reliable. If you still believe the result is incorrect, contact Faux Spy via the support page."
+          "text": "Try the original unedited file — download the source image and check it directly rather than a screenshot or messaging-app copy. Check the confidence score: a result near 50% is uncertain; above 85% is much more reliable. If you still believe it's incorrect, contact us via the support page."
         }
       },
       {
         "@type": "Question",
-        "name": "Does Faux Spy use a conservative or aggressive detection threshold?",
+        "name": "Does Faux Spy use a conservative detection threshold?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy uses a conservative threshold, which means it is tuned to minimize false positives — cases where a real photo is incorrectly flagged as AI-generated. The trade-off is that some AI-generated images near the detection boundary will come back as Inconclusive rather than AI. This is an intentional choice: incorrectly accusing someone of using a fake photo is a more harmful mistake than returning an uncertain result."
+          "text": "Yes. Faux Spy is tuned to minimize false positives — it would rather return Inconclusive than incorrectly flag a real photo as AI. Images near the detection boundary return an uncertain result rather than a forced verdict. The trade-off is that some AI images close to the boundary may also come back Inconclusive."
         }
       },
       {
         "@type": "Question",
-        "name": "Do AI editing tools like Photoshop generative fill cause false positives?",
+        "name": "Do AI photo editing tools like Photoshop generative fill cause false positives?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "They can. When a real photo has had significant regions replaced or altered using AI-powered tools — Photoshop's generative fill, Adobe Firefly, or similar — the edited areas carry AI generation artifacts. A detector may flag the image as AI even though the original base photo was real. Technically, this is a partially correct result: part of the image was AI-generated."
+          "text": "They can — and in that case the result is partially correct. If a real photo had significant areas replaced using AI generation tools, those areas carry AI artifacts. A detector flagging the image is identifying real AI content, even if the base photo was genuine. This is a genuinely ambiguous case."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does a false positive mean someone faked their photo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. A false positive means the image's processing history changed its pixel statistics — not that the subject used an AI-generated face. Professional photos, filtered selfies, and heavily compressed images can all trigger false positives without any deceptive intent. Look at the confidence score and try the original file before drawing conclusions."
         }
       }
     ]
@@ -65,11 +73,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/why-real-photo-flagged-ai"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/why-real-photo-flagged-ai"
+    },
     "headline": "Why Your Real Photo Got Flagged as AI (And What to Do About It)",
     "description": "AI image detectors can flag real photos in specific, predictable situations. Here's why it happens and how to get an accurate result.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-08-03",
     "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/why-real-photo-flagged-ai"

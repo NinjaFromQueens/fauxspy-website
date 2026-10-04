@@ -17,11 +17,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/blog/how-to-tell-if-video-is-ai-generated"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/blog/how-to-tell-if-video-is-ai-generated"
+    },
     "headline": "How to Tell If a Video Is AI Generated",
     "description": "Visual tells, metadata limits, and how dedicated detection tools analyze AI-generated video from Sora, Runway, Pika, and other generators.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com", "logo": {"@type": "ImageObject", "url": "https://www.fauxspy.com/favicon.png"}},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-05-23",
     "dateModified": "2026-05-23"
   }
@@ -187,6 +212,29 @@
           <p>For video that's being shared as news, evidence, or documentary footage — anything where authenticity actually matters — use <a href="/ai-video-detector">Faux Spy Pro + Video</a>. Navigate to the page in Chrome, hover over the video, click the blue "Analyze Video" button. You'll get a confidence score and generator identification in a few seconds. The analysis runs directly from your browser without downloading the file or opening a separate tool.</p>
           <p>Combine the results with context. A 90% "Sora" result on a clip that's being presented as citizen journalism is a strong indicator. A 60% "AI Generated" result on something clearly labeled as creative content matters a lot less. The tool gives you probability information. What you do with it is a judgment call based on what the video is claiming to be.</p>
           <p>One final note: "Inconclusive" from a detection tool doesn't mean the video is real. It means the analysis couldn't commit. That happens with very short clips, heavily compressed video, and content from newer generators with smaller training sets. If the result is inconclusive on something important, that's a reason to apply more scrutiny, not less.</p>
+        </div>
+        <div class="landing-faq">
+          <h2>Frequently asked questions</h2>
+          <details class="faq-item">
+            <summary>What are the visual signs that a video is AI-generated?</summary>
+            <p>Look for: unnatural skin smoothness or texture; hair and fabric that moves oddly or clips through surfaces; backgrounds with repeating patterns or warping at edges; lighting that shifts inconsistently between frames; fingers or hands that look malformed; and lips that don't quite sync with speech in older deepfakes.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Does video metadata reveal if a video was made by AI?</summary>
+            <p>Rarely. Most AI-generated videos are re-encoded before sharing, which strips or overwrites the original metadata. Some platforms embed C2PA (Content Credentials) provenance data, but this is not yet universal. Metadata checks are an unreliable primary method and should be treated as a secondary signal.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can AI-generated video fool you on a live video call?</summary>
+            <p>Pre-recorded deepfake videos are sometimes played during video calls to impersonate someone. To verify, ask the person to perform a specific real-time action — wave with their left hand, hold up today's newspaper, rotate 90 degrees. Inconsistency, freezing, or refusal to comply are strong indicators of a pre-recorded deepfake.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What tools can detect AI-generated video?</summary>
+            <p>Dedicated video deepfake detectors include Faux Spy's video detection feature, Deepware Scanner, and Sensity AI. These tools analyze frame-level artifacts and motion consistency. For still frames extracted from video, AI image detectors also work — right-click a video frame and open in a new tab, then run Faux Spy.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Why doesn't reverse video search work for AI deepfakes?</summary>
+            <p>AI-generated video is unique content that has never been uploaded anywhere else, so database matching finds nothing. Reverse video search (Google, TinEye Video) can only match clips that already exist in their index. For synthetic content, you need a detection tool that analyzes the video itself rather than searching for it.</p>
+          </details>
         </div>
 
         <div style="margin-top:3rem;padding:1.5rem;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:8px;">

@@ -23,7 +23,7 @@
         "name": "Can Faux Spy detect Stable Diffusion images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Faux Spy detects Stable Diffusion images with 73% accuracy on SD v1.4. The tool analyzes pixel patterns, lighting inconsistencies, and texture anomalies unique to Stable Diffusion's output."
+          "text": "Yes. Faux Spy detects Stable Diffusion images with 73% accuracy on SD v1.4. The tool analyzes pixel patterns, lighting inconsistencies, texture anomalies, and background geometry errors unique to Stable Diffusion's output."
         }
       },
       {
@@ -31,15 +31,15 @@
         "name": "What makes Stable Diffusion images hard to spot?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Stable Diffusion excels at realistic skin texture and face generation, making images look natural at first glance. The tells are in the background details—walls often have impossible geometry, hair strands blend unnaturally, and lighting doesn't follow physics."
+          "text": "Stable Diffusion excels at realistic skin texture and face generation, making images look natural at first glance. The tells are in the background details—walls have impossible geometry, hair strands blend unnaturally, and lighting doesn't follow physics. Eyes, hands, and reflections are where it usually breaks down."
         }
       },
       {
         "@type": "Question",
-        "name": "Why are Stable Diffusion images used in fake profiles?",
+        "name": "Why are scammers using Stable Diffusion?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Stable Diffusion is free and open-source, so scammers use it to generate unlimited fake profile photos for romance scams, catfishing, and fake job postings. The barrier to entry is near zero."
+          "text": "Stable Diffusion is free and open-source. Scammers can generate unlimited fake profile photos without paying for an API or subscription. They run it locally on their laptop and create new fake identities in minutes. That's why fake profiles are everywhere on dating apps and job boards now."
         }
       },
       {
@@ -47,15 +47,23 @@
         "name": "How long does detection take?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Instant. Hover over any image in Chrome and Faux Spy runs analysis in milliseconds. You get a confidence score and verdict immediately."
+          "text": "Instant. Hover over any image in Chrome and Faux Spy runs analysis in milliseconds. You get a confidence score and verdict immediately—no waiting, no server upload."
         }
       },
       {
         "@type": "Question",
-        "name": "Will Faux Spy catch newer Stable Diffusion versions?",
+        "name": "Will Faux Spy detect newer Stable Diffusion versions?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Newer versions (SDXL, SD 3) produce higher-quality images that are harder to detect. Faux Spy is continuously updated, but no detector catches 100%. Pro users get the latest detection models as they roll out."
+          "text": "Newer versions like SDXL and SD 3 produce higher-quality images that are harder to detect. Faux Spy is continuously updated with new detection models, but no detector catches 100%. Pro users get access to the latest models as they're released, giving you the best detection for newer generators."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need an account to use Faux Spy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The free tier works without any account. You get 3 checks per day on any website. Pro users create an account to unlock unlimited checks, deepfake detection, and manipulation detection."
         }
       }
     ]
@@ -99,14 +107,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/stable-diffusion-detector"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/stable-diffusion-detector"
+    },
     "headline": "Detect Stable Diffusion Images — AI or Real?",
     "description": "Detect Stable Diffusion images instantly with 73% accuracy. Hover to verify if a profile photo is AI-generated. Free tool, no account needed.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

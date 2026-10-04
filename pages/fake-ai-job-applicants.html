@@ -23,7 +23,7 @@
         "name": "How do I know if a job applicant's headshot is AI-generated?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Open the applicant's LinkedIn profile in Chrome, right-click their headshot, and click Investigate with Faux Spy. You'll get a verdict — AI-generated or real — with a confidence score in seconds. Visually, AI headshots often look slightly too perfect: skin is unusually smooth, lighting is perfectly even, and the background is generic or non-specific. But modern AI generators are good enough that visual inspection alone misses many fakes — a pixel-level detection tool is more reliable."
+          "text": "Open their LinkedIn profile in Chrome, right-click the headshot, and click Investigate with Faux Spy — you'll get a verdict with a confidence score in seconds. Also run a Google reverse image search on the photo. Visually: look for unnaturally smooth skin, perfectly even lighting with no shadows, and a generic soft-blur background with no identifiable location."
         }
       },
       {
@@ -31,31 +31,39 @@
         "name": "How common are fake AI job applicants?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Gartner predicted in November 2024 that 1 in 4 job applicants will be fake by 2028, driven by AI-powered candidate fraud. This includes AI-generated identities submitting mass applications, fabricated LinkedIn profiles with AI-generated headshots, and candidates who misrepresent their background with AI-written credentials. The problem is already measurable: many recruiters report encountering suspicious applications that pass initial ATS screening but fail or ghost at later stages."
+          "text": "Gartner predicted in November 2024 that 1 in 4 job applicants will be fake by 2028. The problem is concentrated in remote roles — where no in-person interview is required before employment — and in roles with access to valuable systems or IP. Most recruiters already encounter suspicious applications that pass ATS screening but fail at later verification stages."
         }
       },
       {
         "@type": "Question",
-        "name": "Can a fake job applicant pass an initial screening interview?",
+        "name": "Can a fake applicant pass a phone or video screen?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. AI voice tools can power a convincing phone screen. Deepfake technology is sophisticated enough to create a plausible video call persona. The most reliable verification happens through live, unscripted conversation — ask specific, detailed questions about past work that a real person with that experience could answer but a scripted AI persona could not. Request verifiable references who can confirm specific projects, not just employment dates."
+          "text": "Phone screens: yes — AI voice tools are convincing enough to pass a scripted phone interview. Video calls: harder but not impossible with deepfake technology. The most reliable defense is an unscripted, live screen-share request — ask the candidate to open and walk through real work from a project they've described. A fabricated persona can't produce work artifacts on demand."
         }
       },
       {
         "@type": "Question",
-        "name": "What does a fake AI job applicant actually want?",
+        "name": "Does an AI headshot automatically mean the application is fraudulent?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Motives vary. Some fake applicants are fraudsters seeking remote-work salaries they'll collect without performing real work — a growing problem in remote-first companies. Others are credential farmers building a fake employment history. Some are state-sponsored actors applying to roles that give access to sensitive systems or intellectual property. The AI headshot and fabricated profile are the surface layer; the underlying motive is almost always financial or intelligence-gathering."
+          "text": "No — but it is a significant red flag that warrants additional verification. Some candidates use AI-edited or AI-generated headshots for aesthetic reasons without intending to deceive. The combination matters: an AI headshot alongside a thin LinkedIn history, unverifiable references, and a perfectly optimized resume is a much stronger signal than the headshot alone."
         }
       },
       {
         "@type": "Question",
-        "name": "Does an AI-generated headshot mean the whole application is fake?",
+        "name": "Does Faux Spy work on LinkedIn profile photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Not necessarily — but it is a serious red flag that warrants additional scrutiny. Some candidates use AI-generated or heavily AI-edited headshots for aesthetic reasons without intent to deceive. What matters is the combination of signals: an AI headshot alongside a thin LinkedIn history, references that can't be verified, and an application that looks too well-optimized for the job posting is a stronger signal than the headshot alone."
+          "text": "Yes. Faux Spy works on any image visible in Chrome, including LinkedIn profile photos. Open the applicant's LinkedIn profile in Chrome, right-click their photo, and click Investigate. Works on applicant headshots, recruiter profiles, and any other images visible in your browser — no uploading or switching tabs needed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What roles are most targeted by fake AI applicants?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Remote roles are the primary target — no in-person verification is required before employment begins. Roles with access to sensitive systems, codebases, or financial data are also disproportionately targeted, particularly by state-sponsored actors. Customer-facing roles and roles requiring professional licenses are lower risk because fraud is more easily detected through client interaction or credential verification."
         }
       }
     ]
@@ -80,11 +88,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/fake-ai-job-applicants"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/fake-ai-job-applicants"
+    },
     "headline": "Hiring Manager's Guide: How to Spot a Fake AI Job Applicant",
     "description": "Gartner predicts 1 in 4 job applicants will be fake by 2028. Here's how to spot AI-generated headshots, fabricated LinkedIn profiles, and mass-automated applications.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-08-03",
     "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/fake-ai-job-applicants"

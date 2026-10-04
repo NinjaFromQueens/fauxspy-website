@@ -23,7 +23,7 @@
         "name": "How can I tell if a photo is AI generated?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Look for these visual signs: hands with the wrong number of fingers or unnatural proportions, teeth that are too uniform or too numerous, ears that look slightly asymmetrical or unformed, jewelry or accessories that blur into the skin, text in the image that is garbled or nonsensical, and backgrounds that have subtle distortions near the subject's edges. For photorealistic AI faces, use a detection tool like Faux Spy — visual inspection alone misses a significant percentage of modern AI-generated images."
+          "text": "Check the hands, teeth, ears, hair edges, jewelry, and background text. These are the areas where current AI generators still make mistakes. For photorealistic faces, use a detection tool — visual inspection alone has a meaningful error rate on modern AI-generated portraits."
         }
       },
       {
@@ -31,7 +31,7 @@
         "name": "Are AI-generated photos getting harder to spot?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, significantly. Models from 2022 often had obvious tells — distorted hands, melted backgrounds, unnatural eyes. Current generation models (2025-2026) produce images that most people cannot distinguish from real photographs by eye. Detection tools that analyze pixel-level patterns are now more reliable than visual inspection for most image types."
+          "text": "Yes, dramatically. Models from a few years ago had obvious tells. Current models produce images most people can't distinguish from real photographs by eye. Detection tools that analyze pixel-level patterns are now more reliable than visual inspection for modern AI-generated images."
         }
       },
       {
@@ -39,23 +39,23 @@
         "name": "Can reverse image search detect AI-generated photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. Reverse image search finds other places the same image appears on the internet. An AI-generated image won't appear anywhere else unless it's been shared — so a clean reverse image search result doesn't mean the image is real. You need a detection tool that analyzes the image itself, not where it appears online."
+          "text": "No. Reverse image search finds other places the same image appears online. A freshly generated AI image won't appear anywhere else, so a clean reverse search result doesn't mean the photo is real. You need a tool that analyzes the image itself."
         }
       },
       {
         "@type": "Question",
-        "name": "What AI image generators are hardest to detect?",
+        "name": "What if Faux Spy says Inconclusive?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Current photorealistic generators — including Midjourney v6+, Stable Diffusion XL, and DALL-E 3 — produce images that are extremely difficult to spot by eye. Faux Spy's detection model is trained on outputs from all major generators and updates as new versions are released."
+          "text": "Inconclusive usually means the image is too small or too heavily compressed to analyze reliably. Find the full-size version of the image and try again. The more pixel data the model has to work with, the clearer the result."
         }
       },
       {
         "@type": "Question",
-        "name": "Does Faux Spy work on AI-generated images that aren't faces?",
+        "name": "Does it work on AI images that aren't faces?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — Faux Spy detects AI-generated photos and AI-generated art across all subject types. The five detection categories include AI Photo (photorealistic scenes and portraits), AI Art (illustrated or rendered styles), and Digital Art (computer-generated content more broadly). It's not limited to faces."
+          "text": "Yes. Faux Spy detects AI-generated images across all subject types — landscapes, objects, scenes, abstract images, not just portraits. The detection categories cover photorealistic AI images, AI art, digital art, and more."
         }
       },
       {
@@ -63,7 +63,7 @@
         "name": "How accurate are AI image detectors?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Accuracy varies by tool and by the generator being tested. Most leading detectors report 85–95% accuracy on typical AI-generated images, but accuracy drops on heavily compressed images, screenshots, or outputs from the newest generator versions. No detector is 100% accurate — treat results as evidence to weigh alongside other signals, not a definitive verdict."
+          "text": "Most leading detectors report 85–95% accuracy on typical AI-generated images. Accuracy drops on heavily compressed images, screenshots, or outputs from the newest generator versions — the models that produce images keep improving, and detection models need to keep pace. Treat results as strong evidence to weigh alongside other signals, not a binary verdict."
         }
       },
       {
@@ -71,15 +71,15 @@
         "name": "Is there a free AI image detector that doesn't require an account?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Faux Spy gives you 3 free image checks per day with no account or sign-up required. Install the Chrome or Firefox extension, right-click any image on any website, and click Investigate. The result appears in seconds. No email, no password, no credit card."
+          "text": "Yes — Faux Spy gives you 3 free checks per day with no account, no sign-up, and no email required. Install the Chrome or Firefox extension, right-click any image on any page, and click Investigate. The result appears in a few seconds. Nothing to configure."
         }
       },
       {
         "@type": "Question",
-        "name": "Does AI image detection work on screenshots and compressed images?",
+        "name": "Does detection work on screenshots or compressed images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Screenshots and heavily compressed images reduce detection accuracy because they alter the pixel-level patterns the model looks for. Detection still works in many cases, but confidence scores are lower. For the most reliable result, try to analyze the original image at its native resolution rather than a screenshot or a thumbnail."
+          "text": "It works, but accuracy is lower. Screenshots and compressed images alter the pixel-level patterns that detection models rely on. For the most reliable result, try to check the image at its native resolution — for example, open the full-size image in a new tab before running the check, rather than right-clicking a thumbnail."
         }
       }
     ]
@@ -102,14 +102,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/how-to-spot-ai-generated-images"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/how-to-spot-ai-generated-images"
+    },
     "headline": "How to Tell if a Photo is AI Generated (2026 Guide) | Faux Spy",
     "description": "AI-generated photos are getting harder to spot. Here's what to look for — and when your eyes aren't enough. Visual guide + free Chrome tool.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-08-03",

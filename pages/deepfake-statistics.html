@@ -23,7 +23,10 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/deepfake-statistics"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/deepfake-statistics"
+    },
     "headline": "Deepfake Statistics 2024: Fraud Losses, Detection Accuracy, and AI Image Data",
     "description": "Comprehensive deepfake statistics including global fraud losses, frequency data, detection accuracy by AI model, and impact on businesses and individuals.",
     "url": "https://www.fauxspy.com/deepfake-statistics",
@@ -31,10 +34,33 @@
     "dateModified": "2026-07-15",
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"}
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Deepfake",
+      "sameAs": "https://en.wikipedia.org/wiki/Deepfake"
+    }
   }
   </script>
 
@@ -48,8 +74,15 @@
     "url": "https://www.fauxspy.com/deepfake-statistics",
     "creator": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "temporalCoverage": "2022/2026",
     "spatialCoverage": "Global",
@@ -89,7 +122,7 @@
         "name": "How common are deepfake fraud attempts?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A deepfake fraud attempt occurs approximately every 5 minutes globally, according to 2024 industry tracking data. The frequency increased 118% from 2023 to 2024, and the number of deepfake incidents has grown over 1,700% since 2022, driven by the rapid proliferation of accessible AI image and video generation tools."
+          "text": "A deepfake fraud attempt occurs approximately every 5 minutes globally (2024 data). The annual frequency grew 118% from 2023 to 2024, and has increased over 1,700% since 2022 when AI generation tools became widely accessible to the public."
         }
       },
       {
@@ -97,7 +130,7 @@
         "name": "How much money do deepfakes cost in fraud each year?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Global deepfake-related fraud losses reached an estimated $12 billion in 2024, according to synthetic media fraud research. This figure is projected to grow to $40 billion by 2027 as AI generation tools become more accessible and deepfakes become harder to distinguish from real media."
+          "text": "Global deepfake-related fraud losses reached an estimated $12 billion in 2024. This is projected to grow to $40 billion by 2027 as AI image and video generation becomes cheaper and more convincing. The $12B figure includes romance scams, corporate fraud, and financial institution fraud — but not the full cost of misinformation and political deepfakes."
         }
       },
       {
@@ -105,7 +138,7 @@
         "name": "What percentage of companies have been targeted by deepfake fraud?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "90% of US companies experienced deepfake fraud in 2024, according to a Medius Group survey of 1,500 finance executives. Separately, 49% of companies reported being targeted by audio or video deepfake attacks specifically (2024 industry report). Deepfake phishing, fake executive videos, and AI voice cloning are the most common attack vectors."
+          "text": "90% of US companies experienced deepfake fraud in 2024, per a Medius Group survey of 1,500 finance executives. In a separate measure, 49% of companies reported being targeted by audio or video deepfake attacks specifically. Corporate deepfakes most commonly impersonate executives to authorize fraudulent wire transfers."
         }
       },
       {
@@ -113,7 +146,7 @@
         "name": "Can people tell the difference between real and AI-generated images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. 68% of deepfakes are now nearly indistinguishable from real media by human perception (2024 industry benchmark data). In audio, 70% of people cannot distinguish real voices from AI-cloned voices (McAfee research). AI voice cloning now requires as little as 3 seconds of audio to create a convincing replica."
+          "text": "No — not reliably. 68% of deepfakes are now nearly indistinguishable from real images by human perception (2024 benchmark research). In audio deepfakes, 70% of people cannot tell the difference between a real voice and an AI clone (McAfee 2024). AI voice cloning requires as little as 3 seconds of source audio to produce convincing results."
         }
       },
       {
@@ -121,23 +154,23 @@
         "name": "Which AI image generators are hardest to detect?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Adobe Firefly v4 is the hardest to detect at approximately 18% accuracy using open-source detection models. Flux Dev (21%) and DALL-E 3 (31%) are also extremely difficult to identify. Older models like Stable Diffusion v1.4 (73%) remain more detectable. Tools using commercial detection models like Hive AI — which powers Faux Spy — achieve approximately 94% overall accuracy across all major generators."
+          "text": "Adobe Firefly v4 is the hardest to detect at ~18% accuracy using open-source detection models. Flux Dev (~21%), Google Imagen 4 (~19%), and Midjourney v7 (~24%) are similarly difficult. Commercial detection models like Hive AI — which powers Faux Spy — achieve approximately 94% accuracy across all of these generators."
         }
       },
       {
         "@type": "Question",
-        "name": "How are deepfakes used in romance scams?",
+        "name": "How do you detect a deepfake image?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Romance scammers use AI image generators to create photorealistic fake profile photos of people who do not exist. Because these faces are entirely synthetic, reverse image search tools cannot identify them — they match no real person's photos online. The FBI confirmed increasing use of AI-generated images in romance scam operations in its 2024 IC3 report, and McAfee found that 1 in 4 Americans encountered an AI-generated photo on a dating app in 2026."
+          "text": "The most reliable method is a commercial AI detection tool. Open-source models detect newer AI generators at rates of only 18–31%, not much better than guessing. Commercial models like Hive AI achieve ~94% overall accuracy. Faux Spy is a free browser extension powered by Hive AI that lets you right-click any photo on any website and get an instant AI vs. Real verdict with a confidence score — no uploading required."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the best way to detect deepfakes?",
+        "name": "Are deepfakes illegal?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Commercial AI detection models significantly outperform human judgment and open-source tools. Hive AI — the model that powers Faux Spy — achieves approximately 94% detection accuracy across all major AI image generators including Midjourney, DALL-E, Stable Diffusion, Adobe Firefly, and Flux. Faux Spy is a free Chrome and Firefox browser extension that lets you right-click any photo online and get an instant AI vs. Real verdict without downloading or uploading anything."
+          "text": "It depends on how they're used. Creating a deepfake is not inherently illegal in most jurisdictions. However, using a deepfake to commit fraud, impersonate someone without consent, create non-consensual intimate imagery, or interfere with elections is illegal in most US states and many countries. As of 2025, 47 US states have passed or are advancing deepfake-specific legislation."
         }
       },
       {
@@ -145,7 +178,7 @@
         "name": "How has deepfake fraud changed since 2022?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Deepfake fraud has grown dramatically since 2022, increasing more than 1,700% through 2024. The annual frequency of deepfake attempts rose 118% from 2023 to 2024 alone. The rise is directly tied to the public availability of AI image generators like Midjourney (2022), Stable Diffusion (open-source), and DALL-E 3 via ChatGPT (2023), which made creating convincing deepfakes free and accessible to anyone."
+          "text": "Deepfake fraud has grown over 1,700% since 2022. The annual frequency rose 118% from 2023 to 2024 alone. The growth is directly tied to public availability of AI image generators: Midjourney launched publicly in 2022, Stable Diffusion became open-source in 2022, and DALL-E 3 was integrated into ChatGPT in 2023 — bringing advanced AI image generation to hundreds of millions of people at no cost."
         }
       }
     ]

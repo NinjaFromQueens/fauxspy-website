@@ -20,10 +20,10 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How do I detect fake Discord profiles?",
+        "name": "How do I know if a Discord profile picture is AI-generated?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Check profile pictures for AI-generated features like unnatural eyes or asymmetrical faces. Use Faux Spy to hover over any profile image and instantly verify if it's real or AI-generated with a confidence score."
+          "text": "Use Faux Spy. Right-click any profile image on Discord and get instant analysis. The extension looks for digital artifacts, unnatural features, and generation patterns that the human eye misses. You get a verdict (AI Photo, AI Art, No AI Detected, etc.) plus a confidence score."
         }
       },
       {
@@ -31,23 +31,31 @@
         "name": "Can Faux Spy detect deepfake Discord profiles?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Faux Spy's Pro plan detects deepfakes and AI manipulations. You'll get detailed analysis showing what's been altered or generated."
+          "text": "Yes, but only on the Pro plan. Free users get basic AI detection. Pro users unlock deepfake detection and manipulation analysis, which catches edited or morphed faces. Essential if you're in high-stakes trading or investment channels."
         }
       },
       {
         "@type": "Question",
-        "name": "What's the easiest way to check multiple Discord profiles at once?",
+        "name": "What if I get an \"Inconclusive\" verdict?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Install Faux Spy and right-click any profile image in your Discord server. Get instant AI vs. Real verdicts with confidence scores. Pro users get unlimited checks."
+          "text": "Inconclusive means the image doesn't have clear markers of AI generation, but it also doesn't have enough authentic features for 100% confidence. Treat it as a yellow flag. If something else about the profile feels off (new account, no history, unsolicited DMs), be cautious regardless of the verdict."
         }
       },
       {
         "@type": "Question",
-        "name": "Are Discord crypto scammers using AI profile pictures?",
+        "name": "Does Faux Spy work on all Discord servers?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Scammers use AI-generated faces to build trust quickly. Faux Spy detects these instantly, helping you avoid fake investment and trading schemes on Discord."
+          "text": "Yes. Any server you have access to, you can check profile pictures. Faux Spy works on public servers, private communities, gaming guilds, crypto trading channels—anywhere Discord shows a profile image in your browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Faux Spy free for Discord?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The free plan includes 3 checks per day, no account required. That's enough for most people to verify new connections in their communities. Pro ($9.99/mo) gives unlimited checks, deepfake detection, and manipulation detection for serious users or community moderators."
         }
       }
     ]
@@ -87,14 +95,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/discord"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/discord"
+    },
     "headline": "Fake Discord Profiles AI Detector | Faux Spy",
     "description": "Detect AI-generated and fake Discord profiles instantly. Spot catfish, crypto scammers, and deepfakes before they target you. Free Discord fake profile checker.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

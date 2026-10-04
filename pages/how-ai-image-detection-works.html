@@ -17,11 +17,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/how-ai-image-detection-works"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/how-ai-image-detection-works"
+    },
     "headline": "How AI Image Detection Actually Works (Explained Simply)",
     "description": "AI image detection identifies generated images by finding invisible statistical artifacts left behind by the AI generator — frequency patterns, GAN fingerprints, and diffusion model noise — rather than looking for visual flaws.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-08-03",
     "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/how-ai-image-detection-works"
@@ -37,7 +62,7 @@
         "name": "How does AI image detection work?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "AI image detection works by analyzing statistical patterns in pixel data that human eyes cannot see. Every AI image generator — whether GAN-based or diffusion-based — leaves behind characteristic artifacts in the frequency domain and pixel-level noise patterns. Detection models are trained on known AI-generated images and learn to recognize these invisible signatures, returning a probability that an image is AI-generated rather than photographed."
+          "text": "AI image detection analyzes statistical patterns in pixel data that human eyes can't see. Every AI generator leaves behind invisible fingerprints in the frequency domain and noise structure of the image — GAN generators leave periodic frequency peaks from their convolution process; diffusion models leave characteristic noise distributions from their denoising process. Detectors are neural networks trained on large datasets of known AI and real images to recognize these patterns and return a probability score."
         }
       },
       {
@@ -45,7 +70,7 @@
         "name": "What is a GAN fingerprint and how do detectors find it?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A GAN fingerprint is a repeating, grid-like pattern of artifacts left by the generator network in an AI-synthesized image. GANs (generative adversarial networks) use a convolution process that creates periodic noise at fixed pixel intervals — invisible to the eye but detectable by applying a frequency analysis technique called the Discrete Fourier Transform (DFT) to the image. The resulting frequency map shows characteristic peaks that real photographs don't have."
+          "text": "A GAN fingerprint is a repeating, grid-like artifact left by the generator network's convolution process. Detectors apply a Discrete Fourier Transform (DFT) to the image to convert pixel data into a frequency representation, then look for the characteristic peaks at fixed intervals that GANs produce. Real photographs don't have these periodic peaks. The technique was first described in Zhang et al. (CVPR 2019) and still underlies many modern GAN detectors."
         }
       },
       {
@@ -53,7 +78,7 @@
         "name": "Can AI image detectors be fooled?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Research from Imagera in 2026 found that no commercial AI image detector exceeded 45-60% accuracy against images specifically optimized to evade detection — the same detectors that achieve 88-91% accuracy on standard AI-generated images. Common evasion techniques include JPEG compression at specific quality settings, adding slight Gaussian noise, resizing by a non-integer factor, and screenshot-then-crop cycles, all of which degrade the frequency artifacts detectors rely on."
+          "text": "Yes. Against images specifically optimized to evade detection — processed with noise addition, JPEG recompression, or non-integer resizing — Imagera's 2026 research found that no commercial detector exceeded 45-60% accuracy. The same tools achieve 88-98% on unmodified AI-generated images. The gap exists because the post-processing techniques that strip out AI artifacts are the same operations used for normal image editing and sharing."
         }
       },
       {
@@ -61,15 +86,15 @@
         "name": "What's the difference between GAN detection and diffusion model detection?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "GAN detection primarily targets periodic frequency artifacts from the convolution process. Diffusion model detection (covering tools like Midjourney, DALL-E, Stable Diffusion) is harder because diffusion images don't have a fixed grid artifact. Instead, detectors look for characteristic noise patterns introduced during the denoising process, unnatural smoothness in specific frequency bands, and statistical uniformity in noise distribution that real camera sensors don't produce."
+          "text": "GAN detection uses Discrete Fourier Transform frequency analysis to find periodic grid artifacts. Diffusion model detection is harder — diffusion images don't have a fixed grid pattern — so detectors instead look for characteristic noise distributions from the denoising process, unnatural high-frequency smoothness in specific frequency bands, and cross-region statistical inconsistencies. Both types are handled by modern detectors, but diffusion detection requires larger and more diverse training datasets."
         }
       },
       {
         "@type": "Question",
-        "name": "How accurate are AI image detectors?",
+        "name": "How accurate are AI image detectors in 2026?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "On standard test sets of AI-generated images (not specifically optimized to evade detection), leading tools benchmark at 88-98% accuracy as of 2026: Hive Moderation 89-98%, Illuminarty approximately 91%, FauxSpy (which uses Sightengine's genai API) approximately 88%. False positive rates — real photos misidentified as AI — run approximately 3% for leading tools under controlled conditions. Accuracy drops significantly against post-processed or evasion-optimized images."
+          "text": "On standard unmodified AI-generated images: Hive Moderation 89-98%, Illuminarty approximately 91%, FauxSpy (Sightengine genai API) approximately 88%. False positive rates on real photos run approximately 3% for leading tools under controlled conditions. These numbers drop significantly against post-processed or evasion-optimized images — accuracy is conditional on whether the image has been processed after generation."
         }
       },
       {
@@ -77,7 +102,7 @@
         "name": "Does JPEG compression affect AI image detection accuracy?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. JPEG compression is one of the most effective ways to degrade AI detection accuracy because it overwrites the fine-grained frequency artifacts that detectors rely on. Images saved at JPEG quality 85 or below lose enough high-frequency detail to meaningfully reduce detection confidence. This is why screenshots of AI images (which apply JPEG compression) are harder to detect than the original AI-generated files."
+          "text": "Yes, meaningfully. JPEG compression overwrites the fine-grained frequency artifacts that detectors rely on — particularly at quality settings below 90. Images saved from social media (which re-compress uploaded images) or taken as screenshots are harder to detect than the original AI-generated file. This is why FauxSpy's Inconclusive result appears more often on compressed or re-uploaded images than on fresh AI generator output."
         }
       }
     ]

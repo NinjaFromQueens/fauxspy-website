@@ -17,11 +17,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/ai-video-deepfake-detection"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/ai-video-deepfake-detection"
+    },
     "headline": "AI Video and Deepfake Detection: What It Is and Where FauxSpy Fits",
     "description": "Video deepfakes use face-swap technology on real video footage. Detection looks for frame-to-frame temporal inconsistencies, face boundary artifacts, and biometric inconsistencies — different from still-image AI detection.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-08-03",
     "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/ai-video-deepfake-detection"
@@ -37,7 +62,7 @@
         "name": "What is the difference between AI-generated video and a deepfake?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "AI-generated video (tools like Sora, Runway, Kling, Pika) creates entirely synthetic footage from a text prompt or image — nothing in the video was originally captured by a camera. A deepfake is typically real video footage with a specific face replaced or manipulated using AI — the background and body are real, but the face is swapped. Detection approaches differ: AI-generated video detection looks for synthetic generation artifacts across the whole frame; deepfake detection looks for boundary artifacts and temporal inconsistencies specifically at the face region."
+          "text": "AI-generated video (Sora, Runway, Kling) creates entirely synthetic footage from a text prompt — no real camera footage involved. A deepfake uses real video with a specific face replaced by AI. Detection differs: AI-generated video is caught by analyzing synthetic artifacts across all frames; deepfakes are caught by looking for face boundary artifacts and frame-to-frame temporal inconsistencies at the face region specifically."
         }
       },
       {
@@ -45,7 +70,7 @@
         "name": "How does video deepfake detection work?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Video deepfake detection analyzes three main signals: (1) temporal inconsistency — face-swap algorithms process frames somewhat independently, creating subtle frame-to-frame variations in the swapped region that look unnatural in motion; (2) face boundary artifacts — the blending region between the swapped face and the original neck/head often has statistical differences in noise and compression; (3) biometric inconsistencies — eye gaze, skin reflections, and micro-expressions may be inconsistent with the surrounding scene across frames."
+          "text": "Three main signals: temporal inconsistency (face-swap algorithms process frames somewhat independently, creating subtle frame-to-frame flickering); face boundary artifacts (the blending region between swapped face and original has characteristic statistical differences); biometric inconsistencies (eye gaze, skin reflections, micro-expressions may be inconsistent with the scene across frames). All three are more reliable signals than any single still-frame check."
         }
       },
       {
@@ -53,7 +78,7 @@
         "name": "Does FauxSpy detect deepfakes in video?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FauxSpy Pro + Video ($29.99/month) includes video content checking using Sightengine's deepfake model. The free tier and standard Pro tier ($9.99/month) check still images only. For video deepfake detection without FauxSpy, BitMind's free browser extension covers both images and video. Resemble AI's Chrome extension covers image, video, and audio deepfakes with 4 free checks per day. UncovAI also offers video deepfake detection."
+          "text": "FauxSpy Pro + Video ($29.99/month) includes video checking using Sightengine's deepfake model. The free tier and standard Pro check still images only. For free video deepfake checking, BitMind (free, no account, Chrome/Edge extension) includes video analysis. Resemble AI offers 4 free video checks per day via its Chrome extension."
         }
       },
       {
@@ -61,7 +86,7 @@
         "name": "Can I check a video for deepfakes using a browser extension?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "BitMind (Chrome/Edge, free, no account) can check video content without uploading. Resemble AI (Chrome extension, 4/day free) covers video, image, and audio. UncovAI (Chrome extension) includes video. FauxSpy Pro + Video adds video checking to the FauxSpy extension. For most still-video deepfake checking (a social media video you're viewing), right-clicking a specific frame and running an image check is a quick first pass before running a full video analysis."
+          "text": "Yes. BitMind (Chrome/Edge, free, no account) works on video content in-browser. Resemble AI's Chrome extension covers video with 4 free checks per day. UncovAI also includes video. FauxSpy Pro + Video adds this to the FauxSpy extension. For a quick first pass on a social media video, right-clicking a suspicious frame and running a still-image check with FauxSpy free is a reasonable starting point before running full video analysis."
         }
       }
     ]

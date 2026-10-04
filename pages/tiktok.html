@@ -20,34 +20,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Does Faux Spy work on TikTok?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes — on TikTok's web version at tiktok.com in Chrome. Hover over any profile photo or image and click Investigate. Faux Spy checks profile photos, thumbnails, and any image visible in your browser."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can Faux Spy detect fake TikTok creator profiles?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Faux Spy can check whether a profile photo is AI-generated. If a creator's profile photo is a synthetic face that doesn't belong to a real person, Faux Spy will usually detect it. It can't verify other details about a creator's identity or follower count."
-        }
-      },
-      {
-        "@type": "Question",
         "name": "Does it work on TikTok videos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The standard extension analyzes profile photos and static thumbnails on TikTok's web version. For AI-generated video content, Faux Spy Pro + Video (launching soon) detects output from Sora, Runway, Pika, Veo, and other generators directly in your browser."
+          "text": "The standard extension analyzes profile photos and static thumbnails on TikTok's web version. For AI-generated video content, Faux Spy Pro + Video (launching soon) detects output from Sora, Runway, Pika, Veo, and other generators — directly in your browser."
         }
       },
       {
         "@type": "Question",
-        "name": "What should brands check before an influencer deal on TikTok?",
+        "name": "Does it work on the TikTok mobile app?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Run a Faux Spy check on their profile photo to verify it's a real person. Also check engagement rates vs. follower counts (abnormally high follower counts with low engagement is a red flag), request to see TikTok's Creator Analytics, and ask for a short live video call before committing to a paid deal."
+          "text": "Faux Spy is a Chrome extension — it works on TikTok's browser version at tiktok.com. The native iOS and Android apps can't run browser extensions. If you're suspicious about a creator from the mobile app, open their profile URL in Chrome on desktop."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What about TikTok's native AI content labels?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TikTok added AI-generated content labels in 2024. Like Pinterest's system, they rely on creators correctly labeling their own content — which fake accounts don't do. Faux Spy checks the image itself, not a label that may or may not be present."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I scan the whole TikTok page at once?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Open the Faux Spy popup (click the extension icon in Chrome's toolbar) and use Page Scan. It checks every image visible on the current page and returns results for all of them at once."
         }
       }
     ]
@@ -70,14 +70,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/tiktok"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/tiktok"
+    },
     "headline": "Detect AI-Generated Images on TikTok | Fake Creator Profiles | Faux Spy",
     "description": "AI-generated creator profiles and fake thumbnails are spreading on TikTok. Right-click any image in Chrome to get an instant real vs. AI verdict. Free.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

@@ -20,42 +20,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is Faux Spy better than UncovAI?",
+        "name": "Is UncovAI free to use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy is more transparent about its capabilities and pricing. The free tier is clearly 3 checks per day with no account required. Pro is $9.99/month and includes deepfake detection. UncovAI's scan limits and pricing structure are not clearly published, which makes it difficult to plan around for regular use."
+          "text": "UncovAI appears to have a free tier, but the limits aren't clearly published. Faux Spy is explicit: 3 free checks per day, no account required. Pro is $9.99/month for unlimited checks plus deepfake detection."
         }
       },
       {
         "@type": "Question",
-        "name": "What are UncovAI's scan limits?",
+        "name": "Which extension has better accuracy?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "UncovAI does not clearly publish its free scan limits or pricing. Faux Spy is explicit: 3 free checks per day, no account required. Pro is $9.99/month for unlimited checks plus deepfake detection."
+          "text": "Faux Spy uses a commercial detection API that is continuously updated against new AI generators. UncovAI's detection model and accuracy aren't publicly benchmarked. Without published accuracy data for current generators, it's difficult to compare directly."
         }
       },
       {
         "@type": "Question",
-        "name": "Does UncovAI detect deepfakes?",
+        "name": "Does UncovAI work on Firefox?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "UncovAI's deepfake detection capabilities are not clearly documented. Faux Spy's Pro tier includes explicit deepfake detection — identifying real photos that have been AI-manipulated, which is particularly important for romance scam scenarios."
+          "text": "UncovAI is available for Chrome. Faux Spy is available for both Chrome and Firefox, making it the choice if you use multiple browsers."
         }
       },
       {
         "@type": "Question",
-        "name": "Does UncovAI have a paid plan?",
+        "name": "Can I use Faux Spy without creating an account?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "UncovAI's paid plan details are not clearly published. Faux Spy is transparent: $9.99/month for Pro (unlimited + deepfake detection), $29.99/month for Video (adds AI video scanning). The free tier is 3 checks/day with no account."
+          "text": "Yes — the free tier (3 checks/day) requires no account and no sign-up. Pro requires an account for billing. You can start using Faux Spy immediately after installing from the Chrome Web Store."
         }
       },
       {
         "@type": "Question",
-        "name": "Which extension is more actively maintained?",
+        "name": "How does Faux Spy handle my images?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy is funded by Pro subscribers, which creates a direct incentive to maintain and improve detection models as AI generators evolve. UncovAI's development activity and update cadence are not publicly documented."
+          "text": "Faux Spy sends image data to its detection API for analysis and returns a verdict. It doesn't store or log your images beyond the scan itself. Full details are in the privacy policy."
         }
       }
     ]
@@ -65,11 +65,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/faux-spy-vs-uncovai"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/faux-spy-vs-uncovai"
+    },
     "headline": "Faux Spy vs. UncovAI: Which AI Image Detector Should You Use? (2026)",
     "description": "UncovAI doesn't publish its scan limits or pricing clearly. Faux Spy offers 3 free checks/day, transparent Pro pricing at $9.99/month, and deepfake detection.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-07-23",
     "dateModified": "2026-07-23",
     "url": "https://www.fauxspy.com/faux-spy-vs-uncovai"

@@ -40,7 +40,7 @@
         "name": "Is there a free AI image detector?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Faux Spy is free — install the Chrome extension and get 3 image detections per day with no account or signup required. Just right-click any image on any website and select 'Investigate this image.' The free tier covers most personal use cases. Pro ($9.99/month) gives unlimited scans, the AI Photo vs. AI Art distinction, and scan history."
+          "text": "Yes. Faux Spy is free — install the Chrome extension and get 3 image detections per day with no account or signup required. Just right-click any image on any website and select \"Investigate this image.\" The free tier covers most personal use cases. Pro ($9.99/month) gives unlimited scans, the AI Photo vs. AI Art distinction, and scan history."
         }
       },
       {
@@ -56,15 +56,7 @@
         "name": "Can AI detectors be fooled?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, partially. Adversarial techniques — adding specific noise patterns to images — can reduce detection accuracy. Heavily compressed images (like screenshots of screenshots) also lose the artifacts that detectors rely on. The best generators (Midjourney v6, FLUX) produce images that score lower confidence than earlier models. This is why Faux Spy shows a confidence score rather than a binary verdict, and why it recommends treating results as one strong signal alongside other contextual clues."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What AI generators does Faux Spy detect?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Faux Spy detects images from all major AI generators including: Midjourney (v4, v5, v6), DALL-E 2 and 3 (including ChatGPT image generation), Stable Diffusion (SDXL, SD 1.5, SD 2.1), Adobe Firefly, Flux (dev and pro), Grok/Aurora (X's image generator), Runway, Bing Image Creator, and others. Detection accuracy varies by generator — older models are easier to detect than newer ones."
+          "text": "Yes, partially. Adversarial techniques — adding specific noise patterns to images — can reduce detection accuracy. Heavily compressed images (like screenshots of screenshots) also lose the artifacts that detectors rely on. The best generators (Midjourney v6, FLUX) produce images that score lower confidence than earlier models. This is why Faux Spy shows a confidence score rather than a binary verdict, and recommends treating results as one strong signal alongside other contextual clues."
         }
       },
       {
@@ -77,26 +69,26 @@
       },
       {
         "@type": "Question",
-        "name": "How do I detect AI-generated dating profile photos?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Install Faux Spy (free Chrome extension) and open the dating app in your browser. Right-click any profile photo and select 'Investigate this image' for a 2-second AI verdict. Works on Tinder, Hinge, Bumble, Match, Zoosk, and any other site you can view in Chrome. Red flags beyond AI detection: profile contacted you first with no mutual connections, refuses video calls, falls in love very quickly, and eventually asks for money or gift cards."
-        }
-      },
-      {
-        "@type": "Question",
         "name": "Does Faux Spy work on any website?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Faux Spy works on any image on any website you can visit in Chrome. Right-click any photo — on dating apps, Instagram, LinkedIn, Facebook, X (Twitter), TikTok, news sites, marketplaces, or anywhere else — and select 'Investigate this image.' No uploading required. The image URL is sent to Faux Spy's detection API without you leaving the page."
+          "text": "Yes. Faux Spy works on any image on any website you can visit in Chrome. Right-click any photo — on dating apps, Instagram, LinkedIn, Facebook, X (Twitter), TikTok, news sites, marketplaces, or anywhere else — and select \"Investigate this image.\" No uploading required. The image URL is sent to Faux Spy's detection API without you leaving the page."
         }
       },
       {
         "@type": "Question",
-        "name": "Is Faux Spy safe to use? What data does it collect?",
+        "name": "How do I detect AI-generated dating profile photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy sends only the URL of the image you explicitly right-click to check. No images are stored. No browsing history is collected. No personal information is required. The extension stores locally: your scan count (to enforce the free tier limit) and your Pro license key if you have one. Neither is transmitted to Faux Spy servers. Full details at fauxspy.com/privacy."
+          "text": "Install Faux Spy (free Chrome extension) and open the dating app in your browser. Right-click any profile photo and select \"Investigate this image\" for a 2-second AI verdict. Works on Tinder, Hinge, Bumble, Match, Zoosk, and any other site you can view in Chrome. Red flags beyond AI detection: profile contacted you first with no mutual connections, refuses video calls, falls in love very quickly, and eventually asks for money or gift cards."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What AI generators does Faux Spy detect?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy detects images from all major AI generators including: Midjourney (v4, v5, v6), DALL-E 2 and 3 (including ChatGPT image generation), Stable Diffusion (SDXL, SD 1.5, SD 2.1), Adobe Firefly, Flux (dev and pro), Grok/Aurora (X's image generator), Runway, Bing Image Creator, and others. Detection accuracy varies by generator — older models are easier to detect than newer ones."
         }
       },
       {
@@ -112,7 +104,31 @@
         "name": "What is the difference between AI Photo and AI Art?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "AI Photo is a photorealistic AI-generated image — a synthetic face, scene, or product shot designed to look like a real photograph. These are the most dangerous for catfishing and scams. AI Art is a stylized AI-generated image — illustrations, concept art, anime-style images, or artwork that is obviously not photographic. Free users see a combined 'Likely AI' verdict; Pro users see which category applies."
+          "text": "AI Photo is a photorealistic AI-generated image — a synthetic face, scene, or product shot designed to look like a real photograph. These are the most dangerous for catfishing and scams. AI Art is a stylized AI-generated image — illustrations, concept art, anime-style images, or artwork that is obviously not photographic. Free users see a combined \"Likely AI\" verdict; Pro users see which category applies."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Faux Spy available for Firefox or Edge?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy is live on Chrome and Firefox. Install the Firefox add-on here. Edge users can install the Chrome version now since Edge supports Chrome extensions natively — a dedicated Edge version is coming soon."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Faux Spy's AI detection actually work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy uses a two-stage detection pipeline. Stage 1: a local ONNX machine learning model (50MB, runs inside your browser) analyzes pixel patterns for high-confidence cases in about 50ms — no network call needed. Stage 2: for ambiguous cases, the image URL is sent to a cloud ensemble combining Sightengine and HiveModeration for a more detailed analysis. The combination achieves approximately 94% accuracy while keeping fast local verdicts for obvious cases."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Faux Spy safe to use? What data does it collect?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy sends only the URL of the image you explicitly right-click to check. No images are stored. No browsing history is collected. No personal information is required. The extension stores locally: your scan count (to enforce the free tier limit) and your Pro license key if you have one. Neither is transmitted to Faux Spy servers. Full details at fauxspy.com/privacy."
         }
       },
       {
@@ -125,22 +141,6 @@
       },
       {
         "@type": "Question",
-        "name": "Is Faux Spy available for Firefox or Edge?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Faux Spy is live on Chrome and Firefox. Install the Firefox add-on at addons.mozilla.org/addon/faux-spy-ai-image-detector/. Edge users can install the Chrome version now since Edge supports Chrome extensions natively — a dedicated Edge version is coming soon."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How does Faux Spy's AI detection actually work?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Faux Spy uses a two-stage detection pipeline. Stage 1: a local ONNX machine learning model (50MB, runs inside your browser) analyzes pixel patterns for high-confidence cases in about 50ms — no network call needed. Stage 2: for ambiguous cases, the image URL is sent to a cloud ensemble combining Sightengine and HiveModeration for a more detailed analysis. The combination achieves approximately 94% accuracy while keeping costs down and fast local verdicts for obvious cases."
-        }
-      },
-      {
-        "@type": "Question",
         "name": "What should I do if I think someone is using an AI-generated photo to scam me?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -149,18 +149,18 @@
       },
       {
         "@type": "Question",
-        "name": "How much money do romance scams cost Americans each year?",
+        "name": "Can I use Faux Spy to detect military romance scam photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "In 2024, the FBI IC3 recorded $672,009,052 in romance and confidence fraud losses across 17,910 complaints. The Consumer Federation of America estimates the true total is closer to $4.7 billion annually, since roughly 6 in 7 victims never report to law enforcement. The average victim loses $37,521. California ($126M+), Texas ($52M), and Florida ($51M) are the hardest-hit states by total losses."
+          "text": "Yes. Military romance scam photos are almost always AI-generated — scammers use AI to create unique soldier and officer faces that have never existed. Reverse image search returns nothing because there is no original photo. Faux Spy detects these in 2 seconds, and military scam photos typically score 85–99% AI probability. Install the free Chrome extension and right-click any suspicious profile photo."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the most accurate free deepfake detector?",
+        "name": "How much money do romance scams cost Americans each year?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy is a free AI image detector Chrome and Firefox extension that detects deepfakes and AI-generated photos with approximately 94% accuracy. It uses a two-stage pipeline: an on-device ONNX model for fast local analysis, and a cloud ensemble (Sightengine) for ambiguous cases. It works by right-clicking any image on any website — no uploading, no extra tabs. 3 checks per day free, no account required."
+          "text": "In 2024, the FBI IC3 recorded $672,009,052 in romance and confidence fraud losses across 17,910 complaints. The Consumer Federation of America estimates the true total is closer to $4.7 billion annually — roughly 6 in 7 victims never report to law enforcement. The average victim loses $37,521. See the full 2024 romance scam statistics with state-by-state breakdowns and age group data, or read what a romance scam is and how these operations work step by step."
         }
       },
       {
@@ -168,7 +168,15 @@
         "name": "Do romance scammers use AI-generated photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. The FBI confirmed increasing use of AI-generated photos and videos in romance scam operations in its 2024 IC3 report. AI-generated profile photos are synthetic portraits of people who don't exist — making reverse image search useless, since no original photo was ever taken. Tools like Faux Spy detect AI-generated faces by analyzing pixel-level patterns that differ from real photographs, even when the image looks convincingly real to the human eye."
+          "text": "Yes. The FBI confirmed increasing use of AI-generated photos and video in romance scam operations in its 2024 IC3 report. AI-generated profile photos are synthetic portraits of people who don't exist — making reverse image search useless, since no original photo was ever taken. Faux Spy detects AI-generated faces by analyzing pixel-level patterns that differ from real photographs, even when the image looks convincingly real to the human eye."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the most accurate free deepfake detector?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Faux Spy is a free AI image detector Chrome and Firefox extension that detects deepfakes and AI-generated photos with approximately 94% accuracy. It works on any image on any website — right-click and select Investigate for a verdict in 2 seconds. 3 checks per day free, no account required. For images without the extension installed, check any photo online at fauxspy.com/check."
         }
       }
     ]

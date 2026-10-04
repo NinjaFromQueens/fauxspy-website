@@ -20,10 +20,10 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is Faux Spy available on Firefox?",
+        "name": "Is Faux Spy live on Firefox?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — Faux Spy v1.9.3 is now live on Mozilla Add-ons. Install it free at addons.mozilla.org/addon/faux-spy-ai-image-detector/. Right-click any image on any website for a 2-second AI detection verdict. No account or signup required."
+          "text": "Yes — Faux Spy v1.9.3 is approved and live on Mozilla Add-ons. Install it here. Free tier: 3 scans/day, no account needed."
         }
       },
       {
@@ -31,15 +31,7 @@
         "name": "How do I detect AI images in Firefox?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Install the free Faux Spy add-on from Mozilla Add-ons at addons.mozilla.org/addon/faux-spy-ai-image-detector/. Once installed, right-click any image on any website and select 'Investigate this image.' You get a verdict in 2 seconds — Real, Likely AI, AI Photo, or AI Art — with a confidence score."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What does the Faux Spy Firefox add-on do?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Everything the Chrome version does: right-click any image on any website for a 2-second AI verdict — Real, Likely AI, AI Photo, or AI Art. Works on dating apps (Tinder, Hinge, Bumble), social media (Instagram, LinkedIn, X), news sites, and anywhere else you browse in Firefox. Free tier: 3 scans/day with no account. Pro: $9.99/month for unlimited scans."
+          "text": "Install the free Faux Spy add-on from Mozilla Add-ons. Once installed, right-click any image on any website and select \"Investigate this image.\" You get a verdict in 2 seconds — no uploading, no tab-switching."
         }
       },
       {
@@ -47,7 +39,7 @@
         "name": "Is the Firefox add-on free?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — same pricing as the Chrome version. Free tier gives you 3 scans per day with no account or signup required. Pro ($9.99/month) unlocks unlimited scans, AI Photo vs. AI Art distinction, and deepfake detection. Token top-up packs ($1.99, $5.99, $11.99) are also available if you need more scans without a subscription."
+          "text": "Yes — same pricing as Chrome. The free tier gives you 3 scans per day with no account needed. Pro ($9.99/month) unlocks unlimited scans, AI Photo vs. AI Art distinction, and deepfake detection. Token top-up packs are also available for one-time needs."
         }
       },
       {
@@ -55,7 +47,15 @@
         "name": "Where can I find Faux Spy on addons.mozilla.org?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The Faux Spy Firefox add-on is live at addons.mozilla.org/addon/faux-spy-ai-image-detector/. Version 1.9.3 was approved by Mozilla and is available to install directly from the AMO listing page."
+          "text": "The listing is live at addons.mozilla.org/addon/faux-spy-ai-image-detector/. Click \"Add to Firefox\" on that page to install instantly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the Firefox version have the same features as Chrome?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The Firefox add-on is built from the same codebase as the Chrome extension with Firefox-specific compatibility adjustments. All detection features, the case file history (Pro), share menu, and pricing tiers are identical. The main difference: the Firefox version uses cloud AI detection only (no local pre-filter model), which means every scan makes a network call and takes 1–3 seconds."
         }
       }
     ]
@@ -82,14 +82,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/firefox"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/firefox"
+    },
     "headline": "Free AI Image Detector for Firefox | Faux Spy Add-on",
     "description": "Free Firefox add-on to detect AI-generated images with a right-click. Spot fake profiles on dating apps, social media, and any website. No account — 3 free scans/day.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

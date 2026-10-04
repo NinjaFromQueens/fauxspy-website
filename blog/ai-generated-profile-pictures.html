@@ -17,11 +17,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/blog/ai-generated-profile-pictures"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/blog/ai-generated-profile-pictures"
+    },
     "headline": "AI Profile Pictures: How They're Made and Why You See Them Everywhere",
     "description": "The technology behind AI-generated faces and why they've become so common on social media and dating apps.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com", "logo": {"@type": "ImageObject", "url": "https://www.fauxspy.com/favicon.png"}},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-05-22",
     "dateModified": "2026-05-22"
   }
@@ -215,6 +240,29 @@
           <p>For a direct comparison of how the two approaches differ and which catches what, see the article on <a href="/blog/reverse-image-search-vs-ai-detector">reverse image search vs. AI detector</a>. For more on specific platforms, see the guides for <a href="/tinder">Tinder</a>, <a href="/bumble">Bumble</a>, <a href="/hinge">Hinge</a>, <a href="/instagram">Instagram</a>, and <a href="/linkedin">LinkedIn</a>.</p>
         </div>
 
+        <div class="landing-faq">
+          <h2>Frequently asked questions</h2>
+          <details class="faq-item">
+            <summary>What is an AI-generated profile picture?</summary>
+            <p>An AI-generated profile picture is a photo of a face that was created by an artificial intelligence model — typically a GAN (generative adversarial network) or diffusion model — rather than photographed. The face does not belong to any real person and cannot be found with reverse image search.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Why do scammers use AI-generated profile photos?</summary>
+            <p>AI-generated faces are nearly impossible to catch with traditional reverse image search because they don't exist anywhere else on the internet. Scammers can generate an unlimited number of unique, attractive faces in seconds, making it easy to create convincing fake profiles at scale.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can you spot an AI profile picture just by looking at it?</summary>
+            <p>Sometimes. Common tells include overly smooth skin, asymmetrical ears or glasses, teeth that look merged, and backgrounds with unusual repetition or warping. However, the latest diffusion models (Midjourney v6, DALL-E 3, Stable Diffusion XL) produce images that are very difficult to distinguish by eye alone.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What tools detect AI-generated profile photos?</summary>
+            <p>Faux Spy is a free Chrome extension that detects AI-generated profile photos in seconds by right-clicking or hovering over any image. It analyzes pixel-level patterns that AI generators leave behind. Other tools include Hive Moderation and AI or Not, though Faux Spy is the only one that works directly in your browser without uploading the image.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Are AI-generated profile photos legal?</summary>
+            <p>Creating an AI-generated profile photo is not inherently illegal. Using one to deceive someone into sending money or personal information — a romance scam — is fraud, which is a crime. Most major platforms also prohibit fake profiles in their terms of service, regardless of whether the image is AI-generated or stolen.</p>
+          </details>
+        </div>
         <div class="landing-cta">
           <h2>Check any profile photo in seconds</h2>
           <p>3 free checks per day. Works on any website in Chrome.</p>

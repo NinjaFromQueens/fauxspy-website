@@ -23,7 +23,7 @@
         "name": "Does Faux Spy Pro + Video work on any website?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It works on any site with a standard HTML5 video player — news sites, X (Twitter), Reddit, YouTube, Vimeo, and most social platforms. Videos that stream through proprietary players or use blob URLs (like some Facebook videos) can't be analyzed because the actual file URL isn't accessible. In those cases the extension will tell you why."
+          "text": "It works on any site with a standard HTML5 video player — news sites, X (Twitter), Reddit, YouTube, Vimeo, and most social platforms. Videos that stream through proprietary players or use blob URLs (like some Facebook videos) can't be analyzed because the actual file URL isn't accessible. In those cases the extension will tell you exactly why the scan can't run."
         }
       },
       {
@@ -31,7 +31,7 @@
         "name": "How is AI video detection different from AI image detection?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Images are a single frame. You analyze the pixels and look for generation artifacts — the patterns that Midjourney or DALL-E leaves behind. Video has to be approached differently. A single frame might look convincingly real. It's the motion between frames that gives AI video away — lighting that shifts subtly wrong between cuts, backgrounds that drift when nothing in the scene is moving, hands and fingers that don't quite behave like they're attached to a skeleton. Faux Spy Pro + Video samples frames throughout the clip and analyzes each one. The per-frame scores are averaged, and the generator-specific pixel signatures are checked against known Sora, Runway, Pika, Veo, Kling, and Higgsfield output."
+          "text": "One frame isn't enough. A single frame of Sora footage can pass an image detector. The artifacts that give AI video away are in the motion between frames — background drift, lighting inconsistencies, the way physics slightly fails between cuts. Faux Spy samples the video throughout the clip and runs frame-level analysis, then aggregates the scores to give you a result that reflects the whole clip, not just a random frame."
         }
       },
       {
@@ -39,7 +39,7 @@
         "name": "Which AI video generators can Faux Spy detect?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy Pro + Video identifies output from Sora (OpenAI), Runway Gen-3, Pika, Veo (Google), Kling, and Higgsfield. Detection works even when videos have been re-encoded or downloaded and re-uploaded — pixel-level analysis survives compression better than metadata does."
+          "text": "Sora (OpenAI), Runway Gen-3, Pika, Veo (Google), Kling, and Higgsfield. The detection model identifies generator-specific signatures, not just \"this is AI\" — so you get a result like \"Runway, 78% confidence\" rather than a binary answer."
         }
       },
       {
@@ -47,15 +47,15 @@
         "name": "How many tokens does a video scan use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Each video scan costs 10 tokens from your monthly balance. Pro + Video subscribers start with 500 tokens per month. If you run out before your renewal date, you can buy top-up packs from inside the extension — they never expire and roll over month to month."
+          "text": "10 tokens per scan. Pro + Video starts you with 500 tokens per month. If you need more, top-up packs are available from inside the extension and never expire."
         }
       },
       {
         "@type": "Question",
-        "name": "Can it detect AI video that's been re-encoded or posted to social media?",
+        "name": "Can it detect AI video that's been re-encoded or uploaded to social media?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, for most cases. Platform compression changes the bitrate and file format, but the underlying pixel patterns that AI generators produce tend to survive. Extreme re-encoding (very low bitrate, multiple generations of compression) does reduce accuracy — the same way a heavily compressed image is harder to detect. For videos that are clearly low-quality re-encodes, treat the result as informative rather than definitive."
+          "text": "For most cases, yes. Platform compression changes the format but not the underlying pixel signatures that AI generators produce. Very heavy re-encoding — multiple rounds of low-bitrate compression — does reduce accuracy. When that happens, treat the result as a useful signal rather than a definitive answer."
         }
       }
     ]
@@ -78,14 +78,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/ai-video-detector"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/ai-video-detector"
+    },
     "headline": "AI Video Detector — Detect AI Generated Video in Your Browser | Faux Spy",
     "description": "Faux Spy Pro + Video detects AI-generated video clips in your browser. Identifies Sora, Runway, Pika, Veo, Kling output from any URL. Frame-by-frame analysis, no uploads required.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-07-16",

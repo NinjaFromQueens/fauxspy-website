@@ -23,7 +23,7 @@
         "name": "What is the difference between FauxSpy, Hive Moderation, and Sightengine?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "FauxSpy is a consumer Chrome/Firefox extension — install it, right-click any image, get an AI verdict in seconds. Sightengine is a developer API for teams building platforms or apps that need to moderate images programmatically; FauxSpy uses Sightengine as its detection backend. Hive Moderation is an enterprise platform designed for organizations that need to moderate large volumes of content across images, video, and text, with custom model training and dedicated support. They serve fundamentally different use cases."
+          "text": "FauxSpy is a consumer Chrome/Firefox extension — install it, right-click any image, get a verdict. Sightengine is a developer API for programmatic image moderation; FauxSpy uses Sightengine as its detection backend. Hive Moderation is an enterprise platform for organizations moderating content at scale with custom models and compliance requirements. They serve completely different use cases."
         }
       },
       {
@@ -31,15 +31,15 @@
         "name": "Does FauxSpy use Sightengine?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. FauxSpy's AI detection is powered by Sightengine's genai and type API models on the free tier, and adds Sightengine's deepfake model on Pro. This means FauxSpy delivers Sightengine-quality accuracy with zero API integration required — users get the same underlying technology through a consumer-friendly browser extension instead of a raw API."
+          "text": "Yes — FauxSpy's AI detection is powered by Sightengine's genai and type API models (free tier) and Sightengine's deepfake model (Pro). FauxSpy delivers Sightengine-quality accuracy through a consumer-friendly browser extension with zero API integration required. This is worth disclosing because it's directly relevant to the accuracy comparison."
         }
       },
       {
         "@type": "Question",
-        "name": "Which is more accurate: FauxSpy, Hive Moderation, or Sightengine?",
+        "name": "Which is more accurate?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "On AI-generated image detection for individual photos, all three tools draw on similar underlying models and deliver comparable accuracy. Hive Moderation publishes benchmark accuracy figures in the 90%+ range for its AI-generated image detection model. Sightengine's genai model targets similar accuracy for photorealistic AI images. FauxSpy, built on Sightengine, inherits that accuracy for consumer use. Where they differ: Hive Moderation has a broader range of moderation models (nudity, weapons, text detection) relevant to platform-scale needs. FauxSpy adds a conservative threshold that returns Inconclusive rather than a false positive — tuned specifically for consumer catfish/verification use cases."
+          "text": "On AI-generated image detection for individual photos, all three tools deliver comparable accuracy — they use similar underlying detection approaches and benchmark in the 90%+ range for photorealistic AI-generated images. Where they differ: Hive Moderation has broader pre-built categories for enterprise content policies; Sightengine covers deepfakes, NSFW, quality, and other categories alongside AI detection; FauxSpy adds a conservative threshold that returns Inconclusive rather than forcing a verdict when confidence is low."
         }
       },
       {
@@ -47,7 +47,7 @@
         "name": "Is Hive Moderation free?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Hive Moderation offers a limited free tier for developers (API access with low volume limits) but is primarily an enterprise product with custom pricing. It is not available as a consumer tool or browser extension. Sightengine offers a free developer tier (2,000 API calls/month on the starter plan) and paid plans starting at $29/month. FauxSpy is free for individuals with 3 checks per day — no account, no API integration."
+          "text": "Hive Moderation has a limited developer free tier but is primarily an enterprise product with custom pricing. It is not available as a consumer tool. Sightengine offers a free tier of 2,000 API calls/month. FauxSpy is free for individuals at 3 checks per day with no account required."
         }
       },
       {
@@ -55,7 +55,7 @@
         "name": "Should I use Sightengine directly or use FauxSpy?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Use Sightengine directly if you're a developer building a product that needs programmatic image moderation — you'll get the full API, custom model parameters, and volume pricing. Use FauxSpy if you're an individual checking photos while browsing social media, dating apps, or websites — you get the same Sightengine-powered detection with zero integration work, through a right-click interface in Chrome or Firefox."
+          "text": "If you're a developer building a product: use Sightengine directly (API access, programmatic integration, volume pricing). If you're an individual checking photos in your browser: use FauxSpy (same Sightengine-powered detection, zero integration work, right-click interface). FauxSpy is essentially a consumer-friendly wrapper around Sightengine's detection — for the individual use case, it's the better experience at the same accuracy."
         }
       }
     ]
@@ -65,11 +65,36 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/faux-spy-vs-hive-moderation-sightengine"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/faux-spy-vs-hive-moderation-sightengine"
+    },
     "headline": "FauxSpy vs Hive Moderation vs Sightengine: Which AI Image Detector Should You Use?",
     "description": "Honest comparison of three AI image detectors: FauxSpy (consumer extension), Sightengine (developer API), and Hive Moderation (enterprise platform).",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "datePublished": "2026-08-03",
     "dateModified": "2026-08-03",
     "url": "https://www.fauxspy.com/faux-spy-vs-hive-moderation-sightengine"

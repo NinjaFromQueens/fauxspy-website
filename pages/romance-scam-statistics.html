@@ -23,7 +23,10 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/romance-scam-statistics"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/romance-scam-statistics"
+    },
     "headline": "Romance Scam Statistics 2024: FBI IC3 Data, Losses & Trends",
     "description": "Comprehensive 2024 romance scam statistics from FBI IC3: national totals, state-by-state losses, and age group breakdown.",
     "url": "https://www.fauxspy.com/romance-scam-statistics",
@@ -31,10 +34,33 @@
     "dateModified": "2026-07-15",
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"}
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Romance scam",
+      "sameAs": "https://en.wikipedia.org/wiki/Romance_scam"
+    }
   }
   </script>
 
@@ -68,7 +94,7 @@
         "name": "How much money do romance scams cost each year?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "In 2024, the FBI IC3 recorded $672,009,052 in romance and confidence fraud losses across 17,910 complaints. The Consumer Federation of America estimates the true total is closer to $4.7 billion annually when accounting for unreported cases, which represent roughly 87% of all romance scam victims."
+          "text": "In 2024, the FBI IC3 recorded $672,009,052 in romance and confidence fraud losses across 17,910 complaints. The Consumer Federation of America estimates the true total is closer to $4.7 billion annually when accounting for unreported cases — roughly 7 times what gets reported to the FBI."
         }
       },
       {
@@ -76,7 +102,7 @@
         "name": "What state has the most romance scam victims?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "California ranks first in romance scam losses, with over $126 million reported to the FBI IC3 in 2023. Texas ($52 million) and Florida ($51 million) rank second and third. On a per-capita basis, Nevada ($588 per resident), Wyoming ($530 per resident), and Washington D.C. ($2,965 per resident) are the hardest-hit areas."
+          "text": "California ranks first in total romance scam losses, with over $126 million reported to the FBI IC3 in 2023. Texas ($52 million) and Florida ($51 million) rank second and third. On a per-capita basis, Washington D.C. ($2,965 per resident), Nevada ($588/resident), and Wyoming ($530/resident) are the hardest-hit areas."
         }
       },
       {
@@ -84,7 +110,7 @@
         "name": "Who is most at risk for romance scams?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Adults over 60 are the most financially harmed group, losing $4.8 billion across all cybercrime fraud types in 2024 — a 43% increase year-over-year. However, adults aged 40–49 file the most romance scam complaints. The average romance scam victim loses $37,521, regardless of age."
+          "text": "Adults over 60 suffer the greatest financial harm — $4.8 billion across all fraud types in 2024, a 43% increase year-over-year. However, adults aged 40–49 file the most complaints. The average victim loses $37,521 regardless of age, and losses are rising as scammers shift to longer-running \"pig butchering\" schemes that build trust before requesting cryptocurrency transfers."
         }
       },
       {
@@ -92,7 +118,7 @@
         "name": "Are romance scams increasing?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Overall cybercrime losses grew 33% year-over-year to $16.6 billion in 2024. FBI field offices are reporting sharp regional increases: the San Francisco Bay Area saw romance scam losses grow 82% from 2024 to 2025 ($22M to $40M), and San Antonio saw a 77% increase ($15.8M to $28M). The FBI has also confirmed increasing use of AI-generated photos and videos in romance scam operations."
+          "text": "Yes. FBI field offices report sharp regional increases: the San Francisco Bay Area saw losses grow 82% from 2024 to 2025 ($22M to $40M), and San Antonio saw a 77% increase ($15.8M to $28M). The FBI has also confirmed increasing use of AI-generated photos and video in romance scam operations, which makes fake profiles harder to identify with traditional methods like reverse image search."
         }
       },
       {
@@ -100,7 +126,7 @@
         "name": "How do romance scammers use AI to create fake photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Romance scammers use AI image generators — including tools like Midjourney, Stable Diffusion, and DALL-E — to create photorealistic portrait photos of people who don't exist. These AI-generated faces have no real-world identity to reverse-image search, making them harder to detect than stolen real photos. The FBI confirmed increasing use of AI in romance scam operations in its 2024 IC3 report."
+          "text": "Romance scammers use AI image generators to create photorealistic portraits of people who don't exist. Because no real photo was taken, reverse image search finds nothing. AI-generated faces have pixel-level patterns different from real photographs — patterns invisible to the human eye but detectable by an AI classifier like the one Faux Spy uses."
         }
       },
       {
@@ -108,23 +134,15 @@
         "name": "How can I tell if a profile photo is AI-generated?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The most reliable method is to use an AI image detector. Faux Spy is a free Chrome and Firefox extension that analyzes any profile photo for AI-generation artifacts with 90–95% accuracy. Right-click any image on a dating app, social media platform, or website and click Investigate — you get a verdict and confidence score in seconds, with no uploading required."
+          "text": "The most reliable method is an AI image detector. Faux Spy is a free Chrome and Firefox extension that detects AI-generated photos with 90–95% accuracy on photorealistic faces. Hover over any profile photo and click Investigate — you get a verdict and confidence score in seconds, with no uploading required. It works on dating apps, social media, LinkedIn, and any other website."
         }
       },
       {
         "@type": "Question",
-        "name": "What is the average loss from a romance scam?",
+        "name": "How many romance scam victims actually report to the FBI?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The average romance scam victim loses $37,521, according to FBI IC3 2024 data. This average has been rising year-over-year as scammers shift from quick payment requests to longer 'pig butchering' operations that build emotional trust before requesting cryptocurrency investments."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How many people report romance scams to the FBI each year?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "In 2024, 17,910 romance and confidence fraud complaints were filed with the FBI IC3. However, the FBI and Consumer Federation of America estimate that only about 1 in 7 victims report the crime — meaning the actual number of romance scam victims could be closer to 125,000 people per year in the United States."
+          "text": "The FBI estimates that only about 1 in 7 romance scam victims reports the crime. This means the 17,910 complaints filed in 2024 likely represent around 125,000 actual victims. Shame, embarrassment, and not knowing where to report are the primary reasons victims don't come forward."
         }
       }
     ]

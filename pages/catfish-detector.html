@@ -20,34 +20,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is AI catfishing?",
+        "name": "What's the difference between AI catfishing and traditional catfishing?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "AI catfishing is when someone uses an AI-generated face as their profile photo instead of a real photo of themselves. Unlike traditional catfishing (using a stolen photo of a real person), AI-generated faces can't be caught with reverse image search because they don't exist anywhere else on the internet."
+          "text": "Traditional catfishing uses a stolen photo of a real person — reverse image search can catch it. AI catfishing uses a generated face that doesn't belong to anyone, so reverse search finds nothing. Faux Spy is built specifically to catch the AI-generated version, which is the harder problem."
         }
       },
       {
         "@type": "Question",
-        "name": "How does a catfish detector work?",
+        "name": "What if Faux Spy says Real Photo but I'm still suspicious?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy analyzes the image for pixel-level patterns that AI generation leaves behind. Real photographs have specific noise, lighting, and detail characteristics that AI-generated images replicate imperfectly. The detection model identifies these differences and returns a confidence score."
+          "text": "Trust your gut. A Real Photo result means the image probably isn't AI-generated — but it might still be stolen from a real person's account. Run a reverse image search on top of the Faux Spy check. And remember: catfishing isn't always about the photo. Someone can have a real photo and still be lying about everything else."
         }
       },
       {
         "@type": "Question",
-        "name": "Can Faux Spy detect stolen real photos?",
+        "name": "Does it work on screenshots?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No — Faux Spy detects AI-generated images. For stolen real photos, use Google Images or TinEye reverse image search. Use both tools together for a complete catfish check."
+          "text": "You can scan a screenshot if it's open in Chrome as an image file. But screenshots add compression that can make results less reliable. Where possible, scan the original profile photo directly rather than a screenshot of it."
         }
       },
       {
         "@type": "Question",
-        "name": "What if Faux Spy says Real Photo but I still feel suspicious?",
+        "name": "I've already been catfished. What should I do?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Trust your instincts. A Real Photo result means the image likely wasn't AI-generated — but catfishing also happens with real photos stolen from other people's accounts. Run a reverse image search, look for inconsistencies in their story, and watch for pressure to move off-platform quickly."
+          "text": "If money was involved, report it to the FTC at ReportFraud.ftc.gov and your bank immediately. If it was romantic without financial fraud, the FBI's IC3 (ic3.gov) handles online scam reports. Don't feel embarrassed — this happens to people at every level of tech sophistication."
         }
       },
       {
@@ -55,7 +55,7 @@
         "name": "How does Faux Spy compare to Social Catfish?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Social Catfish specializes in identity lookup — it searches public records, social profiles, and reverse image search to identify whether a person is who they claim to be. Faux Spy does something different: it detects whether a photo was AI-generated, which Social Catfish cannot do. AI-generated faces have never existed online, so they return clean results in any reverse search. For a complete check, use both: Faux Spy to catch AI-generated faces, and a reverse image search or Social Catfish to catch stolen real photos."
+          "text": "They solve different problems. Social Catfish runs identity lookups — searching public records, reverse image search, and social profiles to verify who someone is. It's strong for catching stolen real photos but cannot detect AI-generated faces, because those faces have never appeared online and have no records to find. Faux Spy detects AI generation at the pixel level and works instantly in your browser without any upload or subscription. Use both for a complete check: Faux Spy first (seconds, free), Social Catfish if you need to go deeper on a real-but-suspicious photo."
         }
       },
       {
@@ -63,7 +63,7 @@
         "name": "Does CatfishLens detect AI-generated photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "CatfishLens claims to detect AI-generated faces as part of its reverse face search service, which primarily works by matching faces across databases of real people. Faux Spy takes a different approach: it analyzes pixel-level generation artifacts in the image itself, which works whether or not the face has ever appeared elsewhere online. Faux Spy is also free for 3 checks per day with no account, while CatfishLens requires a paid subscription for full results."
+          "text": "CatfishLens claims AI detection as part of its reverse face search service. Its primary method is facial recognition — matching a face against databases of real people. Faux Spy analyzes the image itself for pixel-level AI generation artifacts, which catches faces that have never appeared in any database. Faux Spy also runs directly in your browser with no upload, and 3 checks per day are free with no account — CatfishLens requires a paid subscription for full results."
         }
       }
     ]
@@ -103,14 +103,35 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://www.fauxspy.com/catfish-detector"},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/catfish-detector"
+    },
     "headline": "AI Catfish Detector | Spot Fake Profile Photos Instantly | Faux Spy",
     "description": "Free fake profile picture detector Chrome extension. Right-click any photo to check if it's AI-generated. Works on dating apps, social media, and any website. No account — 3 free checks/day.",
-    "author": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
       "name": "Faux Spy",
-      "url": "https://www.fauxspy.com"
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
     },
     "datePublished": "2025-01-15",
     "dateModified": "2026-08-03",
