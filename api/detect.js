@@ -15,6 +15,8 @@ const kv = new Redis({
 });
 const licenseKv = kv;
 
+const { sha256Hex, recordCommunitySighting, getCommunitySighting, buildCommunityFields } = require('./_lib/community');
+
 const FREE_TIER_DAILY_LIMIT = 3;
 const CACHE_TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
 const USAGE_TTL_SECONDS = 25 * 60 * 60; // 25 hours
@@ -32,7 +34,7 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   
   try {
-    let { imageUrl, imageData, userId, isPro, licenseKey, width, height, isVideoFrame } = req.body || {};
+    let { imageUrl, imageData, userId, isPro, licenseKey, width, height, isVideoFrame, pageHost } = req.body || {};
 
     if (!imageUrl && !imageData) return res.status(400).json({ error: 'imageUrl or imageData required' });
     if (!userId) return res.status(400).json({ error: 'userId required' });
@@ -117,7 +119,16 @@ module.exports = async (req, res) => {
       if (cached) {
         console.log('💾 [CACHE HIT]', (imageUrl || 'imageData').substring(0, 60));
         const result = isPro ? cached.pro : cached.free;
-        return res.status(200).json({ ...result, cached: true });
+        // A cache hit means "we already know the answer," not "someone scanned it
+        // again" — read the existing community count rather than incrementing it.
+        // This under-counts true repeat-scan volume once caching kicks in, which is
+        // an intentional MVP tradeoff, not a bug to "fix" into a double-increment.
+        const sighting = await getCommunitySighting({
+          contentHash: sha256Hex(imageUrl),
+          contentType: 'image',
+          tier: isPro ? 'pro' : 'free'
+        });
+        return res.status(200).json({ ...result, cached: true, ...buildCommunityFields(sighting) });
       }
     }
     
@@ -475,7 +486,25 @@ module.exports = async (req, res) => {
         await cacheResult(cacheKey, { free: freeResult, pro: null });
       }
     }
-    
+
+    // Community sightings — best-effort, never blocks/fails the response
+    if (!skipCache) {
+      const tier = isPro ? 'pro' : 'free';
+      const resultForTier = isPro ? proResult : freeResult;
+      const sighting = await recordCommunitySighting({
+        contentHash: sha256Hex(imageUrl),
+        contentType: 'image',
+        tier,
+        verdict: resultForTier.verdict,
+        category: resultForTier.category,
+        verdictLabel: resultForTier.verdictLabel,
+        confidence: resultForTier.aiProbability,
+        method: resultForTier.method,
+        pageDomain: pageHost || null
+      });
+      Object.assign(resultForTier, buildCommunityFields(sighting));
+    }
+
     if (!isPro) {
       await incrementUserUsage(userId);
     } else if (licenseKey && proLicenseData) {

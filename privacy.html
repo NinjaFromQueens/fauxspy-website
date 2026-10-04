@@ -43,14 +43,15 @@
   
   <div class="legal-page">
     <h1>Privacy Policy</h1>
-    <p class="meta">Last updated: May 13, 2026</p>
+    <p class="meta">Last updated: September 26, 2026</p>
     
     <h2>What We Collect</h2>
     <p>Faux Spy is built with privacy in mind. We collect the absolute minimum data needed to provide our service:</p>
     <ul>
-      <li><strong>Image URLs</strong> â€” Sent to our detection API only when you investigate an image. We don't store these.</li>
-      <li><strong>Email address</strong> â€” Only if you subscribe to a paid plan. Used for license delivery and support.</li>
-      <li><strong>Usage statistics</strong> â€” Stored locally in your browser. Never sent to us.</li>
+      <li><strong>Image/video URLs</strong> - Sent to our detection API only when you investigate an image or video. We don't store the URL itself - it's discarded after the scan.</li>
+      <li><strong>Anonymized detection history</strong> - When you scan an image or video, we store a one-way cryptographic hash of its URL (not the URL itself), the verdict, and the website's domain (e.g. "instagram.com") - so if someone else scans the same image or video later, we can tell them "checked by N other people" and show the prior verdict. This record can't be traced back to you: we never store your user ID, IP address, the full page URL, or any link between this record and your account or device.</li>
+      <li><strong>Email address</strong> - Only if you subscribe to a paid plan. Used for license delivery and support.</li>
+      <li><strong>Usage statistics</strong> - Stored locally in your browser. Never sent to us.</li>
     </ul>
     
     <h2>What We Don't Collect</h2>
@@ -59,16 +60,17 @@
       <li>âŒ Personal identifiable information</li>
       <li>âŒ Cookies or tracking pixels</li>
       <li>âŒ Images themselves (only the URL)</li>
-      <li>âŒ Detection results history (stays in your browser)</li>
+      <li>❌ Any way to trace a stored detection record back to the person who scanned it - no user ID, IP address, or device identifier is ever attached</li>
     </ul>
     
     <h2>Third-Party Services</h2>
     <p>We use the following services to provide Faux Spy:</p>
     <ul>
-      <li><strong>Hive AI</strong> â€” Image detection. Receives image URLs only.</li>
+      <li><strong>Hive AI</strong> - Image detection. Receives image URLs only.</li>
       <li><strong>Sightengine</strong> - Image and video detection. Receives image/video URLs only.</li>
-      <li><strong>Stripe</strong> â€” Payment processing for paid plans.</li>
-      <li><strong>Vercel</strong> â€” Hosting our website and API.</li>
+      <li><strong>Stripe</strong> - Payment processing for paid plans.</li>
+      <li><strong>Vercel</strong> - Hosting our website and API.</li>
+      <li><strong>Supabase</strong> - Stores the anonymized community detection table described above (hashes and verdicts only, no personal data).</li>
     </ul>
     
     <h2>Your Rights</h2>

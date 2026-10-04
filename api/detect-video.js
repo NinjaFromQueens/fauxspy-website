@@ -10,6 +10,8 @@ const kv = new Redis({
   token: process.env.UPSTASH_REST_TOKEN,
 });
 
+const { sha256Hex, recordCommunitySighting, getCommunitySighting, buildCommunityFields } = require('./_lib/community');
+
 const VIDEO_TOKEN_COST = 10;
 const CACHE_TTL_SECONDS = 24 * 60 * 60; // 24 hours
 const SIGHTENGINE_TIMEOUT_MS = 90_000;
@@ -109,11 +111,19 @@ module.exports = async (req, res) => {
       console.log('💾 [VIDEO CACHE HIT]', videoUrl.substring(0, 60));
       // Still deduct tokens for cached result (cost already paid, but fairness)
       // Actually: return cached result WITHOUT deducting tokens — same as image cache behavior
+      // A cache hit reads the existing community count rather than incrementing it —
+      // see the matching note in api/detect.js for why.
+      const sighting = await getCommunitySighting({
+        contentHash: sha256Hex(videoUrl),
+        contentType: 'video',
+        tier: 'pro'
+      });
       return res.status(200).json({
         ...cached,
         cached: true,
         tokenBalance: licenseData.tokenBalance || 0,
-        topupBalance: licenseData.topupBalance || 0
+        topupBalance: licenseData.topupBalance || 0,
+        ...buildCommunityFields(sighting)
       });
     }
 
@@ -233,6 +243,22 @@ module.exports = async (req, res) => {
     } catch (err) {
       console.warn('⚠️ Cache write failed:', err.message);
     }
+
+    // ── Community sightings ─────────────────────────────────────────────────
+    // Video is Pro-only today, so tier is always 'pro'. Video verdicts have no
+    // separate category field — reuse verdict for both.
+    const sighting = await recordCommunitySighting({
+      contentHash: sha256Hex(videoUrl),
+      contentType: 'video',
+      tier: 'pro',
+      verdict: result.verdict,
+      category: result.verdict,
+      verdictLabel: result.verdictLabel,
+      confidence: result.aiScore,
+      method: result.method,
+      pageDomain: null // extension doesn't send a page domain for video scans yet
+    });
+    Object.assign(result, buildCommunityFields(sighting));
 
     // ── Deduct tokens ───────────────────────────────────────────────────────
     try {
