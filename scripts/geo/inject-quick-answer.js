@@ -70,9 +70,10 @@ for (const e of entries) {
   }
 
   for (const [from, to] of Object.entries(e.headings || {})) {
-    const re = new RegExp(`(<h2[^>]*>)\\s*${from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*(</h2>)`);
-    if (re.test(html)) { html = html.replace(re, `$1${to}$2`); notes.push(`h2 ✓`); }
-    else if (html.includes(`>${to}</h2>`)) notes.push('h2 already');
+    // Some headings wrap their text in <strong>; keep the wrapper if present.
+    const re = new RegExp(`(<h2[^>]*>\\s*(?:<strong>)?)\\s*${from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*((?:</strong>)?\\s*</h2>)`);
+    if (re.test(html)) { html = html.replace(re, (_, open, close) => `${open}${to}${close}`); notes.push(`h2 ✓`); }
+    else if (html.includes(`>${to}</h2>`) || html.includes(`>${to}</strong></h2>`)) notes.push('h2 already');
     else notes.push(`h2 MISSING: "${from}"`);
   }
 

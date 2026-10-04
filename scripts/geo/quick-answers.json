@@ -81,6 +81,240 @@
         "Who gets targeted": "Who gets targeted by deepfake fraud?",
         "What the trajectory looks like": "Where is deepfake fraud heading?"
       }
+    },
+    {
+      "file": "pages/dating-apps.html",
+      "answer": "<strong>To check whether a dating profile photo is AI-generated, run it through an AI image detector — your eyes alone aren't reliable.</strong> On Tinder, Bumble or Hinge in a browser, Faux Spy lets you right-click the photo and get a verdict with a confidence score in about two seconds. Also watch for profiles with only a few flawless photos and matches who avoid video calls.",
+      "headings": {
+        "How to check a dating profile photo in Chrome": "How do you check if a dating profile photo is AI-generated?",
+        "What the results mean": "What do the results mean?"
+      }
+    },
+    {
+      "file": "pages/tinder.html",
+      "answer": "<strong>The fastest way to spot a fake Tinder profile is to check its photos before you invest time.</strong> Open Tinder in your browser and right-click a profile photo: Faux Spy tells you in about two seconds whether it looks AI-generated, and a reverse image search catches photos stolen from real people. Red flags include very few photos, a rush to move off the app, and excuses to avoid video calls.",
+      "headings": {
+        "How to use Faux Spy on Tinder in 60 seconds": "How do you check a Tinder profile for AI photos?",
+        "What Tinder's detection leaves blind": "What does Tinder's fake-profile detection miss?"
+      }
+    },
+    {
+      "file": "pages/bumble.html",
+      "answer": "<strong>To spot a fake Bumble profile, check the photos: AI-generated faces and stolen photos are the two most common tells.</strong> Open Bumble in your browser and right-click a profile photo to get an AI-or-real verdict from Faux Spy in about two seconds, then run a reverse image search to catch stolen real photos. Be wary of matches who quickly push you to another app or avoid video calls.",
+      "headings": {
+        "How to check if a Bumble profile photo is AI-generated in 4 steps": "How do you check if a Bumble profile photo is AI-generated?",
+        "What Bumble's system misses — and what you need to know": "What does Bumble's fake-profile detection miss?"
+      }
+    },
+    {
+      "file": "pages/hinge.html",
+      "answer": "<strong>To spot a fake Hinge profile, check whether its photos are AI-generated or stolen before you reply.</strong> Open Hinge in your browser and right-click a profile photo: Faux Spy returns an AI-or-real verdict in about two seconds, and a reverse image search catches photos taken from real people. Matches who avoid video calls or move fast toward money are major red flags.",
+      "headings": {
+        "How to scan Hinge profiles for fakes in 20 seconds": "How do you check a Hinge profile for fake photos?",
+        "What Hinge's filters miss—and why you need a second opinion": "What do Hinge's filters miss?"
+      }
+    },
+    {
+      "file": "pages/instagram.html",
+      "answer": "<strong>To spot a fake Instagram account, check whether its photos are AI-generated or stolen, and look at the account's history.</strong> Hover over any image on Instagram in your browser and Faux Spy gives an AI-or-real verdict in about two seconds. A new account, few posts with many followers, and generic comments are common signs of a fake or scam profile.",
+      "headings": {
+        "How to detect fakes on Instagram in 30 seconds": "How do you detect fake Instagram profiles?",
+        "What Instagram's systems actually miss": "What do Instagram's systems miss?"
+      }
+    },
+    {
+      "file": "pages/facebook.html",
+      "answer": "<strong>To check whether a Facebook profile is fake, verify its photos and its history.</strong> Right-click a profile picture in your browser and Faux Spy tells you in about two seconds whether it looks AI-generated; a reverse image search catches stolen real photos. Brand-new accounts, few friends or posts, and quick requests to move to private chat are common red flags.",
+      "headings": {
+        "How to check Facebook profile photos in seconds": "How do you check if a Facebook profile photo is fake?",
+        "Why Facebook specifically is a hotbed for fake profiles": "Why does Facebook have so many fake profiles?"
+      }
+    },
+    {
+      "file": "pages/facebook-dating.html",
+      "answer": "<strong>To spot a fake Facebook Dating profile, check its photos for AI generation and compare them with the person's main Facebook account.</strong> Faux Spy flags AI-generated photos in your browser in about two seconds. Scammers often have thin Facebook histories, push to move the chat to WhatsApp or Telegram, and avoid video calls.",
+      "headings": {
+        "How to spot a fake profile on Facebook Dating": "How do you spot a fake profile on Facebook Dating?",
+        "Why Facebook Dating is a magnet for catfish": "Why is Facebook Dating a magnet for catfish?"
+      }
+    },
+    {
+      "file": "pages/deepfake-detector.html",
+      "answer": "<strong>A deepfake detector analyzes an image to estimate whether it was captured by a camera or generated by AI.</strong> Faux Spy adds one to your browser's right-click menu: check any photo on any site without uploading it, and get a verdict with a confidence score in about two seconds. No detector is 100% accurate, so treat the result as one strong signal.",
+      "headings": {
+        "How to detect a deepfake in Chrome": "How do you detect a deepfake?",
+        "What the results mean": "What do deepfake detection results mean?",
+        "Where deepfakes actually show up": "Where do deepfakes show up?"
+      }
+    },
+    {
+      "file": "pages/ai-video-detector.html",
+      "answer": "<strong>An AI video detector checks whether a video was generated by AI tools such as Sora, Runway, Pika, Veo or Kling.</strong> With Faux Spy Pro + Video, right-click a video in your browser to get a frame-by-frame verdict and the likely generator, without uploading anything. AI video is harder to judge by eye than a still image, so a detector plus a check of the source is the safest approach.",
+      "headings": {
+        "Why AI video is harder to catch than a fake image": "Why is AI video harder to catch than a fake image?",
+        "How the detection actually works": "How does AI video detection work?",
+        "Who actually needs this": "Who needs an AI video detector?"
+      }
+    },
+    {
+      "file": "pages/best-deepfake-detector.html",
+      "answer": "<strong>The best deepfake detector depends on what you're checking: browser extensions are fastest for images you see while browsing, upload tools suit one-off checks, and APIs suit businesses.</strong> Look for a confidence score rather than a yes/no, coverage of the generators you care about, and clear privacy terms. No tool is 100% accurate, so treat any result as one signal.",
+      "headings": {
+        "How deepfake detectors work": "How do deepfake detectors work?",
+        "What to look for in any detection tool": "What should you look for in a deepfake detector?",
+        "The limits of any detector": "What are the limits of deepfake detectors?"
+      }
+    },
+    {
+      "file": "pages/online-dating-safety.html",
+      "answer": "<strong>To stay safe on dating apps, confirm a match is real before you invest time or money: check their photos, insist on a video call, and never send money to someone you haven't met.</strong> AI-generated profiles and pig-butchering investment scams are the biggest newer risks. Meet in public, tell a friend your plans, and report any profile that asks for money or crypto.",
+      "headings": {
+        "Before you match: the first check": "What should you check before you match?",
+        "During conversation: what to watch for": "What should you watch for while chatting?",
+        "Before meeting in person: verification": "How do you verify a match before meeting?"
+      }
+    },
+    {
+      "file": "pages/romance-scam-warning-signs.html",
+      "answer": "<strong>The biggest romance-scam warning signs are a match who moves fast emotionally, avoids video calls or meeting, and eventually asks for money, gift cards or crypto.</strong> Other early signs include photos that look too polished, pressure to leave the dating app, and stories about emergencies abroad. Treat anyone you've never met in person who asks for money as a likely scammer.",
+      "headings": {
+        "How romance scams actually work": "How do romance scams work?",
+        "The financial ask — what it looks like": "What does a romance scammer's request for money look like?",
+        "Why careful people fall for this": "Why do careful people fall for romance scams?"
+      }
+    },
+    {
+      "file": "pages/what-is-catfishing.html",
+      "answer": "<strong>Catfishing is creating a fake online identity to deceive someone, usually into a romantic relationship, for money, attention or exploitation.</strong> Catfish use stolen photos or, increasingly, AI-generated faces that don't belong to any real person. Warning signs include refusing video calls, inconsistent stories and requests for money.",
+      "headings": {
+        "Types of catfishing": "What are the types of catfishing?",
+        "How catfishing works": "How does catfishing work?",
+        "How to catch a catfish": "How do you catch a catfish?"
+      }
+    },
+    {
+      "file": "pages/what-is-a-deepfake.html",
+      "answer": "<strong>A deepfake is an image, video or audio clip generated or altered by AI to look real.</strong> Deepfakes are used in romance scams, impersonation fraud and disinformation, and modern ones are hard to spot by eye. Detection tools analyze the media itself for signs of AI generation.",
+      "headings": {
+        "How deepfakes are made": "How are deepfakes made?",
+        "How deepfakes are used in fraud": "How are deepfakes used in fraud?",
+        "How to detect a deepfake": "How can you detect a deepfake?"
+      }
+    },
+    {
+      "file": "pages/what-is-a-romance-scam.html",
+      "answer": "<strong>A romance scam is fraud in which a criminal fakes a relationship online to win someone's trust and then steal their money.</strong> Americans reported $672 million in romance and confidence-scam losses to the FBI in 2024. Scammers often use stolen or AI-generated photos and eventually ask for money, gift cards or crypto.",
+      "headings": {
+        "How romance scams work": "How do romance scams work?",
+        "Who is targeted by romance scams": "Who do romance scammers target?",
+        "How to verify if someone is real": "How can you verify if someone is real?"
+      }
+    },
+    {
+      "file": "pages/faux-spy-vs-social-catfish.html",
+      "answer": "<strong>Social Catfish and Faux Spy solve different problems: Social Catfish searches for where a photo has appeared before, while Faux Spy checks whether a photo was generated by AI.</strong> Reverse image search catches stolen real photos, but an AI-generated face has no earlier copies to find. For a suspicious dating profile, using both covers both kinds of fake.",
+      "headings": {
+        "How these tools work": "How do Faux Spy and Social Catfish work?",
+        "Who should use Faux Spy": "Who should use Faux Spy?",
+        "Who should use Social Catfish": "Who should use Social Catfish?"
+      }
+    },
+    {
+      "file": "pages/social-catfish-alternative.html",
+      "answer": "<strong>If you need to catch AI-generated profile photos, a reverse image search service like Social Catfish isn't enough, because AI faces have no earlier copies online.</strong> An AI image detector such as Faux Spy (free for 3 scans a day) checks the photo itself. For stolen real photos, reverse image search is still the right tool, so the two work best together.",
+      "headings": {
+        "Why Social Catfish is limited against modern fake profiles": "Why can't Social Catfish catch AI-generated profiles?",
+        "What Faux Spy does differently": "How is Faux Spy different from Social Catfish?"
+      }
+    },
+    {
+      "file": "blog/how-to-catch-catfish.html",
+      "answer": "<strong>To catch a catfish, verify their photos and insist on a live video call.</strong> Run their profile pictures through an AI image detector to catch AI-generated faces, and a reverse image search to catch photos stolen from real people. Someone who keeps avoiding video calls or asks for money is very likely not who they claim to be.",
+      "headings": {
+        "The signs you're looking at a catfish": "What are the signs you're talking to a catfish?",
+        "How to use Faux Spy to catch a catfish": "How do you use Faux Spy to catch a catfish?"
+      }
+    },
+    {
+      "file": "blog/signs-someone-is-catfishing-you.html",
+      "answer": "<strong>The clearest signs someone is catfishing you are that they won't video chat, their story has gaps, and they eventually ask for money.</strong> Early on, look for a thin profile with polished photos and a push to move off the app; later come excuses for not meeting and sudden emergencies. Checking their photos for AI generation or theft is the fastest way to confirm.",
+      "headings": {
+        "Why the signs are easy to miss in the moment": "Why are the signs easy to miss?",
+        "What to do when you're already suspicious": "What should you do if you suspect you're being catfished?"
+      }
+    },
+    {
+      "file": "blog/how-catfish-scams-work.html",
+      "answer": "<strong>Catfish scams follow a script: build a fake profile, move the conversation off the dating app, build an emotional bond over weeks, then ask for money.</strong> Many end in a fake investment pitch, known as pig butchering, or a \"recovery\" scam aimed at people who were already defrauded. The best time to interrupt the script is before the conversation leaves the app.",
+      "headings": {
+        "Pig butchering: the investment variation, explained": "What is pig butchering?",
+        "The best point to interrupt the script": "When is the best time to stop a catfish scam?"
+      }
+    },
+    {
+      "file": "blog/deepfake-scam.html",
+      "answer": "<strong>Deepfake scams use AI-generated photos, video or voice to impersonate someone you trust or to invent a person who doesn't exist.</strong> In romance scams, a fake identity built from AI images is used to win trust before asking for money; Americans reported $672 million in romance and confidence-scam losses to the FBI in 2024. Verify on a live video call and check suspicious images with a detector.",
+      "headings": {
+        "How to spot a deepfake before you fall for it": "How do you spot a deepfake before you fall for it?"
+      }
+    },
+    {
+      "file": "blog/spot-romance-scammer.html",
+      "answer": "<strong>You can usually spot a romance scammer by what they avoid and what they eventually ask for: they dodge video calls and meeting in person, then request money, gift cards or crypto.</strong> Their photos are often stolen or AI-generated, so checking the images is a quick first test. Never send money to someone you haven't met.",
+      "headings": {
+        "The red flags that show up before they ask for money": "What are the red flags before a romance scammer asks for money?",
+        "How to verify a dating profile photo in 30 seconds": "How do you verify a dating profile photo?",
+        "What to do if you've already sent money": "What should you do if you've already sent money?"
+      }
+    },
+    {
+      "file": "blog/spot-ai-photos.html",
+      "answer": "<strong>To spot an AI-generated photo, check for visual tells like warped hands, odd text and smeared backgrounds — then confirm with a detector, because the newest generators often leave no visible flaws.</strong> Faux Spy checks any image in your browser in about two seconds and returns a confidence score.",
+      "headings": {
+        "The visual tells: How to spot AI photos manually": "How can you spot AI photos manually?",
+        "How to use Faux Spy to verify any image": "How do you verify an image with Faux Spy?"
+      }
+    },
+    {
+      "file": "blog/how-to-tell-ai-photo.html",
+      "answer": "<strong>To tell if a photo is AI-generated, look closely at hands, lighting, backgrounds and edges, then run it through an AI image detector.</strong> Older generators leave obvious mistakes, but newer ones often don't, so a visual check alone isn't reliable. A detector analyzes pixel-level patterns your eye can't see.",
+      "headings": {
+        "Why visual detection alone doesn't work anymore": "Why doesn't visual detection work anymore?"
+      }
+    },
+    {
+      "file": "blog/romance-scammer-photos.html",
+      "answer": "<strong>Romance scammers use stolen photos of real people or, increasingly, AI-generated faces of people who don't exist.</strong> Americans reported $672 million in romance and confidence-scam losses to the FBI in 2024. Check suspicious photos with a reverse image search for stolen images and an AI detector for generated ones.",
+      "headings": {
+        "Red flags that tip off romance scams": "What are the red flags of a romance scam?",
+        "What happens if you suspect a scam": "What should you do if you suspect a romance scam?"
+      }
+    },
+    {
+      "file": "blog/reverse-image-search-vs-ai-detector.html",
+      "answer": "<strong>Reverse image search finds stolen real photos; an AI detector catches faces that were generated by AI. You need both.</strong> An AI-generated face has no earlier copies online, so reverse search comes up empty, while a stolen real photo won't look AI-generated to a detector. Run both checks on any suspicious profile.",
+      "headings": {
+        "How reverse image search works": "How does reverse image search work?",
+        "How AI image detection works": "How does AI image detection work?",
+        "What each tool misses — and why it matters": "What does each tool miss?"
+      }
+    },
+    {
+      "file": "blog/ai-generated-profile-pictures.html",
+      "answer": "<strong>AI-generated profile pictures are faces created by image generators, not photos of real people, and they're now common on dating apps and social media.</strong> Scammers and fake accounts use them because they're free, unique and can't be traced with reverse image search. A detector that analyzes the image itself is the most reliable way to spot one.",
+      "headings": {
+        "How AI face generation actually works": "How are AI faces generated?",
+        "Who uses AI-generated profile photos, and why": "Who uses AI-generated profile photos, and why?",
+        "Why they're so hard to spot": "Why are AI profile pictures so hard to spot?"
+      }
+    },
+    {
+      "file": "blog/how-to-tell-if-video-is-ai-generated.html",
+      "answer": "<strong>To tell if a video is AI-generated, watch the motion rather than single frames: look for objects that morph, hands and text that change between frames, and physics that doesn't add up.</strong> Modern generators like Sora and Runway can produce frames that look real on their own, so a dedicated video detector is more reliable than metadata or a visual check.",
+      "headings": {
+        "What doesn't work as a detection method": "What doesn't work for detecting AI video?",
+        "A practical workflow for checking video": "How should you check a video for AI generation?"
+      }
     }
   ]
 }

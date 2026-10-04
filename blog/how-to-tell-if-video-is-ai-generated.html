@@ -48,7 +48,7 @@
       }
     },
     "datePublished": "2026-05-23",
-    "dateModified": "2026-05-23"
+    "dateModified": "2026-10-03"
   }
   </script>
   <script type="application/ld+json">
@@ -150,6 +150,12 @@
           <h1>How to Tell If a Video Is AI Generated</h1>
           
           <p class="landing-subtitle">A single frame won't tell you much anymore. Modern AI video from Sora and Runway can fool the eye on any individual frame. The tells are in the motion — and in the pixel patterns that no compression algorithm can fully erase.</p>
+        <div data-geo="quick-answer" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0 2rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);"></div>
+          <p style="margin:0 0 0.5rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+          <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;"><strong>To tell if a video is AI-generated, watch the motion rather than single frames: look for objects that morph, hands and text that change between frames, and physics that doesn't add up.</strong> Modern generators like Sora and Runway can produce frames that look real on their own, so a dedicated video detector is more reliable than metadata or a visual check.</p>
+          <p style="margin:0.75rem 0 0;font-size:0.75rem;color:var(--text-muted,#94a3b8);">Last updated <time datetime="2026-10-03">October 2026</time></p>
+        </div>
         </div>
 
         <div class="landing-section">
@@ -174,7 +180,7 @@
         </div>
 
         <div class="landing-section">
-          <h2>What doesn't work as a detection method</h2>
+          <h2>What doesn't work for detecting AI video?</h2>
           <p>There are a few approaches that seem like they should work but don't, and it's worth being clear about them so you don't develop false confidence.</p>
           <p><strong>The "fuzzy look" test.</strong> Earlier AI video had a characteristic softness — a watercolor quality where edges weren't quite sharp. Sora doesn't have that. Runway doesn't have that. Modern generators produce footage that is genuinely crisp. Looking for blurriness or over-smoothed skin as a primary indicator will cause you to miss most of what's being generated right now.</p>
           <p><strong>Looking for obvious artifacts.</strong> Glitchy frames, clearly wrong faces, warping at the edges of the image — these were common in 2022 and 2023. They're not common in 2026 output from the major generators. Checking for visible glitches is roughly equivalent to checking a modern AI-generated portrait for the "six fingers" tell. The model has already been trained to avoid that. The artifacts that remain are much subtler.</p>
@@ -207,7 +213,7 @@
         </div>
 
         <div class="landing-section">
-          <h2>A practical workflow for checking video</h2>
+          <h2>How should you check a video for AI generation?</h2>
           <p>For most purposes, a quick visual check is a reasonable first step. If something looks slightly off in the ways described above — background drift, suspicious lighting, hand physics — that's a signal worth acting on. But don't conclude anything from a clean visual pass. The absence of visible artifacts doesn't mean the video is real.</p>
           <p>For video that's being shared as news, evidence, or documentary footage — anything where authenticity actually matters — use <a href="/ai-video-detector">Faux Spy Pro + Video</a>. Navigate to the page in Chrome, hover over the video, click the blue "Analyze Video" button. You'll get a confidence score and generator identification in a few seconds. The analysis runs directly from your browser without downloading the file or opening a separate tool.</p>
           <p>Combine the results with context. A 90% "Sora" result on a clip that's being presented as citizen journalism is a strong indicator. A 60% "AI Generated" result on something clearly labeled as creative content matters a lot less. The tool gives you probability information. What you do with it is a judgment call based on what the video is claiming to be.</p>
