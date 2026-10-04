@@ -19,6 +19,7 @@ const TODAY = new Date().toISOString().split('T')[0];
 // Pages to exclude from sitemap (utility/auth pages)
 const EXCLUDED_SLUGS = new Set([
   'account', 'buy-tokens', 'upgrade', 'pro-video', 'settings', 'product-hunt',
+  'admin', 'success', 'og-design',
 ]);
 
 // Manually curated priority overrides — these override the defaults
@@ -93,7 +94,7 @@ function collectPages(existingLastmod) {
     const slug = urlPrefix
       ? `${urlPrefix}/${file.replace('.html', '')}`
       : (file === 'index.html' ? '' : file.replace('.html', ''));
-    if (seen.has(slug)) return;
+    if (seen.has(slug) || EXCLUDED_SLUGS.has(slug)) return;
     seen.add(slug);
 
     const filePath = path.join(baseDir, file);
@@ -125,6 +126,18 @@ function collectPages(existingLastmod) {
 
   // 2. Blog posts
   const blogDir = path.join(SITE_ROOT, 'blog');
+  const blogIndex = path.join(blogDir, 'index.html');
+  if (fs.existsSync(blogIndex) && !seen.has('blog')) {
+    seen.add('blog');
+    pages.push({
+      url: `${SITE_BASE}/blog`,
+      slug: 'blog',
+      lastmod: existingLastmod.get('blog') || fileLastmod(blogIndex),
+      priority: PRIORITY_MAP.blog.priority,
+      changefreq: PRIORITY_MAP.blog.changefreq,
+      sortKey: parseFloat(PRIORITY_MAP.blog.priority),
+    });
+  }
   if (fs.existsSync(blogDir)) {
     const blogFiles = fs.readdirSync(blogDir).filter(f => f.endsWith('.html') && f !== 'index.html');
     for (const file of blogFiles) {

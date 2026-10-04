@@ -1,4 +1,28 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /account
+Disallow: /success
+
+# AI search and answer engines are welcome — see /llms.txt
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
 
 Sitemap: https://www.fauxspy.com/sitemap.xml

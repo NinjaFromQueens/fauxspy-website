@@ -1,0 +1,60 @@
+# Faux Spy
+
+> Faux Spy is a free browser extension for Chrome, Firefox and Edge that tells you whether a photo or video is AI-generated. Right-click any image — on Tinder, Bumble, Instagram, Facebook or any other site — and get a verdict with a confidence score in about two seconds. It is built to help people spot fake dating profiles, catfish and romance scammers who use AI-generated photos.
+
+Key facts:
+- Free plan: 3 scans per day, no account or credit card needed.
+- Paid plans: Secret Agent $9.99/month or Master Spy $99/year (200 scans/month each); Pro + Video $29.99/month adds AI video detection. All paid plans have a 14-day money-back guarantee.
+- Detection: images are analyzed by Hive and Sightengine detection models, plus a C2PA content-credential and EXIF metadata check. Results are a confidence percentage, not a flat yes/no.
+- Detects output from Midjourney, DALL-E, Stable Diffusion, Adobe Firefly, Leonardo AI and other major generators. Video detection targets Sora, Runway, Pika, Veo and Kling.
+- Privacy: only the URL of the image the user chooses to scan is sent for analysis. No browsing history or personal information is collected.
+- Limitations: no detector is 100% accurate. Compressed thumbnails and newer generators are harder to classify. AI detection does not catch stolen real photos; pair it with a reverse image search for that.
+
+## Get the extension
+- [Chrome Web Store](https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg)
+- [Firefox Add-ons](https://addons.mozilla.org/addon/faux-spy-ai-image-detector/)
+- [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/faux-spy-ai-image-detec/kgahaelogloejdlomjbfpfebecpgmjdh)
+- [Pricing](https://www.fauxspy.com/pro)
+- [FAQ](https://www.fauxspy.com/faq)
+
+## Spot a fake profile
+- [Catfish detector](https://www.fauxspy.com/catfish-detector): check whether a dating or social profile uses AI-generated photos
+- [Dating apps](https://www.fauxspy.com/dating-apps): using Faux Spy on Tinder, Bumble, Hinge and others
+- [How to spot AI-generated images](https://www.fauxspy.com/how-to-spot-ai-generated-images)
+- [What AI-generated faces look like](https://www.fauxspy.com/what-do-ai-faces-look-like)
+- [Romance scam warning signs](https://www.fauxspy.com/romance-scam-warning-signs)
+- [Online dating safety](https://www.fauxspy.com/online-dating-safety)
+- [Protect your parents from romance scams](https://www.fauxspy.com/protect-your-parents)
+- [Signs someone is catfishing you](https://www.fauxspy.com/blog/signs-someone-is-catfishing-you)
+
+## Detectors
+- [AI video detector](https://www.fauxspy.com/ai-video-detector)
+- [Deepfake detector](https://www.fauxspy.com/deepfake-detector)
+- [ChatGPT image detector](https://www.fauxspy.com/chatgpt-image-detector)
+- [Midjourney detector](https://www.fauxspy.com/midjourney-detector)
+- [How AI image detection works](https://www.fauxspy.com/how-ai-image-detection-works)
+- [What is C2PA (Content Credentials)](https://www.fauxspy.com/what-is-c2pa-content-credentials)
+
+## Statistics
+- [Romance scam statistics (FBI IC3)](https://www.fauxspy.com/romance-scam-statistics)
+- [Fake dating profile statistics](https://www.fauxspy.com/fake-dating-profile-statistics)
+- [Online dating statistics](https://www.fauxspy.com/online-dating-statistics)
+- [Catfishing statistics](https://www.fauxspy.com/catfishing-statistics)
+- [Deepfake statistics](https://www.fauxspy.com/deepfake-statistics)
+
+## Definitions
+- [What is catfishing](https://www.fauxspy.com/what-is-catfishing)
+- [What is a romance scam](https://www.fauxspy.com/what-is-a-romance-scam)
+- [What is a deepfake](https://www.fauxspy.com/what-is-a-deepfake)
+- [What is a pig butchering scam](https://www.fauxspy.com/pig-butchering-scam)
+
+## Comparisons
+- [Best deepfake detectors compared](https://www.fauxspy.com/best-deepfake-detector)
+- [Faux Spy vs. Social Catfish](https://www.fauxspy.com/faux-spy-vs-social-catfish)
+- [Reverse image search vs. AI detector](https://www.fauxspy.com/blog/reverse-image-search-vs-ai-detector)
+
+## Company
+- [About](https://www.fauxspy.com/about)
+- [Privacy policy](https://www.fauxspy.com/privacy)
+- [Refund policy](https://www.fauxspy.com/refunds)
+- [Contact](https://www.fauxspy.com/contact)
