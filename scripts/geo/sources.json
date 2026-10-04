@@ -35,6 +35,32 @@
       "pattern": "National Center for Missing (?:&|&amp;|and) Exploited Children(?: \\(NCMEC\\))?|\\bNCMEC\\b"
     },
     {
+      "id": "action-fraud",
+      "label": "Action Fraud — UK national reporting centre for fraud and cybercrime",
+      "url": "https://www.actionfraud.police.uk/",
+      "pattern": "\\bAction Fraud\\b",
+      "_note": "Official UK police site; blocks scripted requests (403)."
+    },
+    {
+      "id": "scamwatch",
+      "label": "Scamwatch — National Anti-Scam Centre, Australia",
+      "url": "https://www.scamwatch.gov.au/",
+      "pattern": "\\bScamwatch\\b",
+      "_note": "Official Australian government site; blocks scripted requests (403)."
+    },
+    {
+      "id": "cafc",
+      "label": "Canadian Anti-Fraud Centre",
+      "url": "https://antifraudcentre-centreantifraude.ca/index-eng.htm",
+      "pattern": "Canadian Anti-Fraud Centre(?: \\(CAFC\\))?|\\bCAFC\\b"
+    },
+    {
+      "id": "india-cybercrime",
+      "label": "National Cyber Crime Reporting Portal (India)",
+      "url": "https://cybercrime.gov.in/",
+      "pattern": "National Cyber ?[Cc]rime Reporting Portal|cybercrime\\.gov\\.in"
+    },
+    {
       "id": "thorn-sextortion",
       "label": "Thorn & NCMEC, Trends in Financial Sextortion (June 2024)",
       "url": "https://www.thorn.org/research/library/financial-sextortion/",
