@@ -24,7 +24,8 @@ const path = require('path');
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const SITE_ROOT = path.resolve(__dirname, '..');
-const BASE_URL = 'https://fauxspy.com';
+// Canonicals across the site use www; the apex domain 301s here.
+const BASE_URL = 'https://www.fauxspy.com';
 
 const SKIP_FILES = new Set([
   'admin.html', 'success.html', 'account.html',
@@ -78,7 +79,8 @@ const COMPETITOR_MAP = {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function getCanonicalUrl(rel) {
-  const noExt = rel.replace(/\.html$/, '');
+  // pages/* are served at the root via vercel.json rewrites (/tinder -> /pages/tinder).
+  const noExt = rel.replace(/\.html$/, '').replace(/^pages\//, '');
   if (noExt === 'index') return BASE_URL + '/';
   if (noExt === 'blog/index') return BASE_URL + '/blog';
   return BASE_URL + '/' + noExt;
@@ -89,11 +91,12 @@ function getHtmlFiles() {
   fs.readdirSync(SITE_ROOT)
     .filter(f => f.endsWith('.html') && !SKIP_FILES.has(f))
     .forEach(f => files.push({ absPath: path.join(SITE_ROOT, f), rel: f }));
-  const blogDir = path.join(SITE_ROOT, 'blog');
-  if (fs.existsSync(blogDir)) {
-    fs.readdirSync(blogDir)
+  for (const dir of ['blog', 'pages']) {
+    const abs = path.join(SITE_ROOT, dir);
+    if (!fs.existsSync(abs)) continue;
+    fs.readdirSync(abs)
       .filter(f => f.endsWith('.html'))
-      .forEach(f => files.push({ absPath: path.join(blogDir, f), rel: `blog/${f}` }));
+      .forEach(f => files.push({ absPath: path.join(abs, f), rel: `${dir}/${f}` }));
   }
   return files.sort((a, b) => a.rel.localeCompare(b.rel));
 }
@@ -164,8 +167,11 @@ function auditTechnical($, rel) {
   const utilityPages = new Set(['index.html', 'pro.html', 'buy-tokens.html', 'contact.html', 'account.html', 'faq.html', 'blog/index.html']);
   const jsonldBlocks = [];
   $('script[type="application/ld+json"]').each((_, el) => {
-    try { jsonldBlocks.push(JSON.parse($(el).text())); } catch {}
+    try { jsonldBlocks.push(JSON.parse($(el).text())); } catch (e) {
+      issues.push({ severity: 'CRITICAL', rule: 'schema-invalid-json', detail: `JSON-LD block doesn't parse, so search engines ignore it: ${e.message}`, autoFix: null });
+    }
   });
+  issues.push(...auditGeo($, rel, jsonldBlocks));
   if (jsonldBlocks.length === 0 && !utilityPages.has(rel)) {
     issues.push({ severity: 'WARNING', rule: 'missing-schema', detail: 'No JSON-LD structured data on content page.', autoFix: null });
   }
@@ -195,6 +201,72 @@ function auditTechnical($, rel) {
   }
 
   return { issues, title, desc };
+}
+
+// ─── GEO / AEO checks ────────────────────────────────────────────────────────
+// Regressions these catch were all found on the live site in Oct 2026: FAQ
+// schema drifting from the visible FAQ, statistics with no linked source,
+// pages with no answer-first summary, and unsourced accuracy percentages.
+
+const QUICK_ANSWER_PAGES = (() => {
+  try {
+    const { entries } = JSON.parse(fs.readFileSync(path.join(SITE_ROOT, 'scripts', 'geo', 'quick-answers.json'), 'utf8'));
+    return new Set(entries.map(e => e.file));
+  } catch { return new Set(); }
+})();
+const AUTHORITATIVE_LINK = /^https?:\/\/([a-z0-9-]+\.)*(gov|gov\.uk|gov\.au|gov\.in|police\.uk|edu|pewresearch\.org|missingkids\.org|thorn\.org|mcafee\.com|antifraudcentre-centreantifraude\.ca)(\/|$)/i;
+const STALE_DAYS = 180;
+
+const normText = s => (s || '').replace(/\s+/g, ' ').trim().toLowerCase();
+
+function findTyped(node, type, out = []) {
+  if (!node || typeof node !== 'object') return out;
+  if ([].concat(node['@type'] || []).includes(type)) out.push(node);
+  Object.values(node).forEach(v => findTyped(v, type, out));
+  return out;
+}
+
+function auditGeo($, rel, jsonldBlocks) {
+  const issues = [];
+  const isContent = rel.startsWith('pages/') || (rel.startsWith('blog/') && rel !== 'blog/index.html');
+
+  // FAQ schema must match what visitors see (scripts/geo/sync-faq.js fixes it).
+  const visible = new Set($('summary, h2, h3').map((_, el) => {
+    const s = $(el).clone();
+    s.children('span').each((_, span) => { if (/^[+\-−×▾▸›]$/.test(normText($(span).text()))) $(span).remove(); });
+    return normText(s.text());
+  }).get());
+  const faqQuestions = jsonldBlocks.flatMap(b => findTyped(b, 'FAQPage')).flatMap(f => f.mainEntity || []);
+  const hidden = faqQuestions.filter(q => !visible.has(normText(q.name)));
+  if (hidden.length) {
+    issues.push({ severity: 'WARNING', rule: 'faq-schema-mismatch', detail: `${hidden.length} of ${faqQuestions.length} FAQPage questions aren't shown on the page (e.g. "${hidden[0].name}"). Run: node scripts/geo/sync-faq.js --only=${path.basename(rel, '.html')}`, autoFix: null });
+  }
+
+  if (QUICK_ANSWER_PAGES.has(rel) && !$('[data-geo="quick-answer"]').length && !/Quick Answer/.test($('body').text())) {
+    issues.push({ severity: 'WARNING', rule: 'missing-quick-answer', detail: 'Priority page has no Quick Answer box. Run: node scripts/geo/inject-quick-answer.js', autoFix: null });
+  }
+
+  if (/statistic|stats/.test(rel)) {
+    const cited = $('a[href]').filter((_, a) => AUTHORITATIVE_LINK.test($(a).attr('href') || '')).length;
+    if (!cited) issues.push({ severity: 'WARNING', rule: 'stats-no-source-links', detail: 'Statistics page cites no primary source with a link. Run: node scripts/geo/link-sources.js ' + rel, autoFix: null });
+  }
+
+  if (isContent) {
+    const modified = jsonldBlocks.flatMap(b => [...findTyped(b, 'Article'), ...findTyped(b, 'BlogPosting'), ...findTyped(b, 'WebPage')])
+      .map(n => n.dateModified).filter(Boolean).sort().pop();
+    if (!modified) {
+      issues.push({ severity: 'INFO', rule: 'schema-missing-datemodified', detail: 'No dateModified in Article/WebPage schema.', autoFix: null });
+    } else if ((Date.now() - new Date(modified)) / 86400000 > STALE_DAYS) {
+      issues.push({ severity: 'INFO', rule: 'stale-datemodified', detail: `dateModified is ${modified} (over ${STALE_DAYS} days old). Review the page, then update the date.`, autoFix: null });
+    }
+  }
+
+  const accuracy = extractBodyText($).match(/[^.]{0,60}\b(?:[89]\d(?:\s?[–-]\s?\d{2})?)%[^.]{0,15}accura[^.]{0,40}|accuracy (?:of |runs |rate of |is )?(?:approximately |about |around |~)?[89]\d%/i);
+  if (accuracy) {
+    issues.push({ severity: 'INFO', rule: 'accuracy-claim', detail: `Accuracy percentage on page — keep only if it names and links its source: "${accuracy[0].trim().slice(0, 120)}"`, autoFix: null });
+  }
+
+  return issues;
 }
 
 // ─── Content Quality Audit (Claude) ──────────────────────────────────────────

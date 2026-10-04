@@ -41,34 +41,26 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is this AI image detector really free?",
+        "name": "Is this really free?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. The free tier gives you 10 image scans per day with no account or signup required. Pro ($9.99/month) gives unlimited scans and advanced classification."
+          "text": "Yes. The free tier gives you 10 image scans per day — no account, no email, no signup. Pro ($9.99/month) unlocks unlimited scans, AI Photo vs. AI Art distinction, and deepfake detection."
         }
       },
       {
         "@type": "Question",
-        "name": "Do I need to install an extension to use this tool?",
+        "name": "Do I need to install an extension?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. This web-based AI image detector works in any browser with no extension required. Paste an image URL or upload a file and get a verdict in about 2 seconds."
+          "text": "No — this page works in any browser with no extension required. If you want right-click detection directly on images as you browse (no uploading), you can install the Chrome extension or Firefox add-on."
         }
       },
       {
         "@type": "Question",
-        "name": "How accurate is the AI image detection?",
+        "name": "How accurate is it?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Approximately 94% accuracy on images from major generators: Midjourney, DALL-E 3, Stable Diffusion, Adobe Firefly. The confidence score tells you how certain the result is — treat scores below 65% as ambiguous."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What AI generators does Faux Spy detect?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Midjourney (v4, v5, v6), DALL-E 2 and 3, Stable Diffusion, Adobe Firefly, Flux, Grok/Aurora, Runway, Bing Image Creator, and most other major generators."
+          "text": "Approximately 94% on images from major generators. The confidence score matters: 90%+ is very reliable, 60–80% is ambiguous and should be treated as one signal alongside other checks. No detector is 100% accurate against the latest models."
         }
       },
       {
@@ -76,7 +68,15 @@
         "name": "Is my image stored or shared?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. Only the image URL (or a temporary in-memory copy for file uploads) is used for analysis. Images are not stored on Faux Spy servers, indexed, or shared with third parties."
+          "text": "No. For URL scans, only the URL is passed to the detection API — we never download or store the image. For file uploads, the image is held in memory during the scan and discarded immediately. Results may be cached for up to 30 days against the same URL for performance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does the URL check sometimes fail for social media images?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Instagram, X/Twitter, Facebook, and TikTok block cross-origin image fetches. If a URL from one of those sites fails, save the image to your device (right-click → Save image) and upload it using the Upload tab instead — that path works for any image you can save locally."
         }
       }
     ]

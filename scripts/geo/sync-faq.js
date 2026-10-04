@@ -26,7 +26,7 @@ const path = require('path');
 const cheerio = require('cheerio');
 
 const SITE_ROOT = path.resolve(__dirname, '..', '..');
-const DIRS = ['pages', 'blog'];
+const DIRS = ['pages', 'blog', '.'];
 const DRY_RUN = process.argv.includes('--dry-run');
 const ONLY = (process.argv.find(a => a.startsWith('--only=')) || '').replace('--only=', '').split(',').filter(Boolean);
 

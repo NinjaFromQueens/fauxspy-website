@@ -77,7 +77,12 @@ for (const e of entries) {
     else notes.push(`h2 MISSING: "${from}"`);
   }
 
-  html = html.replace(/("dateModified":\s*")[^"]+(")/g, `$1${DATE}$2`);
+  if (/"dateModified":/.test(html)) {
+    html = html.replace(/("dateModified":\s*")[^"]+(")/g, `$1${DATE}$2`);
+  } else {
+    // Page shows "Last updated" but its Article schema had no date at all.
+    html = html.replace(/("@type":\s*"(?:Article|BlogPosting)",)/, `$1 "dateModified": "${DATE}",`);
+  }
   html = html.replace(/\bUpdated (January|February|March|April|May|June|July|August|September|October|November|December) 20\d\d\b/g, `Updated ${MONTH_YEAR}`);
 
   if (!DRY_RUN) fs.writeFileSync(file, html, 'utf8');

@@ -326,7 +326,7 @@ HTML STRUCTURE — use EXACTLY this structure with these CSS classes:
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/styles.css">
   <script type="application/ld+json">
-  [JSON-LD SCHEMA — FAQPage required. Add HowTo for how-to/tool pages. Add Article+Dataset for statistics pages. Add Review for comparison pages.]
+  [JSON-LD SCHEMA — FAQPage required, and its questions and answers must be copied word for word from the visible <details> FAQ below (Google ignores FAQ markup that doesn't match the page). Add HowTo for how-to/tool pages. Add Article+Dataset for statistics pages. Add Review for comparison pages. Every author/publisher must be {"@type":"Organization","@id":"https://www.fauxspy.com/#organization","name":"Faux Spy","url":"https://www.fauxspy.com/"}. Include "dateModified" in ISO format.]
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
@@ -365,7 +365,19 @@ HTML STRUCTURE — use EXACTLY this structure with these CSS classes:
         <p class="landing-note">3 checks/day free. No account required.</p>
       </div>
 
-      [3-5 .landing-section divs with H2 + paragraphs. For stats pages add tables with class="data-table". For how-to pages add <ol class="landing-steps">. For generator pages include an "accuracy" section.]
+      <div data-geo="quick-answer" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);"></div>
+        <p style="margin:0 0 0.5rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;"><strong>[First sentence: the direct, neutral answer to the page's main question, leading with the fact.]</strong> [1–2 sentences of the most useful detail.]</p>
+        <p style="margin:0.75rem 0 0;font-size:0.75rem;color:var(--text-muted,#94a3b8);">Last updated <time datetime="[ISO DATE]">[Month Year]</time></p>
+      </div>
+
+      [3-5 .landing-section divs with H2 + paragraphs. At least 2 H2s must be phrased as the exact question people search ("How do you spot a fake Tinder profile?"), answered in the first sentence beneath. For stats pages add tables with class="data-table". For how-to pages add <ol class="landing-steps">. For generator pages include a "limits and accuracy" section — never state a Faux Spy accuracy percentage. Every statistic must link (<a href>) to its primary source: the government report, study or company release itself. If no primary source exists for a number, leave the number out.]
+
+      <div class="landing-section" data-geo="sources">
+        <h2>Sources</h2>
+        [<ul> of every source cited above, each a linked primary document]
+      </div>
 
       <div class="landing-faq">
         <h2>Common questions</h2>

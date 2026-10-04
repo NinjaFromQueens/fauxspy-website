@@ -18,7 +18,6 @@ const SITE_ROOT = path.resolve(__dirname, '..');
 const BLOG_DIR = path.join(SITE_ROOT, 'blog');
 const BLOG_INDEX = path.join(BLOG_DIR, 'index.html');
 const SITEMAP_FILE = path.join(SITE_ROOT, 'sitemap.xml');
-const INDEXNOW_FILE = path.join(SITE_ROOT, '.github', 'workflows', 'indexnow.yml');
 const SITE_BASE = 'https://www.fauxspy.com';
 
 const topic = process.env.BLOG_TOPIC;
@@ -45,11 +44,12 @@ AUTHOR VOICE: You are writing in the voice of someone who built FauxSpy after wa
 
 CRITICAL WRITING RULES — every single one applies:
 - Write like a person, not like an AI. No bullet-pointed summaries of what the article will cover. No "In this article, we will explore..." openers.
-- Start with a specific scene, statistic, or concrete observation — not with a definition or a statement about how important the topic is.
+- Answer the reader's question in the opening: the Quick Answer box (see template) gives the direct answer in 2–3 sentences, leading with the fact, before any story. AI answer engines and featured snippets quote pages that answer first. After the Quick Answer, the body can open with a specific scene, statistic, or concrete observation — never with a statement about how important the topic is.
 - Short paragraphs. 3–4 sentences max. Vary the rhythm — mix long and short sentences. Use a single short sentence (under 10 words) as its own paragraph at least twice for punch.
 - Use second person ("you") throughout. Talk directly to the reader.
-- Each H2 heading must make a real point, not just label a category. "How to spot it" is weak. "The tell is in the hand movement, not the face" is strong.
+- Each H2 heading must make a real point, not just label a category. "How to spot it" is weak. "The tell is in the hand movement, not the face" is strong. At least 2 H2s must be phrased as the exact question a reader would type into Google ("How do you tell if a video is AI-generated?") — these feed People Also Ask and answer engines. Answer the question in the first sentence under it.
 - Include at least one specific, verifiable data point per major section — a real statistic, a named source, a specific dollar amount or percentage.
+- Every statistic must link to its primary source with <a href="..."> (the government report, the study, the company's own press release) — not to a news article about it, and never an invented URL. If you can't name a primary source for a number, don't use the number. Never state Faux Spy accuracy percentages.
 - Name specific real platforms, apps, or websites when giving examples (Tinder, r/OnlineDating, Hinge, etc.) — not vague "dating apps."
 - Contradict a common assumption at least once. "Most people think X. They're wrong."
 - Write at least one sentence that starts with "And" or "But" — real writers do this.
@@ -289,10 +289,10 @@ Output a complete HTML article file using EXACTLY this structure — replace the
     "@type": "Article",
     "headline": "[Article Title]",
     "description": "[Schema description]",
-    "author": {"@type": "Organization", "name": "Faux Spy"},
-    "publisher": {"@type": "Organization", "name": "Faux Spy", "url": "https://www.fauxspy.com"},
-    "datePublished": "${displayDate}",
-    "dateModified": "${displayDate}"
+    "author": {"@type": "Organization", "@id": "https://www.fauxspy.com/#organization", "name": "Faux Spy", "url": "https://www.fauxspy.com/"},
+    "publisher": {"@type": "Organization", "@id": "https://www.fauxspy.com/#organization", "name": "Faux Spy", "url": "https://www.fauxspy.com/", "logo": {"@type": "ImageObject", "url": "https://www.fauxspy.com/logo.png", "width": 128, "height": 128}},
+    "datePublished": "${todayDate()}",
+    "dateModified": "${todayDate()}"
   }
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
@@ -329,7 +329,14 @@ Output a complete HTML article file using EXACTLY this structure — replace the
           <p class="landing-subtitle">[One-sentence subtitle — a specific, interesting claim that makes someone want to keep reading. Not a summary of the article.]</p>
         </div>
 
-        [2-4 landing-section divs with h2 headings and paragraphs]
+        <div data-geo="quick-answer" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0 2rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);"></div>
+          <p style="margin:0 0 0.5rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+          <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;"><strong>[First sentence: the direct answer to the title's question, leading with the fact.]</strong> [1–2 more sentences of the most useful detail. Neutral — about the topic, not a pitch for Faux Spy.]</p>
+          <p style="margin:0.75rem 0 0;font-size:0.75rem;color:var(--text-muted,#94a3b8);">Last updated <time datetime="${todayDate()}">[Display Date]</time></p>
+        </div>
+
+        [2-4 landing-section divs with h2 headings and paragraphs — at least 2 h2s phrased as questions]
 
         <div class="landing-section" style="margin-top:2rem;padding:1.5rem;background:var(--bg-secondary,#f9f9f9);border-radius:12px;border:1px solid var(--border,#e5e5e5);">
           <h3 style="margin:0 0 0.75rem;">Check any image or video with Faux Spy</h3>
@@ -536,24 +543,6 @@ function addToSitemap(url) {
   console.log(`  🗺️  Added to sitemap.xml: ${url}`);
 }
 
-// ─── Add to indexnow.yml ──────────────────────────────────────────────────────
-
-function addToIndexNow(url) {
-  if (!fs.existsSync(INDEXNOW_FILE)) return;
-  let indexNow = fs.readFileSync(INDEXNOW_FILE, 'utf8');
-  if (indexNow.includes(`"${url}"`)) return;
-
-  const closeIdx = indexNow.lastIndexOf('\n              ]');
-  if (closeIdx !== -1) {
-    indexNow =
-      indexNow.slice(0, closeIdx) +
-      `,\n                "${url}"` +
-      indexNow.slice(closeIdx);
-    fs.writeFileSync(INDEXNOW_FILE, indexNow, 'utf8');
-    console.log(`  📡  Added to indexnow.yml: ${url}`);
-  }
-}
-
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -623,9 +612,9 @@ async function main() {
   // Add card to blog index
   addBlogCard(slug, title, metaDesc, displayDate);
 
-  // Add to sitemap and indexnow
+  // IndexNow submission happens in .github/workflows/indexnow.yml, which
+  // reads sitemap.xml on every push to main.
   addToSitemap(canonicalUrl);
-  addToIndexNow(canonicalUrl);
 
   // Write summary for PR body
   const summary = `# New Blog Draft: ${title}
