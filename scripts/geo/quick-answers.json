@@ -1,0 +1,86 @@
+{
+  "_comment": "Hand-written Quick Answers (2-3 sentences, answer first) and question-style h2 renames, applied by scripts/geo/inject-quick-answer.js. Every figure here must already appear on the page with its source, or be from a primary source linked in scripts/geo/sources.json. Keep answers neutral: lead with the fact, not with Faux Spy.",
+  "entries": [
+    {
+      "file": "pages/romance-scam-statistics.html",
+      "answer": "<strong>Americans reported $672 million in romance and confidence-scam losses to the FBI in 2024, across 17,910 complaints — about $37,521 per victim.</strong> The FTC, which collects reports differently, recorded $1.14 billion in romance-scam losses in 2023. Most victims never report, so the true total is higher.",
+      "headings": {
+        "National overview (FBI IC3 2024)": "How much do romance scams cost? (FBI IC3 2024)",
+        "Romance scam losses by state": "Which states lose the most to romance scams?",
+        "Romance scam victims by age group": "Which age groups lose the most to romance scams?"
+      }
+    },
+    {
+      "file": "pages/catfishing-statistics.html",
+      "answer": "<strong>Catfishing is common: 52% of online daters say they've come across someone they thought was trying to scam them</strong> (Pew Research Center). In McAfee's February 2026 research, 1 in 4 Americans said they had encountered a fake profile or AI bot, and 35% had spotted AI-generated or modified photos on dating or social apps. Romance-scam losses reported to the FBI reached $672 million in 2024.",
+      "headings": {
+        "Who gets catfished": "Who gets catfished?",
+        "Platform enforcement: what dating apps remove": "How many fake profiles do dating apps remove?"
+      }
+    },
+    {
+      "file": "pages/ai-fraud-statistics.html",
+      "answer": "<strong>Americans reported $16.6 billion in cybercrime losses to the FBI in 2024</strong>, and consumers reported $12.5 billion in fraud losses to the FTC the same year. AI makes these scams cheaper to run at scale, producing fake profile photos, cloned voices and deepfake video that are hard to spot by eye.",
+      "headings": {
+        "Deepfake fraud: scale and growth": "How fast is deepfake fraud growing?",
+        "Where online fraud originates: social media platforms": "Where does online fraud start?"
+      }
+    },
+    {
+      "file": "pages/online-dating-statistics.html",
+      "answer": "<strong>30% of U.S. adults have used a dating app or site, rising to 53% of adults under 30</strong> (Pew Research Center). Fake profiles are a common problem: 1 in 4 Americans have encountered a fake profile or AI bot (McAfee, 2026), and the FTC recorded $1.14 billion in romance-scam losses in 2023.",
+      "headings": {
+        "Online dating fraud statistics": "How much money is lost to online dating fraud?",
+        "Online dating usage by age group": "Who uses online dating, by age?"
+      }
+    },
+    {
+      "file": "pages/deepfake-statistics.html",
+      "answer": "<strong>Deepfake fraud is now routine: identity-verification firm Entrust detected a deepfake attempt every five minutes in 2024.</strong> Scammers use AI-generated faces and video in romance and investment scams as well as attacks on businesses. Because people can't reliably spot deepfakes by eye, check suspicious images with a detector and verify identities on a live video call.",
+      "headings": {
+        "Scale of deepfake fraud in 2024": "How common is deepfake fraud?",
+        "Corporate impact: who deepfakes target": "Who do deepfakes target?"
+      }
+    },
+    {
+      "file": "pages/sextortion-statistics.html",
+      "answer": "<strong>Sextortion is rising fast and mostly targets teenage boys.</strong> Thorn's analysis of NCMEC CyberTipline data found an average of 812 sextortion reports per week, and 90% of victims in those reports were male, aged 14 to 17. AI-generated fake nudes mean scammers no longer need a real image to threaten someone.",
+      "headings": {
+        "Types of sextortion": "What are the types of sextortion?",
+        "Sextortion by platform": "Which platforms do sextortion scammers use?"
+      }
+    },
+    {
+      "file": "pages/fake-dating-profile-statistics.html",
+      "answer": "<strong>About half of online daters (52%) say they've come across someone they thought was trying to scam them</strong> (Pew Research Center). McAfee's February 2026 research found 1 in 4 Americans have encountered a fake profile or AI bot. AI-generated faces don't exist anywhere else online, so reverse image search often can't catch them.",
+      "headings": {
+        "What online daters actually experience": "How common are fake dating profiles?",
+        "What dating platforms remove — and what gets through": "What do dating apps remove, and what gets through?"
+      }
+    },
+    {
+      "file": "blog/catfishing-statistics.html",
+      "answer": "<strong>Romance and confidence scams cost Americans $672 million in 2024, according to the FBI's Internet Crime Complaint Center — across 17,910 complaints, or about $37,521 per victim.</strong> The FTC recorded $1.14 billion in romance-scam losses in 2023. Scammers increasingly use AI-generated photos, which reverse image search can't trace.",
+      "headings": {
+        "Catfishing targets everyone, but some are more vulnerable": "Who is most vulnerable to catfishing?",
+        "How to protect yourself right now": "How can you protect yourself from catfishing?"
+      }
+    },
+    {
+      "file": "blog/romance-scam-stats.html",
+      "answer": "<strong>Romance scams cost Americans more than $1 billion a year.</strong> The FTC recorded $1.14 billion in romance-scam losses in 2023, and the FBI recorded $672 million in romance and confidence-scam losses in 2024 across 17,910 complaints. Most victims never report, so the real total is higher.",
+      "headings": {
+        "Which states are losing the most": "Which states are losing the most?",
+        "Who gets targeted and why they lose so much": "Who gets targeted, and why do they lose so much?"
+      }
+    },
+    {
+      "file": "blog/deepfake-fraud-statistics.html",
+      "answer": "<strong>Deepfake fraud is growing quickly, and romance scams are one of its main uses.</strong> The FTC recorded $1.14 billion in romance-scam losses in 2023, and scammers increasingly use AI-generated faces and video to build fake identities. Reported figures undercount the problem, because most victims never report.",
+      "headings": {
+        "Who gets targeted": "Who gets targeted by deepfake fraud?",
+        "What the trajectory looks like": "Where is deepfake fraud heading?"
+      }
+    }
+  ]
+}

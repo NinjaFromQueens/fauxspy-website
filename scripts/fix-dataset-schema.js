@@ -33,7 +33,6 @@ const AFFECTED_FILES = [
   { path: 'blog/crypto-romance-scam.html',   slug: 'blog/crypto-romance-scam' },
   { path: 'blog/catfishing-statistics.html', slug: 'blog/catfishing-statistics' },
   { path: 'blog/ai-identity-theft.html',     slug: 'blog/ai-identity-theft' },
-  { path: 'pages/romance-scam-statistics-2025.html', slug: 'romance-scam-statistics-2025' },
 ];
 
 function fixDatasetSchema(html, slug, fixCitation) {

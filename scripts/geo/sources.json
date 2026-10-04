@@ -1,0 +1,44 @@
+{
+  "_comment": "Primary documents for sources our statistics pages cite. Every URL was checked by hand before being added (some publishers block scripted requests, so a 403 from curl is not proof a URL is dead). Only add a source once you've confirmed the page it links to actually contains the figures we quote.",
+  "sources": [
+    {
+      "id": "ic3-2024",
+      "label": "FBI Internet Crime Complaint Center (IC3), 2024 Internet Crime Report",
+      "url": "https://www.ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf",
+      "pattern": "FBI(?:'s)? Internet Crime Complaint Center(?: \\(IC3\\))?|FBI IC3|FBI's IC3|\\bIC3\\b"
+    },
+    {
+      "id": "ftc-sentinel",
+      "label": "Federal Trade Commission, Consumer Sentinel Network reports",
+      "url": "https://www.ftc.gov/enforcement/consumer-sentinel-network/reports",
+      "pattern": "Federal Trade Commission(?: \\(FTC\\))?|FTC Consumer Sentinel|Consumer Sentinel|\\bFTC\\b"
+    },
+    {
+      "id": "pew-2023",
+      "label": "Pew Research Center, Key findings about online dating in the U.S. (2023)",
+      "url": "https://www.pewresearch.org/internet/2023/02/02/key-findings-about-online-dating-in-the-u-s/",
+      "pattern": "Pew Research Center|Pew Research|\\bPew\\b"
+    },
+    {
+      "id": "mcafee-2026",
+      "label": "McAfee, Valentine's Day romance scam research (February 2026)",
+      "url": "https://www.mcafee.com/en-us/newsroom/press-releases/2026/romance-scams-are-now-part-of-the-online-dating-experience.html",
+      "pattern": "McAfee(?:'s)? (?:February )?2026[^<.]{0,40}research|McAfee Labs|\\bMcAfee\\b",
+      "onlyIfPageMentions": "2026",
+      "skipFiles": ["pages/deepfake-statistics.html"],
+      "_skipFiles": "deepfake-statistics also cites older McAfee voice-cloning figures that don't come from this release."
+    },
+    {
+      "id": "ncmec-sextortion",
+      "label": "National Center for Missing & Exploited Children (NCMEC), Sextortion",
+      "url": "https://www.missingkids.org/theissues/sextortion",
+      "pattern": "National Center for Missing (?:&|&amp;|and) Exploited Children(?: \\(NCMEC\\))?|\\bNCMEC\\b"
+    },
+    {
+      "id": "thorn-sextortion",
+      "label": "Thorn & NCMEC, Trends in Financial Sextortion (June 2024)",
+      "url": "https://www.thorn.org/research/library/financial-sextortion/",
+      "pattern": "\\bThorn\\b"
+    }
+  ]
+}

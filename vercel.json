@@ -1,6 +1,10 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/romance-scam-statistics-2025", "destination": "/romance-scam-statistics", "permanent": true },
+    { "source": "/pages/romance-scam-statistics-2025", "destination": "/romance-scam-statistics", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/deepfake-statistics", "destination": "/pages/deepfake-statistics" },
     { "source": "/what-is-a-deepfake", "destination": "/pages/what-is-a-deepfake" },
@@ -12,7 +16,6 @@
     { "source": "/romance-scam-statistics", "destination": "/pages/romance-scam-statistics" },
     { "source": "/fake-dating-profile-statistics", "destination": "/pages/fake-dating-profile-statistics" },
     { "source": "/ai-fraud-statistics", "destination": "/pages/ai-fraud-statistics" },
-    { "source": "/romance-scam-statistics-2025", "destination": "/pages/romance-scam-statistics-2025" },
     { "source": "/romance-scam-warning-signs", "destination": "/pages/romance-scam-warning-signs" },
     { "source": "/romance-scam-arizona", "destination": "/pages/romance-scam-arizona" },
     { "source": "/romance-scam-atlanta", "destination": "/pages/romance-scam-atlanta" },

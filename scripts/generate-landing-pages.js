@@ -473,7 +473,7 @@ CONTENT REQUIREMENTS:
 - Section 4: What to do if targeted in ${stateName} — report to FTC, IC3, local resources
 - FAQ: 4-5 ${stateName}-specific questions ("How many romance scam complaints were filed in ${stateName}?", "What's the average loss for ${stateName} victims?")
 - Schema: FAQPage + HowTo
-- Internal links: /catfish-detector, /dating-apps, /deepfake-detector, /romance-scam-statistics-2025 (if it exists)
+- Internal links: /catfish-detector, /dating-apps, /deepfake-detector, /romance-scam-statistics
 - Source attribution: FBI IC3 Internet Crime Report 2024
 
 MANDATORY UNIQUENESS REQUIREMENT: This page's differentiating stat is: "${page.keyStat || `${stateName} romance scam losses`}"

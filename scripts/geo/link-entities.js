@@ -39,7 +39,6 @@ const ABOUT = {
   'what-is-c2pa-content-credentials': wiki('Content Credentials', 'Content_Credentials'),
   'pig-butchering-scam': wiki('Pig butchering scam', 'Pig_butchering_scam'),
   'romance-scam-statistics': wiki('Romance scam', 'Romance_scam'),
-  'romance-scam-statistics-2025': wiki('Romance scam', 'Romance_scam'),
   'catfishing-statistics': wiki('Catfishing', 'Catfishing'),
   'fake-dating-profile-statistics': wiki('Catfishing', 'Catfishing'),
   'deepfake-statistics': wiki('Deepfake', 'Deepfake'),
