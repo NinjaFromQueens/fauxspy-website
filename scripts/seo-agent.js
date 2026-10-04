@@ -597,7 +597,10 @@ async function main() {
 
     const { issues: techIssues, title, desc } = auditTechnical($, rel);
 
-    const skipContent = SKIP_CONTENT.has(path.basename(rel));
+    // The Claude content audit stays on root + blog pages: running it on all
+    // 157 pages/ files would ~5x the cost and runtime of every push-triggered
+    // run. pages/ still get the technical and GEO checks above.
+    const skipContent = SKIP_CONTENT.has(path.basename(rel)) || rel.startsWith('pages/');
     const contentIssues = skipContent ? [] : await auditContent($, rel, title);
 
     // D: Auto-generate meta description if missing or too short
