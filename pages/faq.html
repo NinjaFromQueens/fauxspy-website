@@ -24,7 +24,7 @@
         "name": "What is the best AI image detector?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy is consistently among the top-ranked AI image detectors for real-world use. It achieves approximately 94% accuracy on images from major generators (Midjourney, DALL-E 3, Stable Diffusion, Adobe Firefly) and works as a free Chrome extension — right-click any image on any website for a verdict in 2 seconds. Unlike standalone web tools, Faux Spy works directly in your browser without uploading images or switching tabs."
+          "text": "It depends on what you're checking. For images you come across while browsing — dating profiles, social media, news — a browser extension is fastest, because you check the photo where it appears instead of uploading it somewhere. Upload tools suit one-off checks, and APIs suit businesses. Whatever you choose, look for a confidence score rather than a flat yes/no, and coverage of the generators you care about (Midjourney, DALL-E, Stable Diffusion, Adobe Firefly). Faux Spy is a free browser extension for Chrome, Firefox and Edge that checks any image in about 2 seconds."
         }
       },
       {
@@ -48,7 +48,7 @@
         "name": "How accurate are AI image detectors?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy achieves approximately 94% accuracy on images from major AI generators. No detector is 100% accurate — the latest generators (Midjourney v6, FLUX, SDXL) are harder to detect than earlier models. Faux Spy uses a two-stage pipeline: a local machine learning model for fast pre-filtering, then a cloud ensemble (Sightengine + HiveModeration) for ambiguous cases. The confidence score helps you weigh each result — a 98% AI score is very reliable; a 60% score warrants additional scrutiny."
+          "text": "It's a strong signal, but no detector is 100% accurate. Images from major generators are the easiest to catch, while the latest generators (Midjourney v6, FLUX, SDXL) are harder to detect than earlier models. Faux Spy uses a two-stage pipeline: a local machine learning model for fast pre-filtering, then a cloud ensemble (Sightengine + HiveModeration) for ambiguous cases. The confidence score helps you weigh each result — a 98% AI score is very reliable; a 60% score warrants additional scrutiny."
         }
       },
       {
@@ -112,7 +112,7 @@
         "name": "Is Faux Spy available for Firefox or Edge?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy is live on Chrome and Firefox. Install the Firefox add-on here. Edge users can install the Chrome version now since Edge supports Chrome extensions natively — a dedicated Edge version is coming soon."
+          "text": "Yes. Faux Spy is live on Chrome, Firefox and Edge. Get the Firefox add-on or the Edge extension."
         }
       },
       {
@@ -120,7 +120,7 @@
         "name": "How does Faux Spy's AI detection actually work?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy uses a two-stage detection pipeline. Stage 1: a local ONNX machine learning model (50MB, runs inside your browser) analyzes pixel patterns for high-confidence cases in about 50ms — no network call needed. Stage 2: for ambiguous cases, the image URL is sent to a cloud ensemble combining Sightengine and HiveModeration for a more detailed analysis. The combination achieves approximately 94% accuracy while keeping fast local verdicts for obvious cases."
+          "text": "Faux Spy uses a two-stage detection pipeline. Stage 1: a local ONNX machine learning model (50MB, runs inside your browser) analyzes pixel patterns for high-confidence cases in about 50ms — no network call needed. Stage 2: for ambiguous cases, the image URL is sent to a cloud ensemble combining Sightengine and HiveModeration for a more detailed analysis. The combination keeps fast local verdicts for obvious cases."
         }
       },
       {
@@ -152,7 +152,7 @@
         "name": "Can I use Faux Spy to detect military romance scam photos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Military romance scam photos are almost always AI-generated — scammers use AI to create unique soldier and officer faces that have never existed. Reverse image search returns nothing because there is no original photo. Faux Spy detects these in 2 seconds, and military scam photos typically score 85–99% AI probability. Install the free Chrome extension and right-click any suspicious profile photo."
+          "text": "Yes, if the photo is AI-generated. Military romance scammers have long used photos stolen from real service members, and increasingly use AI-generated faces of soldiers who don't exist. Faux Spy catches the AI-generated ones in about 2 seconds; for stolen real photos, a reverse image search is the right check. Use both on any suspicious profile."
         }
       },
       {
@@ -176,7 +176,7 @@
         "name": "What is the most accurate free deepfake detector?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Faux Spy is a free AI image detector Chrome and Firefox extension that detects deepfakes and AI-generated photos with approximately 94% accuracy. It works on any image on any website — right-click and select Investigate for a verdict in 2 seconds. 3 checks per day free, no account required. For images without the extension installed, check any photo online at fauxspy.com/check."
+          "text": "Faux Spy is a free browser extension for Chrome, Firefox and Edge that detects deepfakes and AI-generated photos. It works on any image on any website — right-click and select Investigate for a verdict in 2 seconds. 3 checks per day free, no account required. For images without the extension installed, check any photo online at fauxspy.com/check."
         }
       }
     ]
@@ -190,6 +190,23 @@
     ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
     ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
     document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://www.fauxspy.com/faq#webpage",
+    "url": "https://www.fauxspy.com/faq",
+    "name": "Faux Spy FAQ",
+    "description": "Answers to common questions about Faux Spy, AI image detection, deepfakes and romance scams.",
+    "isPartOf": {
+      "@id": "https://www.fauxspy.com/#website"
+    },
+    "publisher": {
+      "@id": "https://www.fauxspy.com/#organization"
+    },
+    "dateModified": "2026-10-03"
+  }
   </script>
 </head>
 <body>
@@ -215,6 +232,12 @@
       <div class="landing-hero">
         <h1>Frequently Asked Questions</h1>
         <p class="landing-subtitle">Everything you need to know about detecting AI-generated images — how it works, how accurate it is, and how to protect yourself online.</p>
+        <div data-geo="quick-answer" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0 2rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);"></div>
+          <p style="margin:0 0 0.5rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+          <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;"><strong>Faux Spy is a free browser extension for Chrome, Firefox and Edge that checks whether an image is AI-generated: right-click any photo and get a verdict with a confidence score in about 2 seconds.</strong> The free plan includes 3 scans a day with no account. Paid plans add more scans, 5-category detection and AI video detection. Only the URL of the image you choose to scan is sent for analysis.</p>
+          <p style="margin:0.75rem 0 0;font-size:0.75rem;color:var(--text-muted,#94a3b8);">Last updated <time datetime="2026-10-03">October 2026</time></p>
+        </div>
         <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">🕵️ Try Faux Spy — Free</a>
         <p class="landing-note">3 scans/day free &middot; No account required</p>
       </div>
@@ -225,7 +248,7 @@
         <div class="landing-faq">
           <details class="faq-item" open>
             <summary>What is the best AI image detector?</summary>
-            <p>Faux Spy is consistently among the top-ranked AI image detectors for real-world use. It achieves approximately 94% accuracy on images from major generators (Midjourney, DALL-E 3, Stable Diffusion, Adobe Firefly) and works as a free Chrome extension — right-click any image on any website for a verdict in 2 seconds. Unlike standalone web tools, Faux Spy works directly in your browser without uploading images or switching tabs.</p>
+            <p>It depends on what you're checking. For images you come across while browsing — dating profiles, social media, news — a browser extension is fastest, because you check the photo where it appears instead of uploading it somewhere. Upload tools suit one-off checks, and APIs suit businesses. Whatever you choose, look for a confidence score rather than a flat yes/no, and coverage of the generators you care about (Midjourney, DALL-E, Stable Diffusion, Adobe Firefly). Faux Spy is a free browser extension for Chrome, Firefox and Edge that checks any image in about 2 seconds.</p>
           </details>
 
           <details class="faq-item">
@@ -240,7 +263,7 @@
 
           <details class="faq-item">
             <summary>How accurate are AI image detectors?</summary>
-            <p>Faux Spy achieves approximately 94% accuracy on images from major AI generators. No detector is 100% accurate — the latest generators (Midjourney v6, FLUX, SDXL) are harder to detect than earlier models. Faux Spy uses a two-stage pipeline: a local machine learning model for fast pre-filtering, then a cloud ensemble (Sightengine + HiveModeration) for ambiguous cases. The confidence score helps you weigh each result — a 98% AI score is very reliable; a 60% score warrants additional scrutiny.</p>
+            <p>It's a strong signal, but no detector is 100% accurate. Images from major generators are the easiest to catch, while the latest generators (Midjourney v6, FLUX, SDXL) are harder to detect than earlier models. Faux Spy uses a two-stage pipeline: a local machine learning model for fast pre-filtering, then a cloud ensemble (Sightengine + HiveModeration) for ambiguous cases. The confidence score helps you weigh each result — a 98% AI score is very reliable; a 60% score warrants additional scrutiny.</p>
           </details>
 
           <details class="faq-item">
@@ -286,7 +309,7 @@
 
           <details class="faq-item">
             <summary>Is Faux Spy available for Firefox or Edge?</summary>
-            <p>Faux Spy is live on Chrome and Firefox. <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" target="_blank" rel="noopener" style="color:var(--gold,#fbbf24);">Install the Firefox add-on here</a>. Edge users can install the Chrome version now since Edge supports Chrome extensions natively — a dedicated Edge version is coming soon.</p>
+            <p>Yes. Faux Spy is live on Chrome, Firefox and Edge. Get the <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" target="_blank" rel="noopener" style="color:var(--gold,#fbbf24);">Firefox add-on</a> or the <a href="https://microsoftedge.microsoft.com/addons/detail/faux-spy-ai-image-detec/kgahaelogloejdlomjbfpfebecpgmjdh" target="_blank" rel="noopener" style="color:var(--gold,#fbbf24);">Edge extension</a>.</p>
           </details>
         </div>
       </div>
@@ -297,7 +320,7 @@
         <div class="landing-faq">
           <details class="faq-item">
             <summary>How does Faux Spy's AI detection actually work?</summary>
-            <p>Faux Spy uses a two-stage detection pipeline. Stage 1: a local ONNX machine learning model (50MB, runs inside your browser) analyzes pixel patterns for high-confidence cases in about 50ms — no network call needed. Stage 2: for ambiguous cases, the image URL is sent to a cloud ensemble combining Sightengine and HiveModeration for a more detailed analysis. The combination achieves approximately 94% accuracy while keeping fast local verdicts for obvious cases.</p>
+            <p>Faux Spy uses a two-stage detection pipeline. Stage 1: a local ONNX machine learning model (50MB, runs inside your browser) analyzes pixel patterns for high-confidence cases in about 50ms — no network call needed. Stage 2: for ambiguous cases, the image URL is sent to a cloud ensemble combining Sightengine and HiveModeration for a more detailed analysis. The combination keeps fast local verdicts for obvious cases.</p>
           </details>
 
           <details class="faq-item">
@@ -323,7 +346,7 @@
 
           <details class="faq-item">
             <summary>Can I use Faux Spy to detect military romance scam photos?</summary>
-            <p>Yes. <a href="/military-romance-scam">Military romance scam</a> photos are almost always AI-generated — scammers use AI to create unique soldier and officer faces that have never existed. Reverse image search returns nothing because there is no original photo. Faux Spy detects these in 2 seconds, and military scam photos typically score 85–99% AI probability. Install the free Chrome extension and right-click any suspicious profile photo.</p>
+            <p>Yes, if the photo is AI-generated. <a href="/military-romance-scam">Military romance scammers</a> have long used photos stolen from real service members, and increasingly use AI-generated faces of soldiers who don't exist. Faux Spy catches the AI-generated ones in about 2 seconds; for stolen real photos, a reverse image search is the right check. Use both on any suspicious profile.</p>
           </details>
 
           <details class="faq-item">
@@ -338,7 +361,7 @@
 
           <details class="faq-item">
             <summary>What is the most accurate free deepfake detector?</summary>
-            <p>Faux Spy is a free AI image detector Chrome and Firefox extension that detects deepfakes and AI-generated photos with approximately 94% accuracy. It works on any image on any website — right-click and select Investigate for a verdict in 2 seconds. 3 checks per day free, no account required. For images without the extension installed, <a href="/check" style="color:var(--gold,#fbbf24);">check any photo online at fauxspy.com/check</a>.</p>
+            <p>Faux Spy is a free browser extension for Chrome, Firefox and Edge that detects deepfakes and AI-generated photos. It works on any image on any website — right-click and select Investigate for a verdict in 2 seconds. 3 checks per day free, no account required. For images without the extension installed, <a href="/check" style="color:var(--gold,#fbbf24);">check any photo online at fauxspy.com/check</a>.</p>
           </details>
         </div>
       </div>

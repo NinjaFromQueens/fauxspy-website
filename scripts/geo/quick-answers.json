@@ -315,6 +315,11 @@
         "What doesn't work as a detection method": "What doesn't work for detecting AI video?",
         "A practical workflow for checking video": "How should you check a video for AI generation?"
       }
+    },
+    {
+      "file": "pages/faq.html",
+      "answer": "<strong>Faux Spy is a free browser extension for Chrome, Firefox and Edge that checks whether an image is AI-generated: right-click any photo and get a verdict with a confidence score in about 2 seconds.</strong> The free plan includes 3 scans a day with no account. Paid plans add more scans, 5-category detection and AI video detection. Only the URL of the image you choose to scan is sent for analysis.",
+      "headings": {}
     }
   ]
 }
