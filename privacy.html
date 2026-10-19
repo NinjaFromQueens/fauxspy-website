@@ -50,18 +50,26 @@
     <h2>What We Collect</h2>
     <ul>
       <li><strong>The image or video you choose to scan</strong> - When you click Investigate (or use the right-click menu), the extension sends that image's or video's web address to our detection API, which passes it to our detection providers. For a streamed video that has no direct address (Pro + Video plan), the extension instead sends a single still frame captured from the video. We don't store the address or the frame after the scan.</li>
-      <li><strong>The website's domain</strong> - Each scan includes the domain of the page you're on (for example, "instagram.com"), used only for the anonymized detection history below. We never receive the full page address, its title, or any other pages you visit.</li>
+      <li><strong>The website's domain</strong> - Each image scan includes the domain of the page you're on (for example, "instagram.com"), used only for the anonymized detection history below. We never receive the full page address, its title, or any other pages you visit.</li>
       <li><strong>A random anonymous ID</strong> - The extension creates a random ID when it's installed. Together with your IP address, it lets us count free scans against the daily limit. These counters expire after about 25 hours and aren't linked to scan contents.</li>
-      <li><strong>Anonymized detection history</strong> - When you scan an image or video, we store a one-way cryptographic hash of its address (not the address itself), the verdict, and the website's domain, so if someone else scans the same image or video later we can tell them "checked by N other people" and show the prior verdict. This record can't be traced back to you: it never includes your anonymous ID, IP address, the full page address, or anything linking it to your account or device.</li>
+      <li><strong>Anonymized detection history</strong> - When you scan an image or video, we store a one-way cryptographic hash of its address (not the address itself), the verdict, and (for images) the website's domain, so if someone else scans the same image or video later we can tell them "checked by N other people" and show the prior verdict. This record can't be traced back to you: it never includes your anonymous ID, IP address, the full page address, or anything linking it to your account or device.</li>
       <li><strong>Email address and license key</strong> - Only if you buy a paid plan. Used to deliver and validate your license and for support. The extension stores your license key and email in your browser so it can check your plan.</li>
-      <li><strong>Error reports</strong> - If a scan fails, the extension sends an error report with the extension version, the error type, your anonymous ID, and the type of site (for example, "Instagram"). Error reports don't include images or page addresses.</li>
+      <li><strong>Error reports</strong> - If a scan fails, the extension sends an error report with the extension version, the error type, your anonymous ID, and the type of site (for example, "Instagram"). If our server has trouble fetching an image, its error report can include the name of the server the image is hosted on (for example, a photo CDN). Error reports don't include images or page addresses.</li>
       <li><strong>Your stats, badges and Case Files</strong> - Stored only in your browser. Never sent to us.</li>
+    </ul>
+
+    <h2>On fauxspy.com</h2>
+    <ul>
+      <li><strong>Newsletter and waitlist signups</strong> - Your email address, plus the time, IP address and browser type of the signup (to prevent spam and abuse). We use it only to send what you signed up for, and every newsletter has an unsubscribe link.</li>
+      <li><strong>Contact form</strong> - Your name, email address and message, plus the time, IP address and browser type, so we can reply and filter spam.</li>
+      <li><strong>Uninstall survey</strong> - If you fill in the short form shown after removing the extension, we store the reason you pick, any comment you write and the extension version. Nothing that identifies you.</li>
+      <li><strong>Analytics</strong> - We count page views with Vercel Web Analytics and Ahrefs Web Analytics, which don't use cookies.</li>
     </ul>
 
     <h2>What We Don't Collect</h2>
     <ul>
       <li>&#x274C; Your browsing history - we only learn a page's domain when you choose to scan something on it</li>
-      <li>&#x274C; Your name, address, or other personal details (beyond the email you give us when you buy a plan)</li>
+      <li>&#x274C; Personal details you haven't chosen to give us (we only have your email or name if you buy a plan, sign up, or contact us)</li>
       <li>&#x274C; Advertising cookies or tracking pixels in the extension</li>
       <li>&#x274C; Copies of the images or videos you scan - nothing is kept after the scan</li>
       <li>&#x274C; Any way to trace a stored detection record back to the person who scanned it</li>
@@ -75,8 +83,9 @@
       <li><strong>Sightengine</strong> - AI image and video detection. Receives the image or video address, or the single video frame described above.</li>
       <li><strong>Sentry</strong> - Error reporting. Receives the error reports described above.</li>
       <li><strong>Stripe</strong> - Payment processing for paid plans. We never see your card details.</li>
+      <li><strong>Resend</strong> - Sends our emails (license keys, replies and the newsletter).</li>
       <li><strong>Vercel</strong> - Hosting for our website and API.</li>
-      <li><strong>Upstash</strong> - Stores license records, the short-lived scan counters described above, and cached verdicts (keyed by a hash of the image address) so repeat scans are instant.</li>
+      <li><strong>Upstash</strong> - Our database: license records, the signups and messages described above, the short-lived scan counters, and cached verdicts (keyed by a hash of the image address) so repeat scans are instant.</li>
       <li><strong>Supabase</strong> - Stores the anonymized detection history described above (hashes and verdicts only, no personal data).</li>
     </ul>
 
