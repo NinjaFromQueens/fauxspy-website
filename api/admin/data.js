@@ -248,6 +248,21 @@ ${body.replace(/\n/g, '<br>')}
     }
   }
 
+  // ── GET uninstall feedback (from /goodbye) ───────────────────────────────────
+  if (resource === 'feedback') {
+    try {
+      const raw = await kv.lrange('feedback:uninstall', 0, 999) || [];
+      // @upstash/redis may already have parsed the JSON
+      const entries = raw.map(e => (typeof e === 'string' ? JSON.parse(e) : e));
+      const byReason = {};
+      for (const e of entries) byReason[e.reason] = (byReason[e.reason] || 0) + 1;
+      return res.status(200).json({ total: entries.length, byReason, entries });
+    } catch (error) {
+      console.error('Admin feedback error:', error);
+      return res.status(500).json({ error: 'Failed to load feedback', message: error.message });
+    }
+  }
+
   return res.status(400).json({ error: 'Missing or unknown resource parameter' });
 };
 

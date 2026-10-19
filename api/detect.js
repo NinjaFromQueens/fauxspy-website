@@ -345,7 +345,9 @@ module.exports = async (req, res) => {
           message: `TRACE (Sightengine) failure: code ${traceData.error?.code}`,
           level: 'error',
           tags: { se_code: String(traceData.error?.code || 'unknown'), is_pro: String(isPro) },
-          extra: { seError: traceData.error, urlPattern: imageUrl ? imageUrl.substring(0, 80) : null }
+          // The CDN host is enough to diagnose fetch failures; the full URL
+          // can identify the person in the photo, so it isn't sent.
+          extra: { seError: traceData.error, imageHost: imageUrl ? new URL(imageUrl).hostname : null }
         });
         throw new Error(`Sightengine error ${traceData.error?.code}: ${traceData.error?.message}`);
       }

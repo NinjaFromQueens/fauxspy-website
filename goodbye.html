@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorry to see you go - Faux Spy</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .goodbye { max-width: 560px; margin: 60px auto; padding: 0 16px; color: var(--text-primary); }
+    .goodbye h1 { font-family: Georgia, serif; font-style: italic; margin-bottom: 8px; }
+    .goodbye .lede { color: var(--text-secondary); margin-bottom: 24px; }
+    .reasons { display: grid; gap: 10px; margin-bottom: 16px; border: 0; padding: 0; }
+    .reasons legend { font-weight: 700; margin-bottom: 10px; }
+    .reason {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--noir-card, #1e2536);
+      border: 1px solid var(--border-default, rgba(251,191,36,0.15));
+      border-radius: 10px; padding: 12px 14px; cursor: pointer;
+      color: var(--text-secondary);
+    }
+    .reason:has(input:checked) { border-color: var(--gold, #fbbf24); color: var(--text-primary); }
+    .reason input { accent-color: var(--gold, #fbbf24); }
+    textarea {
+      width: 100%; min-height: 90px; padding: 12px; border-radius: 10px;
+      background: var(--noir-card, #1e2536); color: var(--text-primary);
+      border: 1px solid var(--border-default, rgba(251,191,36,0.15)); font: inherit; resize: vertical;
+    }
+    .honeypot { position: absolute; left: -9999px; }
+    .msg { margin-top: 12px; font-size: 0.95rem; }
+    .after { margin-top: 32px; color: var(--text-tertiary); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="goodbye">
+    <h1>Sorry to see you go</h1>
+    <p class="lede">Faux Spy has been removed. If you have ten seconds, tell us why. It's anonymous, and it's how we find what to fix.</p>
+
+    <form id="goodbyeForm">
+      <fieldset class="reasons">
+        <legend>Why did you remove it?</legend>
+        <label class="reason"><input type="radio" name="reason" value="not_working" required> It didn't work on a site I use</label>
+        <label class="reason"><input type="radio" name="reason" value="wrong_results"> The results seemed wrong</label>
+        <label class="reason"><input type="radio" name="reason" value="too_few_scans"> 3 free scans a day wasn't enough</label>
+        <label class="reason"><input type="radio" name="reason" value="too_expensive"> Pro costs too much</label>
+        <label class="reason"><input type="radio" name="reason" value="privacy"> Privacy concerns</label>
+        <label class="reason"><input type="radio" name="reason" value="not_needed"> I don't need it anymore</label>
+        <label class="reason"><input type="radio" name="reason" value="other"> Something else</label>
+      </fieldset>
+      <label for="details" style="display:block;margin-bottom:6px;">Anything else? <span style="color:var(--text-tertiary);">(optional)</span></label>
+      <textarea id="details" name="text" maxlength="1000" placeholder="e.g. which site didn't work, or what you expected"></textarea>
+      <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p style="margin-top:16px;"><button type="submit" class="btn btn-primary">Send feedback</button></p>
+      <p class="msg" id="goodbyeMsg" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="after">Changed your mind? Reinstall for
+      <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" style="color:var(--gold);">Chrome</a>,
+      <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" style="color:var(--gold);">Firefox</a> or
+      <a href="https://microsoftedge.microsoft.com/addons/detail/faux-spy-ai-image-detec/kgahaelogloejdlomjbfpfebecpgmjdh" style="color:var(--gold);">Edge</a>.
+      Questions? <a href="/contact" style="color:var(--gold);">Contact us</a>.
+    </p>
+  </main>
+
+  <script>
+    document.getElementById('goodbyeForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      const msg = document.getElementById('goodbyeMsg');
+      const data = new FormData(this);
+      btn.disabled = true;
+      try {
+        const r = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            reason: data.get('reason'),
+            text: data.get('text') || '',
+            website: data.get('website') || '',
+            version: new URLSearchParams(location.search).get('v') || undefined
+          })
+        });
+        if (!r.ok) throw new Error(String(r.status));
+        this.innerHTML = '<p class="lede" style="color:var(--gold);">Thanks — we read every one of these.</p>';
+      } catch {
+        msg.style.color = '#f87171';
+        msg.textContent = 'Couldn’t send that. Please try again.';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

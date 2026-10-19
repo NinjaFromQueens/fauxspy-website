@@ -19,7 +19,7 @@ const TODAY = new Date().toISOString().split('T')[0];
 // Pages to exclude from sitemap (utility/auth pages)
 const EXCLUDED_SLUGS = new Set([
   'account', 'buy-tokens', 'upgrade', 'pro-video', 'settings', 'product-hunt',
-  'admin', 'success', 'og-design',
+  'admin', 'success', 'og-design', 'goodbye',
 ]);
 
 // Manually curated priority overrides — these override the defaults
