@@ -8,8 +8,12 @@ const kv = new Redis({
   token: process.env.UPSTASH_REST_TOKEN,
 });
 const { Resend } = require('resend');
+const handleFeedback = require('./_lib/feedback');
 
 module.exports = async (req, res) => {
+  // /api/feedback (uninstall survey) is rewritten here; see vercel.json.
+  if (req.query?.type === 'feedback') return handleFeedback(req, res);
+
   res.setHeader('Access-Control-Allow-Origin', 'https://www.fauxspy.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

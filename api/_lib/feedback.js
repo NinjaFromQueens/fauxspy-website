@@ -1,6 +1,7 @@
-// /api/feedback.js
 // Uninstall survey from /goodbye (the extension's setUninstallURL page).
 // Stores an anonymous reason + optional comment. No IP, email or user ID.
+// Served at /api/feedback, which vercel.json rewrites to /api/contact?type=feedback:
+// Vercel's Hobby plan allows 12 functions, so this rides on the contact function.
 
 const { Redis } = require('@upstash/redis');
 const kv = new Redis({
