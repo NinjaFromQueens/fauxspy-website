@@ -1,6 +1,9 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "functions": {
+    "api/detect-video.js": { "maxDuration": 120 }
+  },
   "redirects": [
     { "source": "/romance-scam-statistics-2025", "destination": "/romance-scam-statistics", "permanent": true },
     { "source": "/pages/romance-scam-statistics-2025", "destination": "/romance-scam-statistics", "permanent": true }

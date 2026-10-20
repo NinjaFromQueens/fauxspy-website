@@ -101,7 +101,8 @@ module.exports = async (req, res) => {
     }
 
     // ── Cache check ─────────────────────────────────────────────────────────
-    const cacheKey = `detect-video:v1:${hashUrl(videoUrl)}`;
+    // Full SHA-256: a short hash let two different videos share a verdict.
+    const cacheKey = `detect-video:v2:${sha256Hex(videoUrl)}`;
     let cached;
     try {
       cached = await kv.get(cacheKey);
@@ -195,9 +196,12 @@ module.exports = async (req, res) => {
     }
 
     // ── Parse frames ────────────────────────────────────────────────────────
-    const frames = seData.output?.frames || [];
+    // Sightengine returns one entry per sampled frame:
+    // data.frames[].type.ai_generated (0-1) and type.ai_generators.{name}.
+    const frames = (seData.data?.frames || []).filter(f => typeof f.type?.ai_generated === 'number');
 
     if (frames.length === 0) {
+      console.error('❌ [SIGHTENGINE VIDEO] No scored frames:', JSON.stringify(seData).slice(0, 500));
       return res.status(500).json({
         error: 'NO_FRAMES',
         message: 'Video could not be processed. It may be too short or in an unsupported format.'
@@ -205,13 +209,14 @@ module.exports = async (req, res) => {
     }
 
     // Average AI score across all frames
-    const avgAiScore = frames.reduce((sum, f) => sum + (f.ai_generated?.score ?? 0), 0) / frames.length;
+    const avgAiScore = frames.reduce((sum, f) => sum + f.type.ai_generated, 0) / frames.length;
 
-    // Find top generator across all frames (sum scores per generator)
+    // Find top generator across all frames (sum scores per generator).
+    // "other" means "AI, but not a generator Sightengine can name".
     const generatorTotals = {};
     for (const frame of frames) {
-      const scores = frame.ai_generated?.scores || {};
-      for (const [gen, score] of Object.entries(scores)) {
+      for (const [gen, score] of Object.entries(frame.type.ai_generators || {})) {
+        if (gen === 'other' || typeof score !== 'number') continue;
         generatorTotals[gen] = (generatorTotals[gen] || 0) + score;
       }
     }
@@ -318,18 +323,4 @@ function getVideoVerdict(score) {
     label:  'Likely Real Video',
     isAI:   false
   };
-}
-
-// ============================================================================
-// HELPERS
-// ============================================================================
-
-function hashUrl(url) {
-  let hash = 0;
-  for (let i = 0; i < url.length; i++) {
-    const char = url.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash;
-  }
-  return Math.abs(hash).toString(36);
 }
