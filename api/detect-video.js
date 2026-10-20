@@ -182,6 +182,15 @@ module.exports = async (req, res) => {
     if (seData.status === 'failure') {
       console.error('❌ [SIGHTENGINE VIDEO]', seData.error);
 
+      // usage_limit is our Sightengine plan (no video access, or the monthly
+      // quota is used up), which waiting a few minutes won't fix.
+      // rate_limit is momentary.
+      if (seData.error?.type === 'usage_limit') {
+        return res.status(503).json({
+          error: 'VIDEO_UNAVAILABLE',
+          message: "Video checks are temporarily unavailable. You haven't been charged. Please try again later."
+        });
+      }
       if (seData.error?.type?.includes('quota') || seData.error?.type?.includes('limit')) {
         return res.status(503).json({
           error: 'SERVICE_BUSY',

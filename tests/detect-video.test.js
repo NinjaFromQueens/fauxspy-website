@@ -107,3 +107,12 @@ test('image-only Pro plans are refused before calling Sightengine', async () => 
   assert.equal(res.body.error, 'VIDEO_FEATURE_REQUIRED');
   assert.equal(sightengineCalls, 0);
 });
+
+test("Sightengine plan limits say so, instead of 'busy, try in a few minutes'", async () => {
+  nextSightengine = { status: 'failure', error: { type: 'usage_limit', code: 3701, message: 'You do not have access to Video Analysis. Feature not available on the free plan.' } };
+  const res = await scan('https://cdn.example.com/blocked.mp4');
+  assert.equal(res.statusCode, 503);
+  assert.equal(res.body.error, 'VIDEO_UNAVAILABLE');
+  assert.match(res.body.message, /haven't been charged/);
+  assert.equal(JSON.parse(store.get(`license:${KEY}`)).tokenBalance, 500);
+});
