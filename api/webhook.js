@@ -204,6 +204,13 @@ module.exports = async (req, res) => {
       case 'checkout.session.completed':
       case 'checkout.session.async_payment_succeeded': {
         const session = event.data.object;
+        // The Stripe account also sells other products (SmartContractAuditor.ai,
+        // TxnGuide...), and every endpoint receives every checkout. Only
+        // sessions create-checkout.js tagged as Faux Spy are ours.
+        if (!FAUX_SPY_PRODUCTS.has(session.metadata?.product)) {
+          console.log('ℹ️ Ignoring checkout for another product:', session.id, session.metadata?.product);
+          break;
+        }
         // Bank-debit style payments complete checkout before the money
         // arrives; those are fulfilled on async_payment_succeeded instead.
         if (session.payment_status === 'unpaid') break;
@@ -248,6 +255,8 @@ module.exports = async (req, res) => {
 // ============================================================================
 
 const DAY_S = 24 * 60 * 60;
+// metadata.product values create-checkout.js puts on Faux Spy sessions.
+const FAUX_SPY_PRODUCTS = new Set(['faux-spy', 'faux-spy-topup']);
 // How long checkout:{sessionId} lives. The success page reads it right after
 // payment; the top-up claim must outlast Stripe's 3 days of retries.
 const CHECKOUT_MARKER_TTL_S = 7 * DAY_S;

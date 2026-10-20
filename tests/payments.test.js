@@ -174,6 +174,7 @@ function checkoutSession(id, subId, email = 'buyer@example.com') {
   return {
     id, mode: 'subscription', payment_status: 'paid', subscription: subId,
     customer: 'cus_123', customer_details: { email },
+    metadata: { product: 'faux-spy', plan: 'monthly' },
   };
 }
 
@@ -582,4 +583,28 @@ test('a top-up is charged to the same Stripe customer as the subscription', asyn
   assert.equal(res.statusCode, 200);
   assert.equal(stripeCalls.checkout[0].customer, 'cus_123');
   assert.equal(stripeCalls.checkout[0].customer_email, undefined);
+});
+
+// ── Shared Stripe account ─────────────────────────────────────────────────────
+
+test("other products' checkouts in the same Stripe account are ignored", async () => {
+  // SmartContractAuditor.ai subscription: unknown price, its own metadata.
+  addSubscription('sub_sca', 'price_sca_pro', { metadata: { plan: 'pro' } });
+  const sca = { ...checkoutSession('cs_test_otherProd01', 'sub_sca', 'dev@example.com'), metadata: { plan: 'pro' } };
+  let res = await sendEvent('checkout.session.completed', sca, 'evt_sca1');
+  assert.equal(res.statusCode, 200);
+
+  // A one-time payment for another product, with no metadata at all.
+  res = await sendEvent('checkout.session.completed', { id: 'cs_test_otherProd02', mode: 'payment', payment_status: 'paid' }, 'evt_sca2');
+  assert.equal(res.statusCode, 200);
+
+  // Its subscription and invoice events don't touch anything either.
+  res = await sendEvent('customer.subscription.updated', subscriptions.get('sub_sca'), 'evt_sca3');
+  assert.equal(res.statusCode, 200);
+  res = await sendEvent('invoice.payment_succeeded', { id: 'in_sca', billing_reason: 'subscription_cycle', parent: { subscription_details: { subscription: 'sub_sca' } } }, 'evt_sca4');
+  assert.equal(res.statusCode, 200);
+
+  assert.equal(licenseKeys().length, 0);
+  assert.equal(sentEmails.length, 0);
+  assert.equal(store.has('processed_event:evt_sca1'), true);
 });
