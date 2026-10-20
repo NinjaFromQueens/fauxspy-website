@@ -7,9 +7,20 @@
 // 3-day grace period), so the scan endpoints and the extension agree on what
 // "valid" means.
 
+const { randomInt } = require('crypto');
+
 const DEV_KEY = 'FAUX-DEV0-TEST-ACCS-0001';
 const GRACE_MS = 3 * 24 * 60 * 60 * 1000;
+// Shipped extensions check keys against this exact pattern and cap the input
+// box at 24 characters, so the generator below must never drift from it.
 const KEY_FORMAT = /^FAUX-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
+// No 0/O or 1/I/L: people type these keys in from an email.
+const KEY_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+
+function generateLicenseKey() {
+  const seg = () => Array.from({ length: 4 }, () => KEY_ALPHABET[randomInt(KEY_ALPHABET.length)]).join('');
+  return `FAUX-${seg()}-${seg()}-${seg()}-${seg()}`;
+}
 
 /**
  * Returns { isPro, key, license, reason }.
@@ -47,4 +58,4 @@ async function resolveProLicense(kv, licenseKey) {
   return { isPro: true, key, license, reason: null };
 }
 
-module.exports = { resolveProLicense };
+module.exports = { resolveProLicense, generateLicenseKey, KEY_FORMAT };

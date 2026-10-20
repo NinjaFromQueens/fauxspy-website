@@ -3,99 +3,277 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Faux Spy! ðŸ•µï¸</title>
+  <title>Welcome to Faux Spy Pro</title>
   <meta name="robots" content="noindex,nofollow">
   <link rel="canonical" href="https://www.fauxspy.com/success">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/styles.css">
+  <script>
+    // The checkout session id unlocks the license key for 24 hours, so take it
+    // out of the address bar (history, analytics) as soon as the page loads.
+    (function () {
+      var id = new URLSearchParams(location.search).get('session_id');
+      if (!id) return;
+      window.__checkoutId = id;
+      try { sessionStorage.setItem('fauxspy_checkout', id); } catch (e) {}
+      history.replaceState(null, '', location.pathname);
+    })();
+  </script>
   <style>
     .success-page {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 40px 16px;
     }
     .success-card {
+      width: 100%;
       max-width: 600px;
       text-align: center;
-      padding: 48px 32px;
+      padding: 40px 28px;
       background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(217, 119, 6, 0.04) 100%);
       border: 1px solid var(--border-strong);
       border-radius: 24px;
     }
-    .success-icon {
-      font-size: 80px;
-      margin-bottom: 24px;
-    }
+    .success-icon { font-size: 64px; margin-bottom: 16px; }
     .success-card h1 {
       font-family: 'Georgia', serif;
       font-style: italic;
-      font-size: 40px;
-      margin-bottom: 16px;
+      font-size: 36px;
+      margin-bottom: 12px;
       background: var(--gradient-gold);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .success-card p {
-      color: var(--text-secondary);
-      font-size: 17px;
-      margin-bottom: 24px;
+    .success-card p { color: var(--text-secondary); font-size: 16px; margin-bottom: 16px; line-height: 1.6; }
+    .success-card a:not(.btn) { color: var(--gold); }
+    .state { display: none; }
+    .state.visible { display: block; }
+    .spinner {
+      width: 40px; height: 40px; margin: 8px auto 20px;
+      border: 3px solid var(--border-default); border-top-color: var(--gold);
+      border-radius: 50%; animation: spin 0.9s linear infinite;
     }
-    .next-steps {
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+    .key-box {
+      margin: 24px 0;
+      padding: 20px;
       background: var(--noir-card);
-      padding: 24px;
-      border-radius: 12px;
-      margin: 32px 0;
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+    }
+    .key-label { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--gold); margin-bottom: 10px; }
+    .key-row { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .key-value {
+      font-family: 'Courier New', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--text-primary);
+      user-select: all;
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 480px) {
+      .success-card { padding: 32px 18px; }
+      .key-value { font-size: 16px; letter-spacing: 0.5px; }
+    }
+    .activation {
       text-align: left;
+      background: var(--noir-card);
+      padding: 20px 24px;
+      border-radius: 12px;
+      margin: 8px 0 24px;
     }
-    .next-steps h3 {
-      color: var(--gold);
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 16px;
-    }
-    .next-steps ol {
-      padding-left: 20px;
-      color: var(--text-secondary);
-    }
-    .next-steps li {
-      margin-bottom: 12px;
-      line-height: 1.6;
-    }
+    .activation.ok { border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; text-align: center; }
+    .activation h3 { color: var(--gold); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .activation ol { padding-left: 20px; color: var(--text-secondary); }
+    .activation li { margin-bottom: 8px; line-height: 1.6; }
+    .install-links { margin-top: 12px; font-size: 14px; color: var(--text-tertiary); }
   </style>
-  <!-- Vercel Analytics (free, no setup) -->
   <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
-  <script>
-    var ahrefs_analytics_script = document.createElement('script');
-    ahrefs_analytics_script.async = true;
-    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
-    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
-    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
-  </script>
 </head>
 <body>
-  <div class="success-page">
-    <div class="success-card">
-      <div class="success-icon">ðŸ•µï¸</div>
-      <h1>Welcome, Secret Agent!</h1>
-      <p>Your subscription is active. Check your email for your license key.</p>
-      
-      <div class="next-steps">
-        <h3>What's Next</h3>
-        <ol>
-          <li><strong>Check your email</strong> â€” We've sent your license key to your inbox</li>
-          <li><strong>Open Faux Spy</strong> â€” Click the extension icon in Chrome</li>
-          <li><strong>Go to Settings</strong> â€” Click "HQ Settings" in the popup</li>
-          <li><strong>Paste your license</strong> â€” Activate unlimited investigations</li>
-          <li><strong>Spy on the fakes</strong> ðŸŽ¯ â€” You're all set!</li>
-        </ol>
+  <main class="success-page">
+    <div class="success-card" aria-live="polite">
+
+      <div class="state visible" id="stateLoading">
+        <div class="spinner" aria-hidden="true"></div>
+        <h1>Setting up your plan…</h1>
+        <p>Payment received. This usually takes a few seconds.</p>
       </div>
-      
-      <a href="/" class="btn btn-primary btn-large">Back to Home</a>
+
+      <div class="state" id="stateReady">
+        <div class="success-icon" aria-hidden="true">🕵️</div>
+        <h1>You're Pro!</h1>
+        <p>Your <strong id="planName">Pro</strong> plan is active: <strong id="planAllowance"></strong>.</p>
+
+        <div class="key-box">
+          <div class="key-label">YOUR LICENSE KEY</div>
+          <div class="key-row">
+            <span class="key-value" id="keyValue"></span>
+            <button type="button" class="btn btn-secondary btn-small" id="copyBtn">Copy</button>
+          </div>
+        </div>
+
+        <div class="activation" id="activationPending">
+          <p style="margin:0;">Activating Pro in your extension…</p>
+        </div>
+
+        <div class="activation ok" id="activationDone" hidden>
+          <p style="margin:0; color:#34d399;"><strong>✓ Pro is active in Faux Spy.</strong> Right-click any image to check it.</p>
+        </div>
+
+        <div class="activation" id="activationManual" hidden>
+          <h3>Activate it (30 seconds)</h3>
+          <ol>
+            <li>Click the Faux Spy icon in your browser's toolbar.</li>
+            <li>Open <strong>Settings</strong> (the gear icon).</li>
+            <li>Paste your key under <strong>License Key</strong> and click <strong>Activate Pro</strong>.</li>
+          </ol>
+          <div class="install-links">
+            Don't have the extension yet?
+            <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" target="_blank" rel="noopener">Chrome</a> ·
+            <a href="https://microsoftedge.microsoft.com/addons/detail/faux-spy-ai-image-detec/kgahaelogloejdlomjbfpfebecpgmjdh" target="_blank" rel="noopener">Edge</a> ·
+            <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" target="_blank" rel="noopener">Firefox</a>
+          </div>
+        </div>
+
+        <p style="font-size:14px;">We've also emailed this key to you. To manage billing or find your key later, go to <a href="/account">fauxspy.com/account</a>.</p>
+      </div>
+
+      <div class="state" id="stateSlow">
+        <div class="success-icon" aria-hidden="true">📬</div>
+        <h1>Payment received</h1>
+        <p>Your license key is taking longer than usual, and we'll email it to you as soon as it's ready (usually within a few minutes).</p>
+        <p>You can also get it any time at <a href="/account">fauxspy.com/account</a> with the email you paid with.</p>
+        <p style="font-size:14px;">Nothing after 15 minutes? Email <a href="mailto:hello@fauxspy.com">hello@fauxspy.com</a> and we'll fix it right away.</p>
+      </div>
+
+      <div class="state" id="stateNoSession">
+        <div class="success-icon" aria-hidden="true">🔑</div>
+        <h1>Looking for your key?</h1>
+        <p id="noSessionText">We email your license key right after checkout. You can also get it, and manage billing, at your account page.</p>
+        <a href="/account" class="btn btn-primary btn-large">Go to my account</a>
+      </div>
+
     </div>
-  </div>
+  </main>
+
+  <script>
+    (function () {
+      var POLL_MS = 2000;
+      var GIVE_UP_MS = 60000;
+      var EXTENSION_WAIT_MS = 3000;
+      var PLAN_NAMES = {
+        monthly: 'Secret Agent', yearly: 'Master Spy',
+        'video-monthly': 'Pro + Video', 'video-yearly': 'Pro + Video'
+      };
+
+      var sessionId = window.__checkoutId;
+      if (!sessionId) { try { sessionId = sessionStorage.getItem('fauxspy_checkout'); } catch (e) {} }
+
+      function show(id) {
+        document.querySelectorAll('.state').forEach(function (el) { el.classList.toggle('visible', el.id === id); });
+      }
+
+      function allowanceText(plan, tokens) {
+        var n = Number(tokens || 0).toLocaleString('en-US');
+        var period = /yearly$/.test(plan || '') ? 'a year' : 'a month';
+        return /^video/.test(plan || '')
+          ? n + ' tokens ' + period + ' (1 per image, 10 per video)'
+          : n + ' scans ' + period;
+      }
+
+      // ── Hand the key to the extension (Faux Spy 1.11+ listens on this page) ──
+      var pendingKey = null;
+      var activated = false;
+      var manualTimer = null;
+
+      function askExtension() {
+        if (!pendingKey || activated) return;
+        window.postMessage({ source: 'fauxspy-page', type: 'FAUXSPY_ACTIVATE', key: pendingKey }, location.origin);
+      }
+
+      window.addEventListener('message', function (event) {
+        if (event.source !== window || event.origin !== location.origin) return;
+        var data = event.data || {};
+        if (data.source !== 'fauxspy-extension') return;
+        if (data.type === 'FAUXSPY_EXTENSION_READY') askExtension();
+        if (data.type === 'FAUXSPY_ACTIVATED' && !activated) {
+          activated = true;
+          clearTimeout(manualTimer);
+          document.getElementById('activationPending').hidden = true;
+          document.getElementById('activationManual').hidden = true;
+          document.getElementById('activationDone').hidden = false;
+        }
+        if (data.type === 'FAUXSPY_ACTIVATE_FAILED' && !activated) showManual();
+      });
+
+      function showManual() {
+        if (activated) return;
+        document.getElementById('activationPending').hidden = true;
+        document.getElementById('activationManual').hidden = false;
+      }
+
+      function showKey(result) {
+        document.getElementById('planName').textContent = PLAN_NAMES[result.plan] || 'Pro';
+        document.getElementById('planAllowance').textContent = allowanceText(result.plan, result.tokensIncluded);
+        document.getElementById('keyValue').textContent = result.licenseKey;
+        show('stateReady');
+        pendingKey = result.licenseKey;
+        askExtension();
+        manualTimer = setTimeout(showManual, EXTENSION_WAIT_MS);
+      }
+
+      document.getElementById('copyBtn').addEventListener('click', function () {
+        var btn = this;
+        var key = document.getElementById('keyValue').textContent;
+        function done() { btn.textContent = 'Copied ✓'; setTimeout(function () { btn.textContent = 'Copy'; }, 2000); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(key).then(done, selectKey);
+        } else {
+          selectKey();
+        }
+      });
+
+      function selectKey() {
+        var range = document.createRange();
+        range.selectNodeContents(document.getElementById('keyValue'));
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+
+      // ── Wait for the webhook to create the license ──────────────────────────
+      if (!sessionId) { show('stateNoSession'); return; }
+
+      var started = Date.now();
+      function poll() {
+        fetch('/api/checkout-status?session_id=' + encodeURIComponent(sessionId), { cache: 'no-store' })
+          .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, status: res.status, body: body }; }); })
+          .then(function (r) {
+            if (r.status === 400) { show('stateNoSession'); return; }
+            var b = r.body || {};
+            if (b.status === 'complete' && b.kind === 'subscription' && b.licenseKey) { showKey(b); return; }
+            if (b.status === 'expired') {
+              document.getElementById('noSessionText').textContent =
+                'For security, keys are only shown here for 24 hours after checkout. We emailed it to you, and you can get it again at your account page.';
+              show('stateNoSession');
+              return;
+            }
+            retry();
+          })
+          .catch(retry);
+      }
+      function retry() {
+        if (Date.now() - started > GIVE_UP_MS) { show('stateSlow'); return; }
+        setTimeout(poll, POLL_MS);
+      }
+      poll();
+    })();
+  </script>
 </body>
 </html>

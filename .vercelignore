@@ -9,3 +9,5 @@ seo-report.md
 seo-fixes-summary.md
 gsc-data.json
 blog-draft-summary.md
+tests/
+test-stripe.js

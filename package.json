@@ -9,7 +9,8 @@
     "fetch-sheet": "node scripts/fetch-sheet-data.js",
     "generate": "node scripts/fetch-sheet-data.js && node scripts/generate-landing-pages.js",
     "generate:dry": "node scripts/fetch-sheet-data.js && node scripts/generate-landing-pages.js --dry-run",
-    "sitemap": "node scripts/update-sitemap.js"
+    "sitemap": "node scripts/update-sitemap.js",
+    "test": "node --test \"tests/**/*.test.js\""
   },
   "dependencies": {
     "@sentry/node": "^10.56.0",

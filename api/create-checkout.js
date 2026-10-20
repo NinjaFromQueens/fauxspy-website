@@ -1,9 +1,16 @@
 // /api/create-checkout.js
 // Creates a Stripe Checkout session for Pro subscriptions
-// Supports monthly ($9.99) and yearly ($99) plans
-// Includes 50% lifetime discount for waitlist signups via promo codes
+// Subscriptions: monthly, yearly, video-monthly, video-yearly (promo codes allowed)
+// Top-ups (mode: 'topup'): one-time token packs added to an existing license
 
 const Stripe = require('stripe');
+const { Redis } = require('@upstash/redis');
+const { resolveProLicense } = require('./_lib/license');
+
+const kv = new Redis({
+  url: process.env.UPSTASH_REST_URL,
+  token: process.env.UPSTASH_REST_TOKEN,
+});
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://www.fauxspy.com');
@@ -43,12 +50,22 @@ module.exports = async (req, res) => {
       if (!licenseKey || typeof licenseKey !== 'string') {
         return res.status(400).json({ error: 'MISSING_LICENSE_KEY', message: 'License key required for top-up.' });
       }
-      if (!packSize || !TOPUP_PRICES[packSize]) {
+      if (typeof packSize !== 'string' || !Object.hasOwn(TOPUP_TOKENS, packSize)) {
         return res.status(400).json({ error: 'INVALID_PACK_SIZE', message: 'Pack size must be small, medium, or large.' });
       }
       const priceId = TOPUP_PRICES[packSize];
       if (!priceId) {
-        return res.status(500).json({ error: 'TOPUP_PRICE_NOT_CONFIGURED', message: 'Top-up prices not configured yet.' });
+        console.error('❌ Missing top-up price env var for pack:', packSize);
+        return res.status(500).json({ error: 'TOPUP_PRICE_NOT_CONFIGURED', message: 'This pack is temporarily unavailable. Try another size or email hello@fauxspy.com.' });
+      }
+
+      // Check the key before taking money: the webhook can only add tokens
+      // to a license that exists and is still active.
+      const { isPro, key, reason } = await resolveProLicense(kv, licenseKey);
+      if (!isPro) {
+        return reason === 'cancelled' || reason === 'inactive' || reason === 'expired'
+          ? res.status(400).json({ error: 'LICENSE_INACTIVE', message: "This Pro plan is no longer active, so tokens can't be added to it. Renew at fauxspy.com/pro." })
+          : res.status(400).json({ error: 'LICENSE_NOT_FOUND', message: "We couldn't find that license key. Check it for typos." });
       }
 
       const session = await stripe.checkout.sessions.create({
@@ -59,7 +76,7 @@ module.exports = async (req, res) => {
         ...(email ? { customer_email: email } : {}),
         metadata: {
           product: 'faux-spy-topup',
-          licenseKey: licenseKey.trim().toUpperCase(),
+          licenseKey: key,
           packSize: String(TOPUP_TOKENS[packSize]),
         }
       });
@@ -100,7 +117,7 @@ module.exports = async (req, res) => {
         price: priceId,
         quantity: 1,
       }],
-      success_url: `${siteUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/pro?cancelled=true`,
       allow_promotion_codes: true,
       billing_address_collection: 'auto',

@@ -140,22 +140,52 @@ async function startCheckout() {
 
   } catch (err) {
     clearTimeout(timeout);
-    const msg = err.name === 'AbortError' ? 'Request timed out. Please try again.' : err.message;
-    showStatus('error', `Checkout failed: ${msg}. Please try again.`);
+    const msg = err.name === 'AbortError' ? 'Request timed out. Please try again.'
+      : err.message === 'Failed to fetch' ? 'Network error. Check your connection and try again.'
+      : err.message;
+    showStatus('error', msg);
     buyBtn.disabled = false;
     updateBuyButton();
   }
 }
 
 // ── URL params (success / cancelled callbacks) ────────────────────────────────
-function handleUrlParams() {
-  const params = new URLSearchParams(window.location.search);
+// The inline script in the page head moved the query string here before
+// clearing it from the address bar.
+const pageParams = new URLSearchParams(window.__pageParams || window.location.search);
 
-  if (params.get('success') === 'true') {
-    showStatus('success', '✅ Tokens added! Open the Faux Spy extension to see your new balance.');
-  } else if (params.get('cancelled') === 'true') {
+function handleUrlParams() {
+  if (pageParams.get('success') === 'true') {
+    waitForTopUp(pageParams.get('session_id'));
+  } else if (pageParams.get('cancelled') === 'true') {
     showStatus('error', 'Checkout was cancelled. No charge was made.');
   }
+}
+
+// The Stripe webhook adds the tokens a moment after payment, so confirm
+// only once they're really there.
+function waitForTopUp(sessionId) {
+  const started = Date.now();
+  showStatus('success', 'Payment received. Adding your tokens…');
+  if (!sessionId) return;
+
+  const poll = async () => {
+    try {
+      const res = await fetch(`/api/checkout-status?session_id=${encodeURIComponent(sessionId)}`, { cache: 'no-store' });
+      const data = await res.json();
+      if (data.status === 'complete' && data.kind === 'topup') {
+        showStatus('success', `✅ ${data.tokens} tokens added. Your balance is now ${Number(data.balance).toLocaleString()} tokens.`);
+        return;
+      }
+      if (res.status === 400 || data.status === 'expired') return;
+    } catch { /* retry below */ }
+    if (Date.now() - started > 60000) {
+      showStatus('success', "Payment received. Your tokens will appear within a few minutes, and we'll email you when they do.");
+      return;
+    }
+    setTimeout(poll, 2000);
+  };
+  poll();
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -178,8 +208,7 @@ function hideStatus() {
 handleUrlParams();
 
 // Pre-fill license key from query param (e.g. linked from popup)
-const params = new URLSearchParams(window.location.search);
-const keyParam = params.get('key');
+const keyParam = pageParams.get('key');
 if (keyParam) {
   licenseInput.value = keyParam.toUpperCase();
   checkLicense();

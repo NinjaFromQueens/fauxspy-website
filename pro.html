@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faux Spy Pro – Unlimited AI Image Detection | Chrome Extension Plans</title>
-  <meta name="description" content="Unlimited daily scans, 5-category AI detection, Deep Dive mode for hidden images, and priority support. $9.99/month or save with the yearly plan.">
-  <meta property="og:title" content="Faux Spy Pro – Unlimited AI Image Detection">
-  <meta property="og:description" content="Unlimited daily scans, 5-category AI detection, Deep Dive mode for hidden images, and priority support. $9.99/month or save with the yearly plan.">
+  <title>Faux Spy Pro – 200 AI Image Scans a Month | Browser Extension Plans</title>
+  <meta name="description" content="200 scans a month with no daily cap, 5-category AI detection, Deep Dive mode for hidden images, and priority support. $9.99/month or $99/year. Add AI video detection with Pro + Video.">
+  <meta property="og:title" content="Faux Spy Pro – 200 AI Image Scans a Month">
+  <meta property="og:description" content="200 scans a month with no daily cap, 5-category AI detection, Deep Dive mode for hidden images, and priority support. $9.99/month or $99/year.">
   <meta property="og:url" content="https://www.fauxspy.com/pro">
   <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -39,58 +39,6 @@
       font-size: 14px;
       margin-top: 16px;
       font-weight: 500;
-    }
-    
-    /* Waitlist form */
-    .waitlist-card {
-      max-width: 540px;
-      margin: 40px auto 80px;
-      padding: 40px 32px;
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
-      border: 1px solid var(--border-strong);
-      border-radius: 20px;
-    }
-    
-    .waitlist-card h3 {
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      font-size: 24px;
-      margin-bottom: 8px;
-      color: var(--text-primary);
-    }
-    
-    .waitlist-card p {
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-      font-size: 15px;
-    }
-    
-    .waitlist-form {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    
-    .waitlist-form input {
-      flex: 1;
-      min-width: 240px;
-      padding: 14px 16px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--border-default);
-      border-radius: 8px;
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 15px;
-    }
-    
-    .waitlist-form input:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
-    }
-    
-    .waitlist-form input::placeholder {
-      color: var(--text-tertiary);
     }
     
     /* Pricing options grid */
@@ -176,48 +124,6 @@
       padding: 6px 0;
       color: var(--text-secondary);
       font-size: 14px;
-    }
-    
-    .waitlist-perks {
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border-subtle);
-      text-align: left;
-    }
-    
-    .waitlist-perks .perk {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 6px 0;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-    
-    .waitlist-perks .perk-icon {
-      color: var(--gold);
-      flex-shrink: 0;
-    }
-    
-    /* Success state */
-    .waitlist-success {
-      display: none;
-      text-align: center;
-      padding: 40px 20px;
-    }
-    
-    .waitlist-success.show {
-      display: block;
-    }
-    
-    .waitlist-success-icon {
-      font-size: 64px;
-      margin-bottom: 16px;
-    }
-    
-    .waitlist-success h3 {
-      color: var(--gold);
-      margin-bottom: 12px;
     }
     
     /* Pro features grid */
@@ -344,41 +250,21 @@
     .check { color: #34d399; }
     .cross { color: #f87171; }
 
-    /* Token coming soon banner */
-    .token-coming-soon-banner {
-      max-width: 800px;
-      margin: 0 auto 40px;
-      padding: 28px 32px;
-      background: rgba(251, 191, 36, 0.04);
-      border: 1px dashed var(--border-strong);
-      border-radius: 16px;
+    .topup-note {
       text-align: center;
-    }
-
-    .coming-soon-tag {
-      display: inline-block;
-      padding: 4px 12px;
-      background: rgba(251, 191, 36, 0.15);
-      color: var(--gold);
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      margin-bottom: 12px;
-    }
-
-    .token-coming-soon-banner h3 {
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      font-size: 20px;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .token-coming-soon-banner p {
+      margin: 24px auto 40px;
       font-size: 14px;
       color: var(--text-secondary);
-      line-height: 1.6;
+    }
+    .topup-note a, .pay-note a { color: var(--gold); }
+    .checkout-notice {
+      display: none;
+      max-width: 640px;
+      margin: 0 auto 18px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 15px;
     }
   </style>
   <!-- Vercel Analytics (free, no setup) -->
@@ -418,20 +304,22 @@
       </h1>
       <p class="hero-subtitle">
         Distinguish real photos from digital art, AI art, and AI photos.<br>
-        5-category detection. Unlimited investigations. Priority support.
+        5-category detection. 200 scans a month, no daily cap. Priority support.
       </p>
     </div>
   </section>
 
-  <!-- Buy Now or Waitlist Sections -->
+  <!-- Plans -->
   <section>
     <div class="container">
       
-      <!-- BUY NOW SECTION (only shown if STRIPE_ENABLED) -->
-      <div class="pricing-options" id="buyNowSection" style="display: none;">
+      <div class="pricing-options" id="buyNowSection">
         <!-- Promo banner — shown when ?promo= is in the URL -->
-        <div id="promo-banner" style="display:none;text-align:center;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:10px 16px;margin-bottom:18px;font-size:0.97rem;">
-          🎉 Promo code <strong id="promo-label"></strong> will be applied at checkout — <strong>30% off your first year!</strong>
+        <div id="promo-banner" class="checkout-notice" style="background:rgba(251,191,36,0.1);border:1px solid var(--border-strong);color:var(--text-primary);">
+          🎉 Promo code <strong id="promo-label"></strong> will be applied at checkout. You'll see the discount before you pay.
+        </div>
+        <div id="checkout-cancelled" class="checkout-notice" role="status" style="background:rgba(148,163,184,0.1);border:1px solid rgba(148,163,184,0.3);color:var(--text-secondary);">
+          Checkout cancelled, and you weren't charged. Questions before you buy? <a href="/contact" style="color:var(--gold);">Ask us</a>.
         </div>
         <div class="pricing-card-row">
           
@@ -444,14 +332,13 @@
             </div>
             <ul class="pricing-features">
               <li>✓ <strong>5-category detection</strong> (Real / Digital Art / AI Art / AI Photo / Inconclusive)</li>
-              <li>✓ <strong>200 scan tokens/month</strong> included</li>
-              <li>✓ Unlimited investigations</li>
+              <li>✓ <strong>200 scans a month</strong>, no daily cap</li>
               <li>✓ Deep Dive mode</li>
               <li>✓ Detective Case Files</li>
               <li>✓ Priority detection</li>
               <li>✓ Cancel anytime</li>
             </ul>
-            <button class="btn btn-primary btn-block" data-plan="monthly" id="subscribeMonthlyBtn">
+            <button class="btn btn-primary btn-block" data-checkout="monthly" id="subscribeMonthlyBtn">
               Subscribe Monthly
             </button>
           </div>
@@ -467,14 +354,14 @@
             <p style="font-size: 12px; color: var(--gold); margin: -8px 0 16px 0;">$8.25/month — best value</p>
             <ul class="pricing-features">
               <li>✓ <strong>Everything in Secret Agent</strong></li>
-              <li>✓ <strong>2,500 scan tokens/year</strong> included</li>
+              <li>✓ <strong>2,500 scans a year</strong>, no daily cap</li>
               <li>✓ 5-category Pro detection</li>
               <li>✓ Save 2 months ($20)</li>
               <li>✓ Master Spy badge</li>
               <li>✓ Priority support</li>
               <li>✓ Cancel anytime</li>
             </ul>
-            <button class="btn btn-primary btn-block" data-plan="yearly" id="subscribeYearlyBtn">
+            <button class="btn btn-primary btn-block" data-checkout="yearly" id="subscribeYearlyBtn">
               Subscribe Yearly
             </button>
           </div>
@@ -491,79 +378,29 @@
               <li>✓ <strong>Everything in Secret Agent</strong></li>
               <li>✓ <strong>AI video detection</strong> — Sora, Runway, Pika, Veo &amp; more</li>
               <li>✓ Generator identification (knows <em>which</em> AI made it)</li>
-              <li>✓ <strong>500 scan tokens/month</strong> (10 tokens per video)</li>
+              <li>✓ <strong>500 tokens a month</strong> (1 per image, 10 per video)</li>
               <li>✓ Token top-ups available — never run out</li>
               <li>✓ Cancel anytime</li>
             </ul>
-            <button class="btn btn-primary btn-block" data-plan="video-monthly" id="subscribeVideoMonthlyBtn" style="background: linear-gradient(135deg,#3b82f6,#1d4ed8);">
+            <button class="btn btn-primary btn-block" data-checkout="video-monthly" id="subscribeVideoMonthlyBtn" style="background: linear-gradient(135deg,#3b82f6,#1d4ed8);">
               Subscribe — $29.99/mo
             </button>
-            <button class="btn btn-block" data-plan="video-yearly" id="subscribeVideoYearlyBtn" style="margin-top:8px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);color:#93c5fd;">
+            <button class="btn btn-block" data-checkout="video-yearly" id="subscribeVideoYearlyBtn" style="margin-top:8px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);color:#93c5fd;">
               Subscribe — $299/yr (save 17%)
             </button>
           </div>
 
         </div>
         
-        <p style="text-align: center; color: var(--text-tertiary); font-size: 13px; margin-top: 16px;">
-          🔒 Secure payment via Stripe • 14-day refund • Cancel anytime
+        <p class="pay-note" style="text-align: center; color: var(--text-tertiary); font-size: 13px; margin-top: 16px;">
+          🔒 Secure payment via Stripe • <a href="/refunds">14-day money-back guarantee</a> • Cancel anytime
         </p>
-        
-        <div style="text-align: center; margin-top: 32px;">
-          <p style="color: var(--text-secondary); margin-bottom: 12px;">Not ready yet?</p>
-          <a href="#waitlistCard" style="color: var(--gold); text-decoration: underline;">Join the waitlist instead →</a>
-        </div>
       </div>
       
-      <!-- Token Top-Ups Coming Soon Banner -->
-      <div class="token-coming-soon-banner">
-        <div class="coming-soon-tag">COMING SOON</div>
-        <h3>Token Top-Up Packs</h3>
-        <p>
-          Run out of monthly tokens? Buy affordable one-time packs that never expire.<br>
-          Small (50 tokens / $1.99) &nbsp;·&nbsp; Medium (200 / $5.99) &nbsp;·&nbsp; Large (500 / $11.99)
-        </p>
-      </div>
-
-      <!-- WAITLIST SECTION (default - shown when Stripe not configured) -->
-      <div class="waitlist-card" id="waitlistCard">
-        <h3>🚀 Get early access</h3>
-        <p>Be first to upgrade when Pro launches. Waitlist members get 50% off — for life.</p>
-        
-        <form class="waitlist-form" id="waitlistForm">
-          <input type="email" id="emailInput" placeholder="your@email.com" required>
-          <button type="submit" class="btn btn-primary btn-large" id="submitBtn">Join Waitlist</button>
-        </form>
-        
-        <div class="waitlist-perks">
-          <div class="perk">
-            <span class="perk-icon">✨</span>
-            <span><strong>50% off forever</strong> — Lock in $4.99/mo instead of $9.99/mo</span>
-          </div>
-          <div class="perk">
-            <span class="perk-icon">🚀</span>
-            <span><strong>Early access</strong> — Try Pro before public launch</span>
-          </div>
-          <div class="perk">
-            <span class="perk-icon">🎁</span>
-            <span><strong>Founding Member badge</strong> — Permanent profile flair</span>
-          </div>
-          <div class="perk">
-            <span class="perk-icon">📧</span>
-            <span><strong>No spam, ever</strong> — One email when Pro launches</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Success state (hidden by default) -->
-      <div class="waitlist-card waitlist-success" id="waitlistSuccess">
-        <div class="waitlist-success-icon">🎉</div>
-        <h3>You're on the list!</h3>
-        <p>We'll email you the moment Pro launches with your 50% lifetime discount code.</p>
-        <p style="margin-top: 24px; font-size: 13px; color: var(--text-tertiary);">
-          Want to help us launch faster? <a href="https://twitter.com/intent/tweet?text=Just%20joined%20the%20waitlist%20for%20%40fauxspy%20Pro%20%F0%9F%95%B5%EF%B8%8F%20Spy%20on%20the%20fakes%20on%20any%20website&url=https%3A%2F%2Ffauxspy.com" target="_blank" style="color: var(--gold);">Tweet about us</a>
-        </p>
-      </div>
+      <p class="topup-note">
+        Ran out before your plan renews? <a href="/buy-tokens">Token packs</a> from $1.99 never expire.
+        Already a member? <a href="/account">Manage your plan</a>.
+      </p>
     </div>
   </section>
 
@@ -584,8 +421,8 @@
 
         <div class="pro-feature-card">
           <div class="pro-feature-icon">⚡</div>
-          <h4>Unlimited Investigations</h4>
-          <p>No daily limits. Investigate as many images as you want. Free users get 3/day.</p>
+          <h4>200 Scans a Month</h4>
+          <p>No daily cap: use your scans whenever you need them. Free users get 3 a day.</p>
         </div>
 
         <div class="pro-feature-card">
@@ -630,10 +467,10 @@
           <div class="video-col">🎬 Pro+Video</div>
         </div>
         <div class="comparison-row">
-          <div class="feature-col">Daily investigations</div>
-          <div class="free-col">3</div>
-          <div class="pro-col">Unlimited</div>
-          <div class="video-col">Unlimited</div>
+          <div class="feature-col">Scans</div>
+          <div class="free-col">3 a day</div>
+          <div class="pro-col">200 a month</div>
+          <div class="video-col">500 tokens a month</div>
         </div>
         <div class="comparison-row">
           <div class="feature-col">Hover detection</div>
@@ -690,12 +527,6 @@
           <div class="video-col check">✓</div>
         </div>
         <div class="comparison-row">
-          <div class="feature-col">Monthly scan tokens</div>
-          <div class="free-col">—</div>
-          <div class="pro-col">200</div>
-          <div class="video-col">500</div>
-        </div>
-        <div class="comparison-row">
           <div class="feature-col">Price</div>
           <div class="free-col">Free</div>
           <div class="pro-col">$9.99/mo</div>
@@ -704,7 +535,7 @@
       </div>
 
       <p style="text-align: center; margin-top: 32px; color: var(--text-secondary);">
-        🔒 Secure payment via Stripe &nbsp;·&nbsp; 14-day refund &nbsp;·&nbsp; Cancel anytime
+        🔒 Secure payment via Stripe &nbsp;·&nbsp; <a href="/refunds" style="color: var(--gold);">14-day money-back guarantee</a> &nbsp;·&nbsp; Cancel anytime
       </p>
     </div>
   </section>
@@ -714,7 +545,7 @@
     <div class="container">
       <div class="cta-card">
         <h2>Ready to upgrade your detective work?</h2>
-        <p>Image detection, video detection, unlimited investigations. Start today.</p>
+        <p>AI image and video detection, with no daily cap. Start today.</p>
         <a href="#buyNowSection" class="btn btn-primary btn-large">🕵️ See Plans</a>
       </div>
     </div>
@@ -767,121 +598,6 @@
     </div>
   </footer>
 
-  <script>
-    // ============================================================================
-    // Auto-detect: Stripe enabled or waitlist mode?
-    // Set this to true once Stripe is configured + tested
-    // ============================================================================
-    const STRIPE_ENABLED = true; // Flip to true when Pro tier launches
-
-    // Read promo code from URL (?promo=PRODUCTHUNT) — auto-applies at checkout
-    const urlPromo = new URLSearchParams(window.location.search).get('promo') || '';
-    if (urlPromo) {
-      document.getElementById('promo-label').textContent = urlPromo.toUpperCase();
-      document.getElementById('promo-banner').style.display = 'block';
-    }
-
-    if (STRIPE_ENABLED) {
-      // Show Buy Now section, hide waitlist
-      document.getElementById('buyNowSection').style.display = 'block';
-      document.getElementById('waitlistCard').style.display = 'none';
-    }
-
-    // ============================================================================
-    // Stripe Checkout buttons
-    // ============================================================================
-    document.querySelectorAll('[data-plan]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const plan = btn.dataset.plan;
-        const originalText = btn.textContent;
-
-        btn.disabled = true;
-        btn.textContent = 'Loading checkout...';
-
-        try {
-          const response = await fetch('/api/create-checkout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ plan, ...(urlPromo ? { promoCode: urlPromo } : {}) })
-          });
-          
-          const data = await response.json();
-          
-          if (data.url) {
-            if (!data.url.startsWith('https://checkout.stripe.com/') &&
-                !data.url.startsWith('https://www.fauxspy.com/')) {
-              throw new Error('Invalid checkout URL received');
-            }
-            // Warn user if a promo code was expected but didn't apply
-            if (urlPromo && data.promoApplied === false) {
-              const cont = confirm(
-                `Promo code "${urlPromo.toUpperCase()}" wasn't recognized — you'll be charged the full price.\n\nContinue anyway?`
-              );
-              if (!cont) {
-                btn.disabled = false;
-                btn.textContent = originalText;
-                return;
-              }
-            }
-            window.location.href = data.url;
-          } else {
-            throw new Error(data.message || 'Checkout failed');
-          }
-        } catch (error) {
-          console.error('Checkout error:', error);
-          alert('Checkout failed: ' + error.message + '\n\nPlease try again or join the waitlist.');
-          btn.disabled = false;
-          btn.textContent = originalText;
-        }
-      });
-    });
-    
-    // ============================================================================
-    // Waitlist form submission
-    // ============================================================================
-    const form = document.getElementById('waitlistForm');
-    const card = document.getElementById('waitlistCard');
-    const successCard = document.getElementById('waitlistSuccess');
-    const submitBtn = document.getElementById('submitBtn');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('emailInput').value.trim();
-      if (!email) return;
-      
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Joining...';
-      
-      try {
-        const response = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, source: 'pro_page' })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-          card.style.display = 'none';
-          successCard.classList.add('show');
-          
-          // Customize message if already subscribed
-          if (data.alreadySubscribed) {
-            successCard.querySelector('h3').textContent = 'Already on the list!';
-            successCard.querySelector('p').textContent = "You're already signed up. We'll be in touch when Pro launches.";
-          }
-        } else {
-          throw new Error(data.error || 'Failed to join');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        // Show error to user instead of fake success
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Join Waitlist';
-        alert('Something went wrong: ' + error.message + '\n\nPlease try again.');
-      }
-    });
-  </script>
+  <script src="/checkout.js"></script>
 </body>
 </html>

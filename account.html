@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account - Faux Spy</title>
-  <meta name="description" content="Manage your Faux Spy Pro subscription. Update payment, cancel, or look up your license key.">
+  <meta name="description" content="Manage your Faux Spy Pro subscription or get your license key again. Update your card, switch plans or cancel.">
   <link rel="canonical" href="https://www.fauxspy.com/account">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/styles.css">
@@ -42,16 +42,17 @@
       border-color: var(--gold);
     }
   </style>
-  <!-- Vercel Analytics (free, no setup) -->
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
   <script>
-    var ahrefs_analytics_script = document.createElement('script');
-    ahrefs_analytics_script.async = true;
-    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
-    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
-    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+    // The link from the account email carries a 30-minute token. Take it out
+    // of the address bar (history, analytics) before anything else loads.
+    (function () {
+      var token = new URLSearchParams(location.search).get('token');
+      if (!token) return;
+      window.__portalToken = token;
+      history.replaceState(null, '', location.pathname);
+    })();
   </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
   <nav class="nav">
@@ -70,86 +71,113 @@
   </nav>
 
   <section class="account-container">
-    <div class="account-icon">âš™ï¸</div>
-    <h1 style="font-family: Georgia, serif; font-style: italic;">Manage Your Subscription</h1>
-    <p style="color: var(--text-secondary); margin-top: 16px;">
-      Enter the email you used at checkout. We'll send you a secure link to manage your subscription, update payment, or cancel.
-    </p>
-    
-    <form class="account-form" id="portalForm">
-      <input 
-        type="email" 
-        id="emailInput" 
-        placeholder="your@email.com" 
-        required
-      >
-      <button type="submit" class="btn btn-primary btn-large btn-block" id="portalBtn">
-        ðŸ“§ Send Management Link
-      </button>
-    </form>
-    
-    <div id="successMessage" style="display: none; margin-top: 24px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; color: #34d399;">
-      âœ… Check your email for the management link!
+    <div class="account-icon" aria-hidden="true">⚙️</div>
+    <h1 style="font-family: Georgia, serif; font-style: italic;">Your Faux Spy account</h1>
+
+    <div id="openingPortal" style="display: none; margin-top: 24px; color: var(--text-secondary);">
+      Opening your billing page…
     </div>
-    
-    <div id="errorMessage" style="display: none; margin-top: 24px; padding: 16px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; color: #f87171;">
-      <span id="errorText"></span>
+
+    <div id="formArea">
+      <p style="color: var(--text-secondary); margin-top: 16px;">
+        Manage your subscription, or get your license key again. Enter the email you used at checkout and we'll email you your key and a secure link to update your card, switch plans or cancel.
+      </p>
+
+      <form class="account-form" id="portalForm">
+        <label for="emailInput" style="position:absolute;left:-9999px;">Email address</label>
+        <input
+          type="email"
+          id="emailInput"
+          placeholder="your@email.com"
+          autocomplete="email"
+          required
+        >
+        <button type="submit" class="btn btn-primary btn-large btn-block" id="portalBtn">
+          📧 Email me my key and link
+        </button>
+      </form>
     </div>
-    
+
+    <div id="successMessage" role="status" style="display: none; margin-top: 24px; padding: 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; color: #34d399;"></div>
+
+    <div id="errorMessage" role="alert" style="display: none; margin-top: 24px; padding: 16px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; color: #f87171;"></div>
+
     <p style="color: var(--text-tertiary); font-size: 13px; margin-top: 32px;">
-      Need help? <a href="/contact" style="color: var(--gold);">Contact support</a>
+      Not a member yet? <a href="/pro" style="color: var(--gold);">See Pro plans</a> · Need help? <a href="/contact" style="color: var(--gold);">Contact support</a>
     </p>
   </section>
 
   <footer class="footer">
     <div class="container">
       <div class="footer-bottom">
-        <p>Â© 2026 Faux Spy. Spy on the fakes.</p>
+        <p>© 2026 Faux Spy. Spy on the fakes.</p>
       </div>
     </div>
   </footer>
 
   <script>
-    document.getElementById('portalForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('emailInput').value.trim();
-      const btn = document.getElementById('portalBtn');
-      const success = document.getElementById('successMessage');
-      const error = document.getElementById('errorMessage');
-      const errorText = document.getElementById('errorText');
-      
-      success.style.display = 'none';
-      error.style.display = 'none';
-      
-      btn.disabled = true;
-      btn.textContent = 'ðŸ”„ Processing...';
-      
-      try {
-        const response = await fetch('/api/billing-portal', {
+    (function () {
+      var form = document.getElementById('portalForm');
+      var btn = document.getElementById('portalBtn');
+      var success = document.getElementById('successMessage');
+      var error = document.getElementById('errorMessage');
+      var BTN_TEXT = btn.textContent;
+
+      function showError(msg) {
+        error.textContent = msg;
+        error.style.display = 'block';
+      }
+
+      function post(body) {
+        return fetch('/api/billing-portal', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
+          body: JSON.stringify(body)
+        }).then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            if (!res.ok) throw new Error(data.message || 'Something went wrong. Please try again.');
+            return data;
+          });
         });
-        
-        const data = await response.json();
-        
-        if (data.url) {
-          // Direct redirect to Stripe portal
-          window.location.href = data.url;
-        } else if (response.ok) {
-          // Email sent
-          success.style.display = 'block';
-        } else {
-          throw new Error(data.message || 'Could not generate portal link');
-        }
-      } catch (err) {
-        errorText.textContent = err.message + '. Please contact support if this persists.';
-        error.style.display = 'block';
-        btn.disabled = false;
-        btn.textContent = 'ðŸ“§ Send Management Link';
       }
-    });
+
+      // Arrived from the account email: go straight to Stripe's billing page.
+      if (window.__portalToken) {
+        document.getElementById('formArea').style.display = 'none';
+        document.getElementById('openingPortal').style.display = 'block';
+        post({ token: window.__portalToken })
+          .then(function (data) {
+            if (!data.url || data.url.indexOf('https://') !== 0) throw new Error('Unexpected response. Please try again.');
+            window.location.href = data.url;
+          })
+          .catch(function (err) {
+            document.getElementById('openingPortal').style.display = 'none';
+            document.getElementById('formArea').style.display = 'block';
+            showError(err.message);
+          });
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        success.style.display = 'none';
+        error.style.display = 'none';
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+
+        post({ email: document.getElementById('emailInput').value.trim() })
+          .then(function (data) {
+            success.textContent = '✅ ' + data.message;
+            success.style.display = 'block';
+          })
+          .catch(function (err) {
+            showError(err.message === 'Failed to fetch' ? 'Network error. Check your connection and try again.' : err.message);
+          })
+          .then(function () {
+            btn.disabled = false;
+            btn.textContent = BTN_TEXT;
+          });
+      });
+    })();
   </script>
 </body>
 </html>

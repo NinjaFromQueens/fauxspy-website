@@ -6,8 +6,8 @@
 
 const Stripe = require('stripe');
 const { Redis } = require('@upstash/redis');
-const { Resend } = require('resend');
-const { randomBytes } = require('crypto');
+const { generateLicenseKey } = require('./_lib/license');
+const { sendLicenseEmail, sendTopUpEmail } = require('./_lib/email');
 
 // Upstash Redis — used for license/subscription data (Stripe webhook handlers)
 const kv = new Redis({
@@ -165,15 +165,15 @@ module.exports = async (req, res) => {
     console.error('❌ Stripe not configured');
     return res.status(500).json({ error: 'Stripe not configured' });
   }
-  
+
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-05-28.basil' });
-  
+
   // Verify webhook signature (security critical)
   let event;
   try {
     const rawBody = await getRawBody(req);
     const signature = req.headers['stripe-signature'];
-    
+
     event = stripe.webhooks.constructEvent(
       rawBody,
       signature,
@@ -183,18 +183,18 @@ module.exports = async (req, res) => {
     console.error('❌ Webhook signature verification failed:', err.message);
     return res.status(400).json({ error: 'Invalid signature' });
   }
-  
+
   console.log('📨 Webhook event:', event.type, event.id);
 
-  // Idempotency guard — skip if we've already processed this event (Stripe retries)
+  // Stripe redelivers an event until it gets a 2xx, for up to 3 days. The
+  // event is only marked done after its handler succeeds, so a crash halfway
+  // through a paid order is retried instead of lost.
   const dedupKey = `processed_event:${event.id}`;
   try {
-    const alreadyProcessed = await kv.get(dedupKey);
-    if (alreadyProcessed) {
+    if (await kv.get(dedupKey)) {
       console.log('⏭️ Duplicate event, skipping:', event.id);
       return res.status(200).json({ received: true, duplicate: true });
     }
-    await kv.set(dedupKey, 1, { ex: 86400 }); // TTL 24h
   } catch (redisErr) {
     console.warn('⚠️ Redis dedup check failed (processing anyway):', redisErr.message);
   }
@@ -202,13 +202,18 @@ module.exports = async (req, res) => {
   try {
     switch (event.type) {
       case 'checkout.session.completed':
-        // Route to top-up handler for one-time payments, subscription handler otherwise
-        if (event.data.object.mode === 'payment') {
-          await handleTopUpCompleted(event.data.object);
+      case 'checkout.session.async_payment_succeeded': {
+        const session = event.data.object;
+        // Bank-debit style payments complete checkout before the money
+        // arrives; those are fulfilled on async_payment_succeeded instead.
+        if (session.payment_status === 'unpaid') break;
+        if (session.mode === 'payment') {
+          await handleTopUpCompleted(session);
         } else {
-          await handleCheckoutCompleted(event.data.object, stripe);
+          await handleCheckoutCompleted(session, stripe);
         }
         break;
+      }
 
       case 'invoice.payment_succeeded':
         await handleInvoicePaid(event.data.object);
@@ -222,27 +227,30 @@ module.exports = async (req, res) => {
         await handleSubscriptionUpdated(event.data.object);
         break;
 
-      case 'invoice.payment_failed':
-        await handlePaymentFailed(event.data.object);
-        break;
-
       default:
         console.log(`ℹ️ Unhandled event type: ${event.type}`);
     }
-    
-    return res.status(200).json({ received: true });
-    
   } catch (error) {
-    console.error('❌ Webhook handler error:', error);
-    // Return 200 anyway so Stripe doesn't retry on logic errors
-    // (only return non-200 for transient errors that should retry)
-    return res.status(200).json({ received: true, error: error.message });
+    console.error('❌ Webhook handler error:', event.type, event.id, error);
+    return res.status(500).json({ error: 'Handler failed, Stripe will retry' });
   }
+
+  try {
+    await kv.set(dedupKey, 1, { ex: 7 * DAY_S });
+  } catch (redisErr) {
+    console.warn('⚠️ Could not mark event processed:', redisErr.message);
+  }
+  return res.status(200).json({ received: true });
 };
 
 // ============================================================================
 // EVENT HANDLERS
 // ============================================================================
+
+const DAY_S = 24 * 60 * 60;
+// How long checkout:{sessionId} lives. The success page reads it right after
+// payment; the top-up claim must outlast Stripe's 3 days of retries.
+const CHECKOUT_MARKER_TTL_S = 7 * DAY_S;
 
 // Token allowances per plan
 const TOKENS_PER_PLAN = {
@@ -252,73 +260,87 @@ const TOKENS_PER_PLAN = {
   'video-yearly':  parseInt(process.env.TOKENS_VIDEO_YEARLY)     || 6000,
 };
 
+// past_due: the card failed and Stripe is retrying it. Keep Pro working
+// meanwhile; if the retries run out Stripe cancels and we get .deleted.
+const ACTIVE_STATUSES = new Set(['active', 'trialing', 'past_due']);
+
+// Event payloads are rendered in the API version set on the webhook endpoint
+// in the Stripe dashboard, not the SDK's. API 2025-03-31.basil moved these
+// two fields, so read both places.
+function periodEndMs(subscription) {
+  const end = subscription.items?.data?.[0]?.current_period_end ?? subscription.current_period_end;
+  return end ? end * 1000 : null;
+}
+
+function invoiceSubscriptionId(invoice) {
+  const sub = invoice.parent?.subscription_details?.subscription ?? invoice.subscription;
+  return typeof sub === 'string' ? sub : sub?.id || null;
+}
+
+function planFromSubscription(subscription) {
+  const priceId = subscription.items?.data?.[0]?.price?.id;
+  const byPrice = {
+    [process.env.STRIPE_PRICE_MONTHLY]: 'monthly',
+    [process.env.STRIPE_PRICE_YEARLY]: 'yearly',
+    [process.env.STRIPE_VIDEO_MONTHLY_PRICE_ID]: 'video-monthly',
+    [process.env.STRIPE_VIDEO_YEARLY_PRICE_ID]: 'video-yearly',
+  };
+  if (priceId && byPrice[priceId]) return byPrice[priceId];
+  // create-checkout.js stamps the plan on the subscription. Price ids win
+  // because a plan switch in the billing portal doesn't update metadata.
+  const metaPlan = subscription.metadata?.plan;
+  if (TOKENS_PER_PLAN[metaPlan]) return metaPlan;
+  // Throwing returns a 500, so Stripe keeps retrying: once the missing
+  // STRIPE_PRICE_* variable is set, the license still gets created.
+  throw new Error(`Unknown price ${priceId} on subscription ${subscription.id}; check the STRIPE_PRICE_* env vars`);
+}
+
 async function handleCheckoutCompleted(session, stripe) {
   console.log('💰 Checkout completed:', session.id);
 
-  const customerEmail = session.customer_email || session.customer_details?.email;
-  if (!customerEmail) {
-    console.error('❌ No email in session');
-    return;
-  }
+  const customerEmail = session.customer_details?.email || session.customer_email;
+  if (!customerEmail) throw new Error(`No email on checkout session ${session.id}`);
 
-  // Get subscription details
   const subscription = await stripe.subscriptions.retrieve(session.subscription);
+  const plan = planFromSubscription(subscription);
+  const tokensIncluded = TOKENS_PER_PLAN[plan];
 
-  // Determine plan from price ID
-  const priceId = subscription.items.data[0].price.id;
-  let plan;
-  if (priceId === process.env.STRIPE_PRICE_YEARLY) {
-    plan = 'yearly';
-  } else if (priceId === process.env.STRIPE_VIDEO_YEARLY_PRICE_ID) {
-    plan = 'video-yearly';
-  } else if (priceId === process.env.STRIPE_VIDEO_MONTHLY_PRICE_ID) {
-    plan = 'video-monthly';
-  } else if (priceId === process.env.STRIPE_PRICE_MONTHLY) {
-    plan = 'monthly';
-  } else {
-    console.error('❌ Unknown price ID in checkout:', priceId, '— defaulting to monthly. Check STRIPE_PRICE_* env vars.');
-    plan = 'monthly';
+  // Claim the subscription atomically so a redelivered (or concurrently
+  // delivered) event reuses the first key instead of minting a second one.
+  let licenseKey = generateLicenseKey();
+  const claimed = await kv.set(`subscription:${subscription.id}`, licenseKey, { nx: true });
+  if (!claimed) licenseKey = await kv.get(`subscription:${subscription.id}`);
+
+  const isNew = !(await kv.get(`license:${licenseKey}`));
+  if (isNew) {
+    await kv.set(`license:${licenseKey}`, {
+      key: licenseKey,
+      email: customerEmail,
+      plan,
+      status: 'active',
+      customerId: session.customer,
+      subscriptionId: subscription.id,
+      createdAt: Date.now(),
+      expiresAt: periodEndMs(subscription),
+      tokenBalance: tokensIncluded,
+      tokensIncluded,
+      topupBalance: 0,
+      lastTokenRefresh: Date.now(),
+    });
+    await kv.set(`email:${customerEmail.toLowerCase()}`, licenseKey);
+    await kv.incr('stats:total_licenses');
+    await kv.sadd(`licenses:plan:${plan}`, licenseKey);
+    console.log('✅ License generated:', licenseKey, 'plan:', plan);
   }
 
-  // Token allowance for this plan
-  const tokensIncluded = TOKENS_PER_PLAN[plan] || 200;
+  // Read by /api/checkout-status so the success page can show the key.
+  await kv.set(`checkout:${session.id}`, {
+    kind: 'subscription', key: licenseKey, plan, tokensIncluded, at: Date.now(),
+  }, { ex: CHECKOUT_MARKER_TTL_S });
 
-  // Generate license key
-  const licenseKey = generateLicenseKey();
-
-  // License data
-  const licenseData = {
-    key: licenseKey,
-    email: customerEmail,
-    plan: plan,
-    status: 'active',
-    customerId: session.customer,
-    subscriptionId: session.subscription,
-    createdAt: Date.now(),
-    expiresAt: subscription.current_period_end * 1000,
-    tokenBalance: tokensIncluded,
-    tokensIncluded: tokensIncluded,
-    topupBalance: 0,
-    lastTokenRefresh: Date.now(),
-  };
-  
-  // Store in KV (key indexed by license key for lookup)
-  await kv.set(`license:${licenseKey}`, licenseData);
-
-  // Reverse index: subscription → license key (O(1) lookup in cancel/update handlers)
-  await kv.set(`subscription:${session.subscription}`, licenseKey);
-
-  // Also index by email for management
-  await kv.set(`email:${customerEmail.toLowerCase()}`, licenseKey);
-  
-  // Track stats
-  await kv.incr('stats:total_licenses');
-  await kv.sadd(`licenses:plan:${plan}`, licenseKey);
-  
-  console.log('✅ License generated:', licenseKey, 'for', customerEmail);
-  
-  // Send license email
-  await sendLicenseEmail(customerEmail, licenseKey, plan);
+  // The key is also on the success page and at /account, so a failed email
+  // is logged rather than failing the order.
+  if (isNew) await sendLicenseEmail(customerEmail, licenseKey, plan, tokensIncluded);
 }
 
 async function handleSubscriptionCancelled(subscription) {
@@ -349,21 +371,36 @@ async function handleSubscriptionUpdated(subscription) {
   }
 
   const license = await kv.get(`license:${licenseKey}`);
-  if (license) {
-    license.expiresAt = subscription.current_period_end * 1000;
-    license.status = subscription.status === 'active' ? 'active' : 'inactive';
-    await kv.set(`license:${licenseKey}`, license);
+  if (!license) return;
+
+  const plan = planFromSubscription(subscription);
+  const tokensIncluded = TOKENS_PER_PLAN[plan];
+  if (tokensIncluded > (license.tokensIncluded || 0)) {
+    // Upgraded mid-cycle (e.g. Pro to Pro + Video in the billing portal):
+    // grant the bigger allowance now, not at the next renewal.
+    license.tokenBalance = (license.tokenBalance || 0) + tokensIncluded - (license.tokensIncluded || 0);
   }
+  license.plan = plan;
+  license.tokensIncluded = tokensIncluded;
+  license.expiresAt = periodEndMs(subscription) || license.expiresAt;
+  // A deleted subscription can't come back, so a late, out-of-order update
+  // mustn't reactivate it.
+  if (license.status !== 'cancelled') {
+    license.status = ACTIVE_STATUSES.has(subscription.status) ? 'active' : 'inactive';
+  }
+  await kv.set(`license:${licenseKey}`, license);
 }
 
 async function handleInvoicePaid(invoice) {
   console.log('🔄 Invoice paid:', invoice.id);
 
-  const subscriptionId = invoice.subscription;
-  if (!subscriptionId) return; // Not a subscription invoice (shouldn't happen here)
+  const subscriptionId = invoiceSubscriptionId(invoice);
+  if (!subscriptionId) return; // One-time payment, e.g. a top-up
 
   const licenseKey = await kv.get(`subscription:${subscriptionId}`);
   if (!licenseKey) {
+    // The first invoice can land before checkout.session.completed; that
+    // handler creates the license with a full allowance.
     console.warn('⚠️ No license found for subscription:', subscriptionId);
     return;
   }
@@ -394,176 +431,36 @@ async function handleTopUpCompleted(session) {
     return;
   }
 
-  const license = await kv.get(`license:${licenseKey}`);
-  if (!license) {
-    console.error('❌ License not found for top-up:', licenseKey);
+  // Only the first delivery of a session adds tokens. The claim is released
+  // if crediting fails, so Stripe's retry can try again.
+  const claimKey = `topup_claim:${session.id}`;
+  if (!(await kv.set(claimKey, 1, { nx: true, ex: CHECKOUT_MARKER_TTL_S }))) {
+    console.log('⏭️ Top-up already credited:', session.id);
     return;
   }
 
-  license.topupBalance = (license.topupBalance || 0) + packSize;
-  await kv.set(`license:${licenseKey}`, license);
+  let license;
+  try {
+    license = await kv.get(`license:${licenseKey}`);
+    if (!license) {
+      // create-checkout checks the key before charging, so this means the
+      // license was deleted in between. Needs a manual refund.
+      console.error('❌ License not found for paid top-up, refund needed:', licenseKey, session.id);
+      return;
+    }
+
+    license.topupBalance = (license.topupBalance || 0) + packSize;
+    await kv.set(`license:${licenseKey}`, license);
+    await kv.set(`checkout:${session.id}`, {
+      kind: 'topup', key: licenseKey, tokens: packSize,
+      balance: (license.tokenBalance || 0) + license.topupBalance, at: Date.now(),
+    }, { ex: CHECKOUT_MARKER_TTL_S });
+  } catch (err) {
+    await kv.del(claimKey).catch(() => {});
+    throw err;
+  }
 
   console.log(`✅ Added ${packSize} top-up tokens to ${licenseKey}. New top-up balance: ${license.topupBalance}`);
 
   await sendTopUpEmail(license.email, packSize, license.topupBalance);
-}
-
-async function handlePaymentFailed(invoice) {
-  console.log('💸 Payment failed:', invoice.id);
-  // TODO: Email user about failed payment
-  // For now, subscription will auto-cancel after retries
-}
-
-// ============================================================================
-// LICENSE KEY GENERATION
-// ============================================================================
-
-function generateLicenseKey() {
-  const seg = () => randomBytes(3).toString('hex').toUpperCase();
-  return `FAUX-${seg()}-${seg()}-${seg()}-${seg()}`;
-}
-
-// ============================================================================
-// EMAIL DELIVERY
-// ============================================================================
-
-async function sendLicenseEmail(email, licenseKey, plan) {
-  if (!process.env.RESEND_API_KEY) {
-    console.warn('⚠️ Resend not configured, skipping email');
-    return;
-  }
-  
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'Faux Spy <hello@fauxspy.com>';
-    
-    const PLAN_NAMES = {
-      yearly:          'Master Spy (Yearly)',
-      monthly:         'Secret Agent (Monthly)',
-      'video-monthly': 'Pro + Video (Monthly)',
-      'video-yearly':  'Pro + Video (Yearly)',
-    };
-    const planName = PLAN_NAMES[plan] || 'Pro';
-    
-    await resend.emails.send({
-      from: fromEmail,
-      to: email,
-      subject: '🕵️ Welcome to Faux Spy Pro — Your license is ready!',
-      html: `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #1a1f2e; max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { text-align: center; padding: 32px 0; }
-    .logo { font-family: Georgia, serif; font-style: italic; font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .badge { display: inline-block; padding: 6px 14px; background: linear-gradient(135deg, #fbbf24, #d97706); color: #1a1f2e; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 1px; margin: 16px 0; }
-    .license-box { padding: 32px; background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%); border-radius: 16px; margin: 24px 0; text-align: center; border: 2px solid #fbbf24; }
-    .license-key { font-family: 'Courier New', monospace; font-size: 22px; font-weight: 700; color: #92400e; letter-spacing: 2px; padding: 16px; background: white; border-radius: 8px; display: inline-block; user-select: all; }
-    h1 { font-family: Georgia, serif; font-style: italic; font-size: 28px; }
-    .step { padding: 16px; background: #f8fafc; border-left: 4px solid #fbbf24; margin: 12px 0; border-radius: 4px; }
-    .step-num { font-weight: 800; color: #d97706; }
-    .footer { text-align: center; color: #94a3b8; font-size: 13px; padding: 24px 0; }
-    a { color: #d97706; }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="logo">🕵️ Faux Spy</div>
-    <div class="badge">PRO MEMBER</div>
-  </div>
-  
-  <h1>Welcome aboard, Secret Agent!</h1>
-  
-  <p>Your <strong>${planName}</strong> subscription is active. Below is your license key — keep it safe!</p>
-  
-  <div class="license-box">
-    <p style="margin: 0 0 12px 0; font-size: 14px; color: #92400e; font-weight: 600;">YOUR LICENSE KEY</p>
-    <div class="license-key">${licenseKey}</div>
-    <p style="margin: 16px 0 0 0; font-size: 12px; color: #92400e;">Click to select • Copy to clipboard</p>
-  </div>
-  
-  <h2>How to activate (60 seconds):</h2>
-  
-  <div class="step">
-    <span class="step-num">Step 1.</span> Open Chrome and click the Faux Spy extension icon
-  </div>
-  <div class="step">
-    <span class="step-num">Step 2.</span> Click <strong>HQ Settings</strong> (gear icon)
-  </div>
-  <div class="step">
-    <span class="step-num">Step 3.</span> Scroll to <strong>"License Key"</strong> section
-  </div>
-  <div class="step">
-    <span class="step-num">Step 4.</span> Paste your license key and click <strong>Activate</strong>
-  </div>
-  <div class="step">
-    <span class="step-num">Step 5.</span> Pro features unlock instantly! 🎉
-  </div>
-  
-  <h3>What you've unlocked:</h3>
-  <ul>
-    <li>✅ <strong>Unlimited investigations</strong> — no daily limits</li>
-    <li>🔍 <strong>Deep Dive mode</strong> — investigate every image on a page</li>
-    <li>📊 <strong>Detective Case Files</strong> — searchable scan history</li>
-    <li>🚀 <strong>Priority detection</strong> — faster response times</li>
-    <li>💬 <strong>Priority support</strong> — direct email response</li>
-  </ul>
-  
-  <h3>Need help?</h3>
-  <p>Reply to this email or visit <a href="https://fauxspy.com/contact">fauxspy.com/contact</a></p>
-  
-  <p>Manage your subscription anytime at the link in your Stripe receipt email.</p>
-  
-  <div class="footer">
-    <p>Spy on the fakes 🕵️<br>
-    <a href="https://fauxspy.com">fauxspy.com</a></p>
-    <p style="font-size: 11px;">License: ${licenseKey}<br>
-    Plan: ${planName}<br>
-    Issued: ${new Date().toLocaleDateString()}</p>
-  </div>
-</body>
-</html>
-      `.trim()
-    });
-    
-    console.log('✅ License email sent to:', email);
-
-  } catch (error) {
-    console.error('❌ Email send failed:', error);
-    // Don't throw — license is still saved in KV
-  }
-}
-
-async function sendTopUpEmail(email, tokensAdded, newBalance) {
-  if (!email || !process.env.RESEND_API_KEY) return;
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'Faux Spy <hello@fauxspy.com>';
-    await resend.emails.send({
-      from: fromEmail,
-      to: email,
-      subject: `🕵️ ${tokensAdded} tokens added to your Faux Spy account`,
-      html: `
-<!DOCTYPE html>
-<html>
-<body style="font-family: -apple-system, sans-serif; background: #0f0f0f; color: #e2e8f0; padding: 40px 20px;">
-  <div style="max-width: 480px; margin: 0 auto; background: #1a1a2e; border-radius: 12px; padding: 32px; border: 1px solid #7c3aed;">
-    <h2 style="color: #7c3aed; margin: 0 0 16px;">Token Top-Up Confirmed 🕵️</h2>
-    <p style="margin: 0 0 12px;"><strong>${tokensAdded} tokens</strong> have been added to your Faux Spy account and are ready to use immediately.</p>
-    <p style="color: #94a3b8; margin: 0 0 24px;">Top-up balance: <strong style="color: #e2e8f0;">${newBalance} tokens</strong></p>
-    <p style="font-size: 13px; color: #64748b; margin: 0;">
-      Questions? Reply to this email or visit <a href="https://fauxspy.com" style="color: #7c3aed;">fauxspy.com</a>
-    </p>
-  </div>
-</body>
-</html>
-      `.trim(),
-    });
-    console.log('✅ Top-up email sent to:', email);
-  } catch (err) {
-    console.warn('⚠️ Top-up email failed:', err.message);
-    // Don't throw — tokens are already saved in Redis
-  }
 }

@@ -67,6 +67,7 @@
 
     .license-input-row input {
       flex: 1;
+      min-width: 0;
       padding: 12px 16px;
       background: rgba(0,0,0,0.3);
       border: 1px solid var(--border-default);
@@ -134,6 +135,8 @@
     }
 
     .license-error.visible { display: block; }
+    .no-plan-hint { margin-top: 12px; font-size: 13px; color: var(--text-secondary); }
+    .no-plan-hint a { color: var(--gold); }
 
     /* Pack cards */
     .packs-section h2 {
@@ -269,20 +272,28 @@
     .status-msg.error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; }
     .status-msg.success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #10b981; }
   </style>
-  <script defer src="/_vercel/insights/script.js"></script>
   <script>
-    var ahrefs_analytics_script = document.createElement('script');
-    ahrefs_analytics_script.async = true;
-    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
-    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
-    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+    // The extension links here with ?key=, and Stripe returns with
+    // ?session_id=. Keep both out of the address bar (history, analytics).
+    (function () {
+      window.__pageParams = location.search;
+      if (location.search) history.replaceState(null, '', location.pathname);
+    })();
   </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
   <nav class="nav">
-    <a href="/" class="nav-logo">ðŸ•µï¸ Faux Spy</a>
-    <a href="/pro" class="nav-link">Plans</a>
-    <a href="/account" class="nav-link">Account</a>
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/pro">Plans</a>
+        <a href="/account">Account</a>
+      </div>
+    </div>
   </nav>
 
   <div class="buy-tokens-page">
@@ -308,18 +319,19 @@
       <div class="balance-display" id="balanceDisplay">
         <div class="balance-row">
           <span class="balance-label">Subscription tokens</span>
-          <span class="balance-value" id="balanceSubscription">â€”</span>
+          <span class="balance-value" id="balanceSubscription">—</span>
         </div>
         <div class="balance-row">
           <span class="balance-label">Top-up tokens</span>
-          <span class="balance-value" id="balanceTopup">â€”</span>
+          <span class="balance-value" id="balanceTopup">—</span>
         </div>
         <div class="balance-row" style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08);">
           <span class="balance-label" style="font-weight: 700;">Total available</span>
-          <span class="balance-value" id="balanceTotal">â€”</span>
+          <span class="balance-value" id="balanceTotal">—</span>
         </div>
       </div>
-      <div class="license-error" id="licenseError"></div>
+      <div class="license-error" id="licenseError" role="alert"></div>
+      <p class="no-plan-hint" id="noPlanHint">Token packs add to an existing Pro plan. No plan yet? <a href="/pro">See Pro plans →</a> · Lost your key? <a href="/account">Get it by email →</a></p>
     </div>
 
     <!-- Step 2: Select Pack -->
@@ -350,9 +362,9 @@
         <span>Select a Pack to Continue</span>
       </button>
 
-      <p class="no-expire-note">Top-up tokens never expire â€¢ Charged once, no subscription</p>
+      <p class="no-expire-note">Top-up tokens never expire • Charged once, no subscription</p>
 
-      <div class="status-msg" id="statusMsg"></div>
+      <div class="status-msg" id="statusMsg" role="status"></div>
     </div>
   </div>
 

@@ -3,6 +3,7 @@
 // Returns Pro status, plan, expiration
 
 const { Redis } = require('@upstash/redis');
+const { KEY_FORMAT } = require('./_lib/license');
 
 const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
@@ -56,7 +57,7 @@ module.exports = async (req, res) => {
     }
 
     // Validate format
-    if (!cleanKey.match(/^FAUX-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/)) {
+    if (!KEY_FORMAT.test(cleanKey)) {
       return res.status(400).json({
         valid: false,
         error: 'Invalid license key format',
