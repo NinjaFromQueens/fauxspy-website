@@ -25,6 +25,9 @@ const PRICES = [
 const WEBHOOK_URL = 'https://www.fauxspy.com/api/webhook';
 const WEBHOOK_EVENTS = [
   'checkout.session.completed',
+  // Bank payments (offered at checkout) clear days later; the order is
+  // fulfilled on this event, not on checkout.session.completed.
+  'checkout.session.async_payment_succeeded',
   'invoice.payment_succeeded',
   'customer.subscription.updated',
   'customer.subscription.deleted',
