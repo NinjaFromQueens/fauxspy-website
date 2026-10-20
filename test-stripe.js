@@ -5,10 +5,13 @@
 
 require('dotenv').config({ path: '.env.local' });
 
-const Stripe = require('stripe');
 const { generateLicenseKey, KEY_FORMAT } = require('./api/_lib/license');
+const { getStripe, managedPayments, STRIPE_API_VERSION } = require('./api/_lib/stripe');
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-05-28.basil' });
+const stripe = getStripe();
+// Stripe Managed Payments needs one of its eligible digital-goods tax codes on
+// every product; this is the one that describes Faux Spy.
+const EXPECTED_TAX_CODE = 'txcd_10105003'; // AI as a Service, cloud-based & downloaded, personal use
 
 const PRICES = [
   ['STRIPE_PRICE_MONTHLY', 'month'],
@@ -41,28 +44,36 @@ async function run() {
     process.env[key] ? pass(key) : fail(key, 'missing');
   }
 
-  // 2. Stripe connectivity
-  console.log('\n2. Stripe API connectivity');
-  try {
-    const account = await stripe.accounts.retrieve();
-    const mode = process.env.STRIPE_SECRET_KEY.startsWith('sk_live') ? 'LIVE' : 'TEST';
-    pass(`Connected to ${account.id} (${mode} mode)`);
-  } catch (e) {
-    fail('Stripe connectivity', e.message);
-  }
+  // 2. API key
+  console.log('\n2. API key');
+  const apiKey = process.env.STRIPE_SECRET_KEY || '';
+  const mode = apiKey.includes('_live_') ? 'LIVE' : 'TEST';
+  apiKey.startsWith('rk_')
+    ? pass(`Restricted key (${mode} mode), API ${STRIPE_API_VERSION}`)
+    : fail('Restricted key', `this is a full secret key (${apiKey.slice(0, 7)}…); create a restricted key with only the permissions the site needs`);
+  console.log(`    Managed Payments (Stripe as merchant of record): ${managedPayments().managed_payments ? 'ON' : 'off (STRIPE_MANAGED_PAYMENTS not "true")'}`);
 
-  // 3. Prices exist, are active, and are the right kind
+  // 3. Prices exist, are the right kind, and are set up for Managed Payments
   console.log('\n3. Prices');
   for (const [envVar, interval] of PRICES) {
     const priceId = process.env[envVar];
     if (!priceId) continue;
     try {
-      const price = await stripe.prices.retrieve(priceId);
+      const price = await stripe.prices.retrieve(priceId, { expand: ['product'] });
       if (!price.active) throw new Error('price is inactive');
       if ((price.recurring?.interval || null) !== interval) {
         throw new Error(`expected ${interval ? `a ${interval}ly subscription` : 'a one-time'} price, got ${price.recurring?.interval || 'one-time'}`);
       }
-      pass(`${envVar}: $${(price.unit_amount / 100).toFixed(2)}${interval ? `/${interval}` : ' one-time'}`);
+      pass(`${envVar}: $${(price.unit_amount / 100).toFixed(2)}${interval ? `/${interval}` : ' one-time'} (${price.product.name})`);
+      price.product.tax_code === EXPECTED_TAX_CODE
+        ? pass(`  tax code ${EXPECTED_TAX_CODE}`)
+        : fail(`  ${envVar} tax code`, `product "${price.product.name}" has ${price.product.tax_code || 'no tax code'}; set ${EXPECTED_TAX_CODE}`);
+      // Prices include tax: "inclusive", or unspecified so the account's
+      // "Include tax in prices" setting applies. "exclusive" can't be changed
+      // on an existing price; it needs a new one.
+      price.tax_behavior === 'exclusive'
+        ? fail(`  ${envVar} tax behavior`, 'price adds tax on top (exclusive); create a replacement price with tax included and update the env var')
+        : pass(`  tax behavior ${price.tax_behavior}${price.tax_behavior === 'unspecified' ? ' (follows "Include tax in prices" in Tax settings)' : ''}`);
     } catch (e) {
       fail(envVar, e.message);
     }
@@ -114,10 +125,11 @@ async function run() {
       success_url: 'https://www.fauxspy.com/success?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'https://www.fauxspy.com/pro?cancelled=true',
       allow_promotion_codes: true,
+      ...managedPayments(),
       metadata: { product: 'faux-spy', plan: 'monthly' },
-      subscription_data: { metadata: { product: 'faux-spy', plan: 'monthly' } },
+      subscription_data: { trial_period_days: 7, metadata: { product: 'faux-spy', plan: 'monthly' } },
     });
-    pass(`Session created: ${session.id}`);
+    pass(`Session created with the same settings as the site: ${session.id}`);
     await stripe.checkout.sessions.expire(session.id).catch(() => {});
   } catch (e) {
     fail('Create checkout session', e.message);

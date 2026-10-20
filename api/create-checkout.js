@@ -3,9 +3,13 @@
 // Subscriptions: monthly, yearly, video-monthly, video-yearly (promo codes allowed)
 // Top-ups (mode: 'topup'): one-time token packs added to an existing license
 
-const Stripe = require('stripe');
 const { Redis } = require('@upstash/redis');
 const { resolveProLicense } = require('./_lib/license');
+const { getStripe, managedPayments } = require('./_lib/stripe');
+
+// Card required up front, so the trial turns into the paid plan unless the
+// buyer cancels. TRIAL_DAYS=0 turns trials off.
+const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS ?? '7', 10) || 0;
 
 const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
@@ -33,7 +37,7 @@ module.exports = async (req, res) => {
       });
     }
     
-    const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-05-28.basil' });
+    const stripe = getStripe();
     const { plan, email, promoCode, mode, licenseKey, packSize } = req.body || {};
 
     const siteUrl = process.env.SITE_URL || 'https://fauxspy.com';
@@ -61,7 +65,7 @@ module.exports = async (req, res) => {
 
       // Check the key before taking money: the webhook can only add tokens
       // to a license that exists and is still active.
-      const { isPro, key, reason } = await resolveProLicense(kv, licenseKey);
+      const { isPro, key, license, reason } = await resolveProLicense(kv, licenseKey);
       if (!isPro) {
         return reason === 'cancelled' || reason === 'inactive' || reason === 'expired'
           ? res.status(400).json({ error: 'LICENSE_INACTIVE', message: "This Pro plan is no longer active, so tokens can't be added to it. Renew at fauxspy.com/pro." })
@@ -73,7 +77,10 @@ module.exports = async (req, res) => {
         line_items: [{ price: priceId, quantity: 1 }],
         success_url: `${siteUrl}/buy-tokens?success=true&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${siteUrl}/buy-tokens?cancelled=true`,
-        ...(email ? { customer_email: email } : {}),
+        // Same Stripe customer as the subscription, so all of a buyer's
+        // receipts and invoices are in one place (and in the billing portal).
+        ...(license?.customerId ? { customer: license.customerId } : email ? { customer_email: email } : {}),
+        ...managedPayments(),
         metadata: {
           product: 'faux-spy-topup',
           licenseKey: key,
@@ -120,15 +127,16 @@ module.exports = async (req, res) => {
       success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/pro?cancelled=true`,
       allow_promotion_codes: true,
-      billing_address_collection: 'auto',
       // Pre-fill email if provided
       ...(email ? { customer_email: email } : {}),
+      ...managedPayments(),
       metadata: {
         product: 'faux-spy',
         plan: plan,
         ...(email ? { signup_email: email } : {})
       },
       subscription_data: {
+        ...(TRIAL_DAYS > 0 ? { trial_period_days: TRIAL_DAYS } : {}),
         metadata: {
           product: 'faux-spy',
           plan: plan

@@ -110,6 +110,7 @@ module.exports = async (req, res) => {
       plan: license.plan,
       email: license.email,
       expiresAt: license.expiresAt,
+      trialEndsAt: license.trialEndsAt || null,
       tokenBalance: license.tokenBalance || 0,
       topupBalance: license.topupBalance || 0,
       tokensIncluded: license.tokensIncluded || 200,

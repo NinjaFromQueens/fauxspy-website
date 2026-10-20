@@ -108,7 +108,8 @@
       <div class="state" id="stateReady">
         <div class="success-icon" aria-hidden="true">🕵️</div>
         <h1>You're Pro!</h1>
-        <p>Your <strong id="planName">Pro</strong> plan is active: <strong id="planAllowance"></strong>.</p>
+        <p id="planLine">Your <strong id="planName">Pro</strong> plan is active: <strong id="planAllowance"></strong>.</p>
+        <p id="trialLine" hidden>Your free trial has started with <strong id="trialTokens"></strong> to try everything. Your <strong id="trialPlanName"></strong> plan starts on <strong id="trialEnds"></strong> with <span id="trialAllowance"></span>, and that's when your card is charged. Cancel any time before then at <a href="/account">fauxspy.com/account</a> and you won't pay anything.</p>
 
         <div class="key-box">
           <div class="key-label">YOUR LICENSE KEY</div>
@@ -142,6 +143,7 @@
         </div>
 
         <p style="font-size:14px;">We've also emailed this key to you. To manage billing or find your key later, go to <a href="/account">fauxspy.com/account</a>.</p>
+        <p style="font-size:13px; color: var(--text-tertiary);" id="linkNote" hidden>Checkout and billing are run by Link (Stripe), so your receipt comes from Link and your card statement shows LINK.COM* followed by Faux Spy.</p>
       </div>
 
       <div class="state" id="stateSlow">
@@ -219,8 +221,19 @@
       }
 
       function showKey(result) {
-        document.getElementById('planName').textContent = PLAN_NAMES[result.plan] || 'Pro';
+        var planName = PLAN_NAMES[result.plan] || 'Pro';
+        document.getElementById('planName').textContent = planName;
         document.getElementById('planAllowance').textContent = allowanceText(result.plan, result.tokensIncluded);
+        if (result.trialEndsAt) {
+          document.getElementById('trialTokens').textContent = (result.tokenBalance || 0) + ' scans';
+          document.getElementById('trialPlanName').textContent = planName;
+          document.getElementById('trialEnds').textContent = new Date(result.trialEndsAt)
+            .toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+          document.getElementById('trialAllowance').textContent = allowanceText(result.plan, result.tokensIncluded);
+          document.getElementById('planLine').hidden = true;
+          document.getElementById('trialLine').hidden = false;
+        }
+        document.getElementById('linkNote').hidden = !result.soldThroughLink;
         document.getElementById('keyValue').textContent = result.licenseKey;
         show('stateReady');
         pendingKey = result.licenseKey;

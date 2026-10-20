@@ -18,7 +18,7 @@
     "@upstash/redis": "^1.38.0",
     "@vercel/kv": "^2.0.0",
     "resend": "^3.2.0",
-    "stripe": "^14.0.0"
+    "stripe": "^23.0.0"
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.98.0",
@@ -29,6 +29,6 @@
     "vercel": "^33.0.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }

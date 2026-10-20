@@ -3,8 +3,11 @@
 // billing-portal.js.
 
 const { Resend } = require('resend');
+const { managedPaymentsEnabled } = require('./stripe');
 
 const SITE = 'https://www.fauxspy.com';
+
+const longDate = ms => new Date(ms).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
 const PLAN_NAMES = {
   monthly:         'Secret Agent (Monthly)',
@@ -70,18 +73,21 @@ const ACTIVATION_STEPS = `
   <div class="step"><span class="step-num">2.</span> Open <strong>Settings</strong> (the gear icon)</div>
   <div class="step"><span class="step-num">3.</span> Paste your key under <strong>License Key</strong> and click <strong>Activate Pro</strong></div>`;
 
-async function sendLicenseEmail(email, licenseKey, plan, tokensIncluded) {
+async function sendLicenseEmail(email, licenseKey, plan, tokensIncluded, { trialEndsAt = null, trialTokens = 0 } = {}) {
+  const intro = trialEndsAt
+    ? `Your free trial of <strong>${planName(plan)}</strong> has started with <strong>${trialTokens} scans</strong> to try everything. On <strong>${longDate(trialEndsAt)}</strong> your plan starts with <strong>${allowanceText(plan, tokensIncluded)}</strong> and your card is charged. Cancel any time before then at <a href="${SITE}/account">fauxspy.com/account</a> and you won't pay anything.`
+    : `Your <strong>${planName(plan)}</strong> plan is active and includes <strong>${allowanceText(plan, tokensIncluded)}</strong>.`;
   const html = `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><style>${STYLES}</style></head>
 <body>
   <div class="header">
     <div class="logo">🕵️ Faux Spy</div>
-    <div class="badge">PRO MEMBER</div>
+    <div class="badge">${trialEndsAt ? 'PRO TRIAL' : 'PRO MEMBER'}</div>
   </div>
 
   <h1>Welcome aboard, Secret Agent!</h1>
-  <p>Your <strong>${planName(plan)}</strong> plan is active and includes <strong>${allowanceText(plan, tokensIncluded)}</strong>. Keep this key somewhere safe.</p>
+  <p>${intro} Keep your license key somewhere safe.</p>
 
   ${keyBox(licenseKey)}
 
@@ -100,6 +106,7 @@ async function sendLicenseEmail(email, licenseKey, plan, tokensIncluded) {
 
   <h3>Manage your plan or lost your key?</h3>
   <p>Go to <a href="${SITE}/account">fauxspy.com/account</a> and enter this email address. We'll send you your key and a link to update your card or cancel.</p>
+  ${managedPaymentsEnabled() ? '<p style="color:#475569;">Your payment receipt comes separately from Link, which runs checkout and billing for Faux Spy. Your card statement shows LINK.COM* followed by Faux Spy.</p>' : ''}
 
   <div class="footer">
     <p>Spy on the fakes 🕵️<br><a href="${SITE}">fauxspy.com</a></p>

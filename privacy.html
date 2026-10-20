@@ -43,7 +43,7 @@
   
   <div class="legal-page">
     <h1>Privacy Policy</h1>
-    <p class="meta">Last updated: October 19, 2026</p>
+    <p class="meta">Last updated: October 20, 2026</p>
 
     <p>This policy covers the Faux Spy browser extension (Chrome, Firefox and Edge) and fauxspy.com. Faux Spy only sends data when you choose to scan an image or video, and only what's needed to check it.</p>
 
@@ -53,7 +53,7 @@
       <li><strong>The website's domain</strong> - Each image scan includes the domain of the page you're on (for example, "instagram.com"), used only for the anonymized detection history below. We never receive the full page address, its title, or any other pages you visit.</li>
       <li><strong>A random anonymous ID</strong> - The extension creates a random ID when it's installed. Together with your IP address, it lets us count free scans against the daily limit. These counters expire after about 25 hours and aren't linked to scan contents.</li>
       <li><strong>Anonymized detection history</strong> - When you scan an image or video, we store a one-way cryptographic hash of its address (not the address itself), the verdict, and (for images) the website's domain, so if someone else scans the same image or video later we can tell them "checked by N other people" and show the prior verdict. This record can't be traced back to you: it never includes your anonymous ID, IP address, the full page address, or anything linking it to your account or device.</li>
-      <li><strong>Email address and license key</strong> - Only if you buy a paid plan. Used to deliver and validate your license and for support. The extension stores your license key and email in your browser so it can check your plan.</li>
+      <li><strong>Email address, license key and plan details</strong> - Only if you buy a paid plan: your email address, license key, plan, token balance, trial end date, and the customer and subscription IDs Stripe gives us. Used to deliver and validate your license, keep your plan in sync with billing, and for support. We never receive your card details or billing address. The extension stores your license key and email in your browser so it can check your plan.</li>
       <li><strong>Error reports</strong> - If a scan fails, the extension sends an error report with the extension version, the error type, your anonymous ID, and the type of site (for example, "Instagram"). If our server has trouble fetching an image, its error report can include the name of the server the image is hosted on (for example, a photo CDN). Error reports don't include images or page addresses.</li>
       <li><strong>Your stats, badges and Case Files</strong> - Stored only in your browser. Never sent to us.</li>
     </ul>
@@ -63,7 +63,7 @@
       <li><strong>Newsletter and waitlist signups</strong> - Your email address, plus the time, IP address and browser type of the signup (to prevent spam and abuse). We use it only to send what you signed up for, and every newsletter has an unsubscribe link.</li>
       <li><strong>Contact form</strong> - Your name, email address and message, plus the time, IP address and browser type, so we can reply and filter spam.</li>
       <li><strong>Uninstall survey</strong> - If you fill in the short form shown after removing the extension, we store the reason you pick, any comment you write and the extension version. Nothing that identifies you.</li>
-      <li><strong>Analytics</strong> - We count page views with Vercel Web Analytics and Ahrefs Web Analytics, which don't use cookies.</li>
+      <li><strong>Analytics</strong> - We count page views with Vercel Web Analytics and Ahrefs Web Analytics, which don't use cookies. Ahrefs isn't used on the checkout, account or token pages, and license keys and checkout IDs are removed from those pages' addresses before any analytics load.</li>
     </ul>
 
     <h2>What We Don't Collect</h2>
@@ -82,7 +82,7 @@
       <li><strong>Hive AI</strong> - AI image detection. Receives the image address, or the single video frame described above.</li>
       <li><strong>Sightengine</strong> - AI image and video detection. Receives the image or video address, or the single video frame described above.</li>
       <li><strong>Sentry</strong> - Error reporting. Receives the error reports described above.</li>
-      <li><strong>Stripe</strong> - Payment processing for paid plans. We never see your card details.</li>
+      <li><strong>Stripe and Link</strong> - Checkout and billing for paid plans. Stripe collects your name, email address, billing address and payment details, and sends your receipts. Stripe may sell to you as the reseller and merchant of record through its Link service (shown at checkout as "Sold through Link"), in which case it also calculates and collects sales tax or VAT. Stripe's and Link's own privacy policies cover that data. We never see your card details.</li>
       <li><strong>Resend</strong> - Sends our emails (license keys, replies and the newsletter).</li>
       <li><strong>Vercel</strong> - Hosting for our website and API.</li>
       <li><strong>Upstash</strong> - Our database: license records, the signups and messages described above, the short-lived scan counters, and cached verdicts (keyed by a hash of the image address) so repeat scans are instant.</li>

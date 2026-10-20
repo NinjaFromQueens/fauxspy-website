@@ -4,8 +4,8 @@
 // Sends license via email
 // Handles subscription lifecycle events
 
-const Stripe = require('stripe');
 const { Redis } = require('@upstash/redis');
+const { getStripe } = require('./_lib/stripe');
 const { generateLicenseKey } = require('./_lib/license');
 const { sendLicenseEmail, sendTopUpEmail } = require('./_lib/email');
 
@@ -166,7 +166,7 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: 'Stripe not configured' });
   }
 
-  const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-05-28.basil' });
+  const stripe = getStripe();
 
   // Verify webhook signature (security critical)
   let event;
@@ -260,6 +260,11 @@ const TOKENS_PER_PLAN = {
   'video-yearly':  parseInt(process.env.TOKENS_VIDEO_YEARLY)     || 6000,
 };
 
+// A free trial gets a taste, not the whole month: someone who cancels before
+// the first charge shouldn't have used a full allowance for free. The plan's
+// full allowance arrives with the first paid invoice.
+const TRIAL_TOKENS = parseInt(process.env.TRIAL_TOKENS) || 50;
+
 // past_due: the card failed and Stripe is retrying it. Keep Pro working
 // meanwhile; if the retries run out Stripe cancels and we get .deleted.
 const ACTIVE_STATUSES = new Set(['active', 'trialing', 'past_due']);
@@ -304,6 +309,8 @@ async function handleCheckoutCompleted(session, stripe) {
   const subscription = await stripe.subscriptions.retrieve(session.subscription);
   const plan = planFromSubscription(subscription);
   const tokensIncluded = TOKENS_PER_PLAN[plan];
+  const trialEndsAt = subscription.status === 'trialing' && subscription.trial_end ? subscription.trial_end * 1000 : null;
+  const openingBalance = trialEndsAt ? TRIAL_TOKENS : tokensIncluded;
 
   // Claim the subscription atomically so a redelivered (or concurrently
   // delivered) event reuses the first key instead of minting a second one.
@@ -322,7 +329,8 @@ async function handleCheckoutCompleted(session, stripe) {
       subscriptionId: subscription.id,
       createdAt: Date.now(),
       expiresAt: periodEndMs(subscription),
-      tokenBalance: tokensIncluded,
+      trialEndsAt,
+      tokenBalance: openingBalance,
       tokensIncluded,
       topupBalance: 0,
       lastTokenRefresh: Date.now(),
@@ -335,12 +343,12 @@ async function handleCheckoutCompleted(session, stripe) {
 
   // Read by /api/checkout-status so the success page can show the key.
   await kv.set(`checkout:${session.id}`, {
-    kind: 'subscription', key: licenseKey, plan, tokensIncluded, at: Date.now(),
+    kind: 'subscription', key: licenseKey, plan, tokensIncluded, trialEndsAt, tokenBalance: openingBalance, at: Date.now(),
   }, { ex: CHECKOUT_MARKER_TTL_S });
 
   // The key is also on the success page and at /account, so a failed email
   // is logged rather than failing the order.
-  if (isNew) await sendLicenseEmail(customerEmail, licenseKey, plan, tokensIncluded);
+  if (isNew) await sendLicenseEmail(customerEmail, licenseKey, plan, tokensIncluded, { trialEndsAt, trialTokens: openingBalance });
 }
 
 async function handleSubscriptionCancelled(subscription) {
@@ -375,14 +383,17 @@ async function handleSubscriptionUpdated(subscription) {
 
   const plan = planFromSubscription(subscription);
   const tokensIncluded = TOKENS_PER_PLAN[plan];
-  if (tokensIncluded > (license.tokensIncluded || 0)) {
-    // Upgraded mid-cycle (e.g. Pro to Pro + Video in the billing portal):
-    // grant the bigger allowance now, not at the next renewal.
+  const trialing = subscription.status === 'trialing';
+  // Upgraded mid-cycle (e.g. Pro to Pro + Video in the billing portal):
+  // grant the bigger allowance now, not at the next renewal. Not during a
+  // trial, or switching plans would unlock more free tokens.
+  if (!trialing && tokensIncluded > (license.tokensIncluded || 0)) {
     license.tokenBalance = (license.tokenBalance || 0) + tokensIncluded - (license.tokensIncluded || 0);
   }
   license.plan = plan;
   license.tokensIncluded = tokensIncluded;
   license.expiresAt = periodEndMs(subscription) || license.expiresAt;
+  license.trialEndsAt = trialing && subscription.trial_end ? subscription.trial_end * 1000 : null;
   // A deleted subscription can't come back, so a late, out-of-order update
   // mustn't reactivate it.
   if (license.status !== 'cancelled') {
@@ -396,6 +407,10 @@ async function handleInvoicePaid(invoice) {
 
   const subscriptionId = invoiceSubscriptionId(invoice);
   if (!subscriptionId) return; // One-time payment, e.g. a top-up
+  // The first invoice is paid at checkout ($0 when a trial starts), and the
+  // checkout handler already set the opening balance. Refilling here would
+  // hand a trial the full allowance.
+  if (invoice.billing_reason === 'subscription_create') return;
 
   const licenseKey = await kv.get(`subscription:${subscriptionId}`);
   if (!licenseKey) {

@@ -47,6 +47,26 @@ class FakeRedis {
 
 const subscriptions = new Map();
 const stripeCalls = { checkout: [], portal: [], retrieveFailures: 0 };
+
+// Parameters Stripe rejects on a Managed Payments Checkout Session
+// (docs.stripe.com/payments/managed-payments/update-checkout), plus
+// billing_address_collection, which we leave to Stripe. Any checkout the site
+// creates must work with Managed Payments switched on.
+const MANAGED_PAYMENTS_FORBIDDEN = [
+  'automatic_tax', 'tax_id_collection', 'adaptive_pricing', 'payment_method_types', 'payment_method_configuration',
+  'excluded_payment_method_types', 'customer_update', 'shipping_address_collection', 'shipping_options',
+  'invoice_creation', 'billing_address_collection',
+];
+function assertManagedPaymentsCompatible(params) {
+  for (const k of MANAGED_PAYMENTS_FORBIDDEN) assert.ok(!(k in params), `checkout session must not set ${k}`);
+  for (const k of ['invoice_settings', 'default_tax_rates', 'application_fee_percent', 'on_behalf_of', 'transfer_data']) {
+    assert.ok(!(k in (params.subscription_data || {})), `checkout session must not set subscription_data.${k}`);
+  }
+  for (const k of ['receipt_email', 'statement_descriptor', 'statement_descriptor_suffix', 'shipping']) {
+    assert.ok(!(k in (params.payment_intent_data || {})), `checkout session must not set payment_intent_data.${k}`);
+  }
+  assert.ok(!(params.customer && params.customer_email), 'customer and customer_email are mutually exclusive');
+}
 function FakeStripe() {
   return {
     webhooks: {
@@ -65,6 +85,7 @@ function FakeStripe() {
     checkout: {
       sessions: {
         async create(params) {
+          assertManagedPaymentsCompatible(params);
           stripeCalls.checkout.push(params);
           return { id: 'cs_test_created', url: 'https://checkout.stripe.com/c/pay/cs_test_created' };
         },
@@ -136,9 +157,12 @@ async function sendEvent(type, object, id = `evt_${++eventSeq}`) {
 const PERIOD_END = Math.floor(Date.UTC(2026, 11, 1) / 1000);
 
 // Basil API shape (current): period end lives on the subscription item.
-function addSubscription(id, priceId, { legacy = false, metadata = {} } = {}) {
+const TRIAL_END = Math.floor(Date.UTC(2026, 9, 27) / 1000);
+
+function addSubscription(id, priceId, { legacy = false, metadata = {}, status = 'active' } = {}) {
   const sub = {
-    id, status: 'active', metadata,
+    id, status, metadata,
+    ...(status === 'trialing' ? { trial_end: TRIAL_END } : {}),
     items: { data: [{ price: { id: priceId }, ...(legacy ? {} : { current_period_end: PERIOD_END }) }] },
     ...(legacy ? { current_period_end: PERIOD_END } : {}),
   };
@@ -407,7 +431,10 @@ test('checkout-status: pending, then the key, then expired after a day', async (
 
   const key = await buy(sessionId, 'sub_14');
   res = await call(checkoutStatus, { method: 'GET', query: { session_id: sessionId } });
-  assert.deepEqual(res.body, { status: 'complete', kind: 'subscription', licenseKey: key, plan: 'monthly', tokensIncluded: 200 });
+  assert.deepEqual(res.body, {
+    status: 'complete', kind: 'subscription', licenseKey: key, plan: 'monthly', tokensIncluded: 200,
+    trialEndsAt: null, tokenBalance: 200, soldThroughLink: false,
+  });
 
   const marker = JSON.parse(store.get(`checkout:${sessionId}`));
   marker.at -= 25 * 60 * 60 * 1000;
@@ -465,4 +492,94 @@ test('account: links are rate limited per email', async () => {
   }
   const res = await call(billingPortal, { body: { email: 'spam@example.com' }, ip: '198.51.100.99' });
   assert.equal(res.statusCode, 429);
+});
+
+// ── Free trial ────────────────────────────────────────────────────────────────
+
+async function startTrial(sessionId, subId, priceId = 'price_monthly') {
+  addSubscription(subId, priceId, { status: 'trialing' });
+  const res = await sendEvent('checkout.session.completed', checkoutSession(sessionId, subId));
+  assert.equal(res.statusCode, 200);
+  return store.get(`subscription:${subId}`);
+}
+
+test('a trial starts with 50 tokens and its end date, not the full allowance', async () => {
+  const key = await startTrial('cs_test_trial00001', 'sub_t1');
+  const license = JSON.parse(store.get(`license:${key}`));
+  assert.equal(license.tokenBalance, 50);
+  assert.equal(license.tokensIncluded, 200);
+  assert.equal(license.trialEndsAt, TRIAL_END * 1000);
+  assert.equal(license.status, 'active');
+
+  const status = await call(checkoutStatus, { method: 'GET', query: { session_id: 'cs_test_trial00001' } });
+  assert.equal(status.body.trialEndsAt, TRIAL_END * 1000);
+  assert.equal(status.body.tokenBalance, 50);
+
+  const valid = await call(validateLicense, { body: { licenseKey: key } });
+  assert.equal(valid.body.valid, true);
+  assert.equal(valid.body.trialEndsAt, TRIAL_END * 1000);
+
+  assert.match(sentEmails[0].html, /free trial/);
+  assert.match(sentEmails[0].html, /50 scans/);
+  assert.match(sentEmails[0].html, /October 27, 2026/);
+});
+
+test("the trial's $0 first invoice doesn't refill; the first real charge does", async () => {
+  const key = await startTrial('cs_test_trial00002', 'sub_t2');
+  const parent = { subscription_details: { subscription: 'sub_t2' } };
+
+  await sendEvent('invoice.payment_succeeded', { id: 'in_t0', billing_reason: 'subscription_create', amount_paid: 0, parent });
+  assert.equal(JSON.parse(store.get(`license:${key}`)).tokenBalance, 50);
+
+  // Trial ends: the subscription turns active and the first charge refills.
+  const sub = addSubscription('sub_t2', 'price_monthly', { status: 'active' });
+  await sendEvent('customer.subscription.updated', sub);
+  await sendEvent('invoice.payment_succeeded', { id: 'in_t1', billing_reason: 'subscription_cycle', amount_paid: 999, parent });
+  const license = JSON.parse(store.get(`license:${key}`));
+  assert.equal(license.tokenBalance, 200);
+  assert.equal(license.trialEndsAt, null);
+});
+
+test('switching plans during a trial unlocks no extra tokens', async () => {
+  const key = await startTrial('cs_test_trial00003', 'sub_t3');
+  const upgraded = addSubscription('sub_t3', 'price_video_monthly', { status: 'trialing' });
+  await sendEvent('customer.subscription.updated', upgraded);
+  const license = JSON.parse(store.get(`license:${key}`));
+  assert.equal(license.plan, 'video-monthly');
+  assert.equal(license.tokenBalance, 50);
+  assert.equal(license.trialEndsAt, TRIAL_END * 1000);
+});
+
+// ── Checkout parameters ───────────────────────────────────────────────────────
+
+test('subscription checkout offers the 7-day trial', async () => {
+  const res = await call(createCheckout, { body: { plan: 'monthly' } });
+  assert.equal(res.statusCode, 200);
+  assert.equal(stripeCalls.checkout[0].subscription_data.trial_period_days, 7);
+  assert.equal(stripeCalls.checkout[0].managed_payments, undefined);
+});
+
+test('Managed Payments is requested only when STRIPE_MANAGED_PAYMENTS=true', async () => {
+  process.env.STRIPE_MANAGED_PAYMENTS = 'true';
+  try {
+    const key = await buy('cs_test_mpForTopup', 'sub_mp1');
+    let res = await call(createCheckout, { body: { plan: 'video-yearly', email: 'buyer@example.com' } });
+    assert.equal(res.statusCode, 200);
+    res = await call(createCheckout, { body: { mode: 'topup', packSize: 'large', licenseKey: key } });
+    assert.equal(res.statusCode, 200);
+    assert.deepEqual(stripeCalls.checkout.map(p => p.managed_payments), [{ enabled: true }, { enabled: true }]);
+
+    const status = await call(checkoutStatus, { method: 'GET', query: { session_id: 'cs_test_mpForTopup' } });
+    assert.equal(status.body.soldThroughLink, true);
+  } finally {
+    delete process.env.STRIPE_MANAGED_PAYMENTS;
+  }
+});
+
+test('a top-up is charged to the same Stripe customer as the subscription', async () => {
+  const key = await buy('cs_test_customer01', 'sub_c1');
+  const res = await call(createCheckout, { body: { mode: 'topup', packSize: 'small', licenseKey: key, email: 'other@example.com' } });
+  assert.equal(res.statusCode, 200);
+  assert.equal(stripeCalls.checkout[0].customer, 'cus_123');
+  assert.equal(stripeCalls.checkout[0].customer_email, undefined);
 });

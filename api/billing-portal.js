@@ -5,10 +5,10 @@
 //   POST { token } → exchanges the link's token for a Stripe portal URL
 // The email step doubles as lost-key recovery.
 
-const Stripe = require('stripe');
 const { Redis } = require('@upstash/redis');
 const { randomBytes } = require('crypto');
 const { sendAccountEmail } = require('./_lib/email');
+const { getStripe } = require('./_lib/stripe');
 
 const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
@@ -106,7 +106,7 @@ async function openPortal(token, res) {
   if (!process.env.STRIPE_SECRET_KEY) {
     return res.status(500).json({ error: 'STRIPE_NOT_CONFIGURED', message: 'Billing is temporarily unavailable.' });
   }
-  const stripe = Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-05-28.basil' });
+  const stripe = getStripe();
   const siteUrl = process.env.SITE_URL || 'https://www.fauxspy.com';
   const session = await stripe.billingPortal.sessions.create({
     customer: license.customerId,

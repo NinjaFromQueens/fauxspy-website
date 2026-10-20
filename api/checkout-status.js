@@ -5,6 +5,7 @@
 // no Stripe call.
 
 const { Redis } = require('@upstash/redis');
+const { managedPaymentsEnabled } = require('./_lib/stripe');
 
 const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
@@ -51,6 +52,9 @@ module.exports = async (req, res) => {
       licenseKey: result.key,
       plan: result.plan,
       tokensIncluded: result.tokensIncluded,
+      trialEndsAt: result.trialEndsAt || null,
+      tokenBalance: result.tokenBalance ?? result.tokensIncluded,
+      soldThroughLink: managedPaymentsEnabled(),
     });
   } catch (err) {
     console.error('checkout-status error:', err.message);
