@@ -11,6 +11,10 @@ const { getStripe, managedPayments } = require('./_lib/stripe');
 // buyer cancels. TRIAL_DAYS=0 turns trials off.
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS ?? '7', 10) || 0;
 
+// Pro + Video is paused: the Sightengine plan has no video access yet, so
+// nobody can buy a feature that can't work. Revert this commit to resume.
+const PAUSED_PLANS = new Set(['video-monthly', 'video-yearly']);
+
 const kv = new Redis({
   url: process.env.UPSTASH_REST_URL,
   token: process.env.UPSTASH_REST_TOKEN,
@@ -99,6 +103,13 @@ module.exports = async (req, res) => {
       return res.status(400).json({
         error: 'INVALID_PLAN',
         message: 'Plan must be one of: monthly, yearly, video-monthly, video-yearly.'
+      });
+    }
+
+    if (PAUSED_PLANS.has(plan)) {
+      return res.status(400).json({
+        error: 'PLAN_UNAVAILABLE',
+        message: "Pro + Video is coming soon. Secret Agent and Master Spy are available now."
       });
     }
 

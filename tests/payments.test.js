@@ -564,7 +564,7 @@ test('Managed Payments is requested only when STRIPE_MANAGED_PAYMENTS=true', asy
   process.env.STRIPE_MANAGED_PAYMENTS = 'true';
   try {
     const key = await buy('cs_test_mpForTopup', 'sub_mp1');
-    let res = await call(createCheckout, { body: { plan: 'video-yearly', email: 'buyer@example.com' } });
+    let res = await call(createCheckout, { body: { plan: 'yearly', email: 'buyer@example.com' } });
     assert.equal(res.statusCode, 200);
     res = await call(createCheckout, { body: { mode: 'topup', packSize: 'large', licenseKey: key } });
     assert.equal(res.statusCode, 200);
@@ -621,4 +621,13 @@ test('the billing portal opens with the Faux Spy portal configuration when set',
   } finally {
     delete process.env.STRIPE_PORTAL_CONFIGURATION;
   }
+});
+
+test('Pro + Video is paused at checkout until video detection is live', async () => {
+  for (const plan of ['video-monthly', 'video-yearly']) {
+    const res = await call(createCheckout, { body: { plan } });
+    assert.equal(res.statusCode, 400);
+    assert.equal(res.body.error, 'PLAN_UNAVAILABLE');
+  }
+  assert.equal(stripeCalls.checkout.length, 0);
 });
