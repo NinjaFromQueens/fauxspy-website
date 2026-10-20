@@ -110,7 +110,11 @@ async function openPortal(token, res) {
   const siteUrl = process.env.SITE_URL || 'https://www.fauxspy.com';
   const session = await stripe.billingPortal.sessions.create({
     customer: license.customerId,
-    return_url: `${siteUrl}/account`
+    return_url: `${siteUrl}/account`,
+    // The Faux Spy portal settings (cancel, card, invoices, plan switching)
+    // live in this configuration, created through the API rather than saved
+    // as the account default in the Dashboard.
+    ...(process.env.STRIPE_PORTAL_CONFIGURATION ? { configuration: process.env.STRIPE_PORTAL_CONFIGURATION } : {}),
   });
   return res.status(200).json({ url: session.url });
 }

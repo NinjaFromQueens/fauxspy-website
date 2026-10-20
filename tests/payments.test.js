@@ -608,3 +608,17 @@ test("other products' checkouts in the same Stripe account are ignored", async (
   assert.equal(sentEmails.length, 0);
   assert.equal(store.has('processed_event:evt_sca1'), true);
 });
+
+test('the billing portal opens with the Faux Spy portal configuration when set', async () => {
+  await buy('cs_test_portalCfg01', 'sub_pc1', 'price_monthly', 'cfg@example.com');
+  process.env.STRIPE_PORTAL_CONFIGURATION = 'bpc_test_fauxspy';
+  try {
+    await call(billingPortal, { body: { email: 'cfg@example.com' } });
+    const token = sentEmails.at(-1).html.match(/account\?token=([a-f0-9]{48})/)[1];
+    const res = await call(billingPortal, { body: { token } });
+    assert.equal(res.statusCode, 200);
+    assert.equal(stripeCalls.portal.at(-1).configuration, 'bpc_test_fauxspy');
+  } finally {
+    delete process.env.STRIPE_PORTAL_CONFIGURATION;
+  }
+});

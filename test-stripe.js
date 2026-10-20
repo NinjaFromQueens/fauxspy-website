@@ -106,10 +106,15 @@ async function run() {
   // 5. Customer portal lets people manage their plan
   console.log('\n5. Customer portal');
   try {
-    const { data } = await stripe.billingPortal.configurations.list({ is_default: true, limit: 1 });
-    const features = data[0]?.features;
+    const configId = process.env.STRIPE_PORTAL_CONFIGURATION;
+    const config = configId
+      ? await stripe.billingPortal.configurations.retrieve(configId)
+      : (await stripe.billingPortal.configurations.list({ is_default: true, limit: 1 })).data[0];
+    const features = config?.features;
     if (!features) {
-      fail('Customer portal', 'not configured (Stripe → Settings → Billing → Customer portal)');
+      fail('Customer portal', 'not configured: set STRIPE_PORTAL_CONFIGURATION, or save the portal in Stripe → Settings → Billing → Customer portal');
+    } else if (!config.active) {
+      fail('Customer portal', `${config.id} is inactive`);
     } else {
       features.payment_method_update?.enabled ? pass('Customers can update their card') : fail('Portal: update card', 'disabled');
       features.subscription_cancel?.enabled ? pass('Customers can cancel') : fail('Portal: cancel', 'disabled');
