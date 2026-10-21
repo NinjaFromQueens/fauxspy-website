@@ -139,13 +139,27 @@ async function runChecks() {
     if (body?.valid !== false) throw new Error(`Expected valid:false`);
   }));
 
-  // 8. Billing portal — unknown email should return 404
-  results.push(await check('Billing portal returns 404 for unknown email', async () => {
-    const { status } = await fetchJSON(`${SITE}/api/billing-portal`, {
+  // 8. Billing portal: an unknown email gets the same reply as a real one
+  // (so the form can't reveal who's a customer) and never a portal link.
+  // A fresh address each run stays under the 3-per-email-per-hour limit.
+  results.push(await check('Billing portal gives unknown emails the generic reply, no link', async () => {
+    const { status, body } = await fetchJSON(`${SITE}/api/billing-portal`, {
       method: 'POST',
-      body: JSON.stringify({ email: 'audit-check-notreal@fauxspy.com' }),
+      body: JSON.stringify({ email: `audit-check-${Date.now()}@fauxspy.com` }),
     });
-    if (status !== 404) throw new Error(`Expected 404, got ${status}`);
+    if (status !== 200) throw new Error(`Expected 200, got ${status}`);
+    if (body?.sent !== true) throw new Error('Expected sent:true');
+    if (body?.url) throw new Error('Returned a portal URL for an unknown email');
+  }));
+
+  // 8b. Billing portal: an expired or made-up link token is refused
+  results.push(await check('Billing portal rejects an invalid link token', async () => {
+    const { status, body } = await fetchJSON(`${SITE}/api/billing-portal`, {
+      method: 'POST',
+      body: JSON.stringify({ token: 'f'.repeat(48) }),
+    });
+    if (status !== 400) throw new Error(`Expected 400, got ${status}`);
+    if (body?.url) throw new Error('Returned a portal URL for an invalid token');
   }));
 
   // 9. Webhook — no Stripe signature should return 400
