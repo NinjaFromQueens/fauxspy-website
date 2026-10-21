@@ -78,7 +78,7 @@
         "name": "Can AI image detectors be fooled?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Against images specifically optimized to evade detection — processed with noise addition, JPEG recompression, or non-integer resizing — Imagera's 2026 research found that no commercial detector exceeded 45-60% accuracy. The same tools achieve 88-98% on unmodified AI-generated images. The gap exists because the post-processing techniques that strip out AI artifacts are the same operations used for normal image editing and sharing."
+          "text": "Yes. Against images specifically optimized to evade detection — processed with noise addition, JPEG recompression, or non-integer resizing — detectors do much worse than on unmodified AI-generated images. The gap exists because the post-processing techniques that strip out AI artifacts are the same operations used for normal image editing and sharing."
         }
       },
       {
@@ -94,7 +94,7 @@
         "name": "How accurate are AI image detectors in 2026?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "On standard unmodified AI-generated images: Hive Moderation 89-98%, Illuminarty approximately 91%, FauxSpy (Sightengine genai API) approximately 88%. False positive rates on real photos run approximately 3% for leading tools under controlled conditions. These numbers drop significantly against post-processed or evasion-optimized images — accuracy is conditional on whether the image has been processed after generation."
+          "text": "Vendors publish figures measured on standard, unmodified AI-generated images, and every detector also flags some real photos as AI. Accuracy drops significantly against post-processed or evasion-optimized images — accuracy is conditional on whether the image has been processed after generation."
         }
       },
       {
@@ -222,7 +222,7 @@
 
       <div class="landing-section">
         <h2>Why detectors can be fooled — and what the numbers actually mean</h2>
-        <p>The honest answer: AI image detection accuracy is conditional. On standard test sets — images from known AI generators with no post-processing — the leading tools in 2026 benchmark at 88-98% accuracy. Hive Moderation reports 89-98% depending on the test; Illuminarty approximately 91%; FauxSpy (Sightengine genai) approximately 88%. False positive rates — real photos incorrectly flagged as AI — run approximately 3% for leading tools under controlled test conditions.</p>
+        <p>The honest answer: AI image detection accuracy is conditional. Vendors measure their published figures on standard test sets — images from known AI generators with no post-processing — and real-world images are harder. Detectors also sometimes flag real photos as AI (false positives).</p>
 
         <p>Those numbers drop significantly in the real world for several reasons:</p>
 
@@ -270,7 +270,7 @@
           </table>
         </div>
 
-        <p>Research from Imagera in 2026 found that against images specifically optimized to evade detection, no commercial detector tested exceeded 45-60% accuracy — compared to 88-98% on unmodified AI images. This gap is the central challenge for the field: the same techniques used to improve image quality (compression, denoising, upscaling) also happen to strip out the signals detectors rely on.</p>
+        <p>Against images specifically optimized to evade detection, detectors do far worse than on unmodified AI images. This gap is the central challenge for the field: the same techniques used to improve image quality (compression, denoising, upscaling) also happen to strip out the signals detectors rely on.</p>
 
         <p>This is why FauxSpy returns an <strong>Inconclusive</strong> result when confidence falls below a threshold rather than forcing a binary verdict. A low-confidence "probably real" verdict is less useful — and potentially more harmful — than an honest "we can't tell." Accuracy on unmodified images is high; the Inconclusive category handles the edges where the evidence is genuinely ambiguous.</p>
       </div>
@@ -312,7 +312,7 @@
         </details>
         <details class="faq-item">
           <summary>Can AI image detectors be fooled?</summary>
-          <p>Yes. Against images specifically optimized to evade detection — processed with noise addition, JPEG recompression, or non-integer resizing — Imagera's 2026 research found that no commercial detector exceeded 45-60% accuracy. The same tools achieve 88-98% on unmodified AI-generated images. The gap exists because the post-processing techniques that strip out AI artifacts are the same operations used for normal image editing and sharing.</p>
+          <p>Yes. Against images specifically optimized to evade detection — processed with noise addition, JPEG recompression, or non-integer resizing — detectors do much worse than on unmodified AI-generated images. The gap exists because the post-processing techniques that strip out AI artifacts are the same operations used for normal image editing and sharing.</p>
         </details>
         <details class="faq-item">
           <summary>What's the difference between GAN detection and diffusion model detection?</summary>
@@ -320,7 +320,7 @@
         </details>
         <details class="faq-item">
           <summary>How accurate are AI image detectors in 2026?</summary>
-          <p>On standard unmodified AI-generated images: Hive Moderation 89-98%, Illuminarty approximately 91%, FauxSpy (Sightengine genai API) approximately 88%. False positive rates on real photos run approximately 3% for leading tools under controlled conditions. These numbers drop significantly against post-processed or evasion-optimized images — accuracy is conditional on whether the image has been processed after generation.</p>
+          <p>Vendors publish figures measured on standard, unmodified AI-generated images, and every detector also flags some real photos as AI. Accuracy drops significantly against post-processed or evasion-optimized images — accuracy is conditional on whether the image has been processed after generation.</p>
         </details>
         <details class="faq-item">
           <summary>Does JPEG compression affect AI image detection accuracy?</summary>

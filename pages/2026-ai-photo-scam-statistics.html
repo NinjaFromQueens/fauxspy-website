@@ -90,7 +90,7 @@
       <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:0 0 2rem;position:relative;overflow:hidden;">
         <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);border-radius:4px 0 0 4px;"></div>
         <p style="margin:0 0 0.4rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
-        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">$1.14 billion lost to romance scams in 2023 (FTC). $3.4 billion in online fraud losses for adults 60+ in 2023 (FBI IC3). 1 in 4 job applicants projected to be fake by 2028 (Gartner, Nov 2024). 88-98% AI image detection accuracy on standard test images (2026). No detector exceeds 45-60% accuracy against specifically evasion-optimized images (Imagera, 2026).</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">$1.14 billion lost to romance scams in 2023 (FTC). $3.4 billion in online fraud losses for adults 60+ in 2023 (FBI IC3). 1 in 4 job applicants projected to be fake by 2028 (Gartner, Nov 2024).</p>
       </div>
 
       <div class="landing-section">
@@ -167,45 +167,8 @@
       </div>
 
       <div class="landing-section">
-        <h2>AI image detection accuracy benchmarks (2026)</h2>
-        <div style="overflow-x:auto;margin:1.25rem 0;">
-          <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
-            <thead>
-              <tr style="background:var(--noir-card,#1e2536);">
-                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Tool / API</th>
-                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Stated accuracy (standard test)</th>
-                <th style="padding:0.75rem 1rem;text-align:center;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">False positive rate</th>
-                <th style="padding:0.75rem 1rem;text-align:left;color:var(--text-muted,#94a3b8);font-weight:600;border-bottom:1px solid var(--border-default,rgba(251,191,36,0.15));">Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Hive Moderation (API)</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">89-98%</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">~3%</td>
-                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Enterprise API; no consumer extension</td>
-              </tr>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">Illuminarty</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">~91%</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">Not publicly stated</td>
-                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Self-reported; heatmap explainability</td>
-              </tr>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">FauxSpy / Sightengine genai</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:#22c55e;font-weight:700;">~88%</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">~3%</td>
-                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);">Sub-second processing; no account free</td>
-              </tr>
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                <td style="padding:0.75rem 1rem;color:var(--text-primary,#f8fafc);">All tools (evasion-optimized images)</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:#ef4444;font-weight:700;">45-60% max</td>
-                <td style="padding:0.75rem 1rem;text-align:center;color:var(--text-secondary,#cbd5e1);">—</td>
-                <td style="padding:0.75rem 1rem;color:var(--text-secondary,#cbd5e1);"><a href="#" style="color:var(--gold,#fbbf24);">Imagera, 2026 adversarial test</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <h2>How accurate is AI image detection?</h2>
+        <p>Vendors publish accuracy figures from their own test sets, so they aren't comparable between tools, and real-world images (compressed, cropped, edited) are harder than any test set. Treat a detector's result as one strong signal, not proof.</p>
         <p style="font-size:0.8rem;color:var(--text-muted,#94a3b8);">Accuracy figures are from tools' own benchmarks unless otherwise noted. Independent benchmarks vary by test methodology.</p>
       </div>
 

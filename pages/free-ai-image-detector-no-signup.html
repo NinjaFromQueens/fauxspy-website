@@ -47,7 +47,7 @@
         "name": "Which free AI image detector is most accurate?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Accuracy benchmarks vary significantly by test methodology and which AI generators are being tested. Illuminarty reports approximately 91% accuracy; FauxSpy uses Sightengine's API which benchmarks at approximately 88%. No free-tier tool consistently exceeds 45-60% accuracy against images specifically optimized to evade detection — treat any result as a strong signal, not a definitive verdict."
+          "text": "Accuracy benchmarks vary significantly by test methodology and which AI generators are being tested. Published figures aren't comparable between tools, and every detector does worse on images edited or compressed to evade detection — treat any result as a strong signal, not a definitive verdict."
         }
       },
       {
@@ -55,7 +55,7 @@
         "name": "What's the difference between FauxSpy's free tier and Pro?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The free tier gives you 3 checks per day with no account — using Sightengine's genai and type AI detection models. FauxSpy Pro ($9.99/month) gives you unlimited checks, access to Sightengine's deepfake detection model (which catches face-swaps and manipulated videos, not just AI-generated images), and the Pro + Video plan ($29.99/month) extends checks to video content. The free tier is accurate for standard AI-generated image detection; Pro adds the manipulation/deepfake layer on top."
+          "text": "The free tier gives you 3 checks per day with no account — using Sightengine's genai and type AI detection models. FauxSpy Pro ($9.99/month) gives you 200 checks a month, access to Sightengine's deepfake detection model (which catches face-swaps and manipulated videos, not just AI-generated images), and the Pro + Video plan ($29.99/month) extends checks to video content. The free tier is accurate for standard AI-generated image detection; Pro adds the manipulation/deepfake layer on top."
         }
       }
     ]
@@ -232,7 +232,7 @@
         <h2>Why do most AI image detectors require sign-up even for a free tier?</h2>
         <p>The most common reason is rate-limit enforcement. Without an account, a tool can't reliably cap usage per person — anyone can just reload a page or clear cookies to reset their count. Account creation lets tools enforce daily limits accurately and collect email addresses for marketing.</p>
         <p>The second reason is product qualification: account creation is a proxy for intent. Users who create an account are more likely to eventually upgrade to paid, making them worth tracking in a CRM. Anonymous free users are harder to convert.</p>
-        <p>FauxSpy enforces its 3/day limit through the extension itself using local browser storage — no server-side account needed. BitMind uses in-memory analysis with zero data retention, which is why it can operate with no account at all. Both approaches work for casual use; neither scales to the "unlimited daily checks" use case, which requires Pro.</p>
+        <p>FauxSpy enforces its 3/day limit through the extension itself using local browser storage — no server-side account needed. BitMind uses in-memory analysis with zero data retention, which is why it can operate with no account at all. Both approaches work for casual use; neither scales to heavy daily use, which takes Pro.</p>
       </div>
 
       <div class="landing-section">
@@ -260,7 +260,7 @@
 
         <h3 style="color:var(--gold,#fbbf24);margin:1.5rem 0 0.5rem;">FauxSpy — 3/day, no account</h3>
         <p>The only AI image detector with a meaningful daily free limit and zero signup required. Install the Chrome or Firefox extension, and every image you encounter on any website is checkable via right-click. Results appear in an overlay on the page — no tab-switching, no uploading. The 3-check daily limit is enforced through browser local storage.</p>
-        <p><strong>Best for:</strong> Anyone who wants to start checking immediately without committing an email address. The free tier covers casual use — checking a few dating profile photos, a suspicious marketplace listing, or a news image. Power users who check more than 3 images per day need Pro ($9.99/mo, unlimited).</p>
+        <p><strong>Best for:</strong> Anyone who wants to start checking immediately without committing an email address. The free tier covers casual use — checking a few dating profile photos, a suspicious marketplace listing, or a news image. Power users who check more than 3 images per day need Pro ($9.99/mo, 200 checks a month).</p>
 
         <h3 style="color:var(--text-primary,#f8fafc);margin:1.5rem 0 0.5rem;">BitMind — Free, fully anonymous</h3>
         <p>BitMind's Chrome and Edge extension runs in-memory with zero data retention and no account required. It's SOC 2 compliant, which means it's been audited on its privacy claims — not just a marketing statement. The free tier covers both images and video, with no clearly stated daily cap (which may mean either a hidden cap or rate limiting by IP). The broader image + video positioning makes it slightly less focused on still-image catfish/fake-profile use cases specifically.</p>
@@ -286,14 +286,14 @@
           <p style="margin:0 0 0.75rem;font-weight:600;color:var(--text-primary,#f8fafc);">Start with 3 free checks — no account, no email</p>
           <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary" target="_blank" rel="noopener" style="display:inline-block;">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
           <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary" style="display:inline-block;margin-left:0.75rem;" target="_blank" rel="noopener">🦊 Firefox — Free</a>
-          <p style="margin:0.6rem 0 0;font-size:0.82rem;color:var(--text-muted,#94a3b8);">Upgrade to Pro anytime for unlimited checks + deepfake detection</p>
+          <p style="margin:0.6rem 0 0;font-size:0.82rem;color:var(--text-muted,#94a3b8);">Upgrade to Pro anytime for 200 checks a month + deepfake detection</p>
         </div>
       </div>
 
       <div class="landing-section">
         <h2>Is the free tier accurate enough?</h2>
-        <p>For most consumer use cases — checking a dating profile photo, a suspicious marketplace listing, or a news image — yes. Accuracy benchmarks for the leading tools in 2026 cluster in the 88-91% range on standard test sets of AI-generated images. FauxSpy uses Sightengine's genai API, which benchmarks at approximately 88% accuracy with sub-second processing on photorealistic AI images.</p>
-        <p>One important caveat: accuracy figures assume the tool is being tested against images from known AI generators running their default settings. Against images that have been specifically optimized to evade AI detectors — run through multiple post-processing steps, fine-tuned to fool a specific detector — Imagera's 2026 research found that no detector tested exceeded 45-60% accuracy. This is not a reason to avoid using a detector; it's a reason to treat any result as one signal in a verification process, not a definitive verdict.</p>
+        <p>For most consumer use cases — checking a dating profile photo, a suspicious marketplace listing, or a news image — yes. Faux Spy combines two commercial detection engines, Hive and Sightengine, and shows a confidence score with every result.</p>
+        <p>One important caveat: accuracy figures assume the tool is being tested against images from known AI generators running their default settings. Against images that have been specifically optimized to evade AI detectors — run through multiple post-processing steps, fine-tuned to fool a specific detector — every detector does much worse. This is not a reason to avoid using a detector; it's a reason to treat any result as one signal in a verification process, not a definitive verdict.</p>
         <p>For high-stakes verification — journalism, legal proceedings, identity disputes — a negative result from any free-tier tool should be treated as "not confirmed AI" rather than "confirmed real." Use a detector result alongside reverse image search and contextual assessment, not instead of them.</p>
         <p>See also: <a href="/how-to-spot-ai-generated-images" style="color:var(--gold,#fbbf24);">How to tell if a photo is AI-generated</a> — visual tells and what to do when a tool result is inconclusive.</p>
       </div>
@@ -314,11 +314,11 @@
         </details>
         <details class="faq-item">
           <summary>Which free AI image detector is most accurate?</summary>
-          <p>Accuracy benchmarks vary significantly by test methodology and which AI generators are being tested. Illuminarty reports approximately 91% accuracy; FauxSpy uses Sightengine's API which benchmarks at approximately 88%. No free-tier tool consistently exceeds 45-60% accuracy against images specifically optimized to evade detection — treat any result as a strong signal, not a definitive verdict.</p>
+          <p>Accuracy benchmarks vary significantly by test methodology and which AI generators are being tested. Published figures aren't comparable between tools, and every detector does worse on images edited or compressed to evade detection — treat any result as a strong signal, not a definitive verdict.</p>
         </details>
         <details class="faq-item">
           <summary>What's the difference between FauxSpy's free tier and Pro?</summary>
-          <p>The free tier gives you 3 checks per day with no account — using Sightengine's genai and type AI detection models. FauxSpy Pro ($9.99/month) gives you unlimited checks, access to Sightengine's deepfake detection model (which catches face-swaps and manipulated videos, not just AI-generated images), and the Pro + Video plan ($29.99/month) extends checks to video content. The free tier is accurate for standard AI-generated image detection; Pro adds the manipulation/deepfake layer on top.</p>
+          <p>The free tier gives you 3 checks per day with no account — using Sightengine's genai and type AI detection models. FauxSpy Pro ($9.99/month) gives you 200 checks a month, access to Sightengine's deepfake detection model (which catches face-swaps and manipulated videos, not just AI-generated images), and the Pro + Video plan ($29.99/month) extends checks to video content. The free tier is accurate for standard AI-generated image detection; Pro adds the manipulation/deepfake layer on top.</p>
         </details>
       </div>
 

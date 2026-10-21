@@ -28,7 +28,7 @@
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD",
-      "description": "Free: 3 scans per day, no account required. Pro: $9.99/month for unlimited scans."
+      "description": "Free: 3 scans per day, no account required. Pro: $9.99/month for 200 scans a month."
     },
     "description": "Check if any image is AI-generated. Paste a URL or upload a file — verdict in 2 seconds. Detects Midjourney, DALL-E, Stable Diffusion, Flux, Firefly, and more.",
     "featureList": "URL scanning, file upload, confidence scoring, no account required, detects all major AI generators"
@@ -44,7 +44,7 @@
         "name": "Is this really free?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. The free tier gives you 10 image scans per day — no account, no email, no signup. Pro ($9.99/month) unlocks unlimited scans, AI Photo vs. AI Art distinction, and deepfake detection."
+          "text": "Yes. The free tier gives you 3 image scans per day — no account, no email, no signup. Pro ($9.99/month) unlocks 200 scans a month, AI Photo vs. AI Art distinction, and deepfake detection."
         }
       },
       {
@@ -60,7 +60,7 @@
         "name": "How accurate is it?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Approximately 94% on images from major generators. The confidence score matters: 90%+ is very reliable, 60–80% is ambiguous and should be treated as one signal alongside other checks. No detector is 100% accurate against the latest models."
+          "text": "No detector is perfect, so every result comes with a confidence score, and that score matters: 90%+ is very reliable, 60–80% is ambiguous and should be treated as one signal alongside other checks. No detector is 100% accurate against the latest models."
         }
       },
       {
@@ -409,7 +409,7 @@
 
         <!-- Limit indicator -->
         <div id="limitBanner" class="limit-banner" style="display:none;">
-          <strong id="scansLeft"></strong> free scan<span id="scanPlural">s</span> remaining today &middot; <a href="/pro">Upgrade to Pro</a> for unlimited
+          <strong id="scansLeft"></strong> free scan<span id="scanPlural">s</span> remaining today &middot; <a href="/pro">Upgrade to Pro</a> for 200 scans a month
         </div>
 
       </div>
@@ -451,7 +451,7 @@
           <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">Bing Image Creator</span>
           <span style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:8px;padding:0.4rem 0.85rem;font-size:0.82rem;color:var(--text-secondary,#cbd5e1);">+ many more</span>
         </div>
-        <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--text-muted,#94a3b8);">~94% accuracy on images from major generators &middot; Confidence score included on every scan</p>
+        <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--text-muted,#94a3b8);">Checks images from all major AI generators &middot; Confidence score included on every scan</p>
       </div>
 
       <!-- FAQ -->
@@ -461,7 +461,7 @@
 
           <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
             <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Is this really free?<span>+</span></summary>
-            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">Yes. The free tier gives you 10 image scans per day — no account, no email, no signup. Pro ($9.99/month) unlocks unlimited scans, AI Photo vs. AI Art distinction, and deepfake detection.</p>
+            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">Yes. The free tier gives you 3 image scans per day — no account, no email, no signup. Pro ($9.99/month) unlocks 200 scans a month, AI Photo vs. AI Art distinction, and deepfake detection.</p>
           </details>
 
           <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
@@ -471,7 +471,7 @@
 
           <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
             <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">How accurate is it?<span>+</span></summary>
-            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">Approximately 94% on images from major generators. The confidence score matters: 90%+ is very reliable, 60–80% is ambiguous and should be treated as one signal alongside other checks. No detector is 100% accurate against the latest models.</p>
+            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">No detector is perfect, so every result comes with a confidence score, and that score matters: 90%+ is very reliable, 60–80% is ambiguous and should be treated as one signal alongside other checks. No detector is 100% accurate against the latest models.</p>
           </details>
 
           <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
@@ -698,7 +698,7 @@
         const data = await r.json();
 
         if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
-          showError('You\'ve used your 3 free scans for today. Resets at midnight &mdash; or <a href="/pro">upgrade to Pro</a> for unlimited scans.');
+          showError('You\'ve used your 3 free scans for today. Resets at midnight &mdash; or <a href="/pro">upgrade to Pro</a> for 200 scans a month.');
           return;
         }
         if (r.status === 402 || data.error === 'TOKENS_EXHAUSTED') {

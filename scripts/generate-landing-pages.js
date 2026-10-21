@@ -291,7 +291,8 @@ const SYSTEM_PROMPT = `You are generating SEO landing pages for Faux Spy, a Chro
 
 PRODUCT FACTS:
 - Free: 3 checks/day, no account needed, works on any website in Chrome
-- Pro: Unlimited checks ($9.99/mo or $99/yr), adds deepfake detection and manipulation detection
+- Pro: 200 checks a month ($9.99/mo or $99/yr), adds deepfake detection (face swaps in images) and manipulation detection
+- Video detection (the Pro + Video plan) is coming soon and not available yet. Never say Faux Spy checks videos.
 - Chrome Web Store: ${CWS_URL}
 - Works on: tinder.com, bumble.com, hinge.co, instagram.com, facebook.com, linkedin.com, pinterest.com, x.com, and any other website
 - Detection categories: No AI Detected / AI Photo / AI Art / Digital Art / Possible Manipulation / Inconclusive
@@ -302,6 +303,7 @@ WRITING RULES — all apply without exception:
 - Use second person ("you") throughout.
 - Each H2 must make a real point, not just label a category. "How to spot it" is weak. "The tell is in the lighting, not the face" is strong.
 - Use the exact statistics provided in the data context. Do not invent or approximate numbers.
+- Never give an accuracy, detection-rate or "catches X%" figure for Faux Spy, its detection engines (Hive, Sightengine) or any AI generator, even if the data context has one: those figures have no source. Say instead that every result comes with a confidence score and that no detector is perfect.
 - Contradict a common assumption at least once.
 - No fluff. If a sentence doesn't add information, cut it.
 - Aim for 1,000–1,500 words of body content.
@@ -503,12 +505,16 @@ function buildGeneratorPagePrompt(page, ctx) {
 
   const ns = ctx.nationalStats;
 
+  // The research sheet's detection-accuracy figures have no source, so they
+  // stay out of the prompt. Every percentage in a generator page's key stat
+  // is one of them ("Hive: 94% overall", "Flux Dev = 21% accuracy").
+  const keyStat = /%/.test(page.keyStat || '') ? '' : (page.keyStat || '');
+
   const dataContext = {
     generator_name: generatorName,
     canonical_url: canonicalUrl,
     primary_keyword: page.keyword,
-    key_stat: page.keyStat || '',
-    detection_accuracy: aiResearch?.['Detection Accuracy (Best Tools)'] || '',
+    key_stat: keyStat,
     difficulty_level: aiResearch?.['Difficulty Level'] || '',
     fauxspy_page_target: aiResearch?.['FauxSpy Page'] || '',
     national_avg_loss: ns.avgLoss,
@@ -533,8 +539,10 @@ CONTENT REQUIREMENTS:
 - Schema: FAQPage + HowTo
 - Internal links: /deepfake-detector, /catfish-detector, and 2-3 related generator pages
 
-MANDATORY UNIQUENESS REQUIREMENT: This page's differentiating stat is: "${page.keyStat}"
-This exact stat or its key number MUST appear: (1) in the landing-subtitle hero paragraph, AND (2) bolded in the first landing-section. No other FauxSpy page uses this specific stat — it is what prevents Google treating this as a near-duplicate.`;
+MANDATORY UNIQUENESS REQUIREMENT: ${keyStat
+    ? `This page's differentiating stat is: "${keyStat}"
+This exact stat or its key number MUST appear: (1) in the landing-subtitle hero paragraph, AND (2) bolded in the first landing-section. No other FauxSpy page uses this specific stat`
+    : `Lead with the visual tells specific to ${generatorName}: name them in the landing-subtitle hero paragraph, AND bold the most distinctive one in the first landing-section. No other FauxSpy page leads with these`} — it is what prevents Google treating this as a near-duplicate.`;
 }
 
 function buildStatsPagePrompt(page, ctx) {

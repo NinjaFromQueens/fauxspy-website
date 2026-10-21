@@ -91,7 +91,8 @@ const SYSTEM_PROMPT = `You are re-generating SEO landing pages for Faux Spy, a C
 
 PRODUCT FACTS:
 - Free: 3 checks/day, no account needed, works on any website in Chrome
-- Pro: Unlimited checks ($9.99/mo or $99/yr), deepfake detection, manipulation detection
+- Pro: 200 checks a month ($9.99/mo or $99/yr), deepfake detection (face swaps in images), manipulation detection
+- Video detection (the Pro + Video plan) is coming soon and not available yet. Never say Faux Spy checks videos.
 - Chrome Web Store: ${CWS_URL}
 
 WRITING RULES:
@@ -100,6 +101,7 @@ WRITING RULES:
 - Use second person ("you") throughout
 - Each H2 must make a real point, not just label a category
 - Use the exact statistics provided — do not invent or approximate
+- Never give an accuracy, detection-rate or "catches X%" figure for Faux Spy, its detection engines or any AI generator: no such figure has a source. Say instead that every result comes with a confidence score and that no detector is perfect.
 - Contradict a common assumption at least once
 - Aim for 1,000–1,500 words of body content
 

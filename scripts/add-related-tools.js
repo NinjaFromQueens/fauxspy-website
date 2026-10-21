@@ -5,12 +5,12 @@ const path = require('path');
 const PAGES_DIR = path.join(__dirname, '..', 'pages');
 
 const detectors = [
-  { slug: 'midjourney-detector',       name: 'Midjourney',          stat: 'v7 hardest to detect (24% open-source accuracy)' },
-  { slug: 'dalle-detector',            name: 'DALL-E / ChatGPT',    stat: '31% open-source accuracy; 94% with enterprise tools' },
-  { slug: 'stable-diffusion-detector', name: 'Stable Diffusion',    stat: 'v1.4 = 73% detectable; most widespread open-source' },
-  { slug: 'firefly-detector',          name: 'Adobe Firefly',       stat: 'v4 = 18% accuracy — one of hardest to detect' },
-  { slug: 'adobe-firefly-detector',    name: 'Adobe Firefly',       stat: 'v4 = 18% accuracy — one of hardest to detect' },
-  { slug: 'flux-detector',             name: 'Flux / FLUX.1',       stat: 'Flux Dev = 21% accuracy; fastest-growing open-source 2024-26' },
+  { slug: 'midjourney-detector',       name: 'Midjourney',          stat: 'every Midjourney version, including v7' },
+  { slug: 'dalle-detector',            name: 'DALL-E / ChatGPT',    stat: "images from OpenAI's DALL-E and ChatGPT" },
+  { slug: 'stable-diffusion-detector', name: 'Stable Diffusion',    stat: 'the most widespread open-source generator' },
+  { slug: 'firefly-detector',          name: 'Adobe Firefly',       stat: "images from Adobe's Firefly models" },
+  { slug: 'adobe-firefly-detector',    name: 'Adobe Firefly',       stat: "images from Adobe's Firefly models" },
+  { slug: 'flux-detector',             name: 'Flux / FLUX.1',       stat: "images from Black Forest Labs' open-source Flux models" },
   { slug: 'leonardo-detector',         name: 'Leonardo AI',         stat: 'Popular for character art; style consistency feature' },
   { slug: 'ideogram-detector',         name: 'Ideogram',            stat: 'Best for text-in-images; 40 free generations per day' },
   { slug: 'runway-detector',           name: 'Runway Gen-4',        stat: 'Top-tier AI video generator' },
@@ -18,13 +18,13 @@ const detectors = [
   { slug: 'pika-detector',             name: 'Pika',                stat: 'Leading AI video; consumer-facing' },
   { slug: 'kling-detector',            name: 'Kling 3.0',           stat: 'Leading AI video 2026; competitive vs Sora' },
   { slug: 'grok-detector',             name: 'Grok Imagine (xAI)',  stat: '2025-26 deepfake/non-consensual image controversy' },
-  { slug: 'imagen-detector',           name: 'Google Imagen 4',     stat: '19% open-source accuracy — extremely hard to detect' },
+  { slug: 'imagen-detector',           name: 'Google Imagen 4',     stat: "Google's photorealistic image model" },
   { slug: 'canva-detector',            name: 'Canva AI',            stat: 'Mass market via Canva; non-technical users' },
   { slug: 'bing-image-creator-detector', name: 'Bing Image Creator', stat: 'Free DALL-E via Bing; hundreds of millions of users' },
   { slug: 'nightcafe-detector',        name: 'NightCafe',           stat: 'Community art platform; multiple model access' },
   { slug: 'recraft-detector',          name: 'Recraft',             stat: 'Brand-consistent style generation; growing B2B use' },
   { slug: 'copilot-image-detector',    name: 'Microsoft Copilot',   stat: 'Enterprise reach via Microsoft 365' },
-  { slug: 'gan-detector',              name: 'ProGAN / StyleGAN',   stat: 'Older GANs; 82-87% detectable' },
+  { slug: 'gan-detector',              name: 'ProGAN / StyleGAN',   stat: 'Older GAN-generated faces' },
 ];
 
 const P1 = ['midjourney-detector', 'dalle-detector', 'stable-diffusion-detector', 'flux-detector', 'grok-detector'];
