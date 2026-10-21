@@ -1,4 +1,4 @@
-name: Backlink Outreach Finder
+name: Outreach Drafts
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   find:
-    name: Find & Send Backlink Outreach
+    name: Find Sites & Draft Outreach (nothing is sent)
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,10 +26,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Find and send outreach
+      # No email credentials here on purpose: this job drafts, a person sends.
+      - name: Find sites and draft outreach
         env:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OUTREACH_MAILING_ADDRESS: ${{ vars.OUTREACH_MAILING_ADDRESS }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/backlink-finder.js
 
