@@ -16,12 +16,46 @@ const SITE_URL = 'sc-domain:fauxspy.com';
 const OUTPUT_FILE = path.join(__dirname, '..', 'gsc-data.json');
 const DAYS = 90;
 
+// A service-account key can be pasted into a secret in several shapes: the
+// PEM with real or escaped ("\n") line breaks, wrapped in quotes, or the whole
+// downloaded JSON key file. Accept all of them.
+function readCredentials() {
+  let email = (process.env.GSC_CLIENT_EMAIL || '').trim();
+  let key = (process.env.GSC_PRIVATE_KEY || '').trim();
+  if (key.startsWith('{')) {
+    try {
+      const json = JSON.parse(key);
+      key = json.private_key || '';
+      email = email || json.client_email || '';
+    } catch { /* not the JSON file after all */ }
+  }
+  key = key.replace(/^["']|["']$/g, '').replace(/\\n/g, '\n').replace(/\r/g, '').trim();
+  return { email, key };
+}
+
+// What's wrong with the key, without printing any of it.
+function describeKey(key) {
+  return {
+    length: key.length,
+    header: /-----BEGIN PRIVATE KEY-----/.test(key) ? 'BEGIN PRIVATE KEY'
+      : /-----BEGIN RSA PRIVATE KEY-----/.test(key) ? 'BEGIN RSA PRIVATE KEY'
+      : 'missing',
+    footer: /-----END [A-Z ]*PRIVATE KEY-----/.test(key) ? 'present' : 'missing',
+    lines: key.split('\n').length,
+  };
+}
+
 async function main() {
-  const clientEmail = process.env.GSC_CLIENT_EMAIL;
-  const privateKey = (process.env.GSC_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+  const { email: clientEmail, key: privateKey } = readCredentials();
 
   if (!clientEmail || !privateKey) {
     console.error('❌ GSC_CLIENT_EMAIL and GSC_PRIVATE_KEY are required.');
+    process.exit(1);
+  }
+  const shape = describeKey(privateKey);
+  if (shape.header === 'missing' || shape.footer === 'missing' || shape.lines < 3) {
+    console.error('❌ GSC_PRIVATE_KEY is not a usable private key:', JSON.stringify(shape));
+    console.error('   Paste the "private_key" value from the service account JSON file (including the BEGIN/END lines), or paste the whole JSON file.');
     process.exit(1);
   }
 

@@ -4,9 +4,8 @@ on:
   schedule:
     - cron: '0 9 * * 1'   # Every Monday at 9am UTC
   workflow_dispatch:        # Manual trigger from GitHub Actions UI
-  push:
-    branches: [main]
-    paths: ['**.html']      # Only when HTML files change
+  # No push trigger: each run opens an issue (often a PR too) and pays for a
+  # Claude review, so running on every HTML push meant several a day.
 
 jobs:
   audit:

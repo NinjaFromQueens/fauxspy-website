@@ -383,7 +383,19 @@ function checkBrokenLinks(results) {
     if (noExt === 'index') return;
     if (noExt === 'blog/index') { validPaths.add('/blog'); return; }
     validPaths.add('/' + noExt);
+    // pages/* are served at the root (/pages/tinder.html -> /tinder)
+    if (noExt.startsWith('pages/')) validPaths.add('/' + noExt.slice('pages/'.length));
   });
+  // Every rewrite and redirect source in vercel.json is a working URL too.
+  // Without this, links like /faq and /try-it were reported as broken.
+  try {
+    const vercel = JSON.parse(fs.readFileSync(path.join(SITE_ROOT, 'vercel.json'), 'utf8'));
+    for (const rule of [...(vercel.rewrites || []), ...(vercel.redirects || [])]) {
+      if (rule.source && !rule.source.includes(':') && !rule.source.includes('(')) validPaths.add(rule.source.replace(/\/$/, '') || '/');
+    }
+  } catch (err) {
+    console.warn(`  Could not read vercel.json rewrites: ${err.message}`);
+  }
   // Add utility pages not in results (skipped during audit)
   ['/privacy', '/terms', '/refunds', '/account', '/success', '/admin'].forEach(p => validPaths.add(p));
 
@@ -598,8 +610,8 @@ async function main() {
     const { issues: techIssues, title, desc } = auditTechnical($, rel);
 
     // The Claude content audit stays on root + blog pages: running it on all
-    // 157 pages/ files would ~5x the cost and runtime of every push-triggered
-    // run. pages/ still get the technical and GEO checks above.
+    // 157 pages/ files would ~5x the cost and runtime of every run. pages/
+    // still get the technical and GEO checks above.
     const skipContent = SKIP_CONTENT.has(path.basename(rel)) || rel.startsWith('pages/');
     const contentIssues = skipContent ? [] : await auditContent($, rel, title);
 
