@@ -14,6 +14,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Improved clarity by explicitly showing when video checks are unavailable
 - Set up dedicated billing portal and isolated product checkouts in shared Stripe account
 - Added webhook support for handling asynchronous payment events
+- Added 7-day Pro trial and improved payment processing with Stripe Managed Payments
+- Paused Pro and Video sales until video detection reliability improves
+- Fixed video detection to correctly read API responses and show clear status messages
+- Improved outreach and Reddit bot features to require approval before sending
+- Separated billing portal configuration for better account management
 
 ## 2026-09-21
 - Fixed newsletter unsubscribe functionality to work correctly with Resend's email service
