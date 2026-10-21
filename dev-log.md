@@ -8,6 +8,12 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed video detection to properly read Sightengine API responses
 - Improved billing by using dedicated portal config and separating product checkouts
 - Added clearer messaging when video checks are temporarily unavailable
+- Added 7-day Pro trial and upgraded to Stripe Managed Payments for billing
+- Fixed video detection to properly read API responses from Sightengine
+- Paused Pro and Video sales temporarily until video detection is working reliably
+- Improved clarity by explicitly showing when video checks are unavailable
+- Set up dedicated billing portal and isolated product checkouts in shared Stripe account
+- Added webhook support for handling asynchronous payment events
 
 ## 2026-09-21
 - Fixed newsletter unsubscribe functionality to work correctly with Resend's email service
