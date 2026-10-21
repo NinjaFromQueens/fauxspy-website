@@ -29,6 +29,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Outreach bot remembers which sites it has already checked
 - Account form now handles generic reply responses appropriately
 - Blog post explaining Getty Images' bankruptcy impact on photo availability
+- Video detection feature announced as coming soon; Pro + Video paused
+- Removed false claims about unlimited scans and unverified accuracy stats
+- Weekly SEO reports now use real Google Search Console data and link checking
+- Blog post explaining Getty Images' bankruptcy impact on stock photos
 
 ## 2026-09-21
 - Fixed newsletter unsubscribe functionality to work correctly with Resend's email service
