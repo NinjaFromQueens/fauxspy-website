@@ -19,6 +19,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed video detection to correctly read API responses and show clear status messages
 - Improved outreach and Reddit bot features to require approval before sending
 - Separated billing portal configuration for better account management
+- Paused Pro and Video sales until video detection reliability is fixed
+- Made video detection status clearer when checks aren't available
+- Fixed video detection to properly read responses from Sightengine
+- Outreach and Reddit bots now draft messages for approval instead of auto-sending
+- Improved bot memory to track previously checked sites
 
 ## 2026-09-21
 - Fixed newsletter unsubscribe functionality to work correctly with Resend's email service
