@@ -24,6 +24,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed video detection to properly read responses from Sightengine
 - Outreach and Reddit bots now draft messages for approval instead of auto-sending
 - Improved bot memory to track previously checked sites
+- Weekly SEO reports now use Google Search Console data and detect real broken links
+- Outreach and Reddit bots create draft messages for review instead of sending directly
+- Outreach bot remembers which sites it has already checked
+- Account form now handles generic reply responses appropriately
+- Blog post explaining Getty Images' bankruptcy impact on photo availability
 
 ## 2026-09-21
 - Fixed newsletter unsubscribe functionality to work correctly with Resend's email service
