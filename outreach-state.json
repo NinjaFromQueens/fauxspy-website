@@ -1827,5 +1827,87 @@
       "method": "email",
       "sent": true
     }
+  },
+  "reviewed": {
+    "blog.knowbe4.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "sentinelone.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "keepnetlabs.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "genai.owasp.org": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "securityawarenesstraining.ai": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "brside.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "neathousepartners.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "checkpoint.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "archive.recomendo.com": {
+      "date": "2026-10-21",
+      "relevant": true
+    },
+    "ksjhandbook.org": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "subjectguides.lib.neu.edu": {
+      "date": "2026-10-21",
+      "relevant": true
+    },
+    "articles.unesco.org": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "verificationhandbook.com": {
+      "date": "2026-10-21",
+      "relevant": true
+    },
+    "mydatazero.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "screenwiseapp.com": {
+      "date": "2026-10-21",
+      "relevant": true
+    },
+    "preparedbee.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "thinkfives.com": {
+      "date": "2026-10-21",
+      "relevant": true
+    },
+    "greenlight.com": {
+      "date": "2026-10-21",
+      "relevant": false
+    },
+    "digitalresistance.org.uk": {
+      "date": "2026-10-21",
+      "relevant": true
+    },
+    "littlelit.ai": {
+      "date": "2026-10-21",
+      "relevant": false
+    }
   }
 }

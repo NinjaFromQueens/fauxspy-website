@@ -49,4 +49,6 @@ jobs:
           git add reddit-state.json
           git diff --cached --quiet && echo "No state change" && exit 0
           git commit -m "chore: update Reddit monitor state [skip ci]"
+          # Other workflows commit to main too; rebase so the push isn't rejected.
+          git pull --rebase origin main
           git push origin main
