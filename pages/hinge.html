@@ -31,7 +31,7 @@
         "name": "Can I really spot AI photos on Hinge?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. 35% of Americans have spotted AI-generated or AI-modified photos on dating apps like Hinge, according to McAfee's 2026 Valentine's research. Faux Spy detects those instantly when you hover or right-click any photo."
+          "text": "Yes. 35% of Americans have spotted AI-generated or AI-modified photos on dating apps like Hinge, according to McAfee's 2026 Valentine's research. Faux Spy checks a screenshot of the photo in seconds."
         }
       },
       {
@@ -63,7 +63,7 @@
         "name": "How do I use Faux Spy on Hinge?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Install Faux Spy from the Chrome Web Store. On any Hinge profile, hover over a photo or right-click it and select \"Scan with Faux Spy.\" You'll get an instant verdict within seconds."
+          "text": "Hinge only runs on your phone, so screenshot the profile photo, crop it to just the picture, and upload it to the checker at fauxspy.com/hinge. You'll get a verdict in seconds. 3 free checks a day, no account."
         }
       }
     ]
@@ -78,18 +78,18 @@
     "step": [
       {
         "@type": "HowToStep",
-        "name": "Install Faux Spy",
-        "text": "Add Faux Spy from the Chrome Web Store. It's free and requires no account for your first 3 daily checks."
+        "name": "Screenshot the photo",
+        "text": "On the Hinge profile, take a screenshot of the photo you want to check."
       },
       {
         "@type": "HowToStep",
-        "name": "Open a Hinge profile",
-        "text": "Browse to any profile on Hinge. You'll see their photos displayed in the profile view."
+        "name": "Crop it",
+        "text": "Crop the screenshot to just the photo, without the app's buttons and text."
       },
       {
         "@type": "HowToStep",
-        "name": "Scan a photo",
-        "text": "Hover your cursor over any photo, or right-click it and select 'Scan with Faux Spy' from the context menu."
+        "name": "Upload it to Faux Spy",
+        "text": "Upload the screenshot at fauxspy.com/hinge. It's free for 3 checks a day, with no account."
       },
       {
         "@type": "HowToStep",
@@ -165,7 +165,7 @@
         <a href="/faq">FAQ</a>
         <a href="/blog">Blog</a>
         <a href="/pro">Pro</a>
-        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small desktop-only" target="_blank" rel="noopener">Add to Chrome</a>
       </div>
     </div>
   </nav>
@@ -175,15 +175,28 @@
       <div class="landing-hero">
         <h1>Hinge Fake Profile Detector</h1>
         <p class="landing-subtitle"><strong>660,000 accounts suspended or removed</strong> in the past year across Match Group's portfolio — yet AI-generated photos still flood Hinge daily. Know who you're matching with.</p>
+        <div class="photo-check" id="photo-check" data-platform="Hinge">
+          <p class="photo-check-title">Check a Hinge photo now, free</p>
+          <p class="photo-check-help">Screenshot one of their profile photos, crop it to just the picture, and upload it here. 3 free checks a day, no account.</p>
+          <label class="photo-check-drop">
+            <input type="file" accept="image/*" class="photo-check-input">
+            📷 Upload a photo
+          </label>
+          <p class="photo-check-busy" hidden>Checking the photo…</p>
+          <div class="photo-check-result" hidden aria-live="polite"></div>
+        </div>
+        <div class="desktop-only">
+          <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
+          <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
+        <p class="landing-note">3 checks/day free. No account required.</p>
+        </div>
+        <p class="landing-note mobile-only">On a computer? Add Faux Spy to Chrome and check photos on Tinder, Bumble and other dating sites, no screenshots needed.</p>
         <div data-geo="quick-answer" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0 2rem;position:relative;overflow:hidden;">
           <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);"></div>
           <p style="margin:0 0 0.5rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
-          <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;"><strong>To spot a fake Hinge profile, check whether its photos are AI-generated or stolen before you reply.</strong> Open Hinge in your browser and right-click a profile photo: Faux Spy returns an AI-or-real verdict in about two seconds, and a reverse image search catches photos taken from real people. Matches who avoid video calls or move fast toward money are major red flags.</p>
+          <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;"><strong>To spot a fake Hinge profile, check whether its photos are AI-generated or stolen before you reply.</strong> Screenshot a profile photo and upload it to the checker on this page: Faux Spy returns an AI-or-real verdict in seconds, and a reverse image search catches photos taken from real people. Matches who avoid video calls or move fast toward money are major red flags.</p>
           <p style="margin:0.75rem 0 0;font-size:0.75rem;color:var(--text-muted,#94a3b8);">Last updated <time datetime="2026-10-03">October 2026</time></p>
         </div>
-        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
-          <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
-        <p class="landing-note">3 checks/day free. No account required.</p>
       </div>
 
       <div class="landing-section">
@@ -195,7 +208,8 @@
 
       <div class="inline-cta" style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0;text-align:center;">
         <p style="margin:0 0 0.75rem;font-weight:600;color:var(--text-primary,#f8fafc);">Checking a profile right now?</p>
-        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary" target="_blank" rel="noopener" style="display:inline-block;">&#x1F575;&#xFE0F; Add to Chrome &#x2014; Free</a>
+        <a href="#photo-check" class="btn btn-primary mobile-only" style="display:inline-block;">📷 Check a photo now</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary desktop-only" target="_blank" rel="noopener" style="display:inline-block;">&#x1F575;&#xFE0F; Add to Chrome &#x2014; Free</a>
         <p style="margin:0.6rem 0 0;font-size:0.82rem;color:var(--text-muted,#94a3b8);">3 checks/day free &middot; No account required</p>
       </div>
 
@@ -210,15 +224,15 @@
         <h2>What do Hinge's filters miss?</h2>
         <p>Hinge uses machine learning to flag suspicious accounts. They ban patterns: new accounts with 100 matches in a day, profiles with no activity, known scammer networks. Smart. But machine learning improves when trained on known bad examples. A brand-new AI generation method — one that hasn't been seen in training data — can pass through.</p>
         <p>Hinge also can't scan every profile photo in real-time. Your matches load in seconds. A full AI-detection scan on millions of images would slow the app to a crawl. So Hinge does sampling and reactive enforcement. You report a fake, they investigate. By then, you've already matched.</p>
-        <p>Faux Spy runs locally on your device, instant and silent. When you hover or right-click a photo, it analyzes that single image against multiple detection models. No server delay. No data logging. Just a verdict: AI or Real. You get the intelligence Hinge's system can't provide at scale.</p>
+        <p>Faux Spy checks one photo at a time, when you ask. Upload a screenshot and it runs that single image through two commercial detection engines, then discards it. You get a verdict: AI or real. You get the intelligence Hinge's system can't provide at scale.</p>
       </div>
 
       <div class="landing-section">
         <h2>How do you check a Hinge profile for fake photos?</h2>
         <ol class="landing-steps">
-          <li><strong>Install Faux Spy.</strong> Go to the Chrome Web Store and add the extension. No signup needed.</li>
-          <li><strong>Open Hinge.</strong> Browse any profile you're considering matching with.</li>
-          <li><strong>Hover or right-click the photo.</strong> Hover your cursor over any profile photo, or right-click and select "Scan with Faux Spy."</li>
+          <li><strong>Screenshot the photo.</strong> On the Hinge profile you're considering, take a screenshot of the photo.</li>
+          <li><strong>Crop it.</strong> Trim the screenshot to just the photo, without Hinge's buttons and text.</li>
+          <li><strong>Upload it.</strong> Use the checker at the top of this page. No signup needed.</li>
           <li><strong>Get your result.</strong> Within seconds: AI-generated, real, or manipulated. Pro users also see deepfake analysis.</li>
           <li><strong>Match smart.</strong> Use the verdict to decide. Real photos only, or match anyway — your call.</li>
         </ol>
@@ -239,7 +253,7 @@
         </details>
         <details class="faq-item">
           <summary>Can I really spot AI photos on Hinge?</summary>
-          <p>Yes. 35% of Americans have spotted AI-generated or AI-modified photos on dating apps like Hinge, according to McAfee's 2026 Valentine's research. Faux Spy detects those instantly when you hover or right-click any photo.</p>
+          <p>Yes. 35% of Americans have spotted AI-generated or AI-modified photos on dating apps like Hinge, according to McAfee's 2026 Valentine's research. Faux Spy checks a screenshot of the photo in seconds.</p>
         </details>
         <details class="faq-item">
           <summary>What does Faux Spy detect on Hinge?</summary>
@@ -255,7 +269,7 @@
         </details>
         <details class="faq-item">
           <summary>How do I use Faux Spy on Hinge?</summary>
-          <p>Install Faux Spy from the Chrome Web Store. On any Hinge profile, hover over a photo or right-click it and select "Scan with Faux Spy." You'll get an instant verdict within seconds.</p>
+          <p>Hinge only runs on your phone, so screenshot the profile photo, crop it to just the picture, and upload it to the checker at the top of this page. You'll get a verdict in seconds. 3 free checks a day, no account.</p>
         </details>
       </div>
 
@@ -268,8 +282,9 @@
       <div class="landing-cta">
         <h2>Scan Hinge profiles for AI fakes — now</h2>
         <p>3 checks free daily. No account, no credit card, no tracking. Just you and the truth about who you're swiping on.</p>
-        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
-          <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
+        <a href="#photo-check" class="btn btn-primary btn-large mobile-only">📷 Check a photo now</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-large desktop-only" target="_blank" rel="noopener">&#x1F575;&#xFE0F; Add to Chrome — Free</a>
+          <a href="https://addons.mozilla.org/addon/faux-spy-ai-image-detector/" class="btn btn-secondary desktop-only" target="_blank" rel="noopener">🦊 Add to Firefox — Free</a>
       </div>
 
       <div class="landing-section">
@@ -324,5 +339,6 @@
       </div>
     </div>
   </footer>
+  <script defer src="/photo-check.js"></script>
 </body>
 </html>

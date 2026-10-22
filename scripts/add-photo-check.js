@@ -30,6 +30,37 @@ const PAGES = {
     source: 'Screenshot one of their profile photos',
     desktop: 'right on tinder.com',
   },
+  facebook: {
+    platform: 'Facebook',
+    title: 'Check a Facebook photo now, free',
+    source: 'Screenshot their profile photo or a post',
+    desktop: 'right on Facebook',
+  },
+  // Hinge has no website, so on a computer the extension only helps on other apps.
+  hinge: {
+    platform: 'Hinge',
+    title: 'Check a Hinge photo now, free',
+    source: 'Screenshot one of their profile photos',
+    desktop: 'on Tinder, Bumble and other dating sites',
+  },
+  linkedin: {
+    platform: 'LinkedIn',
+    title: 'Check a LinkedIn photo now, free',
+    source: 'Screenshot their profile photo',
+    desktop: 'right on LinkedIn',
+  },
+  bumble: {
+    platform: 'Bumble',
+    title: 'Check a Bumble photo now, free',
+    source: 'Screenshot one of their profile photos',
+    desktop: 'right on bumble.com',
+  },
+  grindr: {
+    platform: 'Grindr',
+    title: 'Check a Grindr photo now, free',
+    source: 'Screenshot their profile photo',
+    desktop: 'on Grindr Web',
+  },
 };
 
 const CWS = 'https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg';
