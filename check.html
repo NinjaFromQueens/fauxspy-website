@@ -576,7 +576,7 @@
     function updateLimitBanner() {
       const remaining = Math.max(0, 3 - scanCount);
       const banner = document.getElementById('limitBanner');
-      if (scanCount >= 7) {
+      if (scanCount >= 1) {
         banner.style.display = 'block';
         document.getElementById('scansLeft').textContent = remaining;
         document.getElementById('scanPlural').textContent = remaining === 1 ? '' : 's';
@@ -664,21 +664,21 @@
     });
 
     function handleFile(file) {
-      if (file.size > 10 * 1024 * 1024) {
-        showError('That file is over 10 MB. Please upload a smaller image.');
+      if (file.size > 25 * 1024 * 1024) {
+        showError('That file is over 25 MB. Please upload a smaller image.');
         return;
       }
-      const reader = new FileReader();
-      reader.onload = ev => {
-        pendingBase64 = ev.target.result;
+      // Phone photos are often over the ~4.5 MB upload cap once base64-encoded;
+      // prepareImage (/photo-check.js) shrinks them first.
+      window.FauxSpyPhotoCheck.prepareImage(file).then(dataUrl => {
+        pendingBase64 = dataUrl;
         document.getElementById('previewImg').src = pendingBase64;
         document.getElementById('previewName').textContent = file.name;
         document.getElementById('previewSize').textContent = (file.size / 1024).toFixed(0) + ' KB';
         dropzone.style.display = 'none';
         document.getElementById('uploadPreview').style.display = 'block';
         showState('none');
-      };
-      reader.readAsDataURL(file);
+      }).catch(() => showError('That image couldn\'t be opened. Try a screenshot of it instead.'));
     }
 
     // ── Core API call ─────────────────────────────────────────
@@ -793,5 +793,6 @@
 
     updateLimitBanner();
   </script>
+  <script defer src="/photo-check.js"></script>
 </body>
 </html>
