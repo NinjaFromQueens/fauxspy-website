@@ -19,6 +19,12 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Search Console integration now uses key files instead of email secrets
 - Paused video detection feature with coming soon messaging
 - Removed false claims about unlimited scans and unverified accuracy stats
+- Added photo checker tool to Facebook, Hinge, LinkedIn, Bumble, and Grindr
+- Enabled phone users to check photos on Instagram and Tinder
+- Improved weekly SEO reports with real Search Console data and broken links
+- Added support for Search Console key files instead of email/secret auth
+- Paused video detection feature temporarily for Pro users
+- Removed unsupported claims about unlimited scans and accuracy figures
 
 ## 2026-10-21
 - Added 7-day Pro trial and upgraded Stripe integration with Managed Payments
