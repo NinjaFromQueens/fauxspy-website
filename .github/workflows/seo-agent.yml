@@ -16,7 +16,9 @@ jobs:
       pull-requests: write
       issues: write
     env:
-      GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
+      # The key secret can be the whole service-account JSON file, which
+      # carries its own email, so the key alone decides whether to fetch.
+      GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY }}
 
     steps:
       - name: Checkout
@@ -34,7 +36,7 @@ jobs:
         run: npm ci
 
       - name: Fetch Google Search Console data
-        if: ${{ env.GSC_CLIENT_EMAIL != '' }}
+        if: ${{ env.GSC_PRIVATE_KEY != '' }}
         env:
           GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
           GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY }}

@@ -13,6 +13,7 @@ seo-results.json
 seo-report.md
 seo-report-truncated.md
 seo-fixes-summary.md
+gsc-data.json
 
 # Landing page generator — sheet data downloaded at runtime
 scripts/data/sheet-data.json

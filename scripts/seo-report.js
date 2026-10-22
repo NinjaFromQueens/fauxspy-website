@@ -13,6 +13,7 @@ const path = require('path');
 
 const SITE_ROOT = path.resolve(__dirname, '..');
 const RESULTS_FILE = path.join(SITE_ROOT, 'seo-results.json');
+const GSC_FILE = path.join(SITE_ROOT, 'gsc-data.json');
 const REPORT_FILE = path.join(SITE_ROOT, 'seo-report.md');
 const FIXES_SUMMARY_FILE = path.join(SITE_ROOT, 'seo-fixes-summary.md');
 const SITEMAP_FILE = path.join(SITE_ROOT, 'sitemap.xml');
@@ -31,6 +32,40 @@ const rawData = JSON.parse(fs.readFileSync(RESULTS_FILE, 'utf8'));
 // Support both old flat-array format and new { results, competitorGaps } format
 const pageResults = Array.isArray(rawData) ? rawData : (rawData.results || []);
 const competitorGaps = Array.isArray(rawData) ? null : (rawData.competitorGaps || null);
+
+// ─── Search Console section ───────────────────────────────────────────────────
+
+// Written by scripts/seo-gsc.js earlier in the workflow; absent when the fetch
+// failed, in which case the report says so instead of silently omitting it.
+// The repo and its issues are public, so this lists pages and positions only:
+// no click, impression or CTR figures.
+function buildSearchConsoleSection() {
+  if (!fs.existsSync(GSC_FILE)) {
+    return `## Search Console\n\n_No Search Console data this run: the fetch step failed or was skipped. Check its log._\n\n`;
+  }
+  const gsc = JSON.parse(fs.readFileSync(GSC_FILE, 'utf8'));
+  const pages = gsc.pages || [];
+  const short = url => url.replace(/^https?:\/\/(www\.)?fauxspy\.com/, '') || '/';
+  const table = list => `| Page | Avg. position |\n|------|------|\n` +
+    list.map(p => `| [${short(p.url)}](${p.url}) | ${p.position} |\n`).join('') + `\n`;
+
+  let md = `## Search Console (${gsc.period.startDate} → ${gsc.period.endDate})\n\n`;
+
+  // Positions 8–20 are the bottom of page one and all of page two: the pages
+  // where a better title, fresher content or more internal links pays off most.
+  const nearPageOne = pages.filter(p => p.position >= 8 && p.position <= 20 && p.impressions >= 50)
+    .sort((a, b) => b.impressions - a.impressions).slice(0, 10);
+  md += `### Close to page one\nAverage position 8–20, most searched first. These gain the most from a stronger title, fresher content or more internal links.\n\n`;
+  md += nearPageOne.length ? table(nearPageOne) : `_None this run._\n\n`;
+
+  // On page one but rarely clicked: the title and description are the problem.
+  const unclicked = pages.filter(p => p.position < 8 && p.impressions >= 100 && p.ctr < 3)
+    .sort((a, b) => b.impressions - a.impressions).slice(0, 10);
+  md += `### Ranking but not clicked\nOn page one but under 3% of searchers click: rewrite the title and meta description.\n\n`;
+  md += unclicked.length ? table(unclicked) : `_None this run._\n\n`;
+
+  return md;
+}
 
 // ─── Report Generator ─────────────────────────────────────────────────────────
 
@@ -53,6 +88,8 @@ function buildReport(results, fixesMade, sitemapAdded, gapData) {
   if (sitemapAdded && sitemapAdded.length > 0) {
     md += `> **Sitemap sync:** ${sitemapAdded.length} page(s) added to sitemap.xml and indexnow.yml.\n\n`;
   }
+
+  md += buildSearchConsoleSection();
 
   // Summary table
   md += `## Summary\n\n`;
