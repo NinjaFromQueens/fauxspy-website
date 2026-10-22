@@ -9,6 +9,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - SEO reports now use real data (GSC keys and actual broken link detection)
 - Outreach and Reddit bots now draft messages for approval instead of auto-sending
 - Blog post published explaining Getty Images bankruptcy implications for photo licensing
+- Weekly SEO reports now include Search Console data for more accurate findings
+- Search Console authentication now prioritizes key file uploads over email secrets
+- Video detection feature marked as coming soon (paused for Pro tier)
+- Removed unsubstantiated claims about unlimited scans and accuracy figures
+- SEO reports now require Google Search Console verification for credibility
 
 ## 2026-10-21
 - Added 7-day Pro trial and upgraded Stripe integration with Managed Payments
