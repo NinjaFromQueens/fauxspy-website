@@ -2,6 +2,14 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-10-22
+- Google Search Console integration now prioritizes imported key files over email-based authentication
+- Video detection feature paused and marked as coming soon
+- Removed unverified claims about unlimited scans and accuracy rates from marketing
+- SEO reports now use real data (GSC keys and actual broken link detection)
+- Outreach and Reddit bots now draft messages for approval instead of auto-sending
+- Blog post published explaining Getty Images bankruptcy implications for photo licensing
+
 ## 2026-10-21
 - Added 7-day Pro trial and upgraded Stripe integration with Managed Payments
 - Paused Pro and Video sales while fixing video detection issues
