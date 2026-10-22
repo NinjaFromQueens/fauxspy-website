@@ -14,6 +14,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Video detection feature marked as coming soon (paused for Pro tier)
 - Removed unsubstantiated claims about unlimited scans and accuracy figures
 - SEO reports now require Google Search Console verification for credibility
+- Mobile visitors can now view photos on Instagram and Tinder pages
+- Weekly SEO reports now include Search Console data and real broken links
+- Search Console integration now uses key files instead of email secrets
+- Paused video detection feature with coming soon messaging
+- Removed false claims about unlimited scans and unverified accuracy stats
 
 ## 2026-10-21
 - Added 7-day Pro trial and upgraded Stripe integration with Managed Payments
