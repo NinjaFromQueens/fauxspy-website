@@ -26,7 +26,9 @@ function readCredentials() {
     try {
       const json = JSON.parse(key);
       key = json.private_key || '';
-      email = email || json.client_email || '';
+      // The key only works with its own account, so the file's email wins
+      // over a GSC_CLIENT_EMAIL left over from an older key.
+      email = json.client_email || email;
     } catch { /* not the JSON file after all */ }
   }
   key = key.replace(/^["']|["']$/g, '').replace(/\\n/g, '\n').replace(/\r/g, '').trim();
