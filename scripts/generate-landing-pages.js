@@ -164,7 +164,10 @@ function buildSheetContext(sheetData) {
     ftcMedianLoss: ftcNational['Median loss per romance scam victim'] || '',
     ftcRomanceReports: ftcNational['Romance scam reports (FTC 2023)'] || '',
     pewCatfishSaw: pewStats['Online dating users who encountered a scammer / possible scammer'] || pewStats['% ever catfished online'] || {},
-    year: '2024',
+    // The two agencies' latest figures are from different years. A single
+    // "data_year: 2024" made pages call the FTC's 2023 $1.14B a 2024 figure.
+    fbiYear: '2024',
+    ftcYear: '2023',
   };
 
   return {
@@ -304,6 +307,8 @@ WRITING RULES — all apply without exception:
 - Each H2 must make a real point, not just label a category. "How to spot it" is weak. "The tell is in the lighting, not the face" is strong.
 - Use the exact statistics provided in the data context. Do not invent or approximate numbers.
 - Never give an accuracy, detection-rate or "catches X%" figure for Faux Spy, its detection engines (Hive, Sightengine) or any AI generator, even if the data context has one: those figures have no source. Say instead that every result comes with a confidence score and that no detector is perfect.
+- FBI IC3 and FTC romance-scam figures are US-only and from different years (fbi_data_year, ftc_data_year). Label each with its own agency and year, never call them global or EU figures, and never combine them (for example, don't pair the FTC's loss total with the FBI's average loss).
+- Don't describe how Faux Spy works beyond these facts: on the free plan a small model in the browser screens each image first, and images it can't settle (and every Pro scan) go to Faux Spy's detection service, which doesn't store them. Never say it "runs locally" or that nothing leaves the device.
 - Contradict a common assumption at least once.
 - No fluff. If a sentence doesn't add information, cut it.
 - Aim for 1,000–1,500 words of body content.
@@ -466,7 +471,8 @@ function buildStatePagePrompt(page, ctx) {
     ftc_romance_losses: ns.ftcRomanceLosses,
     ftc_romance_reports: ns.ftcRomanceReports,
     ai_in_scams: ns.aiUsed,
-    data_year: ns.year,
+    fbi_data_year: ns.fbiYear,
+    ftc_data_year: ns.ftcYear,
     notes: page.notes || '',
   };
 
@@ -563,9 +569,10 @@ function buildStatsPagePrompt(page, ctx) {
     top_states: Object.values(ctx.fbiStates).slice(0, 8).map(s => ({
       state: s.state, losses: s.losses, rank: s.rank
     })),
-    data_year: ns.year,
+    fbi_data_year: ns.fbiYear,
+    ftc_data_year: ns.ftcYear,
     source_fbi: 'FBI Internet Crime Complaint Center (IC3) 2024 Annual Report',
-    source_ftc: 'FTC Consumer Sentinel Data Book 2024',
+    source_ftc: 'FTC Consumer Sentinel Network Data Book 2023',
     notes: page.notes || '',
   };
 

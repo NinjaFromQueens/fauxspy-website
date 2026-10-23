@@ -102,6 +102,8 @@ WRITING RULES:
 - Each H2 must make a real point, not just label a category
 - Use the exact statistics provided — do not invent or approximate
 - Never give an accuracy, detection-rate or "catches X%" figure for Faux Spy, its detection engines or any AI generator: no such figure has a source. Say instead that every result comes with a confidence score and that no detector is perfect.
+- FBI IC3 romance figures are 2024 data and FTC romance figures are 2023 data, both US-only. Label each with its agency and year, never call them global, and never combine them.
+- Never say Faux Spy "runs locally" or that nothing leaves the device: on the free plan a small in-browser model screens images first, and the rest (and every Pro scan) go to Faux Spy's detection service, which doesn't store them.
 - Contradict a common assumption at least once
 - Aim for 1,000–1,500 words of body content
 
