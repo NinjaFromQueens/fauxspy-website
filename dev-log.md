@@ -13,6 +13,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Enabled mobile users to check photos on Instagram and Tinder pages
 - Sourced or removed three figures that were flagged by SEO audit
 - Included Search Console findings in the weekly SEO report
+- Fixed inaccurate privacy claims and outdated fraud statistics across the site
+- Removed unsourced figures flagged by SEO audit and dropped expired Product Hunt offer
+- Cleaned up deepfake statistics page by removing incomplete features
 
 ## 2026-10-22
 - Google Search Console integration now prioritizes imported key files over email-based authentication
