@@ -7,6 +7,12 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added photo checker tool to Facebook, Hinge, LinkedIn, Bumble, and Grindr
 - Enabled photo checking on Instagram and Tinder for mobile users
 - Included Search Console data in the weekly SEO report
+- Retired an expired Product Hunt promotion and excluded utility pages from SEO audit
+- Fixed privacy claims and corrected outdated fraud statistics throughout the site
+- Added photo checker tool to Facebook, Hinge, LinkedIn, Bumble, and Grindr pages
+- Enabled mobile users to check photos on Instagram and Tinder pages
+- Sourced or removed three figures that were flagged by SEO audit
+- Included Search Console findings in the weekly SEO report
 
 ## 2026-10-22
 - Google Search Console integration now prioritizes imported key files over email-based authentication
