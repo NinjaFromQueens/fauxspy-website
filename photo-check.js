@@ -81,6 +81,46 @@
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
+  // One question after a result (or the daily limit), until answered: would
+  // someone who just checked a photo use a phone app? Answers go to
+  // /api/app-interest and decide whether the app gets built.
+  const POLL_KEY = 'fs_app_poll';
+  function pollAnswered() {
+    try { return !!localStorage.getItem(POLL_KEY); } catch (e) { return false; }
+  }
+  function pollHtml() {
+    return '<div class="photo-check-poll">' +
+      '<p class="photo-check-poll-q">Would you use a Faux Spy app on your phone?</p>' +
+      '<div class="photo-check-poll-opts">' +
+        '<button type="button" class="btn btn-secondary" data-answer="iphone">Yes, on iPhone</button>' +
+        '<button type="button" class="btn btn-secondary" data-answer="android">Yes, on Android</button>' +
+        '<button type="button" class="btn btn-secondary" data-answer="no">No thanks</button>' +
+      '</div>' +
+    '</div>';
+  }
+  function bindPoll(container, platform) {
+    const poll = container.querySelector('.photo-check-poll');
+    if (!poll) return;
+    poll.querySelectorAll('[data-answer]').forEach(btn => btn.addEventListener('click', () => {
+      const answer = btn.dataset.answer;
+      try { localStorage.setItem(POLL_KEY, answer); } catch (e) { /* the answer still counts */ }
+      track('App interest', { page: platform, answer: answer });
+      fetch('/api/app-interest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          answer: answer,
+          page: location.pathname,
+          touch: matchMedia('(hover: none) and (pointer: coarse)').matches,
+          userId: getUserId(),
+        }),
+      }).catch(() => { /* a lost vote isn't worth bothering the visitor about */ });
+      poll.innerHTML = answer === 'no'
+        ? '<p class="photo-check-poll-thanks">Thanks, that helps us decide.</p>'
+        : '<p class="photo-check-poll-thanks">Thanks! Want an email if we build it? <a href="/app">Join the app list</a></p>';
+    }));
+  }
+
   function bind(root) {
     const input = root.querySelector('.photo-check-input');
     const drop = root.querySelector('.photo-check-drop');
@@ -94,18 +134,20 @@
       out.hidden = state !== 'done';
     }
 
-    function finish(html) {
-      out.innerHTML = html + '<button type="button" class="btn btn-secondary photo-check-again">Check another photo</button>';
+    function finish(html, askAboutApp) {
+      out.innerHTML = html + '<button type="button" class="btn btn-secondary photo-check-again">Check another photo</button>' +
+        (askAboutApp && !pollAnswered() ? pollHtml() : '');
       out.querySelector('.photo-check-again').addEventListener('click', () => {
         input.value = '';
         show('idle');
         input.focus();
       });
+      bindPoll(out, platform);
       show('done');
     }
 
-    function fail(html) {
-      finish('<p class="photo-check-error">' + html + '</p>');
+    function fail(html, askAboutApp) {
+      finish('<p class="photo-check-error">' + html + '</p>', askAboutApp);
     }
 
     async function check(file) {
@@ -134,7 +176,7 @@
 
       if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
         track('Photo check limit', { page: platform });
-        return fail('You\'ve used your 3 free checks for today. They reset at midnight, or <a href="/pro">get Pro</a> for 200 checks a month.');
+        return fail('You\'ve used your 3 free checks for today. They reset at midnight, or <a href="/pro">get Pro</a> for 200 checks a month.', true);
       }
       if (!r.ok || !data.success) {
         return fail(ERRORS[data.error] || (r.status === 503
@@ -158,7 +200,8 @@
           '<span style="width:' + prob + '%"></span>' +
         '</div>' +
         '<p class="photo-check-prob">AI likelihood: <strong>' + prob + '%</strong>. No detector is perfect: use this as one signal alongside the profile\'s history.</p>' +
-        (data.proHint ? '<p class="photo-check-pro">🔒 <a href="/pro">' + esc(data.proHint) + '</a></p>' : '')
+        (data.proHint ? '<p class="photo-check-pro">🔒 <a href="/pro">' + esc(data.proHint) + '</a></p>' : ''),
+        true
       );
     }
 

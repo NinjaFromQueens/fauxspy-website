@@ -9,10 +9,13 @@ const kv = new Redis({
 });
 const { Resend } = require('resend');
 const handleFeedback = require('./_lib/feedback');
+const handleAppInterest = require('./_lib/app-interest');
 
 module.exports = async (req, res) => {
-  // /api/feedback (uninstall survey) is rewritten here; see vercel.json.
+  // /api/feedback (uninstall survey) and /api/app-interest (phone app poll)
+  // are rewritten here; see vercel.json.
   if (req.query?.type === 'feedback') return handleFeedback(req, res);
+  if (req.query?.type === 'app-interest') return handleAppInterest(req, res);
 
   res.setHeader('Access-Control-Allow-Origin', 'https://www.fauxspy.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

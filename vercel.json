@@ -172,6 +172,7 @@
     { "source": "/api/admin/waitlist", "destination": "/api/admin/data?resource=waitlist" },
     { "source": "/api/newsletter", "destination": "/api/waitlist?list=newsletter" },
     { "source": "/api/feedback", "destination": "/api/contact?type=feedback" },
+    { "source": "/api/app-interest", "destination": "/api/contact?type=app-interest" },
     { "source": "/api/resend-inbound", "destination": "/api/webhook?source=resend-inbound" }
   ],
   "headers": [

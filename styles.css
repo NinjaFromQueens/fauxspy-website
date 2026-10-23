@@ -1429,3 +1429,12 @@ kbd {
 .photo-check-error { color: var(--text-primary); }
 .photo-check-result a { color: var(--gold); }
 .photo-check-again { width: 100%; }
+.photo-check-poll {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-default);
+}
+.photo-check-poll-q { margin: 0 0 0.6rem; font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+.photo-check-poll-opts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.photo-check-poll-opts .btn { flex: 1 1 auto; padding: 10px 12px; font-size: 13px; }
+.photo-check-poll-thanks { margin: 0; font-size: 0.85rem; color: var(--text-secondary); }
