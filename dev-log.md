@@ -16,6 +16,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Fixed inaccurate privacy claims and outdated fraud statistics across the site
 - Removed unsourced figures flagged by SEO audit and dropped expired Product Hunt offer
 - Cleaned up deepfake statistics page by removing incomplete features
+- Fixed inaccurate privacy claims and corrected outdated fraud statistics across the site
+- Removed unsourced figures and unsubstantiated promises from deepfake and statistics pages
+- Added photo checker tool to Facebook, Hinge, LinkedIn, Bumble, Grindr, Instagram, and Tinder
+- Improved SEO by rewriting titles and descriptions for low-traffic pages
+- Cleaned up expired promotional offers and excluded utility pages from audits
 
 ## 2026-10-22
 - Google Search Console integration now prioritizes imported key files over email-based authentication
