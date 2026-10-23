@@ -2,6 +2,12 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-10-23
+- Fixed inaccurate privacy claims and fraud statistics throughout the website
+- Added photo checker tool to Facebook, Hinge, LinkedIn, Bumble, and Grindr
+- Enabled photo checking on Instagram and Tinder for mobile users
+- Included Search Console data in the weekly SEO report
+
 ## 2026-10-22
 - Google Search Console integration now prioritizes imported key files over email-based authentication
 - Video detection feature paused and marked as coming soon
