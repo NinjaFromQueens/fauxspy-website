@@ -607,6 +607,14 @@ async function main() {
     const rawHtml = fs.readFileSync(absPath, 'utf8');
     const $ = cheerio.load(rawHtml);
 
+    // Pages kept out of search on purpose (the uninstall page, campaign pages,
+    // the social-image design file) aren't SEO targets; auditing them only
+    // produced "critical" false alarms.
+    if (/noindex/i.test($('meta[name="robots"]').attr('content') || '')) {
+      console.log('⏭️  noindex, skipped');
+      continue;
+    }
+
     const { issues: techIssues, title, desc } = auditTechnical($, rel);
 
     // The Claude content audit stays on root + blog pages: running it on all

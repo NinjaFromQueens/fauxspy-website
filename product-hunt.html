@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FauxSpy × Product Hunt — Special Launch Offer</title>
-  <meta name="description" content="Welcome, hunters! FauxSpy detects AI-generated profile photos in one right-click. Claim your exclusive Product Hunt offer: 3 months Pro free.">
-  <meta property="og:title" content="FauxSpy × Product Hunt — 3 Months Pro Free">
-  <meta property="og:description" content="Detect AI fakes anywhere online — one right-click. Claim your Product Hunt exclusive: 3 months Pro free, then 50% off forever.">
+  <meta name="robots" content="noindex">
+  <title>FauxSpy × Product Hunt — Try Pro Free for 7 Days</title>
+  <meta name="description" content="Welcome, hunters! FauxSpy detects AI-generated profile photos in one right-click. Free for 3 checks a day, and Pro starts with a 7-day free trial.">
+  <meta property="og:title" content="FauxSpy × Product Hunt — Try Pro Free for 7 Days">
+  <meta property="og:description" content="Detect AI fakes anywhere online — one right-click. Free for 3 checks a day, and Pro starts with a 7-day free trial.">
   <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
   <meta property="og:url" content="https://www.fauxspy.com/product-hunt">
   <meta name="twitter:card" content="summary_large_image">
@@ -200,18 +201,14 @@
 
       <!-- Exclusive PH offer -->
       <div class="ph-offer-box">
-        <div class="ph-offer-label">🎁 Product Hunt Exclusive — Valid through June 12</div>
-        <div class="ph-offer-headline">30% off your<br>first payment.</div>
-        <p class="ph-offer-sub">Use code <strong>PRODUCTHUNT</strong> at checkout — or click below and it applies automatically.</p>
+        <div class="ph-offer-label">🎁 Our Product Hunt launch offer ended June 12</div>
+        <div class="ph-offer-headline">Try Pro free<br>for 7 days.</div>
+        <p class="ph-offer-sub">Every Pro plan starts with a 7-day free trial with 50 scans. Cancel before day 8 and you pay nothing.</p>
 
-        <div style="margin:1.25rem 0;text-align:center;">
-          <div style="display:inline-block;background:#1a1f2e;color:#fbbf24;font-family:monospace;font-size:1.2rem;font-weight:800;letter-spacing:0.15em;padding:12px 28px;border-radius:8px;border:2px solid #fbbf24;">PRODUCTHUNT</div>
-        </div>
-
-        <a href="/pro?promo=PRODUCTHUNT" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;margin-bottom:0.75rem;">
-          🕵️ Subscribe Now — 30% Off →
+        <a href="/pro" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;margin:1.25rem 0 0.75rem;">
+          🕵️ Start your free trial →
         </a>
-        <p style="font-size:0.75rem;color:var(--text-muted,#aaa);margin:0;text-align:center;">$9.99/month → $6.99 first payment · Cancel anytime</p>
+        <p style="font-size:0.75rem;color:var(--text-muted,#aaa);margin:0;text-align:center;">Then $9.99/month or $99/year · Cancel anytime</p>
       </div>
 
       <div class="ph-divider">or start with the free tier right now</div>
@@ -277,41 +274,5 @@
     <p>&copy; 2026 Faux Spy &middot; <a href="/privacy" style="color:inherit;">Privacy</a> &middot; <a href="/terms" style="color:inherit;">Terms</a> &middot; <a href="/" style="color:inherit;">fauxspy.com</a></p>
   </footer>
 
-  <script>
-    const form = document.getElementById('ph-form');
-    const success = document.getElementById('ph-success');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('ph-email').value.trim();
-      const btn = form.querySelector('button[type="submit"]');
-
-      btn.disabled = true;
-      btn.textContent = 'Claiming...';
-
-      try {
-        const resp = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, source: 'product_hunt' }),
-        });
-        const data = await resp.json();
-
-        if (data.success || data.alreadySubscribed) {
-          form.style.display = 'none';
-          success.style.display = 'block';
-          success.textContent = data.alreadySubscribed
-            ? "✅ You're already on the list! Your 50% discount is locked in."
-            : '✅ You\'re in. Check your inbox — we\'ll send your 3 free months when Pro launches.';
-        } else {
-          throw new Error(data.error || 'Something went wrong');
-        }
-      } catch (err) {
-        btn.disabled = false;
-        btn.textContent = 'Claim Offer';
-        alert('Something went wrong — try again or email duron@fauxspy.com');
-      }
-    });
-  </script>
 </body>
 </html>
