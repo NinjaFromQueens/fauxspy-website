@@ -21,6 +21,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added photo checker tool to Facebook, Hinge, LinkedIn, Bumble, Grindr, Instagram, and Tinder
 - Improved SEO by rewriting titles and descriptions for low-traffic pages
 - Cleaned up expired promotional offers and excluded utility pages from audits
+- Added photo checker tool to multiple dating apps (Facebook, Hinge, LinkedIn, Bumble, Grindr, Instagram, Tinder)
+- Fixed inaccurate privacy claims and corrected outdated fraud statistics throughout the site
+- Removed unsourced statistics and dropped expired Product Hunt promotion
+- Removed misleading claims about deepfake detection accuracy from statistics page
+- Asked users about interest in a Faux Spy mobile app
 
 ## 2026-10-22
 - Google Search Console integration now prioritizes imported key files over email-based authentication
