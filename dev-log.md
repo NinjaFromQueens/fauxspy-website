@@ -4,6 +4,8 @@ Automatic record of what was built and changed. Updated on every push to main.
 
 ## 2026-10-25
 - Pro features now work on mobile phones by using the license key in the web checkers
+- Extended photo checker feature to seven additional platform pages
+- Enabled Pro features to work on mobile devices using license key authentication
 
 ## 2026-10-23
 - Fixed inaccurate privacy claims and fraud statistics throughout the website
