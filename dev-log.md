@@ -2,6 +2,9 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-10-25
+- Pro features now work on mobile phones by using the license key in the web checkers
+
 ## 2026-10-23
 - Fixed inaccurate privacy claims and fraud statistics throughout the website
 - Added photo checker tool to Facebook, Hinge, LinkedIn, Bumble, and Grindr
