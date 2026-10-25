@@ -9,6 +9,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Removed fake reviews and waitlist count from the /app interest list
 - Added photo checker feature to seven additional platform pages
 - Enabled Pro features to work on mobile phones using license key authentication
+- Removed unsupported statistics and claims to improve data accuracy
+- Made the /app page an honest interest list by removing fake reviews and waitlist counts
+- Extended photo checker tool to seven additional platform pages
 
 ## 2026-10-23
 - Fixed inaccurate privacy claims and fraud statistics throughout the website
