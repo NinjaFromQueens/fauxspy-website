@@ -12,6 +12,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Removed unsupported statistics and claims to improve data accuracy
 - Made the /app page an honest interest list by removing fake reviews and waitlist counts
 - Extended photo checker tool to seven additional platform pages
+- Improved search ranking for "AI image checker" queries
+- Removed unsupported statistics and vague claims from the website
+- Made the /app section more honest by removing invented reviews and waitlist data
+- Expanded photo checker availability to seven additional platform pages
+- Enabled Pro features to work on mobile devices using license keys
 
 ## 2026-10-23
 - Fixed inaccurate privacy claims and fraud statistics throughout the website
