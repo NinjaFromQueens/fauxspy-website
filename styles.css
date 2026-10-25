@@ -1438,6 +1438,7 @@ kbd {
 .photo-check-poll-opts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .photo-check-poll-opts .btn { flex: 1 1 auto; padding: 10px 12px; font-size: 13px; }
 .photo-check-poll-thanks { margin: 0; font-size: 0.85rem; color: var(--text-secondary); }
+.photo-check-pro-bar [hidden] { display: none !important; }
 .photo-check-pro-bar {
   display: flex;
   flex-wrap: wrap;
