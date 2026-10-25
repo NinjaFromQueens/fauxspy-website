@@ -17,6 +17,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Made the /app section more honest by removing invented reviews and waitlist data
 - Expanded photo checker availability to seven additional platform pages
 - Enabled Pro features to work on mobile devices using license keys
+- Added photo checker tool to seven more platform pages for broader access
+- Made Pro features work on mobile phones using license key authentication
+- Improved SEO ranking for "AI image checker" searches on the /check page
+- Removed unverified statistics from the site and converted /app to honest interest list
+- Published blog post about OpenAI and Meta's legal arguments on AI image detection
 
 ## 2026-10-23
 - Fixed inaccurate privacy claims and fraud statistics throughout the website
