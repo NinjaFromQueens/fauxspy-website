@@ -71,7 +71,8 @@ function keyBox(licenseKey) {
 const ACTIVATION_STEPS = `
   <div class="step"><span class="step-num">1.</span> Click the Faux Spy icon in your browser's toolbar (Chrome, Edge or Firefox)</div>
   <div class="step"><span class="step-num">2.</span> Open <strong>Settings</strong> (the gear icon)</div>
-  <div class="step"><span class="step-num">3.</span> Paste your key under <strong>License Key</strong> and click <strong>Activate Pro</strong></div>`;
+  <div class="step"><span class="step-num">3.</span> Paste your key under <strong>License Key</strong> and click <strong>Activate Pro</strong></div>
+  <p style="margin-top: 14px;">📱 <strong>On your phone?</strong> No extension needed: open <a href="${SITE}/check">fauxspy.com/check</a>, tap <strong>Have Pro? Enter your key</strong>, and paste it.</p>`;
 
 async function sendLicenseEmail(email, licenseKey, plan, tokensIncluded, { trialEndsAt = null, trialTokens = 0 } = {}) {
   const intro = trialEndsAt

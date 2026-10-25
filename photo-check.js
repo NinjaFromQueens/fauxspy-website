@@ -71,6 +71,13 @@
     digital_art: { cls: 'is-art', label: 'Digital Art', desc: 'This looks like digital artwork rather than a photograph.' },
     likely_ai: { cls: 'is-ai', label: 'Likely AI-Generated', desc: 'Strong signs this image was made by an AI generator.' },
     definitely_ai: { cls: 'is-ai', label: 'AI-Generated', desc: 'This image was almost certainly made by an AI generator.' },
+    // Pro-only verdicts
+    likely_ai_art: { cls: 'is-ai', label: 'Likely AI Art', desc: 'Strong signs this artwork was made by an AI generator.' },
+    definitely_ai_art: { cls: 'is-ai', label: 'AI Art', desc: 'This artwork was almost certainly made by an AI generator.' },
+    digital_art_verified: { cls: 'is-art', label: 'Digital Art', desc: 'This looks like digital artwork rather than a photograph.' },
+    digital_art_uncertain: { cls: 'is-art', label: 'Digital Art', desc: 'This looks like digital artwork rather than a photograph.' },
+    likely_real_manipulated: { cls: 'is-mixed', label: 'Possible Manipulation', desc: 'Looks like a real photo, but parts of it may have been edited or face-swapped.' },
+    verified_real_manipulated: { cls: 'is-mixed', label: 'Possible Manipulation', desc: 'Looks like a real photo, but parts of it may have been edited or face-swapped.' },
   };
 
   const ERRORS = {
@@ -121,12 +128,118 @@
     }));
   }
 
+  // ── Pro on the web ──────────────────────────────────────────────────────
+  // Pro used to work only inside the extension, so someone who bought it on a
+  // phone got a key they couldn't use anywhere. The key is remembered on this
+  // device (the purchase page saves it too) and sent with every check.
+  const LICENSE_KEY = 'fs_license';
+  const BALANCE_KEY = 'fs_license_balance';
+  const KEY_FORMAT = /^FAUX-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
+  const proBars = [];
+
+  function stored(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
+  function proKey() { return stored(LICENSE_KEY); }
+  function setPro(key, balance) {
+    try {
+      if (key) { localStorage.setItem(LICENSE_KEY, key); localStorage.setItem(BALANCE_KEY, String(balance)); }
+      else { localStorage.removeItem(LICENSE_KEY); localStorage.removeItem(BALANCE_KEY); }
+    } catch (e) { /* storage blocked: Pro lasts until the page closes */ }
+    proBars.forEach(render => render());
+    window.dispatchEvent(new Event('fauxspy:pro'));
+  }
+
+  // Extra fields for a /api/detect request.
+  function proRequestFields() {
+    const key = proKey();
+    return key ? { licenseKey: key, isPro: true } : {};
+  }
+
+  // Keeps the shown balance in step with a /api/detect response. Returns a
+  // note to show when the key stopped working.
+  function applyProResponse(data) {
+    if (data && data.proDenied) {
+      setPro('', 0);
+      return 'Your Pro key isn\'t active any more, so this used a free check. <a href="/account">Check your subscription</a>.';
+    }
+    if (data && typeof data.tokenBalance === 'number' && proKey()) {
+      setPro(proKey(), data.tokenBalance + (data.topupBalance || 0));
+    }
+    return '';
+  }
+
+  function mountProBar(container) {
+    const bar = document.createElement('div');
+    bar.className = 'photo-check-pro-bar';
+    container.appendChild(bar);
+
+    function render() {
+      if (proKey()) {
+        const n = Number(stored(BALANCE_KEY) || 0);
+        bar.innerHTML = '<span>⭐ <strong>Pro</strong> · ' + n.toLocaleString('en-US') + ' scan' + (n === 1 ? '' : 's') + ' left</span>' +
+          '<button type="button" class="photo-check-link" data-act="remove">Remove key</button>';
+        bar.querySelector('[data-act="remove"]').addEventListener('click', () => setPro('', 0));
+        return;
+      }
+      bar.innerHTML =
+        '<button type="button" class="photo-check-link" data-act="open">Have Pro? Enter your key</button>' +
+        '<form class="photo-check-key-form" hidden>' +
+          '<input type="text" class="photo-check-key-input" placeholder="FAUX-XXXX-XXXX-XXXX-XXXX" aria-label="Pro license key" autocomplete="off" autocapitalize="characters" spellcheck="false">' +
+          '<button type="submit" class="btn btn-secondary">Activate</button>' +
+          '<p class="photo-check-key-msg" aria-live="polite"></p>' +
+        '</form>';
+      const open = bar.querySelector('[data-act="open"]');
+      const form = bar.querySelector('form');
+      open.addEventListener('click', () => {
+        open.hidden = true;
+        form.hidden = false;
+        form.querySelector('input').focus();
+      });
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const msg = form.querySelector('.photo-check-key-msg');
+        const key = form.querySelector('input').value.trim().toUpperCase();
+        if (!KEY_FORMAT.test(key)) {
+          msg.textContent = 'Keys look like FAUX-XXXX-XXXX-XXXX-XXXX. It\'s in your purchase email.';
+          return;
+        }
+        msg.textContent = 'Checking your key…';
+        try {
+          const r = await fetch('/api/validate-license', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ licenseKey: key }),
+          });
+          const d = await r.json().catch(() => ({}));
+          if (d.valid) {
+            track('Pro key added', { page: location.pathname });
+            setPro(key, (d.tokenBalance || 0) + (d.topupBalance || 0));
+          } else {
+            msg.textContent = d.message || d.error || 'That key didn\'t work. Check it and try again.';
+          }
+        } catch (err) {
+          msg.textContent = 'Couldn\'t reach the server. Try again in a moment.';
+        }
+      });
+    }
+
+    proBars.push(render);
+    render();
+    return {
+      open() {
+        const btn = bar.querySelector('[data-act="open"]');
+        if (btn) btn.click();
+        bar.scrollIntoView({ block: 'nearest' });
+      },
+    };
+  }
+
   function bind(root) {
     const input = root.querySelector('.photo-check-input');
     const drop = root.querySelector('.photo-check-drop');
     const busy = root.querySelector('.photo-check-busy');
     const out = root.querySelector('.photo-check-result');
     const platform = root.dataset.platform || '';
+    const proBar = mountProBar(root);
 
     function show(state) {
       drop.hidden = state !== 'idle';
@@ -142,6 +255,8 @@
         show('idle');
         input.focus();
       });
+      const enterKey = out.querySelector('[data-act="enter-key"]');
+      if (enterKey) enterKey.addEventListener('click', () => proBar.open());
       bindPoll(out, platform);
       show('done');
     }
@@ -167,7 +282,10 @@
         r = await fetch('/api/detect', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: getUserId(), pageHost: location.hostname, imageData: imageData, isVideoFrame: false }),
+          body: JSON.stringify(Object.assign(
+            { userId: getUserId(), pageHost: location.hostname, imageData: imageData, isVideoFrame: false },
+            proRequestFields()
+          )),
         });
         data = await r.json().catch(() => ({}));
       } catch (e) {
@@ -176,7 +294,13 @@
 
       if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
         track('Photo check limit', { page: platform });
-        return fail('You\'ve used your 3 free checks for today. They reset at midnight, or <a href="/pro">get Pro</a> for 200 checks a month.', true);
+        return fail(proKey()
+          ? 'You\'ve used your 3 free checks for today, and your Pro key wasn\'t accepted. <a href="/account">Check your subscription</a>.'
+          : 'You\'ve used your 3 free checks for today. They reset at midnight, or <a href="/pro">get Pro</a> for 200 checks a month. <button type="button" class="photo-check-link" data-act="enter-key">Have Pro? Enter your key</button>', true);
+      }
+      if (r.status === 402 || data.error === 'TOKENS_EXHAUSTED') {
+        applyProResponse({ tokenBalance: 0 });
+        return fail('You\'ve used all your Pro scans for now. <a href="/buy-tokens">Top up</a>, or they refill when your plan renews.');
       }
       if (!r.ok || !data.success) {
         return fail(ERRORS[data.error] || (r.status === 503
@@ -186,7 +310,8 @@
 
       const info = VERDICTS[data.verdict] || (data.isAI ? VERDICTS.likely_ai : VERDICTS.inconclusive);
       const prob = Math.round((data.aiProbability || 0) * 100);
-      track('Photo check result', { page: platform, verdict: data.verdict || 'unknown' });
+      const proNote = applyProResponse(data);
+      track('Photo check result', { page: platform, verdict: data.verdict || 'unknown', pro: !!proKey() });
 
       finish(
         '<div class="photo-check-verdict ' + info.cls + '">' +
@@ -200,7 +325,8 @@
           '<span style="width:' + prob + '%"></span>' +
         '</div>' +
         '<p class="photo-check-prob">AI likelihood: <strong>' + prob + '%</strong>. No detector is perfect: use this as one signal alongside the profile\'s history.</p>' +
-        (data.proHint ? '<p class="photo-check-pro">🔒 <a href="/pro">' + esc(data.proHint) + '</a></p>' : ''),
+        (proNote ? '<p class="photo-check-pro">' + proNote + '</p>' : '') +
+        (data.proHint && !proKey() ? '<p class="photo-check-pro">🔒 <a href="/pro">' + esc(data.proHint) + '</a></p>' : ''),
         true
       );
     }
@@ -216,7 +342,9 @@
   }
 
   document.querySelectorAll('.photo-check').forEach(bind);
+  // /check has its own form; it marks where its Pro key bar goes.
+  document.querySelectorAll('[data-pro-bar]').forEach(mountProBar);
 
-  // /check uploads through its own form but needs the same shrinking.
-  window.FauxSpyPhotoCheck = { prepareImage: prepareImage };
+  // /check uploads through its own form but needs the same shrinking and Pro handling.
+  window.FauxSpyPhotoCheck = { prepareImage, proRequestFields, applyProResponse, proKey };
 })();

@@ -412,6 +412,9 @@
           <strong id="scansLeft"></strong> free scan<span id="scanPlural">s</span> remaining today &middot; <a href="/pro">Upgrade to Pro</a> for 200 scans a month
         </div>
 
+        <!-- Pro key entry and balance (rendered by /photo-check.js) -->
+        <div data-pro-bar></div>
+
       </div>
       <!-- ── end scanner widget ── -->
 
@@ -576,7 +579,8 @@
     function updateLimitBanner() {
       const remaining = Math.max(0, 3 - scanCount);
       const banner = document.getElementById('limitBanner');
-      if (scanCount >= 1) {
+      const hasPro = window.FauxSpyPhotoCheck ? window.FauxSpyPhotoCheck.proKey() : false;
+      if (scanCount >= 1 && !hasPro) {
         banner.style.display = 'block';
         document.getElementById('scansLeft').textContent = remaining;
         document.getElementById('scanPlural').textContent = remaining === 1 ? '' : 's';
@@ -688,6 +692,7 @@
       const body = { userId: getUserId(), pageHost: window.location.hostname };
       if (imageUrl)   body.imageUrl = imageUrl;
       if (imageData)  { body.imageData = imageData; body.isVideoFrame = false; }
+      Object.assign(body, window.FauxSpyPhotoCheck ? window.FauxSpyPhotoCheck.proRequestFields() : {});
 
       try {
         const r = await fetch('/api/detect', {
@@ -698,11 +703,14 @@
         const data = await r.json();
 
         if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
-          showError('You\'ve used your 3 free scans for today. Resets at midnight &mdash; or <a href="/pro">upgrade to Pro</a> for 200 scans a month.');
+          showError(window.FauxSpyPhotoCheck && window.FauxSpyPhotoCheck.proKey()
+            ? 'You\'ve used your 3 free scans for today, and your Pro key wasn\'t accepted. <a href="/account">Check your subscription</a>.'
+            : 'You\'ve used your 3 free scans for today. Resets at midnight &mdash; or <a href="/pro">upgrade to Pro</a> for 200 scans a month. Already have Pro? Enter your key below the checker.');
           return;
         }
         if (r.status === 402 || data.error === 'TOKENS_EXHAUSTED') {
-          showError('Your Pro token balance is empty. <a href="/pro">Top up or renew your subscription</a>.');
+          if (window.FauxSpyPhotoCheck) window.FauxSpyPhotoCheck.applyProResponse({ tokenBalance: 0 });
+          showError('You\'ve used all your Pro scans for now. <a href="/buy-tokens">Top up</a>, or they refill when your plan renews.');
           return;
         }
         if (!r.ok) {
@@ -737,6 +745,13 @@
       digital_art:   { cls: 'is-art',      icon: '🎨', label: 'Digital Art',          desc: 'This appears to be digital artwork rather than a photograph.' },
       likely_ai:     { cls: 'is-likelyai', icon: '⚠', label: 'Likely AI-Generated',  desc: 'Strong AI generation patterns detected in this image.' },
       definitely_ai: { cls: 'is-ai',       icon: '✗', label: 'AI-Generated',         desc: 'This image was almost certainly created by an AI generator.' },
+      // Pro-only verdicts
+      likely_ai_art:     { cls: 'is-likelyai', icon: '⚠', label: 'Likely AI Art', desc: 'Strong signs this artwork was made by an AI generator.' },
+      definitely_ai_art: { cls: 'is-ai',       icon: '✗', label: 'AI Art',        desc: 'This artwork was almost certainly made by an AI generator.' },
+      digital_art_verified:  { cls: 'is-art', icon: '🎨', label: 'Digital Art', desc: 'This appears to be digital artwork rather than a photograph.' },
+      digital_art_uncertain: { cls: 'is-art', icon: '🎨', label: 'Digital Art', desc: 'This appears to be digital artwork rather than a photograph.' },
+      likely_real_manipulated:   { cls: 'is-mixed', icon: '⚠', label: 'Possible Manipulation', desc: 'Looks like a real photo, but parts of it may have been edited or face-swapped.' },
+      verified_real_manipulated: { cls: 'is-mixed', icon: '⚠', label: 'Possible Manipulation', desc: 'Looks like a real photo, but parts of it may have been edited or face-swapped.' },
     };
 
     function renderResult(data) {
@@ -770,14 +785,19 @@
         indsEl.appendChild(d);
       });
 
-      // Pro hint
+      // Pro hint, or a note if a saved Pro key stopped working
       const hintEl = document.getElementById('proHintBox');
-      if (data.proHint) {
+      const proNote = window.FauxSpyPhotoCheck ? window.FauxSpyPhotoCheck.applyProResponse(data) : '';
+      if (proNote) {
+        hintEl.style.display = 'block';
+        hintEl.innerHTML = proNote;
+      } else if (data.proHint && !(window.FauxSpyPhotoCheck && window.FauxSpyPhotoCheck.proKey())) {
         hintEl.style.display = 'block';
         hintEl.innerHTML = '🔒 <a href="/pro">' + esc(data.proHint) + '</a>';
       } else {
         hintEl.style.display = 'none';
       }
+      updateLimitBanner();
 
       showState('result');
     }
@@ -792,6 +812,10 @@
     }
 
     updateLimitBanner();
+    // /photo-check.js (deferred) knows about saved Pro keys; re-check once it
+    // has loaded and whenever a key is added or removed.
+    document.addEventListener('DOMContentLoaded', updateLimitBanner);
+    window.addEventListener('fauxspy:pro', updateLimitBanner);
   </script>
   <script defer src="/photo-check.js"></script>
 </body>

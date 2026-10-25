@@ -1438,3 +1438,36 @@ kbd {
 .photo-check-poll-opts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .photo-check-poll-opts .btn { flex: 1 1 auto; padding: 10px 12px; font-size: 13px; }
 .photo-check-poll-thanks { margin: 0; font-size: 0.85rem; color: var(--text-secondary); }
+.photo-check-pro-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.photo-check-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gold);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.photo-check-key-form { display: flex; flex-wrap: wrap; gap: 0.5rem; width: 100%; }
+.photo-check-key-input {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--noir-dark);
+  color: var(--text-primary);
+  font-family: monospace;
+  font-size: 16px; /* under 16px, iPhones zoom the page on focus */
+}
+.photo-check-key-msg { width: 100%; margin: 0; font-size: 0.8rem; color: var(--text-secondary); }

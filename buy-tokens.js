@@ -208,7 +208,11 @@ function hideStatus() {
 handleUrlParams();
 
 // Pre-fill license key from query param (e.g. linked from popup)
-const keyParam = pageParams.get('key');
+// A ?key= link wins; otherwise use the key the site's checkers saved on this
+// device (see /photo-check.js), so phone users don't have to paste it again.
+let savedKey = '';
+try { savedKey = localStorage.getItem('fs_license') || ''; } catch (e) { /* storage blocked */ }
+const keyParam = pageParams.get('key') || savedKey;
 if (keyParam) {
   licenseInput.value = keyParam.toUpperCase();
   checkLicense();

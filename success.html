@@ -127,6 +127,13 @@
           <p style="margin:0; color:#34d399;"><strong>✓ Pro is active in Faux Spy.</strong> Right-click any image to check it.</p>
         </div>
 
+        <div class="activation ok" id="activationPhone" hidden>
+          <p style="margin:0 0 8px; color:#34d399;"><strong>✓ Pro is on in this browser.</strong></p>
+          <p style="margin:0 0 12px;">Screenshot a profile photo and upload it to check it. No extension needed.</p>
+          <a href="/check" class="btn btn-primary">Check a photo now →</a>
+          <p style="margin:12px 0 0; font-size:13px;">On another phone or browser? Tap <strong>Have Pro? Enter your key</strong> under any Faux Spy checker and paste the key above.</p>
+        </div>
+
         <div class="activation" id="activationManual" hidden>
           <h3>Activate it (30 seconds)</h3>
           <ol>
@@ -236,6 +243,17 @@
         document.getElementById('linkNote').hidden = !result.soldThroughLink;
         document.getElementById('keyValue').textContent = result.licenseKey;
         show('stateReady');
+        // The site's own checkers use Pro too: save the key for them (see /photo-check.js).
+        try {
+          localStorage.setItem('fs_license', result.licenseKey);
+          localStorage.setItem('fs_license_balance', String((result.tokenBalance || 0) + (result.topupBalance || 0)));
+        } catch (e) { /* the key is also in the email */ }
+        // Phones and tablets can't run the extension, so skip straight to the web checker.
+        if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+          document.getElementById('activationPending').hidden = true;
+          document.getElementById('activationPhone').hidden = false;
+          return;
+        }
         pendingKey = result.licenseKey;
         askExtension();
         manualTimer = setTimeout(showManual, EXTENSION_WAIT_MS);
