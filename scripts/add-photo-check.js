@@ -61,6 +61,48 @@ const PAGES = {
     source: 'Screenshot their profile photo',
     desktop: 'on Grindr Web',
   },
+  snapchat: {
+    platform: 'Snapchat',
+    title: 'Check a Snapchat photo now, free',
+    source: 'Screenshot their profile picture or a snap',
+    desktop: 'on Snapchat for Web',
+  },
+  pinterest: {
+    platform: 'Pinterest',
+    title: 'Check a Pinterest image now, free',
+    source: 'Save the Pin\'s image or screenshot it',
+    desktop: 'right on Pinterest',
+  },
+  whatsapp: {
+    platform: 'WhatsApp',
+    title: 'Check a WhatsApp photo now, free',
+    source: 'Screenshot their profile photo or a picture they sent',
+    desktop: 'on WhatsApp Web',
+  },
+  telegram: {
+    platform: 'Telegram',
+    title: 'Check a Telegram photo now, free',
+    source: 'Screenshot their profile photo or a picture they sent',
+    desktop: 'on Telegram Web',
+  },
+  'x-twitter': {
+    platform: 'X',
+    title: 'Check an X photo now, free',
+    source: 'Screenshot their profile photo or the image in the post',
+    desktop: 'right on X',
+  },
+  discord: {
+    platform: 'Discord',
+    title: 'Check a Discord image now, free',
+    source: 'Screenshot their avatar or the image they posted',
+    desktop: 'on Discord in your browser',
+  },
+  reddit: {
+    platform: 'Reddit',
+    title: 'Check a Reddit image now, free',
+    source: 'Save the image or screenshot it',
+    desktop: 'right on Reddit',
+  },
 };
 
 const CWS = 'https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg';
