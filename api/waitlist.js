@@ -23,17 +23,6 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-
-  // GET /api/waitlist?count=app — returns current app waitlist count
-  if (req.method === 'GET' && req.query.count === 'app') {
-    try {
-      const count = await kv.get('app-waitlist:count');
-      return res.status(200).json({ count: parseInt(count || '0', 10) });
-    } catch {
-      return res.status(200).json({ count: 0 });
-    }
-  }
-
   try {
     const isNewsletter = req.query.list === 'newsletter';
     const isApp = req.query.list === 'app';
