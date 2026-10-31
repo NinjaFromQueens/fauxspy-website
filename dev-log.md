@@ -6,6 +6,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added monitoring alerts to notify the team when detection quality decreases or stops working
 - Rebuilt the Product Hunt page around a live checker feature for the relaunch
 - Added Sentry alerting to monitor when detection performance degrades or stops working
+- Removed AI name generator feature from image results for non-Pro users
+- Rebuilt Product Hunt page with a live status checker for the relaunch
+- Added monitoring alerts to detect when detection quality degrades or fails
 
 ## 2026-10-25
 - Pro features now work on mobile phones by using the license key in the web checkers
