@@ -370,10 +370,24 @@ module.exports = async (req, res) => {
       signalStatus = 'ok';
     } else {
       console.warn('⚠️ [SIGNAL/Hive failed]', signalResult.reason?.message);
+      // Error text can echo the image URL, which can identify the person in it.
+      const scrub = (e) => String(e?.message || e).replace(/https?:\/\/\S+/g, '<url>').substring(0, 200);
       if (traceResult.status === 'fulfilled' && typeof traceResult.value.genaiScore === 'number') {
         aiProbability = traceResult.value.genaiScore;
         signalStatus = 'fallback';
+        // The Sightengine fallback hides a dead Hive key from users, so it
+        // has to reach Sentry or it goes unnoticed for days.
+        Sentry.captureMessage('SIGNAL (Hive) failed, using fallback', {
+          level: 'warning', fingerprint: ['hive-failed'], extra: { reason: scrub(signalResult.reason) }
+        });
       } else {
+        console.error('❌ [TRACE/Sightengine failed]', traceResult.reason?.message);
+        Sentry.captureMessage('Detection outage: both providers failed', {
+          level: 'fatal', fingerprint: ['detection-outage'],
+          extra: { hive: scrub(signalResult.reason), sightengine: scrub(traceResult.reason) }
+        });
+        // Serverless can freeze right after the response, dropping the event.
+        await Sentry.flush(2000);
         return res.status(503).json({
           error: 'SERVICE_UNAVAILABLE',
           message: 'Detection service temporarily unavailable. Please try again.'
