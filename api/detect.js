@@ -591,7 +591,7 @@ function getFreeTierVerdict(score, illustrationScore) {
         `AI confidence: ${aiPercent}%`,
         'Strong AI generation signals — no detector is 100% accurate'
       ],
-      proHint: 'Pro identifies the exact AI generator used'
+      proHint: 'Pro tells you whether this is an AI photo or AI art'
     };
   }
 
