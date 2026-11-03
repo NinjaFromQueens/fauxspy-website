@@ -109,7 +109,7 @@
         <div class="success-icon" aria-hidden="true">🕵️</div>
         <h1>You're Pro!</h1>
         <p id="planLine">Your <strong id="planName">Pro</strong> plan is active: <strong id="planAllowance"></strong>.</p>
-        <p id="trialLine" hidden>Your free trial has started with <strong id="trialTokens"></strong> to try everything. Your <strong id="trialPlanName"></strong> plan starts on <strong id="trialEnds"></strong> with <span id="trialAllowance"></span>, and that's when your card is charged. Cancel any time before then at <a href="/account">fauxspy.com/account</a> and you won't pay anything.</p>
+        <p id="trialLine" hidden>Your free trial has started with <strong id="trialTokens"></strong> to try everything. No card needed. To keep <strong id="trialPlanName"></strong> after <strong id="trialEnds"></strong> (with <span id="trialAllowance"></span>), add a card at <a href="/account">fauxspy.com/account</a> before then. If you don't, the trial simply ends and you're never charged.</p>
 
         <div class="key-box">
           <div class="key-label">YOUR LICENSE KEY</div>
@@ -184,6 +184,19 @@
       var sessionId = window.__checkoutId;
       if (!sessionId) { try { sessionId = sessionStorage.getItem('fauxspy_checkout'); } catch (e) {} }
 
+      // Counts each finished checkout once in Vercel Web Analytics, even if
+      // this page is reloaded.
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      function trackPurchase(result) {
+        try {
+          if (localStorage.getItem('fs_tracked_' + sessionId)) return;
+          localStorage.setItem('fs_tracked_' + sessionId, '1');
+        } catch (e) { /* tracking without the guard is fine */ }
+        try {
+          window.va('event', { name: result.trialEndsAt ? 'Trial started' : 'Subscription started', data: { plan: result.plan || 'unknown' } });
+        } catch (e) { /* analytics is optional */ }
+      }
+
       function show(id) {
         document.querySelectorAll('.state').forEach(function (el) { el.classList.toggle('visible', el.id === id); });
       }
@@ -242,6 +255,7 @@
         }
         document.getElementById('linkNote').hidden = !result.soldThroughLink;
         document.getElementById('keyValue').textContent = result.licenseKey;
+        trackPurchase(result);
         show('stateReady');
         // The site's own checkers use Pro too: save the key for them (see /photo-check.js).
         try {

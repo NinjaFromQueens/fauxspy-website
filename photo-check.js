@@ -64,6 +64,16 @@
     try { window.va('event', { name: name, data: data }); } catch (e) { /* analytics is optional */ }
   }
 
+  // Shows whether checks lead anyone to Pro, and from where: a result's Pro
+  // hint, the daily-limit message, or a link elsewhere on the page.
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest && e.target.closest('a[href^="/pro"]');
+    if (!link) return;
+    const from = link.closest('.photo-check-pro, #proHintBox') ? 'result'
+      : link.closest('.photo-check-result, #limitBanner') ? 'limit' : 'page';
+    track('Pro link click', { page: location.pathname, from: from });
+  });
+
   const VERDICTS = {
     verified_real: { cls: 'is-real', label: 'Real Photo', desc: 'No signs of AI generation in this image.' },
     likely_real: { cls: 'is-real', label: 'Likely Real', desc: 'Very few AI signals: this looks like a real photograph.' },

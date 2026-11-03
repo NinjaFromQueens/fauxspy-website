@@ -76,7 +76,7 @@ const ACTIVATION_STEPS = `
 
 async function sendLicenseEmail(email, licenseKey, plan, tokensIncluded, { trialEndsAt = null, trialTokens = 0 } = {}) {
   const intro = trialEndsAt
-    ? `Your free trial of <strong>${planName(plan)}</strong> has started with <strong>${trialTokens} scans</strong> to try everything. On <strong>${longDate(trialEndsAt)}</strong> your plan starts with <strong>${allowanceText(plan, tokensIncluded)}</strong> and your card is charged. Cancel any time before then at <a href="${SITE}/account">fauxspy.com/account</a> and you won't pay anything.`
+    ? `Your free trial of <strong>${planName(plan)}</strong> has started with <strong>${trialTokens} scans</strong> to try everything, no card needed. To keep Pro, add a card at <a href="${SITE}/account">fauxspy.com/account</a> before <strong>${longDate(trialEndsAt)}</strong> and your plan continues with <strong>${allowanceText(plan, tokensIncluded)}</strong>. If you don't, the trial simply ends and you're never charged.`
     : `Your <strong>${planName(plan)}</strong> plan is active and includes <strong>${allowanceText(plan, tokensIncluded)}</strong>.`;
   const html = `<!DOCTYPE html>
 <html>
@@ -106,7 +106,7 @@ async function sendLicenseEmail(email, licenseKey, plan, tokensIncluded, { trial
   </ul>
 
   <h3>Manage your plan or lost your key?</h3>
-  <p>Go to <a href="${SITE}/account">fauxspy.com/account</a> and enter this email address. We'll send you your key and a link to update your card or cancel.</p>
+  <p>Go to <a href="${SITE}/account">fauxspy.com/account</a> and enter this email address. We'll send you your key and a link to add or update your card, or cancel.</p>
   ${managedPaymentsEnabled() ? '<p style="color:#475569;">Your payment receipt comes separately from Link, which runs checkout and billing for Faux Spy. Your card statement shows LINK.COM* followed by Faux Spy.</p>' : ''}
 
   <div class="footer">

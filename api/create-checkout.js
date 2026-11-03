@@ -7,8 +7,10 @@ const { Redis } = require('@upstash/redis');
 const { resolveProLicense } = require('./_lib/license');
 const { getStripe, managedPayments } = require('./_lib/stripe');
 
-// Card required up front, so the trial turns into the paid plan unless the
-// buyer cancels. TRIAL_DAYS=0 turns trials off.
+// The trial starts without a card: asking for one before people had tried Pro
+// lost every buyer who reached checkout. They add a card before it ends to
+// keep Pro; without one the subscription cancels itself and the license ends.
+// TRIAL_DAYS=0 turns trials off.
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS ?? '7', 10) || 0;
 
 // Pro + Video is paused: the Sightengine plan has no video access yet, so
@@ -138,6 +140,7 @@ module.exports = async (req, res) => {
       success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/pro?cancelled=true`,
       allow_promotion_codes: true,
+      ...(TRIAL_DAYS > 0 ? { payment_method_collection: 'if_required' } : {}),
       // Pre-fill email if provided
       ...(email ? { customer_email: email } : {}),
       ...managedPayments(),
@@ -147,7 +150,10 @@ module.exports = async (req, res) => {
         ...(email ? { signup_email: email } : {})
       },
       subscription_data: {
-        ...(TRIAL_DAYS > 0 ? { trial_period_days: TRIAL_DAYS } : {}),
+        ...(TRIAL_DAYS > 0 ? {
+          trial_period_days: TRIAL_DAYS,
+          trial_settings: { end_behavior: { missing_payment_method: 'cancel' } },
+        } : {}),
         metadata: {
           product: 'faux-spy',
           plan: plan

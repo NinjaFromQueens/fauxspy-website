@@ -2,6 +2,13 @@
 // button or link (homepage pricing cards and /pro). Plans: monthly, yearly,
 // video-monthly, video-yearly. Links keep their href as a no-JS fallback.
 
+// Vercel Web Analytics events: how many people open checkout, and how many
+// come back without finishing.
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+function track(name, data) {
+  try { window.va('event', { name, data }); } catch (e) { /* analytics is optional */ }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
 
@@ -16,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cancelledNotice = document.getElementById('checkout-cancelled');
   if (params.get('cancelled') === 'true' && cancelledNotice) {
     cancelledNotice.style.display = 'block';
+    track('Checkout cancelled', { page: location.pathname });
   }
 
   document.querySelectorAll('[data-checkout]').forEach(button => {
@@ -31,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       button.setAttribute('aria-busy', 'true');
       if ('disabled' in button) button.disabled = true;
       button.textContent = 'Opening secure checkout…';
+      track('Checkout started', { plan, page: location.pathname, promo: promo ? promo.toUpperCase() : 'none' });
 
       try {
         const response = await fetch('/api/create-checkout', {

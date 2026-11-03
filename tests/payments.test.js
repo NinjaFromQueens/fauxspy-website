@@ -553,11 +553,15 @@ test('switching plans during a trial unlocks no extra tokens', async () => {
 
 // ── Checkout parameters ───────────────────────────────────────────────────────
 
-test('subscription checkout offers the 7-day trial', async () => {
+test('subscription checkout offers the 7-day trial without asking for a card', async () => {
   const res = await call(createCheckout, { body: { plan: 'monthly' } });
   assert.equal(res.statusCode, 200);
-  assert.equal(stripeCalls.checkout[0].subscription_data.trial_period_days, 7);
-  assert.equal(stripeCalls.checkout[0].managed_payments, undefined);
+  const params = stripeCalls.checkout[0];
+  assert.equal(params.subscription_data.trial_period_days, 7);
+  assert.equal(params.payment_method_collection, 'if_required');
+  // No card by the end of the trial: the subscription cancels, which ends the license.
+  assert.deepEqual(params.subscription_data.trial_settings, { end_behavior: { missing_payment_method: 'cancel' } });
+  assert.equal(params.managed_payments, undefined);
 });
 
 test('Managed Payments is requested only when STRIPE_MANAGED_PAYMENTS=true', async () => {
