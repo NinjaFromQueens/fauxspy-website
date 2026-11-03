@@ -2,6 +2,10 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-11-03
+- Users can now start a free trial without needing to provide a credit card
+- Added tracking to monitor user journey and conversion path to the Pro plan
+
 ## 2026-10-31
 - Added monitoring alerts to notify the team when detection quality decreases or stops working
 - Rebuilt the Product Hunt page around a live checker feature for the relaunch
