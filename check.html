@@ -265,6 +265,10 @@
     }
     .error-card p { margin: 0; color: #fca5a5; font-size: 0.88rem; }
     .error-card a { color: var(--gold, #fbbf24); }
+    .error-card.is-limit { background: rgba(251,191,36,0.06); border-color: rgba(251,191,36,0.25); }
+    .error-card.is-limit p { color: var(--text-primary, #e5e7eb); }
+    #errorOffer .photo-check-offer { margin: 0.9rem 0 0; }
+    #errorOffer .photo-check-offer-note a { color: var(--gold, #fbbf24); }
     .post-result-cta {
       margin-top: 1.5rem;
       padding: 1.25rem 1.5rem;
@@ -401,7 +405,8 @@
 
         <!-- Error -->
         <div id="scanError" style="display:none;margin-top:0.5rem;">
-          <div class="error-card"><p id="errorMsg"></p></div>
+          <div class="error-card" id="errorCard"><p id="errorMsg"></p></div>
+          <div id="errorOffer"></div>
           <div class="check-again-row">
             <button class="btn btn-secondary" id="errorReset" style="margin-top:0.75rem;font-size:0.85rem;">↩ Try again</button>
           </div>
@@ -734,9 +739,12 @@
         const data = await r.json();
 
         if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
-          showError(window.FauxSpyPhotoCheck && window.FauxSpyPhotoCheck.proKey()
-            ? 'You\'ve used your 3 free scans for today, and your Pro key wasn\'t accepted. <a href="/account">Check your subscription</a>.'
-            : 'You\'ve used your 3 free scans for today. Resets at midnight &mdash; or <a href="/pro">upgrade to Pro</a> for 200 scans a month. Already have Pro? Enter your key below the checker.');
+          if (window.FauxSpyPhotoCheck.proKey()) {
+            showError('You\'ve used your 3 free scans for today, and your Pro key wasn\'t accepted. <a href="/account">Check your subscription</a>.');
+          } else {
+            showError('You\'ve used your 3 free scans for today. They reset at midnight, or keep checking with Pro: 200 scans a month.',
+              window.FauxSpyPhotoCheck.trialOfferHtml('limit', true));
+          }
           return;
         }
         if (r.status === 402 || data.error === 'TOKENS_EXHAUSTED') {
@@ -824,7 +832,7 @@
         hintEl.innerHTML = proNote;
       } else if (data.proHint && !(window.FauxSpyPhotoCheck && window.FauxSpyPhotoCheck.proKey())) {
         hintEl.style.display = 'block';
-        hintEl.innerHTML = '🔒 <a href="/pro">' + esc(data.proHint) + '</a>';
+        hintEl.innerHTML = '🔒 ' + esc(data.proHint) + window.FauxSpyPhotoCheck.trialOfferHtml('result', false);
       } else {
         hintEl.style.display = 'none';
       }
@@ -833,8 +841,13 @@
       showState('result');
     }
 
-    function showError(html) {
+    // Out of free scans isn't an error: no red box, and "Try again" can't
+    // work, so the Pro offer replaces it.
+    function showError(html, offerHtml) {
       document.getElementById('errorMsg').innerHTML = html;
+      document.getElementById('errorOffer').innerHTML = offerHtml || '';
+      document.getElementById('errorCard').classList.toggle('is-limit', !!offerHtml);
+      document.getElementById('errorReset').style.display = offerHtml ? 'none' : '';
       showState('error');
     }
 

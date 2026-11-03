@@ -1429,6 +1429,10 @@ kbd {
 .photo-check-error { color: var(--text-primary); }
 .photo-check-result a { color: var(--gold); }
 .photo-check-again { width: 100%; }
+.photo-check-offer { margin: 0 0 0.75rem; text-align: center; }
+.photo-check-trial { width: 100%; }
+.photo-check-offer-note { margin: 0.45rem 0 0; font-size: 0.8rem; line-height: 1.45; color: var(--text-secondary); }
+.pro-hint-box .photo-check-offer { margin: 0.75rem 0 0; }
 .photo-check-poll {
   margin-top: 1rem;
   padding-top: 1rem;

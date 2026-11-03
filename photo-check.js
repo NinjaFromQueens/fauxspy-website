@@ -64,14 +64,63 @@
     try { window.va('event', { name: name, data: data }); } catch (e) { /* analytics is optional */ }
   }
 
-  // Shows whether checks lead anyone to Pro, and from where: a result's Pro
-  // hint, the daily-limit message, or a link elsewhere on the page.
+  // The upgrade offer under a result or the daily-limit message. Its button
+  // goes straight to Stripe checkout instead of stopping at /pro first: the
+  // trial needs no card, and Stripe shows the price before anything starts.
+  function trialOfferHtml(from, primary) {
+    return '<div class="photo-check-offer" data-from="' + from + '">' +
+      '<button type="button" class="btn ' + (primary ? 'btn-primary' : 'btn-secondary') + ' photo-check-trial" data-act="trial">Try Pro free for 7 days</button>' +
+      '<p class="photo-check-offer-note">No card needed. Then $9.99/month if you keep it. <a href="/pro">Compare plans</a></p>' +
+    '</div>';
+  }
+
+  async function startTrial(button) {
+    if (button.getAttribute('aria-busy') === 'true') return;
+    const from = button.closest('.photo-check-offer').dataset.from;
+    button.dataset.label = button.textContent;
+    button.setAttribute('aria-busy', 'true');
+    button.disabled = true;
+    button.textContent = 'Opening secure checkout…';
+    track('Checkout started', { plan: 'monthly', page: location.pathname, from: from, promo: 'none' });
+    try {
+      const r = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: 'monthly' }),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (r.ok && d.url && d.url.startsWith('https://checkout.stripe.com/')) {
+        location.href = d.url;
+        return;
+      }
+    } catch (e) { /* the plans page has its own checkout buttons */ }
+    location.href = '/pro';
+  }
+
   document.addEventListener('click', function (e) {
+    const trial = e.target.closest && e.target.closest('[data-act="trial"]');
+    if (trial) return startTrial(trial);
+
+    // Shows whether checks lead anyone to Pro, and from where: a result's Pro
+    // hint, the daily-limit message, or a link elsewhere on the page.
     const link = e.target.closest && e.target.closest('a[href^="/pro"]');
     if (!link) return;
-    const from = link.closest('.photo-check-pro, #proHintBox') ? 'result'
+    const offer = link.closest('.photo-check-offer');
+    const from = offer ? offer.dataset.from
+      : link.closest('.photo-check-pro, #proHintBox') ? 'result'
       : link.closest('.photo-check-result, #limitBanner') ? 'limit' : 'page';
     track('Pro link click', { page: location.pathname, from: from });
+  });
+
+  // Back from Stripe restores the page from cache with the button still
+  // saying "Opening secure checkout…".
+  window.addEventListener('pageshow', function (e) {
+    if (!e.persisted) return;
+    document.querySelectorAll('[data-act="trial"][aria-busy]').forEach(function (b) {
+      b.removeAttribute('aria-busy');
+      b.disabled = false;
+      b.textContent = b.dataset.label || 'Try Pro free for 7 days';
+    });
   });
 
   const VERDICTS = {
@@ -249,7 +298,7 @@
     const busy = root.querySelector('.photo-check-busy');
     const out = root.querySelector('.photo-check-result');
     const platform = root.dataset.platform || '';
-    const proBar = mountProBar(root);
+    mountProBar(root);
 
     function show(state) {
       drop.hidden = state !== 'idle';
@@ -257,16 +306,18 @@
       out.hidden = state !== 'done';
     }
 
-    function finish(html, askAboutApp) {
-      out.innerHTML = html + '<button type="button" class="btn btn-secondary photo-check-again">Check another photo</button>' +
+    // Out of free checks, "Check another photo" can't work, so the upgrade
+    // offer is the only button (outOfChecks).
+    function finish(html, askAboutApp, outOfChecks) {
+      out.innerHTML = html +
+        (outOfChecks ? '' : '<button type="button" class="btn btn-secondary photo-check-again">Check another photo</button>') +
         (askAboutApp && !pollAnswered() ? pollHtml() : '');
-      out.querySelector('.photo-check-again').addEventListener('click', () => {
+      const again = out.querySelector('.photo-check-again');
+      if (again) again.addEventListener('click', () => {
         input.value = '';
         show('idle');
         input.focus();
       });
-      const enterKey = out.querySelector('[data-act="enter-key"]');
-      if (enterKey) enterKey.addEventListener('click', () => proBar.open());
       bindPoll(out, platform);
       show('done');
     }
@@ -304,9 +355,14 @@
 
       if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
         track('Photo check limit', { page: platform });
-        return fail(proKey()
-          ? 'You\'ve used your 3 free checks for today, and your Pro key wasn\'t accepted. <a href="/account">Check your subscription</a>.'
-          : 'You\'ve used your 3 free checks for today. They reset at midnight, or <a href="/pro">get Pro</a> for 200 checks a month. <button type="button" class="photo-check-link" data-act="enter-key">Have Pro? Enter your key</button>', true);
+        if (proKey()) {
+          return fail('You\'ve used your 3 free checks for today, and your Pro key wasn\'t accepted. <a href="/account">Check your subscription</a>.');
+        }
+        return finish(
+          '<p class="photo-check-error">You\'ve used your 3 free checks for today. They reset at midnight, or keep checking with Pro: 200 checks a month.</p>' +
+          trialOfferHtml('limit', true),
+          false, true
+        );
       }
       if (r.status === 402 || data.error === 'TOKENS_EXHAUSTED') {
         applyProResponse({ tokenBalance: 0 });
@@ -336,7 +392,7 @@
         '</div>' +
         '<p class="photo-check-prob">AI likelihood: <strong>' + prob + '%</strong>. No detector is perfect: use this as one signal alongside the profile\'s history.</p>' +
         (proNote ? '<p class="photo-check-pro">' + proNote + '</p>' : '') +
-        (data.proHint && !proKey() ? '<p class="photo-check-pro">🔒 <a href="/pro">' + esc(data.proHint) + '</a></p>' : ''),
+        (data.proHint && !proKey() ? '<p class="photo-check-pro">🔒 ' + esc(data.proHint) + '</p>' + trialOfferHtml('result', false) : ''),
         true
       );
     }
@@ -356,5 +412,5 @@
   document.querySelectorAll('[data-pro-bar]').forEach(mountProBar);
 
   // /check uploads through its own form but needs the same shrinking and Pro handling.
-  window.FauxSpyPhotoCheck = { prepareImage, proRequestFields, applyProResponse, proKey };
+  window.FauxSpyPhotoCheck = { prepareImage, proRequestFields, applyProResponse, proKey, trialOfferHtml };
 })();

@@ -17,22 +17,14 @@
   <style>
     /* Pro page specific styles */
     .pro-hero {
-      padding: 80px 0 60px;
+      padding: 48px 0 24px;
       text-align: center;
       position: relative;
     }
-    
-    .pro-badge-large {
-      display: inline-block;
-      padding: 8px 20px;
-      background: var(--gradient-gold);
-      color: var(--noir-medium);
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      margin-bottom: 24px;
-    }
+    .pro-hero .hero-title { font-size: clamp(40px, 6vw, 64px); margin-bottom: 16px; }
+    .pro-hero .hero-subtitle { margin-bottom: 24px; }
+    .hero-trial-note { font-size: 14px; color: var(--text-secondary); margin: 12px 0 0; }
+    .pricing-features a { color: var(--gold); }
     
     .countdown-text {
       color: var(--gold-light);
@@ -291,23 +283,22 @@
         <a href="/">Home</a>
         <a href="/#features">Features</a>
           <a href="/faq">FAQ</a>
-        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small desktop-only" target="_blank" rel="noopener">Add to Chrome</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero: the trial button is on the first screen, so nobody has to scroll to start -->
   <section class="pro-hero">
     <div class="container">
-      <div class="pro-badge-large">🕵️ EARLY ACCESS</div>
       <h1 class="hero-title">
         Faux Spy <span class="text-gradient">Pro</span>
       </h1>
       <p class="hero-subtitle">
-        Distinguish real photos from digital art, AI art, and AI photos.<br>
-        5-category detection. 200 scans a month, no daily cap. Priority support.<br>
-        <strong>Try any plan free for 7 days.</strong>
+        200 scans a month with no daily cap. Tells AI photos from AI art and checks for face swaps.
       </p>
+      <button class="btn btn-primary btn-large" data-checkout="monthly">Try Pro free for 7 days</button>
+      <p class="hero-trial-note">No card needed. Then $9.99/month, or choose yearly below and save 17%.</p>
     </div>
   </section>
 
