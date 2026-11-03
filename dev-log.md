@@ -8,6 +8,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Users can now start a free trial without adding a payment card upfront
 - The system tracks user actions and progress toward upgrading to Pro
 - Trial users receive reminders to add a card before their trial period ends
+- Trial users are reminded to add a card before their trial expires
+- Upgrading to Pro is now one tap away from the checkers interface
+- Trial information is prominently displayed at the top of the Pro page
 
 ## 2026-10-31
 - Added monitoring alerts to notify the team when detection quality decreases or stops working
