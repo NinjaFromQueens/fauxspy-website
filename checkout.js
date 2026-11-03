@@ -11,6 +11,9 @@ function track(name, data) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
+  // Where a visitor came from, e.g. "extension-limit" from the extension's
+  // free-limit message, so the funnel shows which prompts lead to checkout.
+  const from = (params.get('from') || '').slice(0, 40);
 
   // ?promo=CODE is applied at checkout; Stripe shows the actual discount.
   const promo = (params.get('promo') || '').trim();
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       button.setAttribute('aria-busy', 'true');
       if ('disabled' in button) button.disabled = true;
       button.textContent = 'Opening secure checkout…';
-      track('Checkout started', { plan, page: location.pathname, promo: promo ? promo.toUpperCase() : 'none' });
+      track('Checkout started', { plan, page: location.pathname, promo: promo ? promo.toUpperCase() : 'none', ...(from ? { from } : {}) });
 
       try {
         const response = await fetch('/api/create-checkout', {
@@ -76,6 +79,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // ?start=<plan> comes from buttons that already said "Try Pro free for 7
+  // days" (the extension's), so a second click here would just be friction.
+  // The parameter is dropped first so Back from Stripe shows the plans
+  // instead of opening checkout again.
+  const start = params.get('start');
+  const startButton = (start === 'monthly' || start === 'yearly') && document.querySelector(`[data-checkout="${start}"]`);
+  if (startButton) {
+    params.delete('start');
+    const query = params.toString();
+    history.replaceState(null, '', location.pathname + (query ? `?${query}` : '') + location.hash);
+    startButton.click();
+  }
 
   // Coming back from Stripe with the Back button restores this page from the
   // browser's cache, buttons still saying "Opening secure checkout…".

@@ -231,7 +231,9 @@ module.exports = async (req, res) => {
           message: `Free tier limit reached (${FREE_TIER_DAILY_LIMIT}/day).`,
           used: Math.max(usage, Math.min(ipUsage, FREE_TIER_DAILY_LIMIT)),
           limit: FREE_TIER_DAILY_LIMIT,
-          upgradeUrl: 'https://fauxspy.com/pro',
+          // The extension opens this from its free-limit prompt. It goes
+          // straight into the no-card trial: one tap to checkout, not two.
+          upgradeUrl: 'https://www.fauxspy.com/pro?start=monthly&from=extension-limit',
           ...proFlags
         });
       }
