@@ -1,9 +1,20 @@
 name: IndexNow
 
+# Tells Bing (and the other IndexNow engines) which pages changed in a push,
+# once Vercel has deployed them.
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      all:
+        description: 'Submit every sitemap URL (only after a site-wide change). Off = pages changed in the latest commit.'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  statuses: read
 
 jobs:
   submit:
@@ -11,46 +22,68 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Build URL list from sitemap and submit to IndexNow
+      - name: List changed pages
+        id: urls
+        env:
+          BEFORE: ${{ github.event.before }}
+          ALL: ${{ inputs.all }}
         run: |
-          # Extract all <loc> URLs from sitemap.xml
-          URLS=$(grep -oP '(?<=<loc>)[^<]+' sitemap.xml | head -500)
-          URL_COUNT=$(echo "$URLS" | wc -l)
-          echo "Found $URL_COUNT URLs in sitemap.xml"
-
-          # Build JSON array of URLs
-          URL_JSON=$(echo "$URLS" | python3 -c "
-          import sys, json
-          urls = [line.strip() for line in sys.stdin if line.strip()]
-          print(json.dumps(urls))
-          ")
-
-          # Submit to IndexNow (covers Bing, Yandex, and other IndexNow partners)
-          PAYLOAD=$(python3 -c "
-          import json
-          urls = $URL_JSON
-          payload = {
-            'host': 'www.fauxspy.com',
-            'key': 'a3f8b2e1d94c6071a5b8d23e1f406789',
-            'keyLocation': 'https://www.fauxspy.com/a3f8b2e1d94c6071a5b8d23e1f406789.txt',
-            'urlList': urls
-          }
-          print(json.dumps(payload))
-          ")
-
-          echo "Submitting $URL_COUNT URLs to IndexNow..."
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://api.indexnow.org/indexnow" \
-            -H "Content-Type: application/json; charset=utf-8" \
-            -d "$PAYLOAD")
-
-          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
-          BODY=$(echo "$RESPONSE" | head -1)
-          echo "IndexNow response: HTTP $HTTP_CODE"
-          echo "Response body: $BODY"
-
-          if [ "$HTTP_CODE" != "200" ] && [ "$HTTP_CODE" != "202" ]; then
-            echo "Unexpected status: $HTTP_CODE — continuing anyway (non-fatal)"
+          if [ "$ALL" = "true" ]; then
+            node scripts/indexnow-urls.js --all > urls.txt
+          elif [ "$GITHUB_EVENT_NAME" = "push" ] && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            git diff --name-only "$BEFORE" "$GITHUB_SHA" | node scripts/indexnow-urls.js > urls.txt
           else
-            echo "✅ Successfully submitted $URL_COUNT URLs to IndexNow"
+            git diff --name-only HEAD~1 HEAD | node scripts/indexnow-urls.js > urls.txt
+          fi
+          COUNT=$(grep -c . urls.txt || true)
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "$COUNT changed page(s):"
+          cat urls.txt
+
+      - name: Wait for the Vercel deploy of this commit
+        if: steps.urls.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Bing can fetch a URL seconds after it's submitted. Before the deploy
+          # finishes it would see the old page, or a 404 for a new one.
+          for i in $(seq 1 40); do
+            STATE=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/statuses" --jq '[.[] | select(.context == "Vercel")][0].state // "none"')
+            echo "Vercel: $STATE"
+            case "$STATE" in
+              success) exit 0 ;;
+              failure|error) echo "::error::The Vercel deploy failed, so nothing was submitted."; exit 1 ;;
+            esac
+            sleep 15
+          done
+          echo "::error::The Vercel deploy didn't finish within 10 minutes, so nothing was submitted."
+          exit 1
+
+      - name: Submit to IndexNow
+        if: steps.urls.outputs.count != '0'
+        run: |
+          PAYLOAD=$(node -e '
+            const key = "a3f8b2e1d94c6071a5b8d23e1f406789";
+            const urlList = require("fs").readFileSync("urls.txt", "utf8").split("\n").filter(Boolean);
+            console.log(JSON.stringify({ host: "www.fauxspy.com", key, keyLocation: `https://www.fauxspy.com/${key}.txt`, urlList }));
+          ')
+
+          CODE=$(curl -s -o body.txt -w "%{http_code}" -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" -d "$PAYLOAD")
+          echo "IndexNow: HTTP $CODE $(cat body.txt)"
+
+          {
+            echo "### IndexNow: HTTP $CODE for ${{ steps.urls.outputs.count }} page(s)"
+            sed 's/^/- /' urls.txt
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # 200/202 = accepted. Anything else (403 key not found, 422 wrong
+          # host, 429 too many) means Bing isn't hearing about new pages, so
+          # the run goes red instead of hiding it.
+          if [ "$CODE" != "200" ] && [ "$CODE" != "202" ]; then
+            echo "::error::IndexNow rejected the submission (HTTP $CODE)."
+            exit 1
           fi
