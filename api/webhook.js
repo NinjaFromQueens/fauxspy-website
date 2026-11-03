@@ -7,7 +7,8 @@
 const { Redis } = require('@upstash/redis');
 const { getStripe } = require('./_lib/stripe');
 const { generateLicenseKey } = require('./_lib/license');
-const { sendLicenseEmail, sendTopUpEmail } = require('./_lib/email');
+const { sendLicenseEmail, sendTopUpEmail, sendTrialEndingEmail } = require('./_lib/email');
+const { randomBytes } = require('crypto');
 
 // Upstash Redis — used for license/subscription data (Stripe webhook handlers)
 const kv = new Redis({
@@ -234,6 +235,10 @@ module.exports = async (req, res) => {
         await handleSubscriptionUpdated(event.data.object);
         break;
 
+      case 'customer.subscription.trial_will_end':
+        await handleTrialWillEnd(event.data.object, stripe);
+        break;
+
       default:
         console.log(`ℹ️ Unhandled event type: ${event.type}`);
     }
@@ -376,6 +381,23 @@ async function handleSubscriptionCancelled(subscription) {
     await kv.set(`license:${licenseKey}`, license);
     console.log('✅ License marked cancelled:', licenseKey);
   }
+}
+
+// Stripe sends this 3 days before a trial ends. Trials start without a card
+// (create-checkout.js), so remind anyone who hasn't added one, with a
+// one-click billing link (the same token /account emails) valid until then.
+async function handleTrialWillEnd(subscription, stripe) {
+  const licenseKey = await kv.get(`subscription:${subscription.id}`);
+  const license = licenseKey ? await kv.get(`license:${licenseKey}`) : null;
+  if (!license?.email || license.status === 'cancelled' || subscription.cancel_at_period_end) return;
+  if (subscription.default_payment_method) return;
+  const customer = await stripe.customers.retrieve(subscription.customer);
+  if (customer.invoice_settings?.default_payment_method) return;
+
+  const token = randomBytes(24).toString('hex');
+  const secondsLeft = (subscription.trial_end || 0) - Math.floor(Date.now() / 1000);
+  await kv.set(`portal_token:${token}`, license.email.toLowerCase(), { ex: Math.max(3600, secondsLeft) });
+  await sendTrialEndingEmail(license.email, license, token, subscription.trial_end * 1000);
 }
 
 async function handleSubscriptionUpdated(subscription) {

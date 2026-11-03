@@ -46,6 +46,7 @@ class FakeRedis {
 }
 
 const subscriptions = new Map();
+const customers = new Map();
 const stripeCalls = { checkout: [], portal: [], retrieveFailures: 0 };
 
 // Parameters Stripe rejects on a Managed Payments Checkout Session
@@ -100,6 +101,9 @@ function FakeStripe() {
       },
     },
     promotionCodes: { async list() { return { data: [] }; } },
+    customers: {
+      async retrieve(id) { return customers.get(id) || { id, invoice_settings: { default_payment_method: null } }; },
+    },
   };
 }
 
@@ -192,6 +196,7 @@ async function buy(sessionId, subId, priceId = 'price_monthly', email) {
 test.beforeEach(() => {
   store.clear();
   subscriptions.clear();
+  customers.clear();
   sentEmails.length = 0;
   stripeCalls.checkout.length = 0;
   stripeCalls.portal.length = 0;
@@ -539,6 +544,35 @@ test("the trial's $0 first invoice doesn't refill; the first real charge does", 
   const license = JSON.parse(store.get(`license:${key}`));
   assert.equal(license.tokenBalance, 200);
   assert.equal(license.trialEndsAt, null);
+});
+
+test('3 days before a card-free trial ends, the buyer gets a one-click link to add a card', async () => {
+  await startTrial('cs_test_trial00010', 'sub_t10');
+  sentEmails.length = 0;
+  const res = await sendEvent('customer.subscription.trial_will_end', { ...subscriptions.get('sub_t10'), customer: 'cus_123' });
+  assert.equal(res.statusCode, 200);
+  assert.equal(sentEmails.length, 1);
+  assert.equal(sentEmails[0].to, 'buyer@example.com');
+  assert.match(sentEmails[0].subject, /trial ends October 27, 2026/);
+  assert.match(sentEmails[0].html, /200 scans a month/);
+
+  // The link opens that customer's billing portal, where they add the card.
+  const token = sentEmails[0].html.match(/account\?token=([a-f0-9]{48})/)[1];
+  const portal = await call(billingPortal, { body: { token } });
+  assert.equal(portal.statusCode, 200);
+  assert.equal(stripeCalls.portal[0].customer, 'cus_123');
+});
+
+test('no trial reminder once a card is on file, or after cancelling', async () => {
+  await startTrial('cs_test_trial00011', 'sub_t11');
+  sentEmails.length = 0;
+  const sub = { ...subscriptions.get('sub_t11'), customer: 'cus_123' };
+  await sendEvent('customer.subscription.trial_will_end', { ...sub, default_payment_method: 'pm_sub' });
+  customers.set('cus_123', { id: 'cus_123', invoice_settings: { default_payment_method: 'pm_customer' } });
+  await sendEvent('customer.subscription.trial_will_end', sub);
+  customers.clear();
+  await sendEvent('customer.subscription.trial_will_end', { ...sub, cancel_at_period_end: true });
+  assert.equal(sentEmails.length, 0);
 });
 
 test('switching plans during a trial unlocks no extra tokens', async () => {

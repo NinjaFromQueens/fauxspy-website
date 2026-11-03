@@ -166,4 +166,26 @@ async function sendAccountEmail(email, license, token) {
   return send(email, 'Your Faux Spy license key and account link', html);
 }
 
-module.exports = { sendLicenseEmail, sendTopUpEmail, sendAccountEmail, allowanceText, planName };
+// Link only sends its own trial-ending reminder for trials longer than 7 days,
+// and ours is exactly 7, so without this a card-free trial ends unannounced.
+async function sendTrialEndingEmail(email, license, token, trialEndsAt) {
+  const link = `${SITE}/account?token=${token}`;
+  const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><style>${STYLES}</style></head>
+<body>
+  <div class="header"><div class="logo">🕵️ Faux Spy</div></div>
+
+  <h1>Your free trial ends ${longDate(trialEndsAt)}</h1>
+  <p>To keep <strong>${planName(license.plan)}</strong> with <strong>${allowanceText(license.plan, license.tokensIncluded)}</strong>, add a card before then.</p>
+  <p style="text-align:center; margin: 24px 0;"><a class="button" href="${link}">Add a card and keep Pro</a></p>
+  <p>Rather not? Do nothing. The trial ends on its own and you're never charged.</p>
+  <p style="font-size: 13px; color: #64748b;">This link works until your trial ends. After that, go to <a href="${SITE}/account">fauxspy.com/account</a> and enter this email address.</p>
+
+  <div class="footer"><p><a href="${SITE}">fauxspy.com</a></p></div>
+</body>
+</html>`;
+  return send(email, `Your Faux Spy trial ends ${longDate(trialEndsAt)}`, html);
+}
+
+module.exports = { sendLicenseEmail, sendTopUpEmail, sendAccountEmail, sendTrialEndingEmail, allowanceText, planName };
