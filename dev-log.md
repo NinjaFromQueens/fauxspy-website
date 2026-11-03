@@ -11,6 +11,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Trial users are reminded to add a card before their trial expires
 - Upgrading to Pro is now one tap away from the checkers interface
 - Trial information is prominently displayed at the top of the Pro page
+- Users can now start a free trial without needing to add a payment card first
+- Upgrading to Pro is now one tap away from the extension's checker feature
+- Free trial is prominently displayed at the top of the /pro page
+- Opening the free trial from extension upgrade prompts requires just one tap
 
 ## 2026-10-31
 - Added monitoring alerts to notify the team when detection quality decreases or stops working
