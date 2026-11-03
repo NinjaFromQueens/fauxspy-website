@@ -5,6 +5,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 ## 2026-11-03
 - Users can now start a free trial without needing to provide a credit card
 - Added tracking to monitor user journey and conversion path to the Pro plan
+- Users can now start a free trial without adding a payment card upfront
+- The system tracks user actions and progress toward upgrading to Pro
+- Trial users receive reminders to add a card before their trial period ends
 
 ## 2026-10-31
 - Added monitoring alerts to notify the team when detection quality decreases or stops working
