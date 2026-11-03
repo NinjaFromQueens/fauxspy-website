@@ -15,6 +15,11 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Upgrading to Pro is now one tap away from the extension's checker feature
 - Free trial is prominently displayed at the top of the /pro page
 - Opening the free trial from extension upgrade prompts requires just one tap
+- Started offering a free trial for Pro features without requiring a card upfront
+- Made it easier to upgrade to Pro with one-tap access from extension prompts and checkers
+- Moved the free trial offer to a more prominent position on the /pro page
+- Added reminders for trial users to add a payment card before their trial expires
+- Improved IndexNow integration to only submit pages that have changed after deployment
 
 ## 2026-10-31
 - Added monitoring alerts to notify the team when detection quality decreases or stops working
