@@ -2,6 +2,12 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-11-04
+- Added documentation explaining how Pro subscription activates on other devices and when a license key is lost
+- Improved IndexNow integration to only submit pages that have actually changed after deployment
+- Made it easier to start a free trial directly from extension upgrade prompts with one tap
+- Reorganized the /pro page to feature the free trial more prominently and streamlined upgrade flow from checkers
+
 ## 2026-11-03
 - Users can now start a free trial without needing to provide a credit card
 - Added tracking to monitor user journey and conversion path to the Pro plan
