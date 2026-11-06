@@ -116,7 +116,11 @@ async function main() {
   console.log(`  Saved to gsc-data.json (${pages.length} pages, ${lowCtrPages.length} low-CTR pages flagged)`);
 }
 
-main().catch(err => {
-  console.error('GSC fetch failed:', err.message);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(err => {
+    console.error('GSC fetch failed:', err.message);
+    process.exit(1);
+  });
+}
+
+module.exports = { SITE_URL, readCredentials, describeKey };

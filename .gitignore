@@ -26,3 +26,6 @@ temp_token.txt
 .env
 .env.local
 .env*
+
+# Encrypted Search Console snapshot (scripts/gsc-snapshot.js)
+gsc-snapshot.enc.json

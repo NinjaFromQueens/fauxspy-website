@@ -1,0 +1,43 @@
+name: GSC Snapshot
+
+# Before/after Search Console data for reviewing site changes. The artifact
+# is encrypted to the public key passed in, since this repo is public.
+on:
+  workflow_dispatch:
+    inputs:
+      public_key:
+        description: 'RSA public key (base64 SPKI DER) to encrypt the snapshot to'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch and encrypt Search Console data
+        env:
+          GSC_CLIENT_EMAIL: ${{ secrets.GSC_CLIENT_EMAIL }}
+          GSC_PRIVATE_KEY: ${{ secrets.GSC_PRIVATE_KEY }}
+          SNAPSHOT_PUBLIC_KEY: ${{ inputs.public_key }}
+        run: node scripts/gsc-snapshot.js
+
+      - name: Upload encrypted snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: gsc-snapshot-${{ github.run_number }}
+          path: gsc-snapshot.enc.json
+          retention-days: 3
