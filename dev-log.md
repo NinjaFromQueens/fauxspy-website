@@ -11,6 +11,10 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Updated the AI video guide to reflect current search rankings and relevance
 - Improved SEO Agent to avoid recommending harmful fixes and remove incomplete branches
 - Added ability to capture Search Console data snapshots on-demand for before/after comparison
+- Tested phone demand with a home-screen app and phone funnel
+- Updated AI video guide to target new search rankings
+- Improved SEO Agent to avoid harmful fixes and code branches
+- Added Search Console before/after snapshot feature for on-demand comparison
 
 ## 2026-11-04
 - Added documentation explaining how Pro subscription activates on other devices and when a license key is lost
