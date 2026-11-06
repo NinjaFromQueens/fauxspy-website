@@ -8,6 +8,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Snapshot feature helps track changes in search performance over time
 - SEO Agent now stops suggesting harmful fixes and avoids leaving incomplete code branches
 - Added ability to capture Search Console data snapshots before and after changes
+- Updated the AI video guide to reflect current search rankings and relevance
+- Improved SEO Agent to avoid recommending harmful fixes and remove incomplete branches
+- Added ability to capture Search Console data snapshots on-demand for before/after comparison
 
 ## 2026-11-04
 - Added documentation explaining how Pro subscription activates on other devices and when a license key is lost
