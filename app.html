@@ -16,6 +16,10 @@
 
   <link rel="canonical" href="https://www.fauxspy.com/app">
   <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a0e1a">
+  <meta name="apple-mobile-web-app-title" content="Faux Spy">
   <link rel="stylesheet" href="/app.css">
 
 </head>
@@ -178,6 +182,9 @@
         build it. Join the list and you'll hear first.
       </p>
       <p class="hero-sub">Need it today? <a href="/check">Check a photo free on your phone</a>, no app needed.</p>
+
+      <!-- "Add to Home Screen" offer, phones only (rendered by /photo-check.js) -->
+      <div data-install-offer="app" class="fs-install-slot" hidden></div>
 
       <form class="waitlist-form" id="hero-form" data-form="hero">
         <input type="text" name="website" class="honeypot" autocomplete="off" tabindex="-1">
@@ -507,6 +514,7 @@
 
 }());
 </script>
+<script defer src="/photo-check.js"></script>
 
 </body>
 </html>

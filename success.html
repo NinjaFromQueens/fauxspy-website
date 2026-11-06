@@ -196,6 +196,13 @@
         try {
           window.va('event', { name: result.trialEndsAt ? 'Trial started' : 'Subscription started', data: { plan: result.plan || 'unknown' } });
         } catch (e) { /* analytics is optional */ }
+        // The last step of the phone vs desktop funnel (api/_lib/funnel.js).
+        try {
+          var body = JSON.stringify({ step: 'trial', device: window.matchMedia('(hover: none) and (pointer: coarse)').matches ? 'phone' : 'desktop' });
+          if (!(navigator.sendBeacon && navigator.sendBeacon('/api/funnel', new Blob([body], { type: 'application/json' })))) {
+            fetch('/api/funnel', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function () {});
+          }
+        } catch (e) { /* counting is optional */ }
       }
 
       function show(id) {

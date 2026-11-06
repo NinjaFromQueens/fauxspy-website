@@ -1442,6 +1442,28 @@ kbd {
 .photo-check-poll-opts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .photo-check-poll-opts .btn { flex: 1 1 auto; padding: 10px 12px; font-size: 13px; }
 .photo-check-poll-thanks { margin: 0; font-size: 0.85rem; color: var(--text-secondary); }
+
+/* "Add to Home Screen" offer (/photo-check.js), phones only */
+.fs-install-slot { margin: 1.25rem 0 0; }
+.fs-install-slot[hidden] { display: none; }
+.fs-install {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 12px 14px;
+  background: var(--noir-card);
+  border: 1px solid var(--border-default, rgba(251, 191, 36, 0.15));
+  border-radius: 14px;
+  text-align: left;
+}
+.fs-install-icon { flex: none; border-radius: 10px; }
+.fs-install-text { flex: 1; min-width: 0; }
+.fs-install-title { margin: 0 0 2px; font-size: 0.92rem; font-weight: 700; color: var(--text-primary); }
+.fs-install-note { margin: 0; font-size: 0.8rem; line-height: 1.45; color: var(--text-secondary); }
+.fs-install-share { vertical-align: -3px; }
+.fs-install-btn { flex: none; padding: 8px 18px; }
+.fs-install-done { margin: 12px 0; font-size: 0.85rem; color: #34d399; }
 .photo-check-pro-bar [hidden] { display: none !important; }
 .photo-check-pro-bar {
   display: flex;

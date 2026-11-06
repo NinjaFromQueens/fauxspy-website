@@ -9,6 +9,15 @@ function track(name, data) {
   try { window.va('event', { name, data }); } catch (e) { /* analytics is optional */ }
 }
 
+// Phone vs desktop funnel count; see api/_lib/funnel.js.
+function funnel(step) {
+  try {
+    const body = JSON.stringify({ step, device: matchMedia('(hover: none) and (pointer: coarse)').matches ? 'phone' : 'desktop' });
+    const sent = navigator.sendBeacon && navigator.sendBeacon('/api/funnel', new Blob([body], { type: 'application/json' }));
+    if (!sent) fetch('/api/funnel', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true }).catch(() => {});
+  } catch (e) { /* counting is optional */ }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   // Where a visitor came from, e.g. "extension-limit" from the extension's
@@ -63,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
           reset();
           return;
         }
+        funnel('checkout');
         window.location.href = data.url;
       } catch (error) {
         errorEl.textContent = (error.message === 'Failed to fetch'

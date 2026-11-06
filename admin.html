@@ -385,6 +385,31 @@
         <button class="tab-btn active" id="tabMessages" onclick="switchTab('messages')">📬 Messages</button>
         <button class="tab-btn" id="tabWaitlist" onclick="switchTab('waitlist')">📋 Waitlist</button>
         <button class="tab-btn" id="tabInbox" onclick="switchTab('inbox')">📥 Inbox <span id="inboxBadge" style="display:none;background:#ef4444;color:#fff;border-radius:10px;padding:1px 6px;font-size:0.7rem;font-weight:700;margin-left:4px;"></span></button>
+        <button class="tab-btn" id="tabFunnel" onclick="switchTab('funnel')">📱 Phone funnel</button>
+      </div>
+
+      <!-- PHONE FUNNEL TAB -->
+      <div id="panelFunnel" style="display:none;">
+        <div class="stats-bar" id="statsFunnel">
+          <div class="stat-pill"><span class="spinner"></span> Loading…</div>
+        </div>
+        <p style="color:#94a3b8;font-size:0.82rem;margin:0 0 14px;">Anonymous counts from /api/funnel, phone vs desktop. Decide on a native app when, over a month: 50+ phone checks a day, 10+ phone trials, and 100+ home-screen installs or app-list signups.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Step</th>
+                <th>Phone · 7 days</th>
+                <th>Desktop · 7 days</th>
+                <th>Phone · 30 days</th>
+                <th>Desktop · 30 days</th>
+              </tr>
+            </thead>
+            <tbody id="funnelBody">
+              <tr><td colspan="5" class="state-msg"><span class="spinner"></span> Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- MESSAGES TAB -->
@@ -510,6 +535,7 @@
         renderMessages(data);
         fetchWaitlist();
         fetchInbox();
+        fetchFunnel();
       } catch (e) {
         document.getElementById('loginError').textContent = 'Could not reach API. Check your connection.';
         document.getElementById('loginError').style.display = 'block';
@@ -527,6 +553,48 @@
       if (res.status === 401 || res.status === 403) { showUnauthorized(); return; }
       const data = await res.json();
       renderMessages(data);
+    }
+
+    const FUNNEL_LABELS = {
+      visit: 'Visited a page with the photo checker',
+      check: 'Started a check',
+      result: 'Got a result',
+      limit: 'Hit the daily free limit',
+      offer: 'Saw the Pro trial offer',
+      offer_click: 'Tapped “Try Pro free”',
+      checkout: 'Reached Stripe checkout',
+      trial: 'Started a trial or subscription',
+      install_prompt: 'Saw “Add to Home Screen”',
+      install_click: 'Tapped Add (Android)',
+      installed: 'Installed the app (Android)',
+      app_open: 'Opened from the home screen',
+      share: 'Shared a photo to the app',
+    };
+
+    async function fetchFunnel() {
+      const token = getToken();
+      const res = await fetch('/api/admin/data?resource=funnel&token=' + encodeURIComponent(token));
+      if (res.status === 401 || res.status === 403) { showUnauthorized(); return; }
+      renderFunnel(await res.json());
+    }
+
+    function renderFunnel(data) {
+      const days = data.days || [];
+      const sum = (n, step, device) => days.slice(0, n).reduce((t, d) => t + Number((d.counts || {})[step + ':' + device] || 0), 0);
+      const steps = data.steps || Object.keys(FUNNEL_LABELS);
+      document.getElementById('funnelBody').innerHTML = steps.map(step =>
+        '<tr' + (step === 'install_prompt' ? ' style="border-top:2px solid rgba(251,191,36,0.25);"' : '') + '>' +
+          '<td>' + esc(FUNNEL_LABELS[step] || step) + '</td>' +
+          '<td>' + sum(7, step, 'phone') + '</td><td>' + sum(7, step, 'desktop') + '</td>' +
+          '<td>' + sum(30, step, 'phone') + '</td><td>' + sum(30, step, 'desktop') + '</td>' +
+        '</tr>').join('');
+      const tracked = days.filter(d => Object.keys(d.counts || {}).length).map(d => d.date).sort();
+      const perDay = tracked.length ? (sum(30, 'check', 'phone') / tracked.length).toFixed(1) : '0';
+      document.getElementById('statsFunnel').innerHTML =
+        '<div class="stat-pill"><strong>' + perDay + '</strong> phone checks a day</div>' +
+        '<div class="stat-pill"><strong>' + sum(30, 'trial', 'phone') + '</strong> phone trials (30 days)</div>' +
+        '<div class="stat-pill"><strong>' + (sum(30, 'installed', 'phone') + sum(30, 'app_open', 'phone')) + '</strong> installs + home-screen opens</div>' +
+        '<div class="stat-pill">' + (tracked.length ? 'Counting since ' + esc(tracked[0]) : 'No counts yet') + '</div>';
     }
 
     async function fetchWaitlist() {
@@ -802,15 +870,18 @@
       document.getElementById('panelMessages').style.display = tab === 'messages' ? '' : 'none';
       document.getElementById('panelWaitlist').style.display = tab === 'waitlist' ? '' : 'none';
       document.getElementById('panelInbox').style.display = tab === 'inbox' ? '' : 'none';
+      document.getElementById('panelFunnel').style.display = tab === 'funnel' ? '' : 'none';
       document.getElementById('tabMessages').classList.toggle('active', tab === 'messages');
       document.getElementById('tabWaitlist').classList.toggle('active', tab === 'waitlist');
       document.getElementById('tabInbox').classList.toggle('active', tab === 'inbox');
+      document.getElementById('tabFunnel').classList.toggle('active', tab === 'funnel');
     }
 
     function refresh() {
       fetchMessages();
       fetchWaitlist();
       fetchInbox();
+      fetchFunnel();
     }
 
     function exportCSV(type) {
@@ -830,7 +901,7 @@
       if (!saved) return;
       cachedToken = saved;
       showPanel();
-      await Promise.all([fetchMessages(), fetchWaitlist(), fetchInbox()]);
+      await Promise.all([fetchMessages(), fetchWaitlist(), fetchInbox(), fetchFunnel()]);
     })();
   </script>
 </body>

@@ -173,6 +173,7 @@
     { "source": "/api/newsletter", "destination": "/api/waitlist?list=newsletter" },
     { "source": "/api/feedback", "destination": "/api/contact?type=feedback" },
     { "source": "/api/app-interest", "destination": "/api/contact?type=app-interest" },
+    { "source": "/api/funnel", "destination": "/api/contact?type=funnel" },
     { "source": "/api/resend-inbound", "destination": "/api/webhook?source=resend-inbound" }
   ],
   "headers": [

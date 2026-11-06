@@ -15,6 +15,10 @@
   <meta name="twitter:image" content="https://www.fauxspy.com/og-image-v2.png">
   <link rel="canonical" href="https://www.fauxspy.com/check">
   <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a0e1a">
+  <meta name="apple-mobile-web-app-title" content="Faux Spy">
   <link rel="stylesheet" href="/styles.css">
   <script type="application/ld+json">
   {
@@ -423,6 +427,9 @@
       </div>
       <!-- ── end scanner widget ── -->
 
+      <!-- "Add to Home Screen" offer, phones only (rendered by /photo-check.js) -->
+      <div data-install-offer="check" class="fs-install-slot" hidden></div>
+
       <!-- How it works -->
       <div class="landing-section" style="margin-top:4rem;">
         <h2 style="text-align:center;margin-bottom:2rem;"><strong>How it works</strong></h2>
@@ -598,6 +605,8 @@
       return uid;
     }
 
+    const fsFunnel = step => window.FauxSpyPhotoCheck && window.FauxSpyPhotoCheck.funnel(step);
+
     // ── Local scan counter (client-side hint; server enforces the real limit) ──
     const TODAY = new Date().toDateString();
     if (localStorage.getItem('fs_scan_date') !== TODAY) {
@@ -706,11 +715,11 @@
     function handleFile(file) {
       if (file.size > 25 * 1024 * 1024) {
         showError('That file is over 25 MB. Please upload a smaller image.');
-        return;
+        return Promise.resolve();
       }
       // Phone photos are often over the ~4.5 MB upload cap once base64-encoded;
       // prepareImage (/photo-check.js) shrinks them first.
-      window.FauxSpyPhotoCheck.prepareImage(file).then(dataUrl => {
+      return window.FauxSpyPhotoCheck.prepareImage(file).then(dataUrl => {
         pendingBase64 = dataUrl;
         document.getElementById('previewImg').src = pendingBase64;
         document.getElementById('previewName').textContent = file.name;
@@ -724,6 +733,7 @@
     // ── Core API call ─────────────────────────────────────────
     async function runDetection({ imageUrl, imageData }) {
       showState('loading');
+      fsFunnel('check');
 
       const body = { userId: getUserId(), pageHost: window.location.hostname };
       if (imageUrl)   body.imageUrl = imageUrl;
@@ -739,6 +749,7 @@
         const data = await r.json();
 
         if (r.status === 429 || data.error === 'DAILY_LIMIT_REACHED') {
+          fsFunnel('limit');
           if (window.FauxSpyPhotoCheck.proKey()) {
             showError('You\'ve used your 3 free scans for today, and your Pro key wasn\'t accepted. <a href="/account">Check your subscription</a>.');
           } else {
@@ -769,6 +780,7 @@
         }
 
         bumpScanCount();
+        fsFunnel('result');
         renderResult(data);
 
       } catch(e) {
@@ -860,6 +872,31 @@
     // has loaded and whenever a key is added or removed.
     document.addEventListener('DOMContentLoaded', updateLimitBanner);
     window.addEventListener('fauxspy:pro', updateLimitBanner);
+
+    // A photo shared to the home-screen app (Android Share menu) arrives here
+    // through /sw.js; check it straight away. Runs after /photo-check.js
+    // (deferred) has loaded, since it does the resizing.
+    document.addEventListener('DOMContentLoaded', async () => {
+      const shared = new URLSearchParams(location.search).get('shared');
+      if (!shared) return;
+      history.replaceState(null, '', location.pathname);
+      document.querySelector('.scanner-tab[data-tab="upload"]').click();
+      const couldntOpen = 'That photo couldn\'t be opened. Try uploading it here instead.';
+      if (shared !== '1' || !('caches' in window)) { showError(couldntOpen); return; }
+      try {
+        const cache = await caches.open('fauxspy-share');
+        const res = await cache.match('/shared-image');
+        await cache.delete('/shared-image');
+        if (!res) throw new Error('no shared photo');
+        const blob = await res.blob();
+        const name = decodeURIComponent(res.headers.get('X-File-Name') || 'shared-photo');
+        fsFunnel('share');
+        await handleFile(new File([blob], name, { type: blob.type }));
+        if (pendingBase64) await runDetection({ imageData: pendingBase64 });
+      } catch (e) {
+        showError(couldntOpen);
+      }
+    });
   </script>
   <script defer src="/photo-check.js"></script>
 </body>

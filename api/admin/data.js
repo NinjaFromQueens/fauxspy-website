@@ -156,6 +156,17 @@ ${body.replace(/\n/g, '<br>')}
 
   const resource = req.query.resource;
 
+  // ── GET phone funnel (last 30 days of /api/funnel counts) ────────────────────
+  if (resource === 'funnel') {
+    try {
+      const { readFunnel, STEPS } = require('../_lib/funnel');
+      return res.status(200).json({ steps: STEPS, days: await readFunnel(30) });
+    } catch (error) {
+      console.error('Admin funnel error:', error);
+      return res.status(500).json({ error: 'Failed to load funnel', message: error.message });
+    }
+  }
+
   // ── GET inbox ───────────────────────────────────────────────────────────────
   if (resource === 'inbox') {
     try {
