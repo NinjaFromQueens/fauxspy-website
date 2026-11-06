@@ -105,9 +105,14 @@ jobs:
           git commit -m "fix(seo): auto-fix technical SEO issues [run #${{ github.run_number }}]"
           git push origin $BRANCH
 
-          gh pr create \
+          # Opening a PR needs "Allow GitHub Actions to create and approve
+          # pull requests" (Settings → Actions → General). Without it the
+          # branch would sit unused, as 108 of them did, so remove it.
+          if ! gh pr create \
             --title "fix(seo): auto-fix technical SEO issues — $(date '+%Y-%m-%d')" \
             --body-file seo-fixes-summary.md \
             --base main \
-            --head $BRANCH \
-            || true
+            --head $BRANCH; then
+            echo "::warning::Couldn't open the auto-fix PR, so its branch was deleted. The fixes are listed in the SEO Audit issue."
+            git push origin --delete $BRANCH
+          fi

@@ -131,7 +131,9 @@ function auditTechnical($, rel) {
   } else if (desc.length < 80) {
     issues.push({ severity: 'WARNING', rule: 'meta-description-too-short', detail: `Meta description is ${desc.length} chars (recommended 120–160).`, autoFix: null });
   } else if (desc.length > 165) {
-    issues.push({ severity: 'WARNING', rule: 'meta-description-too-long', detail: `Meta description is ${desc.length} chars (max 165).`, autoFix: { type: 'truncate-meta-desc', current: desc } });
+    // Not auto-fixed: cutting at a length chops the sentence mid-thought
+    // (on /pro it cut off the price). Google shortens long ones itself.
+    issues.push({ severity: 'WARNING', rule: 'meta-description-too-long', detail: `Meta description is ${desc.length} chars (max 165). Google may shorten it; make sure the key point comes first.`, autoFix: null });
   }
 
   const canonical = $('link[rel="canonical"]').attr('href') || '';

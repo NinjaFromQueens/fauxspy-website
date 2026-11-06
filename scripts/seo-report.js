@@ -17,11 +17,15 @@ const GSC_FILE = path.join(SITE_ROOT, 'gsc-data.json');
 const REPORT_FILE = path.join(SITE_ROOT, 'seo-report.md');
 const FIXES_SUMMARY_FILE = path.join(SITE_ROOT, 'seo-fixes-summary.md');
 const SITEMAP_FILE = path.join(SITE_ROOT, 'sitemap.xml');
-const INDEXNOW_FILE = path.join(SITE_ROOT, '.github', 'workflows', 'indexnow.yml');
-const SITE_BASE = 'https://fauxspy.com';
 
-// Pages that should never be auto-added to the sitemap
-const SITEMAP_EXCLUDE = new Set(['admin', 'success', 'account', 'privacy', 'terms', 'refunds']);
+// Pages that should never be auto-added to the sitemap: EXCLUDED_SLUGS in
+// update-sitemap.js (keep the two matching; importing that file rewrites
+// the sitemap) plus the legal pages.
+const SITEMAP_EXCLUDE = new Set([
+  'account', 'buy-tokens', 'upgrade', 'pro-video', 'settings', 'product-hunt',
+  'admin', 'success', 'og-design', 'goodbye',
+  'privacy', 'terms', 'refunds',
+]);
 
 if (!fs.existsSync(RESULTS_FILE)) {
   console.error('❌ seo-results.json not found. Run seo-agent.js first.');
@@ -81,12 +85,11 @@ function buildReport(results, fixesMade, sitemapAdded, gapData) {
   let md = `# SEO Audit Report — ${today}\n\n`;
   md += `**${totalPages} pages audited** · 🔴 ${critical} critical · 🟡 ${warnings} warnings · ℹ️ ${info} info · ✅ ${clean} clean\n\n`;
 
-  if (fixesMade.length > 0) {
-    md += `> **Auto-fixes applied:** ${fixesMade.length} technical issue(s) were fixed automatically and are included in this PR.\n\n`;
-  }
-
-  if (sitemapAdded && sitemapAdded.length > 0) {
-    md += `> **Sitemap sync:** ${sitemapAdded.length} page(s) added to sitemap.xml and indexnow.yml.\n\n`;
+  // Listed here, not just counted: the issue is the one place they're seen
+  // when GitHub won't let the workflow open the fix PR.
+  if (fixesMade.length > 0 || (sitemapAdded && sitemapAdded.length > 0)) {
+    md += `> **Auto-fixes:** these go in an auto-fix PR when the workflow is allowed to open one. Otherwise, apply them by hand.\n\n`;
+    md += buildFixesSummary(fixesMade, sitemapAdded).replace(/^# .*\n\n/, '').replace(/\n---\n.*\n$/, '\n');
   }
 
   md += buildSearchConsoleSection();
@@ -178,12 +181,6 @@ function buildReport(results, fixesMade, sitemapAdded, gapData) {
 
 // ─── Auto-Fixer ───────────────────────────────────────────────────────────────
 
-function truncateAtWordBoundary(text, maxLen) {
-  if (text.length <= maxLen) return text;
-  const cut = text.lastIndexOf(' ', maxLen - 3);
-  return (cut > 0 ? text.slice(0, cut) : text.slice(0, maxLen - 3)) + '...';
-}
-
 function applyFixes(results) {
   const fixLog = [];
 
@@ -198,7 +195,9 @@ function applyFixes(results) {
     let changed = false;
 
     fixable.forEach(issue => {
-      const { type, value, current } = issue.autoFix;
+      // seo-agent.js stores a generated description as `text`.
+      const { type, current } = issue.autoFix;
+      const value = issue.autoFix.value ?? issue.autoFix.text;
 
       if (type === 'add-canonical') {
         if (!html.includes('rel="canonical"')) {
@@ -213,22 +212,6 @@ function applyFixes(results) {
           html = html.replace('</head>', `  <meta property="og:url" content="${value}">\n</head>`);
           fixLog.push({ file: r.file, rule: issue.rule, detail: `Added og:url: ${value}` });
           changed = true;
-        }
-      }
-
-      if (type === 'truncate-meta-desc' && current) {
-        const truncated = truncateAtWordBoundary(current, 160);
-        if (truncated !== current) {
-          const escaped = current.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const newHtml = html.replace(
-            new RegExp(`(meta name="description" content=")${escaped}(")`),
-            `$1${truncated}$2`
-          );
-          if (newHtml !== html) {
-            html = newHtml;
-            fixLog.push({ file: r.file, rule: issue.rule, detail: `Truncated meta description to ${truncated.length} chars` });
-            changed = true;
-          }
         }
       }
 
@@ -301,15 +284,13 @@ function validateAndFixSitemap(results) {
   const added = [];
 
   results.forEach(r => {
-    // Convert file path to canonical URL slug
-    let slug = r.file.replace(/\\/g, '/').replace(/\.html$/, '');
-    if (slug === 'index') slug = '';
-
-    // Skip excluded pages
-    const baseName = slug.split('/').pop();
+    // seo-agent.js already worked out each page's public URL (www, pages/
+    // served at the root). Rebuilding it here from the file name added
+    // every page again as https://fauxspy.com/pages/... duplicates.
+    const canonical = r.url;
+    if (!canonical) return;
+    const baseName = new URL(canonical).pathname.split('/').pop();
     if (SITEMAP_EXCLUDE.has(baseName)) return;
-
-    const canonical = slug === '' ? `${SITE_BASE}/` : `${SITE_BASE}/${slug}`;
 
     if (!existingLocs.has(canonical)) {
       const block = `  <url>\n    <loc>${canonical}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
@@ -320,34 +301,9 @@ function validateAndFixSitemap(results) {
     }
   });
 
+  // IndexNow needs nothing here: its workflow reads sitemap.xml.
   if (added.length > 0) {
     fs.writeFileSync(SITEMAP_FILE, sitemapXml, 'utf8');
-
-    // Sync indexnow.yml
-    if (fs.existsSync(INDEXNOW_FILE)) {
-      let indexNow = fs.readFileSync(INDEXNOW_FILE, 'utf8');
-      let indexNowChanged = false;
-
-      added.forEach(url => {
-        if (!indexNow.includes(`"${url}"`)) {
-          // Insert new URL before the closing ] of urlList
-          // The ] sits on its own line indented 14 spaces inside the JSON body
-          const closeIdx = indexNow.lastIndexOf('\n              ]');
-          if (closeIdx !== -1) {
-            indexNow =
-              indexNow.slice(0, closeIdx) +
-              `,\n                "${url}"` +
-              indexNow.slice(closeIdx);
-            indexNowChanged = true;
-            console.log(`  📡  Added to indexnow.yml: ${url}`);
-          }
-        }
-      });
-
-      if (indexNowChanged) {
-        fs.writeFileSync(INDEXNOW_FILE, indexNow, 'utf8');
-      }
-    }
   }
 
   return added;
@@ -376,7 +332,7 @@ function buildFixesSummary(fixLog, sitemapAdded) {
   }
 
   if (sitemapAdded && sitemapAdded.length > 0) {
-    md += `### sitemap.xml + indexnow.yml\n`;
+    md += `### sitemap.xml\n`;
     sitemapAdded.forEach(url => { md += `- Added missing URL: ${url}\n`; });
     md += '\n';
   }
