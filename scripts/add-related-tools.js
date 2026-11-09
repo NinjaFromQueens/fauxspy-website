@@ -14,7 +14,7 @@ const detectors = [
   { slug: 'leonardo-detector',         name: 'Leonardo AI',         stat: 'Popular for character art; style consistency feature' },
   { slug: 'ideogram-detector',         name: 'Ideogram',            stat: 'Best for text-in-images; 40 free generations per day' },
   { slug: 'runway-detector',           name: 'Runway Gen-4',        stat: 'Top-tier AI video generator' },
-  { slug: 'sora-detector',             name: 'Sora (OpenAI)',       stat: 'High public awareness; 2024 controversy' },
+
   { slug: 'pika-detector',             name: 'Pika',                stat: 'Leading AI video; consumer-facing' },
   { slug: 'kling-detector',            name: 'Kling 3.0',           stat: 'Leading AI video 2026; competitive vs Sora' },
   { slug: 'grok-detector',             name: 'Grok Imagine (xAI)',  stat: '2025-26 deepfake/non-consensual image controversy' },

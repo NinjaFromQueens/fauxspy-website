@@ -6,7 +6,9 @@
   },
   "redirects": [
     { "source": "/romance-scam-statistics-2025", "destination": "/romance-scam-statistics", "permanent": true },
-    { "source": "/pages/romance-scam-statistics-2025", "destination": "/romance-scam-statistics", "permanent": true }
+    { "source": "/pages/romance-scam-statistics-2025", "destination": "/romance-scam-statistics", "permanent": true },
+    { "source": "/sora-detector", "destination": "/blog/how-to-tell-if-video-is-ai-generated", "permanent": true },
+    { "source": "/pages/sora-detector", "destination": "/blog/how-to-tell-if-video-is-ai-generated", "permanent": true }
   ],
   "rewrites": [
     { "source": "/deepfake-statistics", "destination": "/pages/deepfake-statistics" },
@@ -73,7 +75,7 @@
     { "source": "/leonardo-detector", "destination": "/pages/leonardo-detector" },
     { "source": "/ideogram-detector", "destination": "/pages/ideogram-detector" },
     { "source": "/runway-detector", "destination": "/pages/runway-detector" },
-    { "source": "/sora-detector", "destination": "/pages/sora-detector" },
+
     { "source": "/pika-detector", "destination": "/pages/pika-detector" },
     { "source": "/kling-detector", "destination": "/pages/kling-detector" },
     { "source": "/grok-detector", "destination": "/pages/grok-detector" },
