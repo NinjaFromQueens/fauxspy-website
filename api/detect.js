@@ -534,9 +534,12 @@ module.exports = async (req, res) => {
       Object.assign(resultForTier, buildCommunityFields(sighting));
     }
 
+    // Free checks left today, shown next to the Pro offer under the result.
+    let freeChecksLeft;
     if (!isPro) {
-      await incrementUserUsage(userId);
+      const used = await incrementUserUsage(userId);
       if (ipUsageKey) await incrementUserUsage(ipUsageKey);
+      freeChecksLeft = Math.max(0, FREE_TIER_DAILY_LIMIT - used);
     } else if (licenseKey && proLicenseData) {
       // Deduct 1 token — subscription balance first, then top-up
       try {
@@ -561,7 +564,7 @@ module.exports = async (req, res) => {
       topupBalance: proLicenseData.topupBalance,
     } : {};
 
-    return res.status(200).json({ ...returnedResult, ...tokenInfo, ...proFlags });
+    return res.status(200).json({ ...returnedResult, ...tokenInfo, ...(freeChecksLeft !== undefined ? { freeChecksLeft } : {}), ...proFlags });
     
   } catch (error) {
     console.error('❌ [DETECT ERROR]', error);
@@ -884,10 +887,12 @@ async function incrementUserUsage(userId) {
   try {
     const newCount = await kv.incr(key);
     if (newCount === 1) await kv.expire(key, USAGE_TTL_SECONDS);
+    return newCount;
   } catch (kvError) {
     const current = inMemoryUsage.get(key) || { date: today, count: 0 };
     current.count += 1;
     inMemoryUsage.set(key, current);
+    return current.count;
   }
 }
 

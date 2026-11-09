@@ -46,9 +46,9 @@ global.fetch = async (url) => {
   return { ok: false, status: 404, headers: new Map(), arrayBuffer: async () => new ArrayBuffer(0) };
 };
 
-async function scan() {
+async function scan(imageUrl = IMAGE) {
   const res = { statusCode: 200, body: null, setHeader() {}, status(c) { this.statusCode = c; return this; }, json(b) { this.body = b; return this; }, end() { return this; } };
-  await detect({ method: 'POST', body: { imageUrl: IMAGE, userId: 'fs_test_user', isPro: false, width: 800, height: 800, pageHost: 'example.com' }, headers: {} }, res);
+  await detect({ method: 'POST', body: { imageUrl, userId: 'fs_test_user', isPro: false, width: 800, height: 800, pageHost: 'example.com' }, headers: {} }, res);
   return res;
 }
 
@@ -83,6 +83,15 @@ test('Hive down, Sightengine up: the scan works and Sentry gets a warning', asyn
   assert.ok(warning, 'Hive failure reaches Sentry');
   assert.equal(warning.level, 'warning');
   assert.ok(!sentryEvents.some(e => e.fingerprint?.[0] === 'detection-outage'));
+});
+
+test('free results say how many free checks are left today', async () => {
+  hiveResponse = { status: [{ response: { output: [{ classes: [{ class: 'ai_generated', score: 0.02 }] }] } }] };
+  sightengineResponse = { status: 'success', type: { ai_generated: 0.03, illustration: 0.01, photo: 0.99 } };
+  const left = [];
+  for (const n of [1, 2, 3]) left.push((await scan(`https://cdn.example.com/photo-${n}.jpg`)).body.freeChecksLeft);
+  assert.deepEqual(left, [2, 1, 0]);
+  assert.equal((await scan('https://cdn.example.com/photo-4.jpg')).statusCode, 429);
 });
 
 test('both providers up: nothing sent to Sentry', async () => {

@@ -161,11 +161,23 @@
   // goes straight to Stripe checkout instead of stopping at /pro first: the
   // trial needs no card, and Stripe shows the price before anything starts.
   // Counted as "offer" in the funnel: it's only built when it's shown.
-  function trialOfferHtml(from, primary) {
+  // Its first week, the offer said "Pro tells you AI photo vs AI art" and
+  // phone visitors saw it 31 times without one tap: they already had their
+  // answer. These are the reasons that matter when you're checking a person:
+  // all of their photos, and face swaps, which the free check doesn't look for.
+  function trialOfferHtml(from, checksLeft) {
     funnel('offer');
+    const left = typeof checksLeft === 'number'
+      ? '<strong>' + checksLeft + ' free check' + (checksLeft === 1 ? '' : 's') + ' left today.</strong> '
+      : '';
     return '<div class="photo-check-offer" data-from="' + from + '">' +
-      '<button type="button" class="btn ' + (primary ? 'btn-primary' : 'btn-secondary') + ' photo-check-trial" data-act="trial">Try Pro free for 7 days</button>' +
-      '<p class="photo-check-offer-note">No card needed. Then $9.99/month if you keep it. <a href="/pro">Compare plans</a></p>' +
+      '<p class="photo-check-offer-title">' + (from === 'limit' ? 'Keep checking today with Pro' : 'Checking a profile? Check every photo.') + '</p>' +
+      '<ul class="photo-check-offer-points">' +
+        '<li>200 checks a month, enough for every photo they post</li>' +
+        '<li>Also checks for face swaps: a real photo with someone else\'s face</li>' +
+      '</ul>' +
+      '<button type="button" class="btn btn-primary photo-check-trial" data-act="trial">Try Pro free for 7 days</button>' +
+      '<p class="photo-check-offer-note">' + left + 'No card needed. Then $9.99/month if you keep it. <a href="/pro">Compare plans</a></p>' +
     '</div>';
   }
 
@@ -470,7 +482,7 @@
         }
         return finish(
           '<p class="photo-check-error">You\'ve used your 3 free checks for today. They reset at midnight, or keep checking with Pro: 200 checks a month.</p>' +
-          trialOfferHtml('limit', true),
+          trialOfferHtml('limit'),
           false, true
         );
       }
@@ -503,7 +515,7 @@
         '</div>' +
         '<p class="photo-check-prob">AI likelihood: <strong>' + prob + '%</strong>. No detector is perfect: use this as one signal alongside the profile\'s history.</p>' +
         (proNote ? '<p class="photo-check-pro">' + proNote + '</p>' : '') +
-        (data.proHint && !proKey() ? '<p class="photo-check-pro">🔒 ' + esc(data.proHint) + '</p>' + trialOfferHtml('result', false) : ''),
+        (!proKey() ? trialOfferHtml('result', data.freeChecksLeft) : ''),
         true
       );
     }

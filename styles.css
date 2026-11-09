@@ -1429,10 +1429,16 @@ kbd {
 .photo-check-error { color: var(--text-primary); }
 .photo-check-result a { color: var(--gold); }
 .photo-check-again { width: 100%; }
-.photo-check-offer { margin: 0 0 0.75rem; text-align: center; }
+.photo-check-offer { margin: 0 0 0.75rem; padding: 0.9rem 1rem; text-align: center; background: rgba(251, 191, 36, 0.06); border: 1px solid rgba(251, 191, 36, 0.25); border-radius: 14px; }
+.photo-check-offer-title { margin: 0 0 0.45rem; font-size: 0.98rem; font-weight: 800; color: var(--text-primary); }
+.photo-check-offer-points { list-style: none; margin: 0 0 0.8rem; padding: 0; text-align: left; font-size: 0.84rem; line-height: 1.45; color: var(--text-secondary); }
+.photo-check-offer-points li { position: relative; margin: 0.3rem 0; padding-left: 1.35rem; }
+.photo-check-offer-points li::before { content: '\2713'; position: absolute; left: 0; font-weight: 800; color: var(--gold); }
 .photo-check-trial { width: 100%; }
-.photo-check-offer-note { margin: 0.45rem 0 0; font-size: 0.8rem; line-height: 1.45; color: var(--text-secondary); }
-.pro-hint-box .photo-check-offer { margin: 0.75rem 0 0; }
+.photo-check-offer-note { margin: 0.5rem 0 0; font-size: 0.8rem; line-height: 1.45; color: var(--text-secondary); }
+.photo-check-offer-note strong { color: var(--text-primary); }
+/* On /check the offer is the whole Pro box, so the box supplies the frame. */
+.pro-hint-box .photo-check-offer { margin: 0; padding: 0.25rem 0; background: none; border: 0; }
 .photo-check-poll {
   margin-top: 1rem;
   padding-top: 1rem;

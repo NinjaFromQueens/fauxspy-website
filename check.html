@@ -754,7 +754,7 @@
             showError('You\'ve used your 3 free scans for today, and your Pro key wasn\'t accepted. <a href="/account">Check your subscription</a>.');
           } else {
             showError('You\'ve used your 3 free scans for today. They reset at midnight, or keep checking with Pro: 200 scans a month.',
-              window.FauxSpyPhotoCheck.trialOfferHtml('limit', true));
+              window.FauxSpyPhotoCheck.trialOfferHtml('limit'));
           }
           return;
         }
@@ -842,9 +842,9 @@
       if (proNote) {
         hintEl.style.display = 'block';
         hintEl.innerHTML = proNote;
-      } else if (data.proHint && !(window.FauxSpyPhotoCheck && window.FauxSpyPhotoCheck.proKey())) {
+      } else if (window.FauxSpyPhotoCheck && !window.FauxSpyPhotoCheck.proKey()) {
         hintEl.style.display = 'block';
-        hintEl.innerHTML = '🔒 ' + esc(data.proHint) + window.FauxSpyPhotoCheck.trialOfferHtml('result', false);
+        hintEl.innerHTML = window.FauxSpyPhotoCheck.trialOfferHtml('result', data.freeChecksLeft);
       } else {
         hintEl.style.display = 'none';
       }
