@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-11-09
+- Added a paid feature to sell photo checking capabilities
+- Pro offer now displays on every free search result to encourage upgrades
+- Users see monetization messaging alongside their free results
+
 ## 2026-11-06
 - Added ability to take on-demand snapshots of Search Console data
 - Users can now see before/after comparisons of Search Console metrics
