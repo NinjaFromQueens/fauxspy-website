@@ -6,6 +6,9 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added a paid feature to sell photo checking capabilities
 - Pro offer now displays on every free search result to encourage upgrades
 - Users see monetization messaging alongside their free results
+- Removed the Sora detector feature and its associated page (/sora-detector)
+- Added ability to check every photo with a paid plan option
+- Promoted the pro subscription offer on free search results
 
 ## 2026-11-06
 - Added ability to take on-demand snapshots of Search Console data
