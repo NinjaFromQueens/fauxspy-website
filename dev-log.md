@@ -2,6 +2,11 @@
 
 Automatic record of what was built and changed. Updated on every push to main.
 
+## 2026-11-10
+- Added a link to the Faux Spy LinkedIn page across all pages
+- Removed the Sora detector tool and its dedicated page
+- Introduced a Pro subscription offer to check unlimited photos in free results
+
 ## 2026-11-09
 - Added a paid feature to sell photo checking capabilities
 - Pro offer now displays on every free search result to encourage upgrades
