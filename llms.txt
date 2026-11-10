@@ -4,9 +4,9 @@
 
 Key facts:
 - Free plan: 3 scans per day, no account or credit card needed.
-- Paid plans: Secret Agent $9.99/month or Master Spy $99/year (200 scans/month each); Pro + Video $29.99/month adds AI video detection. All paid plans have a 14-day money-back guarantee.
+- Paid plans: Secret Agent $9.99/month or Master Spy $99/year (200 scans/month each); Pro + Video, which adds AI video detection, is coming soon. Paid plans start with a 7-day free trial, no card needed. All paid plans have a 14-day money-back guarantee.
 - Detection: images are analyzed by Hive and Sightengine detection models, plus a C2PA content-credential and EXIF metadata check. Results are a confidence percentage, not a flat yes/no.
-- Detects output from Midjourney, DALL-E, Stable Diffusion, Adobe Firefly, Leonardo AI and other major generators. Video detection targets Sora, Runway, Pika, Veo and Kling.
+- Detects output from Midjourney, DALL-E, Stable Diffusion, Adobe Firefly, Leonardo AI and other major generators. Video detection (coming soon) targets Veo, Runway, Kling, Pika and Sora.
 - Privacy: only the URL of the image the user chooses to scan is sent for analysis. No browsing history or personal information is collected.
 - Limitations: no detector is 100% accurate. Compressed thumbnails and newer generators are harder to classify. AI detection does not catch stolen real photos; pair it with a reverse image search for that.
 
@@ -58,3 +58,4 @@ Key facts:
 - [Privacy policy](https://www.fauxspy.com/privacy)
 - [Refund policy](https://www.fauxspy.com/refunds)
 - [Contact](https://www.fauxspy.com/contact)
+- [LinkedIn](https://www.linkedin.com/company/fauxspy/)
