@@ -22,6 +22,7 @@ Key facts:
 - [Dating apps](https://www.fauxspy.com/dating-apps): using Faux Spy on Tinder, Bumble, Hinge and others
 - [How to spot AI-generated images](https://www.fauxspy.com/how-to-spot-ai-generated-images)
 - [What AI-generated faces look like](https://www.fauxspy.com/what-do-ai-faces-look-like)
+- [Is this person real?](https://www.fauxspy.com/is-this-person-real): step-by-step checks for a profile photo and account
 - [Romance scam warning signs](https://www.fauxspy.com/romance-scam-warning-signs)
 - [Online dating safety](https://www.fauxspy.com/online-dating-safety)
 - [Protect your parents from romance scams](https://www.fauxspy.com/protect-your-parents)
@@ -34,6 +35,7 @@ Key facts:
 - [Midjourney detector](https://www.fauxspy.com/midjourney-detector)
 - [How AI image detection works](https://www.fauxspy.com/how-ai-image-detection-works)
 - [What is C2PA (Content Credentials)](https://www.fauxspy.com/what-is-c2pa-content-credentials)
+- [SynthID checker](https://www.fauxspy.com/synthid-checker): how to check an image for Google's SynthID AI watermark, and what the result means
 
 ## Statistics
 - [Romance scam statistics (FBI IC3)](https://www.fauxspy.com/romance-scam-statistics)

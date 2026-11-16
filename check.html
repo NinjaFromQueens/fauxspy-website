@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free AI Image Checker &amp; Fake Photo Detector | Faux Spy</title>
-  <meta name="description" content="Free AI image checker: upload a photo or paste a link to see if it's AI-generated or edited. Works on any phone or computer, no account. 3 free checks a day.">
-  <meta property="og:title" content="Free AI Image Checker &amp; Fake Photo Detector">
+  <title>Free AI Image Detector &amp; AI Photo Checker | Faux Spy</title>
+  <meta name="description" content="Free AI image detector: upload a photo or paste a link to see if it was made or edited with AI, with a confidence score. Works on any phone or computer, no account. 3 free checks a day.">
+  <meta property="og:title" content="Free AI Image Detector &amp; AI Photo Checker">
   <meta property="og:description" content="Is this photo AI-generated? Upload it or paste a link and get a verdict in seconds. Free on any phone or computer, no account needed.">
   <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
   <meta property="og:image:width" content="1200">
@@ -81,6 +81,14 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Instagram, X/Twitter, Facebook, and TikTok block cross-origin image fetches. If a URL from one of those sites fails, save the image to your device (right-click → Save image) and upload it using the Upload tab instead — that path works for any image you can save locally."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it check for SynthID or other AI watermarks?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. SynthID, the invisible watermark used by Google, OpenAI and a few others, can only be read by Google's own tools. This checker looks at the pixels instead, so it works on images from any AI tool, watermarked or not. When you paste a link, it also reads any C2PA Content Credentials in the file."
         }
       }
     ]
@@ -329,8 +337,8 @@
         <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:20px;padding:0.35rem 1rem;font-size:0.8rem;font-weight:700;color:var(--gold,#fbbf24);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:1.25rem;">
           🕵️ Free &middot; No Account &middot; No Extension Needed
         </div>
-        <h1>Free AI Image Checker: Is This Photo AI-Generated?</h1>
-        <p class="landing-subtitle">Paste an image URL or upload a file. Get a verdict in 2 seconds — free, no signup required.</p>
+        <h1>Free AI Image Detector: Is This Photo AI?</h1>
+        <p class="landing-subtitle">An AI detector for photos. Upload a picture or paste an image link and get a verdict with a confidence score in about 2 seconds — free, no signup required.</p>
       </div>
 
       <!-- ── Scanner widget ── -->
@@ -483,7 +491,7 @@
             <li><strong>Skin and hair:</strong> skin that looks airbrushed, hair that blends into the background.</li>
           </ul>
           <p>Newer generators make fewer of these mistakes, so a clean-looking photo isn't proof it's real. That's where the checker above helps: it looks for patterns in the pixels that you can't see. <a href="/how-ai-image-detection-works" style="color:var(--gold,#fbbf24);">How AI image detection works</a>.</p>
-          <p>For a dating or social profile, also run a reverse image search. It finds real photos stolen from someone else, which an AI checker won't flag. <a href="/blog/reverse-image-search-vs-ai-detector" style="color:var(--gold,#fbbf24);">When to use each</a>.</p>
+          <p>For a dating or social profile, also run a reverse image search. It finds real photos stolen from someone else, which an AI checker won't flag. <a href="/blog/reverse-image-search-vs-ai-detector" style="color:var(--gold,#fbbf24);">When to use each</a>, or follow the full guide to <a href="/is-this-person-real" style="color:var(--gold,#fbbf24);">checking if a person online is real</a>.</p>
         </div>
       </div>
 
@@ -529,6 +537,11 @@
           <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
             <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Why does the URL check sometimes fail for social media images?<span>+</span></summary>
             <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">Instagram, X/Twitter, Facebook, and TikTok block cross-origin image fetches. If a URL from one of those sites fails, save the image to your device (right-click → Save image) and upload it using the Upload tab instead — that path works for any image you can save locally.</p>
+          </details>
+
+          <details style="background:var(--noir-card,#1e2536);border:1px solid var(--border-subtle,rgba(251,191,36,0.08));border-radius:10px;padding:1rem 1.25rem;">
+            <summary style="font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Does it check for SynthID or other AI watermarks?<span>+</span></summary>
+            <p style="margin:0.75rem 0 0;color:var(--text-secondary,#cbd5e1);font-size:0.875rem;">No. SynthID, the invisible watermark used by Google, OpenAI and a few others, can only be read by Google's own tools. This checker looks at the pixels instead, so it works on images from any AI tool, watermarked or not. When you paste a link, it also reads any C2PA Content Credentials in the file. <a href="/synthid-checker" style="color:var(--gold,#fbbf24);">How to check an image for SynthID</a>.</p>
           </details>
 
         </div>

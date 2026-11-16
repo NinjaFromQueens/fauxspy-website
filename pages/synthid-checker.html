@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SynthID Checker: How to Check an Image for an AI Watermark</title>
+  <meta name="description" content="How to check a photo or video for SynthID, the invisible AI watermark used by Google, OpenAI and others. What the result means, and what to do when no watermark is found.">
+  <meta property="og:title" content="SynthID Checker: How to Check an Image for an AI Watermark">
+  <meta property="og:description" content="How to check a photo or video for SynthID, the invisible AI watermark used by Google, OpenAI and others, and what to do when no watermark is found.">
+  <meta property="og:image" content="https://www.fauxspy.com/og-image-v2.png">
+  <meta property="og:url" content="https://www.fauxspy.com/synthid-checker">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.fauxspy.com/synthid-checker">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I check an image for SynthID?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Upload it to Google's SynthID Detector at synthid.com, which Google opened to everyone on October 7, 2026. You can also upload it to the Gemini app and ask \"Was this created with Google AI?\" Both check for the invisible SynthID watermark."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "If no SynthID watermark is found, is the image real?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. SynthID only shows up in content from Google and the companies that have adopted it, such as OpenAI, NVIDIA and Kakao. Images from other AI tools have no SynthID watermark at all, and watermarks can be removed. Google's own detector says it is not a general AI detector. To check those images, use an AI image detector that looks at the pixels."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Faux Spy detect SynthID?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Only Google's tools can read SynthID. Faux Spy checks the image itself for the patterns AI generators leave, so it works on images from any AI tool, with or without a watermark. The two checks work well together."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do ChatGPT images have SynthID?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "OpenAI is one of the companies Google names as bringing SynthID to its AI-generated content, and Google's SynthID Detector recognizes OpenAI's watermark. An older ChatGPT image, or one that has been heavily edited, may not carry it."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a SynthID watermark be removed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sometimes. Google says no signal is completely robust, and researchers presenting at USENIX Security 2026 reported attacks that removed SynthID from images while keeping them looking the same. A missing watermark is never proof that an image is real."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.fauxspy.com/synthid-checker"
+    },
+    "headline": "SynthID Checker: How to Check an Image for an AI Watermark",
+    "description": "How to check a photo or video for SynthID, the invisible AI watermark used by Google, OpenAI and others, what the result means, and what to do when no watermark is found.",
+    "author": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://www.fauxspy.com/#organization",
+      "name": "Faux Spy",
+      "url": "https://www.fauxspy.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.fauxspy.com/logo.png",
+        "width": 128,
+        "height": 128
+      }
+    },
+    "datePublished": "2026-11-15",
+    "dateModified": "2026-11-15",
+    "url": "https://www.fauxspy.com/synthid-checker"
+  }
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script>
+    var ahrefs_analytics_script = document.createElement('script');
+    ahrefs_analytics_script.async = true;
+    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
+    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+  <script defer src="/meta-pixel.js"></script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+        <span class="nav-brand">Faux Spy</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#features">Features</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
+        <a href="/pro">Pro</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-primary btn-small" target="_blank" rel="noopener">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="landing-page">
+    <div class="container">
+
+      <div class="landing-hero">
+        <h1>SynthID Checker: How to Check an Image for an AI Watermark</h1>
+        <p class="landing-subtitle">SynthID is an invisible watermark that Google, OpenAI and a few other companies put in the images, videos and audio their AI makes. Here's how to check for it, what the result tells you, and what to do when there's no watermark to find.</p>
+        <a href="/check" class="btn btn-primary btn-large">&#x1F575;&#xFE0F; Check a Photo for AI — Free</a>
+        <p class="landing-note">Faux Spy isn't affiliated with Google and can't read SynthID. It checks the image itself, so it works with or without a watermark.</p>
+      </div>
+
+      <div style="background:var(--noir-card,#1e2536);border:1px solid var(--border-default,rgba(251,191,36,0.15));border-radius:12px;padding:1.25rem 1.5rem;margin:0 0 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,#facc15,#ca8a04);border-radius:4px 0 0 4px;"></div>
+        <p style="margin:0 0 0.4rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted,#94a3b8);">Quick Answer</p>
+        <p style="margin:0;color:var(--text-primary,#f8fafc);line-height:1.6;">To check an image for SynthID, upload it to Google's SynthID Detector at synthid.com, or to the Gemini app and ask "Was this created with Google AI?" If a watermark is found, the image was made or edited with AI from Google or a partner such as OpenAI. If none is found, that doesn't mean the image is real: many AI tools don't add SynthID, and watermarks can be removed. For those images, use an AI image detector that looks at the pixels.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>What is SynthID?</h2>
+        <p>SynthID is a watermark made by Google DeepMind. It's hidden in the content itself, so you can't see it in an image or hear it in audio, and deleting a file's metadata doesn't remove it.</p>
+        <p>Google adds it to content from its own AI tools, such as Gemini and Veo. Google says it has watermarked more than 180 billion images and videos so far. Other companies use it too: Google names OpenAI, NVIDIA and Kakao as partners whose watermarks its detector can read, and has announced Apple as a partner.</p>
+        <p>SynthID is different from <a href="/what-is-c2pa-content-credentials">C2PA Content Credentials</a>. Content Credentials are a signed label stored in the file's metadata, saying which tool made or edited it. That label is easy to lose when an image is screenshotted or re-saved. SynthID is built into the pixels, so it's meant to survive more of that.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>How to check an image or video for SynthID</h2>
+        <p>Only Google's own tools can read SynthID. There are two ways to use them:</p>
+        <ol class="landing-steps">
+          <li>
+            <strong>Google's SynthID Detector (synthid.com).</strong> Google opened it to everyone on October 7, 2026, worldwide and in English. Upload an image, video or audio file and it tells you whether it found a watermark from Google or one of its partners. Upload the best-quality copy you have: a crisp original gives the clearest answer.
+          </li>
+          <li>
+            <strong>The Gemini app.</strong> Upload the image and ask "Was this created with Google AI?" or "Is this AI-generated?" Gemini checks for SynthID and explains what it found. Google says Gemini can also check video and audio, and is adding checks for C2PA Content Credentials.
+          </li>
+        </ol>
+        <p>Some other websites call themselves "SynthID checkers". To be sure you're using Google's detector, check that the address is synthid.com.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>What the result means</h2>
+        <ul>
+          <li><strong>Watermark found:</strong> the content was made or edited with AI from Google or a partner. It doesn't tell you how much: a fully generated picture and a real photo touched up with AI can give the same answer.</li>
+          <li><strong>No watermark found:</strong> this is not proof the image is real. Google's detector says so itself: it is "not a general AI detector." Plenty of AI images will never carry SynthID, including those from companies that haven't adopted it and from open models people run on their own computers.</li>
+        </ul>
+        <p>Watermarks can also be stripped. Google says no signal is completely robust, and researchers presenting at USENIX Security 2026 reported attacks that removed SynthID from images while keeping them looking the same.</p>
+      </div>
+
+      <div class="landing-section">
+        <h2>No watermark? Check the pixels instead</h2>
+        <p>That's where an AI image detector comes in. Instead of looking for a watermark, it looks at the image itself for the patterns AI generators leave behind. That works on images from any AI tool, whether or not they were watermarked.</p>
+        <p><a href="/check">Faux Spy's free checker</a> does this: upload a photo or paste a link and you get a verdict with a confidence score in about two seconds. When you check an image by its web address, it also reads any C2PA Content Credentials the file carries. No detector is perfect, so treat the result as one signal, not a final answer.</p>
+        <p>For the most complete picture, use both:</p>
+        <ol class="landing-steps">
+          <li><strong>SynthID check</strong> at synthid.com or in Gemini, to catch watermarked AI content from Google and its partners.</li>
+          <li><strong>AI image check</strong> with <a href="/check">Faux Spy</a>, to catch AI images from tools that don't watermark.</li>
+          <li><strong>Reverse image search</strong>, to find a real photo that's been stolen from someone else. Neither of the first two checks will flag it. <a href="/blog/reverse-image-search-vs-ai-detector">When to use each</a>.</li>
+        </ol>
+        <p>Checking a dating or social profile? See <a href="/is-this-person-real">how to tell if a person online is real</a>.</p>
+      </div>
+
+      <div class="landing-faq">
+        <h2>Common questions</h2>
+        <details class="faq-item">
+          <summary>How do I check an image for SynthID?</summary>
+          <p>Upload it to Google's SynthID Detector at synthid.com, which Google opened to everyone on October 7, 2026. You can also upload it to the Gemini app and ask "Was this created with Google AI?" Both check for the invisible SynthID watermark.</p>
+        </details>
+        <details class="faq-item">
+          <summary>If no SynthID watermark is found, is the image real?</summary>
+          <p>No. SynthID only shows up in content from Google and the companies that have adopted it, such as OpenAI, NVIDIA and Kakao. Images from other AI tools have no SynthID watermark at all, and watermarks can be removed. Google's own detector says it is not a general AI detector. To check those images, use an <a href="/check">AI image detector</a> that looks at the pixels.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can Faux Spy detect SynthID?</summary>
+          <p>No. Only Google's tools can read SynthID. Faux Spy checks the image itself for the patterns AI generators leave, so it works on images from any AI tool, with or without a watermark. The two checks work well together.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do ChatGPT images have SynthID?</summary>
+          <p>OpenAI is one of the companies Google names as bringing SynthID to its AI-generated content, and Google's SynthID Detector recognizes OpenAI's watermark. An older ChatGPT image, or one that has been heavily edited, may not carry it.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can a SynthID watermark be removed?</summary>
+          <p>Sometimes. Google says no signal is completely robust, and researchers presenting at USENIX Security 2026 reported attacks that removed SynthID from images while keeping them looking the same. A missing watermark is never proof that an image is real.</p>
+        </details>
+      </div>
+
+      <div class="landing-section">
+        <h2>Sources</h2>
+        <ul>
+          <li>Google, "<a href="https://blog.google/innovation-and-ai/models-and-research/google-deepmind/synth-id-ai-content/" target="_blank" rel="noopener">Google expands SynthID Detector for AI content</a>", October 7, 2026 (updated October 29, 2026)</li>
+          <li>Search Engine Journal, "<a href="https://www.searchenginejournal.com/google-opens-synthid-watermark-detector-to-public/592226/" target="_blank" rel="noopener">Google Opens Its SynthID Watermark Detector To The Public</a>", October 7, 2026</li>
+          <li>Google, "<a href="https://blog.google/innovation-and-ai/products/identifying-ai-generated-media-online/" target="_blank" rel="noopener">Making it easier to understand how content was created and edited</a>", May 19, 2026</li>
+          <li>Google, "<a href="https://blog.google/innovation-and-ai/products/ai-image-verification-gemini-app/" target="_blank" rel="noopener">How we're bringing AI image verification to the Gemini app</a>", November 20, 2025</li>
+          <li>Google DeepMind, "<a href="https://deepmind.google/models/synthid/" target="_blank" rel="noopener">SynthID</a>"</li>
+          <li>Cao et al., "<a href="https://arxiv.org/abs/2608.10166" target="_blank" rel="noopener">MarkNull: Model-Agnostic Watermark Removal in AI-Generated Images</a>", USENIX Security 2026</li>
+        </ul>
+      </div>
+
+      <div class="landing-cta">
+        <h2>Check any photo for AI, watermark or not</h2>
+        <p>3 free checks a day, no account. Use the web checker on any phone or computer, or right-click images with the extension.</p>
+        <a href="/check" class="btn btn-primary btn-large">&#x1F575;&#xFE0F; Check a Photo — Free</a>
+        <a href="https://chromewebstore.google.com/detail/faux-spy-ai-image-detecto/npdkneknfigfcledlnmedkobcjdcigcg" class="btn btn-secondary" target="_blank" rel="noopener">Add to Chrome — Free</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="/logo.png" alt="Faux Spy" width="32" height="32">
+            <span class="footer-name">Faux Spy</span>
+          </div>
+          <p class="footer-tagline">Spy on the fakes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/faq">FAQ</a>
+          <a href="/check">Free AI Image Checker</a>
+          <a href="/chrome">Chrome Extension</a>
+          <a href="/firefox">Firefox Add-on</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+          <a href="/about">About</a>
+          <a href="/blog">Blog</a>
+          <a href="https://www.linkedin.com/company/fauxspy/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <a href="/deepfake-detector">Deepfake Detector</a>
+          <a href="/catfish-detector">Catfish Detector</a>
+          <a href="/dating-apps">Dating Apps</a>
+          <a href="/tinder">Tinder</a>
+          <a href="/bumble">Bumble</a>
+          <a href="/hinge">Hinge</a>
+          <a href="/facebook">Facebook</a>
+          <a href="/instagram">Instagram</a>
+          <a href="/linkedin">LinkedIn</a>
+          <a href="/pinterest">Pinterest</a>
+          <a href="/tiktok">TikTok</a>
+          <a href="/ai-art-detector">AI Art</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Faux Spy. Spy on the fakes.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

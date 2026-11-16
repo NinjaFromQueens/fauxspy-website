@@ -127,6 +127,8 @@
     { "source": "/dating-apps", "destination": "/pages/dating-apps" },
     { "source": "/how-to-spot-ai-generated-images", "destination": "/pages/how-to-spot-ai-generated-images" },
     { "source": "/why-real-photo-flagged-ai", "destination": "/pages/why-real-photo-flagged-ai" },
+    { "source": "/synthid-checker", "destination": "/pages/synthid-checker" },
+    { "source": "/is-this-person-real", "destination": "/pages/is-this-person-real" },
     { "source": "/facebook-marketplace-fake-photos", "destination": "/pages/facebook-marketplace-fake-photos" },
     { "source": "/fake-ai-job-applicants", "destination": "/pages/fake-ai-job-applicants" },
     { "source": "/faux-spy-vs-hive-moderation-sightengine", "destination": "/pages/faux-spy-vs-hive-moderation-sightengine" },
