@@ -6,6 +6,8 @@ Automatic record of what was built and changed. Updated on every push to main.
 - Added Meta Pixel tracking to public pages for analytics
 - Implemented user consent requirement before tracking activation
 - Provided opt-out option for users who prefer not to be tracked
+- Added Meta Pixel tracking to public pages with user consent options
+- Verified fauxspy.com domain with Meta for ad account access
 
 ## 2026-11-10
 - Added a link to the Faux Spy LinkedIn page across all pages
