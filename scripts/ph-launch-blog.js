@@ -335,6 +335,7 @@ Output a complete HTML article file using EXACTLY this structure:
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script defer src="/meta-pixel.js"></script>
 </head>
 <body>
   <nav class="nav">

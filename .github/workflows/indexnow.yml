@@ -1,7 +1,9 @@
 name: IndexNow
 
 # Tells Bing (and the other IndexNow engines) which pages changed in a push,
-# once Vercel has deployed them.
+# once Vercel has deployed them. Put [skip indexnow] in the commit message when
+# pages changed without new content (a script tag, a footer link), so search
+# engines aren't asked to recrawl pages that read the same.
 on:
   push:
     branches: [main]
@@ -30,7 +32,13 @@ jobs:
         env:
           BEFORE: ${{ github.event.before }}
           ALL: ${{ inputs.all }}
+          MSG: ${{ github.event.head_commit.message }}
         run: |
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && printf '%s' "$MSG" | grep -qF '[skip indexnow]'; then
+            echo "count=0" >> "$GITHUB_OUTPUT"
+            echo "The commit says [skip indexnow], so nothing is submitted."
+            exit 0
+          fi
           if [ "$ALL" = "true" ]; then
             node scripts/indexnow-urls.js --all > urls.txt
           elif [ "$GITHUB_EVENT_NAME" = "push" ] && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then

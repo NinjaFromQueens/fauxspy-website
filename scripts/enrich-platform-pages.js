@@ -137,6 +137,7 @@ HTML STRUCTURE — use EXACTLY this:
     ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
     document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
   </script>
+  <script defer src="/meta-pixel.js"></script>
 </head>
 <body>
   <nav class="nav">

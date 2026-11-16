@@ -23,6 +23,7 @@
     ahrefs_analytics_script.setAttribute('data-key', 'LxH/OIwN7rRfH9EsLfyKGw');
     document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
   </script>
+  <script defer src="/meta-pixel.js"></script>
 </head>
 <body>
   <nav class="nav">
@@ -43,7 +44,7 @@
   
   <div class="legal-page">
     <h1>Privacy Policy</h1>
-    <p class="meta">Last updated: October 20, 2026</p>
+    <p class="meta">Last updated: November 15, 2026</p>
 
     <p>This policy covers the Faux Spy browser extension (Chrome, Firefox and Edge) and fauxspy.com. Faux Spy only sends data when you choose to scan an image or video, and only what's needed to check it.</p>
 
@@ -64,6 +65,7 @@
       <li><strong>Contact form</strong> - Your name, email address and message, plus the time, IP address and browser type, so we can reply and filter spam.</li>
       <li><strong>Uninstall survey</strong> - If you fill in the short form shown after removing the extension, we store the reason you pick, any comment you write and the extension version. Nothing that identifies you.</li>
       <li><strong>Analytics</strong> - We count page views with Vercel Web Analytics and Ahrefs Web Analytics, which don't use cookies. Ahrefs isn't used on the checkout, account or token pages, and license keys and checkout IDs are removed from those pages' addresses before any analytics load.</li>
+      <li><strong>Ad measurement (Meta Pixel)</strong> - Our public web pages use the Meta Pixel to measure our Facebook and Instagram ads. It sends Meta the address of the page you visit, whether you click through to the Chrome, Firefox or Edge store, and the browser and device details Meta's script collects, including Meta's own cookies. See <a href="#ads" style="color: var(--gold);">Ads and your choices</a> for where it runs and how to turn it off.</li>
     </ul>
 
     <h2>What We Don't Collect</h2>
@@ -74,7 +76,18 @@
       <li>&#x274C; Copies of the images or videos you scan - nothing is kept after the scan</li>
       <li>&#x274C; Any way to trace a stored detection record back to the person who scanned it</li>
     </ul>
-    <p>We don't sell your data, use it for advertising, or use it for anything other than providing and improving Faux Spy.</p>
+    <p>We don't sell your data. The only advertising use is the Meta Pixel on our website, described below. Nothing from the extension, and none of the photos you check, is ever used for advertising.</p>
+
+    <h2 id="ads">Ads and your choices</h2>
+    <p>We advertise Faux Spy on Facebook and Instagram. To see which ads bring people to the site, our public web pages load the Meta Pixel. It doesn't load:</p>
+    <ul>
+      <li>In the Faux Spy extension</li>
+      <li>On the checkout, account, token and order confirmation pages</li>
+      <li>If your browser sends a Global Privacy Control or Do Not Track signal</li>
+      <li>In the EU, the UK and nearby countries, until you choose Allow</li>
+    </ul>
+    <p>Everywhere else it's on unless you turn it off. To change your choice, use the <strong>Ad privacy choices</strong> link at the bottom of our pages, or <a href="#ads" data-ad-choices style="color: var(--gold);">change it here</a>. Your choice is saved in that browser only. Under some US state privacy laws, the pixel can count as "sharing" personal information for targeted advertising; turning it off is how you opt out of that.</p>
+    <p>The pixel never receives the photos you check, their results, your email address or your license key. Meta can link what it receives to your Facebook or Instagram account if you have one, and uses it under the <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener" style="color: var(--gold);">Meta Privacy Policy</a>. You can also manage ads from Meta in your Facebook or Instagram ad settings.</p>
 
     <h2>Third-Party Services</h2>
     <p>We use the following services to provide Faux Spy:</p>
@@ -85,6 +98,7 @@
       <li><strong>Stripe and Link</strong> - Checkout and billing for paid plans. Stripe collects your name, email address, billing address and payment details, and sends your receipts. Stripe may sell to you as the reseller and merchant of record through its Link service (shown at checkout as "Sold through Link"), in which case it also calculates and collects sales tax or VAT. Stripe's and Link's own privacy policies cover that data. We never see your card details.</li>
       <li><strong>Resend</strong> - Sends our emails (license keys, replies and the newsletter).</li>
       <li><strong>Vercel</strong> - Hosting for our website and API.</li>
+      <li><strong>Meta</strong> - Our Facebook and Instagram ads, and the Meta Pixel on our website's public pages (see <a href="#ads" style="color: var(--gold);">Ads and your choices</a>).</li>
       <li><strong>Upstash</strong> - Our database: license records, the signups and messages described above, the short-lived scan counters, and cached verdicts (keyed by a hash of the image address) so repeat scans are instant.</li>
       <li><strong>Supabase</strong> - Stores the anonymized detection history described above (hashes and verdicts only, no personal data).</li>
     </ul>
@@ -94,6 +108,7 @@
     <ul>
       <li>Cancel your subscription anytime from your account</li>
       <li>Request deletion of your email and license records by emailing us</li>
+      <li>Turn the Meta Pixel off on our website (see <a href="#ads" style="color: var(--gold);">Ads and your choices</a>)</li>
       <li>Clear everything stored in your browser by removing the extension</li>
       <li>Export your local stats (from extension settings)</li>
     </ul>
